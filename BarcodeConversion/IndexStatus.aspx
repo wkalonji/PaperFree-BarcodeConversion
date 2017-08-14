@@ -37,18 +37,13 @@
             <table style="width:899px;">
                 <tr>
                     <td><h2 style="display:inline; padding-top:25px;">Index Status Report</h2></td>
-                    <td style="text-align:right;"> 
-                        <div style="display:block;padding-bottom:1px;padding-top:6px;">
-                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="35" Height="35"  BackColor="White" Visible="true" runat="server" OnClick="reset_Click" />
-                        </div>
-                    </td>
                 </tr>
             </table>
         </div>  
-        <div>           
-            <table class = "table" style="width:610px;">
-                <tr>
-                    <td><asp:Label ID="filterLabel" runat="server"><h4>Filter :</h4></asp:Label></td>
+        <div style="display:inline-block;">           
+            <table class = "table" style="width:99%;">
+                <tr style="background-color:aliceblue;">
+                    <td><asp:Label ID="filterLabel" Width="55" runat="server"><h4>Filter :</h4></asp:Label></td>
                     <td style="padding-top:14px;"> 
                         <asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" runat="server">
                             <asp:ListItem Value="allJobs">All Jobs</asp:ListItem>
@@ -63,7 +58,7 @@
                      <td style="padding-top:14px;"> 
                         <asp:DropDownList ID="whenFilter" OnSelectedIndexChanged="onSelectWhen" runat="server" AutoPostBack="true">
                             <asp:ListItem Value="allTime">For All Time</asp:ListItem>
-                            <asp:ListItem Value="pickRange">Select Date/Time Range</asp:ListItem>
+                            <asp:ListItem Value="pickRange">Pick Date/Time Range</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                     <td style="padding-top:14px;"> 
@@ -72,6 +67,11 @@
                             <asp:ListItem Value="printed">Printed Only</asp:ListItem>
                             <asp:ListItem Value="notPrinted">Not Printed</asp:ListItem>
                         </asp:DropDownList>
+                    </td>
+                    <td style="text-align:right;"> 
+                        <div style="display:block;padding-bottom:1px;padding-top:6px;">
+                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="25" Height="25"  BackColor="aliceblue" Visible="true" runat="server" OnClick="reset_Click" />
+                        </div>
                     </td>
                 </tr>
             </table> 
@@ -92,11 +92,11 @@
                     </tr>
                 </table>
             </asp:Panel>
-            <div style="display:inline-block;">
-                <table id="gridHeader" style="width:99.8%;margin-top:25px;margin-bottom:-10px;" runat="server">
+            <div style="display:inline-block; width:99%">
+                <table id="gridHeader" style="width:100%;margin-top:25px;margin-bottom:-10px;" runat="server">
                     <tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
                     <tr>
-                        <td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC (Default)" runat="server"></asp:Label></td>
+                        <td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label></td>
                         <td style="text-align:right;">
                             <asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>
                             <asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">

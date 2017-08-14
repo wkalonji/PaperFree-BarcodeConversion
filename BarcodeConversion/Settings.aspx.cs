@@ -6,6 +6,7 @@ using System.Data;
 using BarcodeConversion.App_Code;
 using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace BarcodeConversion
 {
@@ -16,14 +17,9 @@ namespace BarcodeConversion
             try
             {
                 // Make sure only admins can see Settings page
-                if (!Page.IsPostBack)
-                {
-                    jobAbb.Focus();
-                    ViewState["switch"] = "on";
-                    ViewState["editBtnNumber"] = 0;
-                    
-                }
-                addLabel_Click(new object(), new EventArgs());
+                if (!Page.IsPostBack) jobAbb.Focus();
+
+                Page.MaintainScrollPositionOnPostBack = true;
                 if (userStatus() == "True")
                 {
                     SettingsPanel.Visible = true;
@@ -885,7 +881,6 @@ namespace BarcodeConversion
                 {
                     jobIndexEditingPanel.Visible = true;
                     getActiveJobs();
-                    //labelDropdown_Click(new object(), new EventArgs());
                 }
                 else
                 {
@@ -923,119 +918,48 @@ namespace BarcodeConversion
                 jobAssignedTo.Visible = false;
             }
         }
+        
 
-
-        // 'LABELS' DROPDOWN SELECT
-        protected void addLabel_Click(object sender, EventArgs e)
-        {
-            List<Control> controlList = new List<Control>();
-
-            Label label = new Label();
-            label.ID = "1";
-            label.Height = 25;
-            label.Text = "LABEL: ";
-            controlList.Add(label);
-
-            TextBox textBox = new TextBox();
-            textBox.ID = "2";
-            textBox.ReadOnly = true;
-            textBox.Attributes["placeholder"] = " Required only for Set";
-            textBox.Width = 195;
-            textBox.Style.Add("margin-left", "40px");
-            controlList.Add(textBox);
-
-            ImageButton editIcon = new ImageButton();
-            editIcon.ID = "3";
-            editIcon.ImageUrl = "Content/edit.png";
-            editIcon.Height = 16;
-            editIcon.Width = 16;
-            editIcon.Style.Add("margin-top", "5px");
-            editIcon.OnClientClick = "processRequest";
-            controlList.Add(editIcon);
-
-            ImageButton deleteIcon = new ImageButton();
-            deleteIcon.ID = "4";
-            deleteIcon.ImageUrl = "Content/delete.png";
-            deleteIcon.Height = 18;
-            deleteIcon.Width = 18;
-           deleteIcon.Style.Add("margin-top", "5px");
-            deleteIcon.OnClientClick = "processRequest";
-            controlList.Add(deleteIcon);
-            //ViewState["controlList"] = controlList;
-
-            TableRow row = new TableRow();
-            foreach (Control c in controlList)
-            {
-                TableCell cell = new TableCell();
-                cell.Height = 35;
-                cell.Style.Add("padding-right", "2px");
-                cell.VerticalAlign = VerticalAlign.Middle;
-                cell.Controls.Add(c);
-                row.Cells.Add(cell);
-                row.Visible = true;
-            }
-
-            labelsTable.Rows.Add(row);
-            labelsTable.Visible = true;
-        }
-
-
-        // '+' CLICKED: ADD LABEL CONTROLS
-        protected void labelControls_Click(object sender, EventArgs e)
+        // 'SUBMIT' ICON CLICKED: ADD LABEL CONTROLS
+        protected void labelContents_Click(object sender, EventArgs e)
         {
             try
             {
-                //// Make sure label field is not empty  
-                //if (labelTextBox.Text == string.Empty)
-                //{
-                //    string msg = "LABEL field is required!";
-                //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                //    labelTextBox.Text = string.Empty;
-                //    labelTextBox.Attributes["placeholder"] = " Required for Set";
-                //    labelTextBox.Focus();
-                //    return;
-                //}
-
-                //// Make sure that regex & message fields are both either filled or blank
-                //if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
-                //{
-                //    string msg = "Both REGEX and MESSAGE fields must be either filled or empty.";
-                //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                //    labelTextBox.Text = string.Empty;
-                //    labelTextBox.Attributes["placeholder"] = " Required for Set";
-                //    if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
-                //    else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
-                //    return;
-                //}
-
-                // Get the number of label controls
-                int test = 0;
-                for (int i = 0; i < 5; i++)
+                // make sure label field is not empty  
+                if (labelTextBox.Text == string.Empty)
                 {
-                    if (ViewState["controls" + i] != null) test++;
+                    string msg = "label field is required!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    labelTextBox.Text = string.Empty;
+                    labelTextBox.Attributes["placeholder"] = " required for set";
+                    labelTextBox.Focus();
+                    return;
                 }
 
-                // If edit icon not clicked 
-                if ((string)ViewState["switch"] == "on")
+                // make sure that regex & message fields are both either filled or blank
+                if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
                 {
-                    if (test >= 1) labelTextBox.Attributes["placeholder"] = " Optional";
-                    ViewState["editBtnNumber"] = test + 1;
-                    int margin = -65 + test * 35;
-                    if (margin > 0) margin = 0;
-                    labelControlsTable.Attributes["style"] = "margin-top:" + margin.ToString() + "px;";
-                } 
+                    string msg = "Both regex and message fields must be either blank or filled.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    labelTextBox.Attributes["placeholder"] = " required for set";
+                    if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
+                    else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
+                    return;
+                }
 
-                int editBtnNumber = (int)ViewState["editBtnNumber"];
-                LabelControls controlsValues = new LabelControls(labelTextBox.Text, regexTextBox.Text, msgTextBox.Text);
-                ViewState["controls" + editBtnNumber] = controlsValues;
-                showControls(editBtnNumber, controlsValues);
-                ViewState["switch"] = "on";
-                if (test == 4) labelControlsTable.Visible = false;
-
-                // Clear fields
+                // Hold entered values in viewstate
+                var labelValues = new List<string> { labelTextBox.Text, regexTextBox.Text, msgTextBox.Text};
+                string id = (string)ViewState["senderID"];
+                ViewState["labelValues" + id] = labelValues;
+                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + id.Substring(id.Length - 1)) as TextBox;
+                t.Text = " " + labelTextBox.Text;
+                ImageButton b = this.Master.FindControl("MainContent").FindControl(id) as ImageButton;
+                b.Visible = true;
                 labelTextBox.Text = string.Empty;
+                labelTextBox.Focus();
                 regexTextBox.Text = string.Empty;
                 msgTextBox.Text = string.Empty;
+                labelControlsTable.Visible = false;
             }
             catch (Exception ex)
             {
@@ -1046,128 +970,32 @@ namespace BarcodeConversion
 
 
 
-        // SHOW CONTROLS
-        private void showControls(int control, LabelControls lc)
-        {
-            switch (control)
-            {
-                case 1:
-                    label1.Text = " " + lc.labelText;
-                    label1.ReadOnly = true;
-                    lab1.Visible = true;
-                    label1.Visible = true;
-                    edit1.Visible = true;
-                    delete1.Visible = true;
-                    break;
-                case 2:
-                    label2.Text = " " + lc.labelText;
-                    label2.ReadOnly = true;
-                    lab2.Visible = true;
-                    label2.Visible = true;
-                    edit2.Visible = true;
-                    delete2.Visible = true;
-                    break;
-                case 3:
-                    label3.Text = " " + lc.labelText;
-                    label3.ReadOnly = true;
-                    lab3.Visible = true;
-                    label3.Visible = true;
-                    edit3.Visible = true;
-                    delete3.Visible = true;
-                    break;
-                case 4:
-                    label4.Text = " " + lc.labelText;
-                    label4.ReadOnly = true;
-                    lab4.Visible = true;
-                    label4.Visible = true;
-                    edit4.Visible = true;
-                    delete4.Visible = true;
-                    break;
-                case 5:
-                    label5.Text = " " + lc.labelText;
-                    label5.ReadOnly = true;
-                    lab5.Visible = true;
-                    label5.Visible = true;
-                    edit5.Visible = true;
-                    delete5.Visible = true;
-                    break;
-            }
-        }
-
-
-
-        // HIDE CONTROLS
-        private void hideControls(int control)
-        {
-            switch (control)
-            {
-                case 1:
-                    lab1.Visible = false;
-                    label1.Visible = false;
-                    edit1.Visible = false;
-                    delete1.Visible = false;
-                    break;
-                case 2:
-                    lab2.Visible = false;
-                    label2.Visible = false;
-                    edit2.Visible = false;
-                    delete2.Visible = false;
-                    break;
-                case 3:
-                    lab3.Visible = false;
-                    label3.Visible = false;
-                    edit3.Visible = false;
-                    delete3.Visible = false;
-                    break;
-                case 4:
-                    ;
-                    lab4.Visible = false;
-                    label4.Visible = false;
-                    edit4.Visible = false;
-                    delete4.Visible = false;
-                    break;
-                case 5:
-                    lab5.Visible = false;
-                    label5.Visible = false;
-                    edit5.Visible = false;
-                    delete5.Visible = false;
-                    break;
-            }
-        }
-
-
-
-        // 'EDIT or DELETE' ICON CLICKED: EDIT or DELETE LABEL CONTROLS
+        // 'EDIT' ICON CLICKED: EDIT LABEL CONTENTS
         protected void processRequest(object sender, EventArgs e)
-        {
-            Control button = (Control)sender;
-            int lastChar = Convert.ToInt32(button.ID.Substring(button.ID.Length - 1));
-
-            if (button.ID.Contains("edit"))
+        {   
+            // Make sure current edit is done before starting another one
+            if (labelControlsTable.Visible == true)
             {
-                labelControlsTable.Visible = true;
-                LabelControls controlsValues = (LabelControls)ViewState["controls" + lastChar];
-                labelTextBox.Text = controlsValues.labelText;
-                regexTextBox.Text = controlsValues.regexText;
-                msgTextBox.Text = controlsValues.msgText;
-
-                ViewState["editBtnNumber"] = lastChar;
-                ViewState["switch"] = "off";
+                string msg = "Current edit operation must be submitted prior starting another one";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                return;
             }
-            else ViewState["controls" + lastChar] = null;
 
-            hideControls(lastChar);
+            // Get id of edit icon btn then hide it
+            ImageButton b = (ImageButton)sender;
+            ViewState["senderID"] = b.ID;
+            b.Visible = false;
 
-            // Get the number of label controls
-            int test = 0;
-            for (int i = 0; i < 5; i++)
+            // Show viewstate held data
+            if (ViewState["labelValues" + b.ID] != null)
             {
-                if (button.Visible) test =  i + 1;
+                List<string> labelVal = (List<string>)ViewState["labelValues" + b.ID];
+                labelTextBox.Text = labelVal[0];
+                labelTextBox.Focus();
+                regexTextBox.Text = labelVal[1];
+                msgTextBox.Text = labelVal[2];
             }
-            if (test == 0) labelControlsTable.Visible = true;
-            int margin = -65 + test * 35;
-            if (margin > 0) margin = 0;
-            labelControlsTable.Attributes["style"] = "margin-top:" + margin.ToString() + "px;";
+            labelControlsTable.Visible = true;
         }
 
 

@@ -56,11 +56,6 @@
             <table style="width:899px;">
                 <tr>
                     <td><h2 style="display:inline; padding-top:25px;">Print Index Sheets</h2></td>
-                    <td style="text-align:right;"> 
-                        <div style="display:block;padding-bottom:1px;padding-top:6px;">
-                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="35" Height="35"  BackColor="White" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
-                        </div>
-                    </td>
                 </tr>
             </table>
         </div>
@@ -68,13 +63,17 @@
         <div style="display:inline-block;">           
             <table id="unprintedIndexTable" style="margin-top:15px; width:100%;" runat="server">
                 <tr style="background-color:aliceblue; height:40px;">
-                    <td style="padding-left:5px;"><asp:Button ID="getBarcodeBtn" Width="105" Visible="false" runat="server" Text="Show Barcodes" onclick="getBarcode_Click" /></td>
-                    <td style="text-align:center;">
+                    <td style="text-align:left;">
                         <asp:Button ID="deleteBtn" Width="105" Visible="false" runat="server" Text="Delete Indexes" 
                             OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
                             OnClick="deleteIndexes_Click" />
                     </td>
-                    <td style="text-align:right;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
+                    <td style="text-align:left;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
+                    <td style="text-align:right;"> 
+                        <div style="display:block;padding-bottom:1px;padding-top:6px;">
+                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="30" Height="30"  BackColor="aliceblue" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
+                        </div>
+                    </td>
                 </tr>
             </table>
             <table>
@@ -86,7 +85,7 @@
             <table style="width:99.8%;">
                 <tr >
                     <td style="padding-top:10px;">
-                        <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC (Default)" runat="server"></asp:Label>
+                        <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label>
                     </td>
                     <td style="text-align:right;">
                         <asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>

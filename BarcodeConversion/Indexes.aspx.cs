@@ -64,7 +64,7 @@ namespace BarcodeConversion
                                 {
                                     //Persist the table in the Session object.
                                     Session["Table"] = ds.Tables[0];
-                                    sortOrder.Text = "Sorted By : CREATION_TIME ASC (Default)";
+                                    sortOrder.Text = "Sorted By : CREATION_TIME ASC";
                                     indexesGridView.DataSource = ds.Tables[0];
                                     indexesGridView.DataBind();
                                 }
@@ -77,7 +77,6 @@ namespace BarcodeConversion
                 if (indexesGridView.Rows.Count == 0)
                 {
                     indexesGridView.Visible = false;
-                    getBarcodeBtn.Visible = false;
                     printBarcodeBtn.Visible = false;
                     deleteBtn.Visible = false;
                     recordsPerPage.Visible = false;
@@ -89,7 +88,6 @@ namespace BarcodeConversion
                 else
                 {
                     unprintedIndexTable.Visible = true;
-                    getBarcodeBtn.Visible = true;
                     printBarcodeBtn.Visible = true;
                     deleteBtn.Visible = true;
                     recordsPerPage.Visible = true;
@@ -220,52 +218,6 @@ namespace BarcodeConversion
             {
                 string msg = "Issue occured while attempting to handle checkboxes. Contact system admin." + System.Environment.NewLine + ex.Message;
                 System.Windows.Forms.MessageBox.Show(msg, "Error 25");
-            }
-        }
-
-
-
-
-        // ---- NOT NEEDED ---'SHOW BARCODE' CLICKED: GET BARCODES FOR SELECTED INDEXES. 
-        protected void getBarcode_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                bool boxChecked = false;
-                foreach (GridViewRow row in indexesGridView.Rows)
-                {
-                    var imgBarCode = row.FindControl("imgBarCode") as System.Web.UI.WebControls.Image;
-                    CheckBox chxBox = row.FindControl("cbSelect") as CheckBox;
-
-                    if (chxBox.Checked)
-                    {
-                        boxChecked = true;
-                        indexesGridView.HeaderRow.Cells[2].Text = "&nbsp;&nbsp;&nbsp;BARCODE IMAGE";
-
-                        if (row.RowType == DataControlRowType.DataRow)
-                        {
-                            var indexBarcode = row.Cells[3].Text;
-                            imgBarCode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=50", indexBarcode.PadLeft(8, '0'));
-                        }
-                    }
-                    else
-                    {
-                        if (row.RowType == DataControlRowType.DataRow)
-                        {
-                            // var indexString = row.Cells[3].Text;
-                            imgBarCode.ImageUrl = "";
-                        }
-                    }
-                }
-                if (boxChecked == false)
-                {
-                    string msg = "To view barcode, please select at least one index";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error-22: Issue occured while attempting to handle checkboxes. Contact system admin." + System.Environment.NewLine + ex.Message);
             }
         }
 
@@ -488,7 +440,7 @@ namespace BarcodeConversion
             {
                 indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
                 getUnprintedIndexes_Click(new object(), new EventArgs());
-                sortOrder.Text = "Sorted By : CREATION_TIME ASC (Default)";
+                sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
             catch (Exception ex)
             {

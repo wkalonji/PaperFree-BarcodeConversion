@@ -50,7 +50,7 @@ namespace BarcodeConversion
                 whatFilter.SelectedValue = "allSheets";
                 getIndexes("All Jobs", "meOnly", "allTime", "allSheets");
                 indexeStatusGridView.Visible = true;
-                sortOrder.Text = "Sorted By : CREATION_TIME ASC (Default)";
+                sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
             catch (Exception ex)
             {
@@ -495,7 +495,7 @@ namespace BarcodeConversion
             {
                 indexeStatusGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
                 getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
-                sortOrder.Text = "Sorted By : CREATION_TIME ASC (Default)";
+                sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
             catch (Exception ex)
             {

@@ -134,6 +134,7 @@
     <Content Include="Content\hide_all.png" />
     <Content Include="Content\collapse_all.png" />
     <Content Include="Content\reset.png" />
+    <Content Include="Content\submit.png" />
     <Content Include="Indexes.aspx" />
     <Content Include="IndexStatus.aspx" />
     <Content Include="Scripts\calendar-en.min.js" />

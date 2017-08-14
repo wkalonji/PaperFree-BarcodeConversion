@@ -22,15 +22,6 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel unprintedIndexesPanel;
         
         /// <summary>
-        /// resetBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton resetBtn;
-        
-        /// <summary>
         /// unprintedIndexTable control.
         /// </summary>
         /// <remarks>
@@ -38,15 +29,6 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTable unprintedIndexTable;
-        
-        /// <summary>
-        /// getBarcodeBtn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button getBarcodeBtn;
         
         /// <summary>
         /// deleteBtn control.
@@ -65,6 +47,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button printBarcodeBtn;
+        
+        /// <summary>
+        /// resetBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton resetBtn;
         
         /// <summary>
         /// description control.
