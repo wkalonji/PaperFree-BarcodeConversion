@@ -238,7 +238,7 @@
                             <tr>
                                 <td style="width: 121px"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
                                 <td style="text-align:left;"> 
-                                    <asp:DropDownList ID="selectJob" runat="server">
+                                    <asp:DropDownList ID="selectJob" runat="server" AutoPostBack="true" OnSelectedIndexChanged="JobAbbSelect">
                                         <asp:ListItem Value="Select">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
@@ -246,7 +246,7 @@
                         </table>
 
 
-                        <table  style="margin-top:20px; width:99%;"  class=auto-style3>
+                        <table id="labelsTable" visible="false" style="margin-top:20px; width:99%;"  class=auto-style3 runat="server">
                             <tr>
                                 <td style="width: 80px;padding-top:8px;"><asp:Label ID="lab1" Visible="true" Height="25" Text="LABEL1:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="label1" Visible="true" ReadOnly="true" placeholder=" Required only for Set" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
@@ -307,7 +307,7 @@
 
                         <table id="labelControlsTable" visible="false" style="width: 98%;"  class=auto-style3 runat="server" >
                             <tr style="height:33px;">
-                                <td style="width: 80px"><asp:Label Text="LABEL:" runat="server"></asp:Label></td>
+                                <td style="width: 80px"><asp:Label Text="NAME:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="labelTextBox" placeholder=" Required only for Set" onfocus="this.select()" runat="server" Width="221px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
@@ -315,7 +315,7 @@
                                 <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional" TextMode="MultiLine" runat="server" Width="221px" Height="60px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
-                                <td style="width: 80px;"><asp:Label Text="MESSAGE:" runat="server"></asp:Label></td>
+                                <td style="width: 80px;"><asp:Label Text="ALERT:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="msgTextBox" placeholder=" Popup message if entry not valid. &nbsp;Required only if Regex is set" TextMode="MultiLine" onfocus="this.select()" runat="server" Height="60px" Width="221px"></asp:TextBox></td>
                             </tr>
                             <tr>

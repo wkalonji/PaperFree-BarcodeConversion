@@ -11,7 +11,6 @@ namespace BarcodeConversion
 
     public partial class _Default : Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -72,7 +71,6 @@ namespace BarcodeConversion
                             cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, LABEL2, REGEX2, LABEL3, REGEX3," +
                                               "LABEL4, REGEX4, LABEL5, REGEX5 FROM JOB_CONFIG_INDEX WHERE JOB_ID = @jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
-
                             con.Open();
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {

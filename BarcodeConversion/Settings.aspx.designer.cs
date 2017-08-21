@@ -346,6 +346,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.DropDownList selectJob;
         
         /// <summary>
+        /// labelsTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable labelsTable;
+        
+        /// <summary>
         /// lab1 control.
         /// </summary>
         /// <remarks>

@@ -845,7 +845,7 @@ namespace BarcodeConversion
                         }
                         else 
                         {
-                            string msg = countGranted + " Job(s) access granted. Operator already has access to the other " +countError+ " Job(s)";
+                            string msg = countGranted + " Job(s) access granted. Operator already has access to " +countError+ " of the selected Job(s)";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                             getUnassignedJobs(sender);
                             assignee.Focus();
@@ -880,6 +880,8 @@ namespace BarcodeConversion
                 if (jobIndexEditingPanel.Visible == false)
                 {
                     jobIndexEditingPanel.Visible = true;
+                    labelsTable.Visible = false;
+                    labelControlsTable.Visible = false;
                     getActiveJobs();
                 }
                 else
@@ -895,6 +897,21 @@ namespace BarcodeConversion
         }
 
 
+
+        // 'JOB ABBREVIATION' DROPDOWN SELECT
+        protected void JobAbbSelect(object sender, EventArgs e)
+        {
+            if (selectJob.SelectedValue != "Select")
+            {
+                labelsTable.Visible = true;
+                edit1.Visible = true;
+                edit2.Visible = true;
+                edit3.Visible = true;
+                edit4.Visible = true;
+                edit5.Visible = true;
+            }
+            else labelsTable.Visible = false;
+        }
 
         // SET COLOR FOR DROPDOWN CONFIGURED JOB ITEMS. FUNCTION
         protected void onJobSelect(object sender, EventArgs e)
@@ -925,18 +942,7 @@ namespace BarcodeConversion
         {
             try
             {
-                // make sure label field is not empty  
-                if (labelTextBox.Text == string.Empty)
-                {
-                    string msg = "label field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    labelTextBox.Text = string.Empty;
-                    labelTextBox.Attributes["placeholder"] = " required for set";
-                    labelTextBox.Focus();
-                    return;
-                }
-
-                // make sure that regex & message fields are both either filled or blank
+                // Make sure that regex & message fields are both either filled or blank
                 if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
                 {
                     string msg = "Both regex and message fields must be either blank or filled.";
@@ -947,12 +953,30 @@ namespace BarcodeConversion
                     return;
                 }
 
+                // Make sure label field is not empty when Regex and Alert are filled.
+                if (regexTextBox.Text != string.Empty && msgTextBox.Text != string.Empty && labelTextBox.Text == string.Empty)
+                {
+                    string msg = "Label field is required!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    labelTextBox.Text = string.Empty;
+                    labelTextBox.Attributes["placeholder"] = " required for set";
+                    labelTextBox.Focus();
+                    return;
+                }
+
                 // Hold entered values in viewstate
                 var labelValues = new List<string> { labelTextBox.Text, regexTextBox.Text, msgTextBox.Text};
                 string id = (string)ViewState["senderID"];
                 ViewState["labelValues" + id] = labelValues;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + id.Substring(id.Length - 1)) as TextBox;
-                t.Text = " " + labelTextBox.Text;
+                if (labelTextBox.Text != string.Empty)
+                    t.Text = " " + labelTextBox.Text;
+                else 
+                {
+                    if (t.ID == "label1") t.Attributes["placeholder"] = " Required only for Set";
+                    else t.Attributes["placeholder"] = " Optional";
+                } 
+                
                 ImageButton b = this.Master.FindControl("MainContent").FindControl(id) as ImageButton;
                 b.Visible = true;
                 labelTextBox.Text = string.Empty;
@@ -976,7 +1000,7 @@ namespace BarcodeConversion
             // Make sure current edit is done before starting another one
             if (labelControlsTable.Visible == true)
             {
-                string msg = "Current edit operation must be submitted prior starting another one";
+                string msg = "Current label setup must be submitted prior starting another one";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 return;
             }
@@ -990,12 +1014,22 @@ namespace BarcodeConversion
             if (ViewState["labelValues" + b.ID] != null)
             {
                 List<string> labelVal = (List<string>)ViewState["labelValues" + b.ID];
-                labelTextBox.Text = labelVal[0];
+                if (labelVal[0] != string.Empty)
+                    labelTextBox.Text = " " + labelVal[0];
+                else
+                    labelTextBox.Attributes["placeholder"] = " Required only for Set";
+                if (labelVal[1] != string.Empty)
+                    regexTextBox.Text = " " + labelVal[1];
+                else
+                    regexTextBox.Attributes["placeholder"] = " Optional";
                 labelTextBox.Focus();
-                regexTextBox.Text = labelVal[1];
-                msgTextBox.Text = labelVal[2];
+                if (labelVal[2] != string.Empty)
+                    msgTextBox.Text = " " + labelVal[2];
+                else
+                    msgTextBox.Attributes["placeholder"] = " Popup message if entry not valid. Required only if Regex is set";
             }
             labelControlsTable.Visible = true;
+            labelTextBox.Focus();
         }
 
 
@@ -1010,7 +1044,7 @@ namespace BarcodeConversion
                 // Make sure a job is selected & LABEL1 is filled.
                 if (this.selectJob.SelectedValue == "Select")
                 {
-                    string msg = "Please select a specific job to Set!";
+                    string msg = "Please select a specific job to configure!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     jobAbb.Text = string.Empty;
                     jobAbb.Focus();
@@ -1022,6 +1056,23 @@ namespace BarcodeConversion
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     jobAbb.Text = string.Empty;
                     jobAbb.Focus();
+                    return;
+                }
+
+                bool noLabelSet = true;
+                // Check whether any label was set.
+                for (int i=1; i<=5; i++)
+                {
+                    if (ViewState["labelValuesedit" + i] != null)
+                    {
+                        noLabelSet = false;
+                    }
+                }
+
+                if (noLabelSet)
+                {
+                    string msg = "At least one label needs to be set!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
 
@@ -1046,28 +1097,36 @@ namespace BarcodeConversion
                         // Then, use that job ID to set job rules into JOB_CONFIG_INDEX
                         cmd.Parameters.Clear();
                         cmd.CommandText =   "INSERT INTO JOB_CONFIG_INDEX" +
-                                            "(JOB_ID, LABEL1, REGEX1, LABEL2, REGEX2, LABEL3, REGEX3, LABEL4, REGEX4, LABEL5, REGEX5) " +
-                                            "VALUES(@jobID, @label1, @regex1, @label2, @regex2, @label3, @regex3, @label4, @regex4, @label5, @regex5)";
+                                            "(JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3, REGEX3, ALERT3, LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5) " +
+                                            "VALUES(@jobID, @label1, @regex1, @alert1, @label2, @regex2, @alert2, @label3, @regex3, @alert3, @label4, @regex4, @alert4, @label5, @regex5, @alert5)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
-                        cmd.Parameters.AddWithValue("@label1", label1.Text);
-                        if (regex1.Text == string.Empty) cmd.Parameters.AddWithValue("@regex1", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@regex1", regex1.Text);
-                        if (label2.Text == string.Empty) cmd.Parameters.AddWithValue("@label2", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@label2", label2.Text);
-                        if (regex2.Text == string.Empty) cmd.Parameters.AddWithValue("@regex2", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@regex2", regex2.Text);
-                        if (label3.Text == string.Empty) cmd.Parameters.AddWithValue("@label3", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@label3", label3.Text);
-                        if (regex3.Text == string.Empty) cmd.Parameters.AddWithValue("@regex3", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@regex3", regex3.Text);
-                        if (label4.Text == string.Empty) cmd.Parameters.AddWithValue("@label4", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@label4", label4.Text);
-                        if (regex4.Text == string.Empty) cmd.Parameters.AddWithValue("@regex4", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@regex4", regex4.Text);
-                        if (label5.Text == string.Empty) cmd.Parameters.AddWithValue("@label5", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@label5", label5.Text);
-                        if (regex5.Text == string.Empty) cmd.Parameters.AddWithValue("@regex5", DBNull.Value);
-                        else cmd.Parameters.AddWithValue("@regex5", regex5.Text);
+                        
+                        for (int i=1; i<=5; i++)
+                        {
+                            var labelValues = new List<string> {string.Empty, string.Empty, string.Empty};
+                            if (ViewState["labelValuesedit" + i] != null)
+                                labelValues = (List<string>)ViewState["labelValuesedit" + i];
+                            if (labelValues[0] == string.Empty)
+                            {
+                                cmd.Parameters.AddWithValue("@label" + i, DBNull.Value);
+                                cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
+                                cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@label" + i, labelValues[0]);
+                                if (labelValues[1] == string.Empty)
+                                {
+                                    cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
+                                    cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@regex" + i, labelValues[1]);
+                                    cmd.Parameters.AddWithValue("@regex" + i, labelValues[2]);
+                                }
+                            }
+                        }
 
                         if (cmd.ExecuteNonQuery() == 1)
                         {
@@ -1180,6 +1239,8 @@ namespace BarcodeConversion
                     getActiveJobs();
                     jobSectionDefault();
                     line.Visible = true;
+                    labelsTable.Visible = false;
+                    labelControlsTable.Visible = false;
                     //labelDropdown_Click(new object(), new EventArgs());
                 }
                 else
@@ -1537,16 +1598,17 @@ namespace BarcodeConversion
         {
             selectJob.SelectedValue = "Select";
             label1.Text = string.Empty;
+            label1.Attributes["placeholder"] = " Required only for Set";
             label1.Focus();
-            regex1.Text = string.Empty;
             label2.Text = string.Empty;
-            regex2.Text = string.Empty;
+            label2.Attributes["placeholder"] = " Optional";
             label3.Text = string.Empty;
-            regex3.Text = string.Empty;
+            label3.Attributes["placeholder"] = " Optional";
             label4.Text = string.Empty;
-            regex4.Text = string.Empty;
+            label4.Attributes["placeholder"] = " Optional";
             label5.Text = string.Empty;
-            regex5.Text = string.Empty;
+            label5.Attributes["placeholder"] = " Optional";
+            for (int i = 1; i <= 5; i++) ViewState["labelValuesedit" + i] = null;
         }
 
 
