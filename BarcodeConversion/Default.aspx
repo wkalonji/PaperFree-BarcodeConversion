@@ -75,7 +75,7 @@
         <asp:panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin:auto">           
             <h2 style="margin-top:35px">Index Creation</h2>
 
-            <table class = table>
+            <table id="jobControls" class = table runat="server">
                 <tr> <th colspan="3">Please fill information below </th></tr>
                 <tr>
                     <td><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>

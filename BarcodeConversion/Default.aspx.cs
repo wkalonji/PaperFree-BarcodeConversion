@@ -33,21 +33,14 @@ namespace BarcodeConversion
                 indexSavedMsg.Visible = false;
                 generateIndexSection.Visible = false;
                 indexCreationSection.Visible = false;
-                LABEL1.Visible = false;
-                label1Box.Visible = false;
-                label1Box.Text = string.Empty;
-                LABEL2.Visible = false;
-                label2Box.Visible = false;
-                label2Box.Text = string.Empty;
-                LABEL3.Visible = false;
-                label3Box.Visible = false;
-                label3Box.Text = string.Empty;
-                LABEL4.Visible = false;
-                label4Box.Visible = false;
-                label4Box.Text = string.Empty;
-                LABEL5.Visible = false;
-                label5Box.Visible = false;
-                label5Box.Text = string.Empty;
+                for (int i=1; i<=5; i++)
+                {
+                    Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as Label;
+                    l.Visible = false;
+                    TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                    t.Visible = false;
+                    t.Text = string.Empty;
+                }
 
                 // Make sure a job is selected
                 if (this.selectJob.SelectedValue != "Select")
@@ -77,51 +70,27 @@ namespace BarcodeConversion
                                 if (reader.HasRows)
                                 {
                                     indexCreationSection.Visible = true;
-
+                                    int i = 1;
+                                    int j = 1;
                                     // Set & display controls
                                     while (reader.Read())
                                     {
-                                        string text1 = (string)reader.GetValue(1);
-                                        if (text1 != string.Empty)
+                                        while (i <= 9)
                                         {
-                                            text1 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text1.ToLower());
-                                            LABEL1.Text = text1 + " :";
-                                            LABEL1.Visible = true;
-                                            label1Box.Visible = true;
-                                            label1Box.Focus();
-                                        }
-                                        if (reader.GetValue(3) != DBNull.Value)
-                                        {
-                                            string text2 = (string)reader.GetValue(3);
-                                            text2 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text2.ToLower());
-                                            LABEL2.Text = text2 + " :";
-                                            LABEL2.Visible = true;
-                                            label2Box.Visible = true;
-                                        }
-                                        if (reader.GetValue(5) != DBNull.Value)
-                                        {
-                                            string text3 = (string)reader.GetValue(5);
-                                            text3 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text3.ToLower());
-                                            LABEL3.Text = text3 + " :";
-                                            LABEL3.Visible = true;
-                                            label3Box.Visible = true;
-                                        }
-                                        if (reader.GetValue(7) != DBNull.Value)
-                                        {
-                                            string text4 = (string)reader.GetValue(7);
-                                            text4 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text4.ToLower());
-                                            LABEL4.Text = text4 + " :";
-                                            LABEL4.Visible = true;
-                                            label4Box.Visible = true;
-                                        }
-                                        if (reader.GetValue(9) != DBNull.Value)
-                                        {
-                                            string text5 = (string)reader.GetValue(9);
-                                            text5 = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text5.ToLower());
-                                            LABEL5.Text = text5 + " :";
-                                            LABEL5.Visible = true;
-                                            label5Box.Visible = true;
-                                        }
+                                            if (reader.GetValue(i) != DBNull.Value)
+                                            {
+                                                string text = (string)reader.GetValue(i);
+                                                text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
+                                                Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
+                                                l.Text = text + " :";
+                                                l.Visible = true;
+                                                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + j + "Box") as TextBox;
+                                                t.Visible = true;
+                                                t.Focus();
+                                                j += 1;
+                                            }
+                                            i += 2;
+                                        }   
                                     }
                                     generateIndexSection.Visible = true;
                                 }

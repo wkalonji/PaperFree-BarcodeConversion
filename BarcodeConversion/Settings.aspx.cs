@@ -1017,16 +1017,16 @@ namespace BarcodeConversion
                 if (labelVal[0] != string.Empty)
                     labelTextBox.Text = " " + labelVal[0];
                 else
-                    labelTextBox.Attributes["placeholder"] = " Required only for Set";
+                    labelTextBox.Attributes["placeholder"] = " Label name";
                 if (labelVal[1] != string.Empty)
                     regexTextBox.Text = " " + labelVal[1];
                 else
-                    regexTextBox.Attributes["placeholder"] = " Optional";
+                    regexTextBox.Attributes["placeholder"] = " Regular Expression rule (Optional)";
                 labelTextBox.Focus();
                 if (labelVal[2] != string.Empty)
                     msgTextBox.Text = " " + labelVal[2];
                 else
-                    msgTextBox.Attributes["placeholder"] = " Popup message if entry not valid. Required only if Regex is set";
+                    msgTextBox.Attributes["placeholder"] = " Alert message if entry not valid. Required only if Regex is set";
             }
             labelControlsTable.Visible = true;
             labelTextBox.Focus();
