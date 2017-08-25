@@ -1075,7 +1075,6 @@ namespace BarcodeConversion
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
-
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand()) 
