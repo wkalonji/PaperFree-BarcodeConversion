@@ -7,6 +7,7 @@ using BarcodeConversion.App_Code;
 using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace BarcodeConversion
 {
@@ -963,6 +964,24 @@ namespace BarcodeConversion
                     labelTextBox.Focus();
                     return;
                 }
+                
+                // If Regex entered, check whether it's valid
+                if (regexTextBox.Text != string.Empty)
+                {
+                    bool isValid = IsValidRegex(regexTextBox.Text);
+                    if (!IsValid)
+                    {
+                        string msg = "The Regex pattern entered is not valid. Please refer to this link for testing and this link for documentation." +
+                                     " \\n Valid Regex Example";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    }
+                    else
+                    {
+                        regexTextBox.Focus();
+                        return;
+                    }
+                }
+
 
                 // Hold entered values in viewstate
                 var labelValues = new List<string> { labelTextBox.Text, regexTextBox.Text, msgTextBox.Text};
@@ -992,6 +1011,24 @@ namespace BarcodeConversion
             }
         }
 
+
+
+        // REGEX VALIDATOR FUNCTION
+        private static bool IsValidRegex(string pattern)
+        {
+            if (string.IsNullOrEmpty(pattern)) return false;
+
+            try
+            {
+                Regex.Match("", pattern);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
 
         // 'EDIT' ICON CLICKED: EDIT LABEL CONTENTS
@@ -1059,8 +1096,8 @@ namespace BarcodeConversion
                     return;
                 }
 
-                bool noLabelSet = true;
                 // Check whether any label was set.
+                bool noLabelSet = true;
                 for (int i=1; i<=5; i++)
                 {
                     if (ViewState["labelValuesedit" + i] != null)
@@ -1068,13 +1105,13 @@ namespace BarcodeConversion
                         noLabelSet = false;
                     }
                 }
-
                 if (noLabelSet)
                 {
                     string msg = "At least one label needs to be set!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
+
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand()) 
