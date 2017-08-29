@@ -83,7 +83,7 @@
                             <img style="margin-left:2px;" src="Content/calender.png" /> 
                         </td>
                         <td style="padding-left:15px;"><asp:label runat="server">To:&nbsp;&nbsp;</asp:label>
-                            <asp:TextBox ID="to" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="to" runat="server" ></asp:TextBox>
                             <img style="margin-left:2px;" src="Content/calender.png" /> 
                         </td>
                         <td style="padding-left:15px;">

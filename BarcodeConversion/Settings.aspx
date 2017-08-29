@@ -312,7 +312,7 @@
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px"><asp:Label Text="REGEX:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional" TextMode="MultiLine" runat="server" Width="221px" Height="60px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="221px" Height="60px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px;"><asp:Label Text="ALERT:" runat="server"></asp:Label></td>

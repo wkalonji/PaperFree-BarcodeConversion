@@ -185,6 +185,8 @@ namespace BarcodeConversion
                                             string msg = "New job successfully saved & assigned!";
                                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                             jobFormClear();
+                                            object b = this.Master.FindControl("MainContent").FindControl("unassignedBtn") as Button;
+                                            getUnassignedJobs(b);
                                         }
                                         else
                                         {
@@ -199,6 +201,8 @@ namespace BarcodeConversion
                                         success.Visible = true;
                                         ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
                                         jobFormClear();
+                                        object b = this.Master.FindControl("MainContent").FindControl("unassignedBtn") as Button;
+                                        getUnassignedJobs(b);
                                     }
                                 }
                             }
@@ -599,9 +603,19 @@ namespace BarcodeConversion
         }
 
 
-        
+
+
         // 'ACCESSIBLE' CLICKED: GET OP'S ACCESSIBLE JOBS. FUNCTION
         protected void assignedJob_Click(object sender, EventArgs e)
+        {
+            jobAccessGridView.PageIndex = 0;
+            getAssignedJobs();
+        }
+
+
+
+        // 'ACCESSIBLE' CLICKED: GET OP'S ACCESSIBLE JOBS. HELPER FUNCTION
+        private void getAssignedJobs()
         {
             try
             {
@@ -685,6 +699,7 @@ namespace BarcodeConversion
         {   
             try
             {
+                jobAccessGridView.PageIndex = 0;
                 getUnassignedJobs(sender);
                 assignee.Focus();
             }
@@ -968,23 +983,18 @@ namespace BarcodeConversion
                 // If Regex entered, check whether it's valid
                 if (regexTextBox.Text != string.Empty)
                 {
-                    bool isValid = IsValidRegex(regexTextBox.Text);
-                    if (!IsValid)
+                    bool isValid = IsValidRegex(regexTextBox.Text.Trim());
+                    if (isValid == false)
                     {
-                        string msg = "The Regex pattern entered is not valid. Please refer to this link for testing and this link for documentation." +
-                                     " \\n Valid Regex Example";
+                        string msg = "The Regex pattern entered is not valid. You can test your Regex pattern at regexr.com";
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    }
-                    else
-                    {
                         regexTextBox.Focus();
                         return;
-                    }
+                    } 
                 }
-
-
+       
                 // Hold entered values in viewstate
-                var labelValues = new List<string> { labelTextBox.Text, regexTextBox.Text, msgTextBox.Text};
+                var labelValues = new List<string> { labelTextBox.Text.Trim(), regexTextBox.Text.Trim(), msgTextBox.Text.Trim()};
                 string id = (string)ViewState["senderID"];
                 ViewState["labelValues" + id] = labelValues;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + id.Substring(id.Length - 1)) as TextBox;
@@ -1298,7 +1308,7 @@ namespace BarcodeConversion
 
 
 
-        // GET ALL ACTIVE JOBS OR OPERATOR'S INACCESSIBLE JOBS. HELPER FUNCTION
+        // GET ALL ACTIVE JOBS. HELPER FUNCTION
         private void getUnassignedJobs(Object sender)
         {
             try
@@ -1611,14 +1621,14 @@ namespace BarcodeConversion
             try
             {
                 jobAccessGridView.PageIndex = e.NewPageIndex;
+                object b = this.Master.FindControl("MainContent").FindControl("inaccessibleBtn") as Button;
+
                 if (jobsLabel.Text == "Operator's Currently Accessible Jobs")
-                {
-                    assignedJob_Click(new object(), new EventArgs());
-                }
+                    getAssignedJobs();
+                else if (jobsLabel.Text == "Operator's Currently Inaccessible Jobs")
+                    getUnassignedJobs(b);
                 else
-                {
                     getUnassignedJobs(null);
-                }
             }
             catch (Exception ex)
             {

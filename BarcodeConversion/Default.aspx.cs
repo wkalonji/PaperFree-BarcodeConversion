@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Globalization;
 using BarcodeConversion.App_Code;
+using System.Text.RegularExpressions;
 
 namespace BarcodeConversion
 {
@@ -72,6 +73,7 @@ namespace BarcodeConversion
                                     indexCreationSection.Visible = true;
                                     int i = 1;
                                     int j = 1;
+                                    var regexList = new List<string>();
                                     // Set & display controls
                                     while (reader.Read())
                                     {
@@ -79,6 +81,7 @@ namespace BarcodeConversion
                                         {
                                             if (reader.GetValue(i) != DBNull.Value)
                                             {
+                                                regexList.Add((string)reader.GetValue(i + 1));
                                                 string text = (string)reader.GetValue(i);
                                                 text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
                                                 Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
@@ -90,15 +93,16 @@ namespace BarcodeConversion
                                                 j += 1;
                                             }
                                             i += 2;
-                                        }   
+                                        }
+                                        ViewState["regexList"] = regexList;
                                     }
                                     generateIndexSection.Visible = true;
                                 }
                                 else
                                 {
-                                    string msg = "The " + selectJob.SelectedValue + " job that you selected has not yet been configured by your system admin." 
-                                                + "Only red colored jobs can be processed.";
-                                    System.Windows.Forms.MessageBox.Show(msg);
+                                    string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured by your system admin." 
+                                                + " Only jobs in red can be processed.";
+                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                     selectJob.SelectedValue = "Select";
                                     return;
                                 }
@@ -110,12 +114,12 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Issue occured while attempting to retrieve selected job's form controls. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 04");
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 04: " + msg + "');", true);
             }
         }      
 
 
-        // 'GENERATE INDEX' CLICKED: GENERATE INDEX AND BARCODE FROM FORM DATA.
+        // GENERATE INDEX AND BARCODE FROM FORM DATA.
         private void generateBarcode()
         {
             try
@@ -136,13 +140,16 @@ namespace BarcodeConversion
                     return;
                 }
                 else
-                {
+                {   
+                    // Check Regex rules
+
+
+                    // Making the Index string
                     string year = DateTime.Now.ToString("yy");
                     JulianCalendar jc = new JulianCalendar();
                     string julianDay = jc.GetDayOfYear(DateTime.Now).ToString();
                     string time = DateTime.Now.ToString("HHmmssfff");
-
-                    // Making the Index string 
+                    
                     ViewState["allEntriesConcat"] = selectJob.SelectedValue.ToUpper() + year + julianDay + time;
                 }
                 string indexString = (string)ViewState["allEntriesConcat"];
@@ -155,7 +162,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Issue occured while attempting to generate Index. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 04");
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 05a: " + msg + "');", true);
             }
         }
 
@@ -199,16 +206,21 @@ namespace BarcodeConversion
                                             " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
                         cmd.Parameters.AddWithValue("@barcodeIndex", ViewState["allEntriesConcat"]);
-                        if (label1Box.Visible == true) { cmd.Parameters.AddWithValue("@val1", label1Box.Text); }
-                        else { cmd.Parameters.AddWithValue("@val1", DBNull.Value); }
-                        if (label2Box.Visible == true) { cmd.Parameters.AddWithValue("@val2", label2Box.Text); }
-                        else { cmd.Parameters.AddWithValue("@val2", DBNull.Value); }
-                        if (label3Box.Visible == true) { cmd.Parameters.AddWithValue("@val3", label3Box.Text); }
-                        else { cmd.Parameters.AddWithValue("@val3", DBNull.Value); }
-                        if (label4Box.Visible == true) { cmd.Parameters.AddWithValue("@val4", label4Box.Text); }
-                        else { cmd.Parameters.AddWithValue("@val4", DBNull.Value); }
-                        if (label5Box.Visible == true) { cmd.Parameters.AddWithValue("@val5", label5Box.Text); }
-                        else { cmd.Parameters.AddWithValue("@val5", DBNull.Value); }
+                        var regexList = (List<string>)ViewState["regexList"];
+                        for (int i=1; i<=5; i++)
+                        {   
+                            TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                            if (c.Visible == true)
+                            {   
+                                // Check Regex rules
+                                //if (regexList[i-1] != DBNull.Value.ToString())
+                                //{
+                                //    if (Regex.Match(c.Text, regexList[i - 1]));
+                                //}
+                                cmd.Parameters.AddWithValue("@val" + i, c.Text);
+                            }
+                            else { cmd.Parameters.AddWithValue("@val" + i, DBNull.Value); }
+                        }
                         cmd.Parameters.AddWithValue("@opId", opID);
                         cmd.Parameters.AddWithValue("@time", DateTime.Now);
                         cmd.Parameters.AddWithValue("@printed", 0);
@@ -622,7 +634,7 @@ namespace BarcodeConversion
             {
                 string msg = "Issue occured while retrieving entered entries. Contact system admin." +
                                     System.Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 03");
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 03: " + msg + "');", true);
                 return new List<EntryContent>();
             }
         }    
