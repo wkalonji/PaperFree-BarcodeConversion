@@ -62,8 +62,8 @@ namespace BarcodeConversion
                     {
                         using (SqlCommand cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, LABEL2, REGEX2, LABEL3, REGEX3," +
-                                              "LABEL4, REGEX4, LABEL5, REGEX5 FROM JOB_CONFIG_INDEX WHERE JOB_ID = @jobID";
+                            cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3, REGEX3, ALERT3," +
+                                              "LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5 FROM JOB_CONFIG_INDEX WHERE JOB_ID = @jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
                             con.Open();
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -73,15 +73,20 @@ namespace BarcodeConversion
                                     indexCreationSection.Visible = true;
                                     int i = 1;
                                     int j = 1;
-                                    var regexList = new List<string>();
+                                    var regexList = new List<Tuple<string, string, string>> { };
                                     // Set & display controls
                                     while (reader.Read())
                                     {
-                                        while (i <= 9)
+                                        while (i <= 13)
                                         {
                                             if (reader.GetValue(i) != DBNull.Value)
                                             {
-                                                regexList.Add((string)reader.GetValue(i + 1));
+                                                var tuple = Tuple.Create("","","");
+                                                if (reader.GetValue(i + 1) != DBNull.Value)
+                                                    tuple = Tuple.Create((string)reader.GetValue(i), (string)reader.GetValue(i + 1), (string)reader.GetValue(i + 2));
+                                                else
+                                                    tuple = Tuple.Create((string)reader.GetValue(i), "", "");
+                                                regexList.Add(tuple);
                                                 string text = (string)reader.GetValue(i);
                                                 text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
                                                 Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
@@ -92,7 +97,7 @@ namespace BarcodeConversion
                                                 t.Focus();
                                                 j += 1;
                                             }
-                                            i += 2;
+                                            i += 3;
                                         }
                                         ViewState["regexList"] = regexList;
                                     }
@@ -206,17 +211,26 @@ namespace BarcodeConversion
                                             " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
                         cmd.Parameters.AddWithValue("@barcodeIndex", ViewState["allEntriesConcat"]);
-                        var regexList = (List<string>)ViewState["regexList"];
+                        var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
                         for (int i=1; i<=5; i++)
                         {   
                             TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
                             if (c.Visible == true)
-                            {   
-                                // Check Regex rules
-                                //if (regexList[i-1] != DBNull.Value.ToString())
-                                //{
-                                //    if (Regex.Match(c.Text, regexList[i - 1]));
-                                //}
+                            {
+                                // Check regex rules
+                                if (regexList[i - 1].Item2 != string.Empty)
+                                {
+                                    string label = regexList[i - 1].Item1;
+                                    string pattern = @regexList[i - 1].Item2;
+                                    Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+                                    if (!r.IsMatch(c.Text))
+                                    {
+                                        string msg = label + ": " + regexList[i - 1].Item3;
+                                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                        c.Focus();
+                                        return;
+                                    }
+                                }
                                 cmd.Parameters.AddWithValue("@val" + i, c.Text);
                             }
                             else { cmd.Parameters.AddWithValue("@val" + i, DBNull.Value); }
@@ -249,7 +263,7 @@ namespace BarcodeConversion
                 else
                 {
                     string msg = "Issue occured while attempting to save index. Contact system admin." + Environment.NewLine + ex.Message;
-                    System.Windows.Forms.MessageBox.Show(msg, "Error 09");
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 09: " + msg + "');", true);
                 }
             }
         }

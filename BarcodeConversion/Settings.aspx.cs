@@ -1169,7 +1169,7 @@ namespace BarcodeConversion
                                 else
                                 {
                                     cmd.Parameters.AddWithValue("@regex" + i, labelValues[1]);
-                                    cmd.Parameters.AddWithValue("@regex" + i, labelValues[2]);
+                                    cmd.Parameters.AddWithValue("@alert" + i, labelValues[2]);
                                 }
                             }
                         }
