@@ -47,7 +47,7 @@
                                     <td><asp:Label runat="server">
                                         <h4 >&nbsp;Create/Edit Jobs</h4></asp:Label></td>
                                     <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
-                                        OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away. If operator entered does not exist, a new job is created anyway.\n*    Operators accessing jobs here will see them, but cannot generate Indexes until those jobs are configured in the Index Config section below.\n*   While editing a job, red colored dropdown jobs are Active jobs.')" runat="server"></asp:Button></td>
+                                        OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away. If operator entered does not exist, a new job is created anyway.\n*    Jobs made accessible in this section will be visible to the specified Operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')" runat="server"></asp:Button></td>
                                 </tr>
                             </table>
                             <table  style="margin-top:25px; width: 76%; margin-right: 36px; height: 149px;"  class=auto-style3 > 
@@ -89,9 +89,9 @@
                                 </tr>
                 
                             </table>
-                            <table style="margin-top:20px; " class="auto-style4">
-                                <tr style="height:15px;">
-                                   <td style="height: 15px; text-align:right;">
+                            <table class="auto-style4">
+                                <tr>
+                                   <td style="text-align:right;">
                                         <asp:Button ID="deleteJobBtn" Visible="false" runat="server" Text="Delete " 
                                             OnClientClick="return confirm('ATTENTION!\n\nDeleting this job will also delete its configuration, all indexes associated to it, and any other related records in other entities. Unless it is a must, we advise to Deactivate job instead.\n\nDo you still want to procede with Delete?');" OnClick="deleteJob_Click"/> </td>
                                 </tr>
@@ -121,7 +121,7 @@
                                     <td><asp:Label runat="server">
                                         <h4 >&nbsp;Add Operators & Admins</h4></asp:Label></td>
                                     <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
-                                        OnClientClick="return alert('Notes:\n*  Anyone accessing the site for the 1st time is automatically added as operator.\nAn operator can still be added prior to him/her accessing the site.\nTo add, just type in operator\'s username, set Permissions & submit.\n*    You can also change existing operator\'s permissions.')" runat="server"></asp:Button></td>
+                                        OnClientClick="return alert('Notes:\n*  Anyone accessing the site for the 1st time is automatically added as operator. An operator can also be added prior accessing the site.\nTo add, just type in operator\'s username, set Permissions & submit.\n*    You can also change existing operator\'s permissions.')" runat="server"></asp:Button></td>
                                 </tr>
                             </table>
                             <table  style="margin-top:25px; height: 72px;"  class=auto-style3 >
@@ -175,16 +175,16 @@
                                 <td><asp:Label runat="server">
                                     <h4 >&nbsp;Assign Jobs to Operators</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
-                                    OnClientClick="return alert('Notes:\n*  Operators accessing jobs here will see them, but cannot generate indexes until those jobs are configured in the Index Config section below.')" runat="server"></asp:Button></td>
+                                    OnClientClick="return alert('Notes:\n*   Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section.')" runat="server"></asp:Button></td>
                             </tr>
                          </table>
-                        <table  style="margin-top:10px; height: 72px; width: 51.5%;"  class=auto-style3 >
+                        <table  style="height: 42px; margin-bottom:10px; margin-top:10px; width: 51.5%;"  class=auto-style3 >
                             <tr>
                                 <td class="auto-style2" style="height: 31px"><asp:Label runat="server">Operator: </asp:Label></td>
-                                <td style="height: 25px"><asp:TextBox ID="assignee" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                                <td style="height: 25px"><asp:TextBox ID="assignee" placeholder=" Required" onfocus="this.select()" Width="200" runat="server"></asp:TextBox></td>
                             </tr> 
                         </table>
-                        <table style="margin-top:20px; margin-bottom:20px; width: 316px;">
+                        <table style="margin-bottom:10px; width: 316px;">
                             <tr style="background-color:aliceblue; height:40px;">
                                 <td style="height: 10px; text-align:left;"><asp:Button ID="assignedBtn"  Visible="true" runat="server" Text="Accessible" OnClick="assignedJob_Click" /></td>
                                 <td style="height: 10px; text-align:center;padding-right:8px;"><asp:Button ID="inaccessibleBtn"  Visible="true" runat="server" Text="Inaccessible" OnClick="unassignedJob_Click" /></td>
@@ -231,7 +231,7 @@
                                 <td><asp:Label runat="server">
                                     <h4 >&nbsp;Create Form Controls for Jobs</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
-                                    OnClientClick="return alert('Notes:\n*  Only jobs configured here can be processed by operators.\n*  Red colored dropdown jobs are Configured jobs.\n*  Type in your regex, then space, then any message you would like operators to see if their entry is not valid (e.g: \\w{4} Four characters word only, no special characters. )')" runat="server"></asp:Button></td>
+                                    OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  For each label control, regex is optional. But if specified, an alert message must also be specified to let operator know if entry is valid when creating index.\nRegex example: \\w{4,6} with Alert: \'Please enter between 4 and 6 letters word only, no special characters.\'\n*  You can make use of \'regexr.com\' to test your regular expressions.')" runat="server"></asp:Button></td>
                             </tr>
                         </table>
                         <table class = table style="width:320px;">
@@ -307,8 +307,11 @@
 
                         <table id="labelControlsTable" visible="false" style="width: 98%;"  class=auto-style3 runat="server" >
                             <tr style="height:33px;">
+                                <td colspan="2"><h4>Label Setup : </h4></td>
+                            </tr>
+                            <tr style="height:33px;">
                                 <td style="width: 80px"><asp:Label Text="NAME:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="labelTextBox" placeholder=" Required only for Set" onfocus="this.select()" runat="server" Width="221px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="labelTextBox" placeholder=" Label name" onfocus="this.select()" runat="server" Width="221px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px"><asp:Label Text="REGEX:" runat="server"></asp:Label></td>
@@ -328,7 +331,7 @@
                             <tr style="background-color:aliceblue; height:40px;">
                                 <td style="height: 10px; text-align:left;">
                                     <asp:Button ID="unsetRules" Visible="true" runat="server" Text="Unset"
-                                        OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Details section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with reconfiguration?');"
+                                        OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Details section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with unsetting job configuration?');"
                                         OnClick="unsetRules_Click" /></td>
                                 <td style="height: 10px; text-align:right;"><asp:Button ID="setRules" style="margin-left:25px;" Visible="true" runat="server" Text="Set " OnClick="setRules_Click" /></td>
                             </tr> 

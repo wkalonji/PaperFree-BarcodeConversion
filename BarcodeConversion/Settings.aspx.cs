@@ -41,9 +41,9 @@ namespace BarcodeConversion
                     System.Windows.Forms.MessageBox.Show(msg);
                     return;
                 }
-              
-                setDropdownColor();
-                success.Visible = false;
+                jobSectionDropdownColor(); // Job section
+                setDropdownColor(); // Index Config section
+                success.Visible = false; 
             }
             catch (Exception ex)
             {
@@ -1068,12 +1068,12 @@ namespace BarcodeConversion
                 if (labelVal[1] != string.Empty)
                     regexTextBox.Text = " " + labelVal[1];
                 else
-                    regexTextBox.Attributes["placeholder"] = " Regular Expression rule (Optional)";
+                    regexTextBox.Attributes["placeholder"] = " Regular Expression (Optional)";
                 labelTextBox.Focus();
                 if (labelVal[2] != string.Empty)
                     msgTextBox.Text = " " + labelVal[2];
                 else
-                    msgTextBox.Attributes["placeholder"] = " Alert message if entry not valid. Required only if Regex is set";
+                    msgTextBox.Attributes["placeholder"] = " Alert message if entry not valid." +Environment.NewLine+ " Required only if Regex is set";
             }
             labelControlsTable.Visible = true;
             labelTextBox.Focus();
@@ -1081,7 +1081,7 @@ namespace BarcodeConversion
 
 
 
-        // 'SET' CLICKED: SET INDEX FORM RULES. FUNCTION
+        // 'SET' CLICKED: SET INDEX FORM CONTROLS. FUNCTION
         protected void setRules_Click(object sender, EventArgs e)
         {
             try
@@ -1101,8 +1101,11 @@ namespace BarcodeConversion
                 {
                     string msg = "LABEL1 is required!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    jobAbb.Text = string.Empty;
-                    jobAbb.Focus();
+                    if (labelControlsTable.Visible)
+                    {
+                        labelTextBox.Text = string.Empty;
+                        labelTextBox.Focus();
+                    }
                     return;
                 }
 
@@ -1513,7 +1516,6 @@ namespace BarcodeConversion
             try
             {
                 int opID = 0, jobID = 0;
-
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
@@ -1559,12 +1561,12 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg;
                 // Skip jobs that have already been made accessible to specified operator.
                 if (!ex.Message.Contains("Violation of PRIMARY KEY"))
                 {
-                    msg = "Issue occured while attempting to grant job accessiblity to specified operator. Contact system admin. " + Environment.NewLine + ex.Message;
-                    System.Windows.Forms.MessageBox.Show(msg, "Error 89");
+                    string str = ex.Message.Replace("'", "");
+                    string msg = "DUPLICATE ENTRY SKIPPED!. Contact system admin. " + str.Substring(0, str.IndexOf(Environment.NewLine));
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 89:  " + msg + "');", true);
                 }
                 return false;
             }
@@ -1610,6 +1612,49 @@ namespace BarcodeConversion
             {
                 string msg = "Issue occured while attempting to color appropriate jobs. Contact system admin. " + Environment.NewLine + ex.Message;
                 System.Windows.Forms.MessageBox.Show(msg, "Error 90");
+            }
+        }
+
+
+
+
+        // SET COLOR FOR DROPDOWN ACTIVE JOB ITEMS. HELPER FUNCTION
+        private void jobSectionDropdownColor()
+        {
+            try
+            {
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT ABBREVIATION " +
+                                          "FROM JOB " +
+                                          "WHERE JOB.ACTIVE = 1";
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    // Red active job items from 'JOB' section
+                                    foreach (ListItem item in selectJobList.Items)
+                                    {
+                                        if (item.Value == (string)reader.GetValue(0))
+                                        {
+                                            item.Attributes.Add("style", "color:Red;");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "Issue occured while attempting to color appropriate jobs. Contact system admin. " + Environment.NewLine + ex.Message;
+                System.Windows.Forms.MessageBox.Show(msg, "Error 90a");
             }
         }
 

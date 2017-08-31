@@ -94,7 +94,7 @@ namespace BarcodeConversion
                                                 l.Visible = true;
                                                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + j + "Box") as TextBox;
                                                 t.Visible = true;
-                                                t.Focus();
+                                                if (i == 1) t.Focus();
                                                 j += 1;
                                             }
                                             i += 3;
