@@ -76,6 +76,33 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel indexCreationSection;
         
         /// <summary>
+        /// File1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputFile File1;
+        
+        /// <summary>
+        /// upload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button upload;
+        
+        /// <summary>
+        /// viewContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button viewContent;
+        
+        /// <summary>
         /// jobControls control.
         /// </summary>
         /// <remarks>

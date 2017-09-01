@@ -52,33 +52,35 @@
 
 
     <asp:Panel ID="unprintedIndexesPanel" runat="server">
-         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:899px;">
+         <div style="margin-top:45px; margin-bottom:20px; height:50px; border-bottom:solid 1px green;width:899px;">
             <table style="width:899px;">
                 <tr>
                     <td><h2 style="display:inline; padding-top:25px;">Print Index Sheets</h2></td>
                 </tr>
             </table>
         </div>
-        <table style="width:460px;">
-            <tr style="height:50px;"> <th colspan="2">Upload Index Data: </th></tr>
-            <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
-                <td style="width:300px; padding-left:5px;">
-                   <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
-                <td style="text-align:right; font-size:12px;padding-right:10px;"><asp:Button ID="upload" Text="Upload" Font-Size="9" OnClick="upload_Click" runat="server"/></td>
-                <td style="text-align:left;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="viewContent_Click" runat="server"/></td>
-            </tr>
-        </table> 
 
         <div style="display:inline-block;">           
-            <table id="unprintedIndexTable" style="width:100%;" runat="server">
-                <tr><td><h2 style="margin-top:35px">Unprinted Indexes</h2></td></tr>
+            <table id="unprintedIndexTable" runat="server">
                 <tr style="background-color:#e6f3ff; height:40px;margin-top:10px;">
-                    <td style="text-align:left; padding-left:5px;">
-                        <asp:Button ID="deleteBtn" Width="105" Visible="false" runat="server" Text="Delete Indexes" 
+                    <td><asp:Label ID="filterLabel" Width="55" runat="server"><h4>&nbsp;Filter :</h4></asp:Label></td>
+                    <td style="padding-right:5px; padding-left:10px;"> 
+                        <asp:DropDownList ID="jobsFilter" runat="server">
+                            <asp:ListItem Value="allJobs">All Jobs</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                    <td style="padding-right:15px;"> 
+                        <asp:DropDownList ID="whenFilter" runat="server" AutoPostBack="true">
+                            <asp:ListItem Value="allTime">For All Time</asp:ListItem>
+                            <asp:ListItem Value="pickRange">Pick Date/Time Range</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
+                    <td style="text-align:left; padding-right:10px;">
+                        <asp:Button ID="deleteBtn" Width="105" Font-Size="10" Visible="false" runat="server" Text="Delete Indexes" 
                             OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
                             OnClick="deleteIndexes_Click" />
                     </td>
-                    <td style="text-align:left;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
+                    <td style="text-align:left;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Font-Size="10" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
                     <td style="text-align:right;"> 
                         <div style="display:block;padding-bottom:1px;padding-top:6px;">
                             <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="30" Height="30"  BackColor="#e6f3ff" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
@@ -86,9 +88,10 @@
                     </td>
                 </tr>
             </table>
-            <table style="width:99.9%;">
+            <table style="width:99.8%; margin-top:20px;">
+                <tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="Label1" Text="Your Unprinted Indexes" runat="server"></asp:Label></h4> </td></tr>
                 <tr >
-                    <td style="padding-top:10px;">
+                    <td>
                         <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label>
                     </td>
                     <td style="text-align:right;">
@@ -106,7 +109,7 @@
             <asp:Label ID="description" runat="server"></asp:Label>
             <asp:GridView ID="indexesGridView" runat="server" style="margin-top:5px" CssClass="mydatagrid" PagerStyle-CssClass="pager" 
                           HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="True" OnPageIndexChanging="pageChange_Click"
-                         OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" AllowSorting="True"> 
+                         OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" Width="600" AllowSorting="True"> 
                 <columns>
                     <asp:templatefield HeaderText="Select">
                         <HeaderTemplate>

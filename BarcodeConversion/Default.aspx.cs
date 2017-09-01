@@ -121,7 +121,55 @@ namespace BarcodeConversion
                 string msg = "Issue occured while attempting to retrieve selected job's form controls. Contact system admin." + Environment.NewLine + ex.Message;
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 04: " + msg + "');", true);
             }
-        }      
+        }
+
+
+
+        // 'UPLOAD' CLICKED: UPLOAD CVS INDEX DATA FILE.
+        protected void upload_Click(object sender, EventArgs e)
+        {
+            if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
+            {
+                // Check file extension first
+                String extension = System.IO.Path.GetExtension(File1.PostedFile.FileName);
+                if (extension.ToLower() != ".csv")
+                {
+                    string msg = "Only .csv files are allowed";
+                    //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    //return;
+                }
+
+                // Upload file
+                string fileName = System.IO.Path.GetFileName(File1.PostedFile.FileName);
+                string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
+                try
+                {
+                    File1.PostedFile.SaveAs(SaveLocation);
+                    Response.Write("The file has been uploaded.");
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Error: " + ex.Message);
+                    //Note: Exception.Message returns detailed message that describes the current exception. 
+                    //For security reasons, we do not recommend you return Exception.Message to end users in 
+                    //production environments. It would be better just to put a generic error message. 
+                }
+
+                // Check regex for each cell
+            }
+            else
+            {
+                Response.Write("Please select a file to upload.");
+            }
+        }
+
+
+
+        // 'VIEW CONTENT' CLICKED: VIEW CVS INDEX DATA FILE.
+        protected void viewContent_Click(object sender, EventArgs e)
+        {
+
+        }
 
 
         // GENERATE INDEX AND BARCODE FROM FORM DATA.

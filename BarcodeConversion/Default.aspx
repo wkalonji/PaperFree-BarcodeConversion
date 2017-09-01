@@ -72,29 +72,39 @@
             <asp:Panel ID="noJobsFound" Visible="false" runat="server"><h3> You currently have no accessible jobs.</h3> </asp:Panel>
         </asp:Panel>
         
-        <asp:panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin:auto">           
-            <h2 style="margin-top:35px">Index Creation</h2>
+        <asp:panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin:auto">  
+            <table style="width:455px;">
+                <tr style="height:50px;"> <th colspan="2">&nbsp;Upload Index Data File: </th></tr>
+                <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
+                    <td style="width:300px; padding-left:5px;">
+                       <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
+                    <td style="text-align:right; font-size:12px;padding-right:7px;"><asp:Button ID="upload" Text="Upload" Font-Size="9" OnClick="upload_Click" runat="server"/></td>
+                    <td style="text-align:center;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="viewContent_Click" runat="server"/></td>
+                </tr>
+            </table>    
+                  
+            <h2 style="margin-top:40px">Index Creation</h2>
 
             <table id="jobControls" class = table runat="server">
                 <tr> <th colspan="3">Please fill information below </th></tr>
                 <tr>
-                    <td><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td><asp:Label ID="LABEL2" Text="LABEL2"  Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;"><asp:Label ID="LABEL2" Text="LABEL2"  Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label2Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td><asp:Label ID="LABEL3" Text="LABEL3"  Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;"><asp:Label ID="LABEL3" Text="LABEL3"  Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label3Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td><asp:Label ID="LABEL4" Text="LABEL4"  Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;"><asp:Label ID="LABEL4" Text="LABEL4"  Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label4Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td><asp:Label ID="LABEL5" Text="LABEL5"  Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;"><asp:Label ID="LABEL5" Text="LABEL5"  Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label5Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
             </table>
@@ -111,10 +121,10 @@
         </p>
            
      --%>   <asp:Panel ID="generateIndexSection" Visible="false" runat="server">
-                <table class = tableFull style="margin-top:25px; width:540px;">
-                    <tr>
-                        <td><asp:Button ID="saveIndex" runat="server" Text="Save Index" onclick="saveIndex_Click" /></td>
-                        <td style="text-align:center"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" onclick="saveAndPrint_Click" /></td>
+                <table class = tableFull style="margin-top:25px; width:460px;">
+                    <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
+                        <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" onclick="saveIndex_Click" /></td>
+                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" onclick="saveAndPrint_Click" /></td>
                     </tr>                  
                 </table>
             </asp:Panel>
