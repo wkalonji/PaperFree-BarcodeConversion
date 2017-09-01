@@ -46,7 +46,7 @@
                                 <tr>
                                     <td><asp:Label runat="server">
                                         <h4 >&nbsp;Create/Edit Jobs</h4></asp:Label></td>
-                                    <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
+                                    <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23"
                                         OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away. If operator entered does not exist, a new job is created anyway.\n*    Jobs made accessible in this section will be visible to the specified Operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')" runat="server"></asp:Button></td>
                                 </tr>
                             </table>

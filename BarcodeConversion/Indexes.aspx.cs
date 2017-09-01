@@ -24,13 +24,24 @@ namespace BarcodeConversion
         }
 
 
+
         // 'UPLOAD' CLICKED: UPLOAD CVS INDEX DATA FILE.
-        protected void Submit1_ServerClick(object sender, EventArgs e)
+        protected void upload_Click(object sender, EventArgs e)
         {
             if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
             {
-                string fn = System.IO.Path.GetFileName(File1.PostedFile.FileName);
-                string SaveLocation = Server.MapPath("Data") + "\\" + fn;
+                // Check file extension first
+                String extension = System.IO.Path.GetExtension(File1.PostedFile.FileName);
+                if (extension.ToLower() != ".cvs")
+                {
+                    string msg = "Only .cvs files are allowed";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    return;
+                }
+
+                // Upload file
+                string fileName = System.IO.Path.GetFileName(File1.PostedFile.FileName);
+                string SaveLocation = Server.MapPath("Data") + "\\" + fileName;
                 try
                 {
                     File1.PostedFile.SaveAs(SaveLocation);
@@ -43,11 +54,21 @@ namespace BarcodeConversion
                     //For security reasons, we do not recommend you return Exception.Message to end users in 
                     //production environments. It would be better just to put a generic error message. 
                 }
+
+                // Check regex for each cell
             }
             else
             {
                 Response.Write("Please select a file to upload.");
             }
+        }
+
+
+
+        // 'VIEW CONTENT' CLICKED: VIEW CVS INDEX DATA FILE.
+        protected void viewFile_Click(object sender, EventArgs e)
+        {
+            
         }
 
 

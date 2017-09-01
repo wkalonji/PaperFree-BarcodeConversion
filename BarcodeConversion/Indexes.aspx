@@ -64,8 +64,8 @@
             <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
                 <td style="width:300px; padding-left:5px;">
                    <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
-                <td style="text-align:right; font-size:12px;padding-right:10px;"><input type="submit" id="Submit1" value="Upload" OnClick="Submit1_ServerClick" runat="server" /></td>
-                <td style="text-align:left;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="Submit1_ServerClick" runat="server"/></td>
+                <td style="text-align:right; font-size:12px;padding-right:10px;"><asp:Button ID="upload" Text="Upload" Font-Size="9" OnClick="upload_Click" runat="server"/></td>
+                <td style="text-align:left;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="viewContent_Click" runat="server"/></td>
             </tr>
         </table> 
 
