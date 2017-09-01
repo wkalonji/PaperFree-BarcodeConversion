@@ -8736,15 +8736,15 @@ a.list-group-item-danger.active {
 }
 
 .rows:nth-child(even) {
-    background-color: #f2f2f2
+    background-color: #e6e6e6
 }
 
-    .rows:hover {
-        background-color: #b3b3b3;
-        font-family: Arial;
-        color: #fff;
-        text-align: left;
-    }
+.rows:hover {
+    background-color: #b3b3b3;
+    font-family: Arial;
+    color: #fff;
+    text-align: left;
+}
 
 .selectedrow {
     background-color: #ff8000;

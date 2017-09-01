@@ -24,6 +24,33 @@ namespace BarcodeConversion
         }
 
 
+        // 'UPLOAD' CLICKED: UPLOAD CVS INDEX DATA FILE.
+        protected void Submit1_ServerClick(object sender, EventArgs e)
+        {
+            if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
+            {
+                string fn = System.IO.Path.GetFileName(File1.PostedFile.FileName);
+                string SaveLocation = Server.MapPath("Data") + "\\" + fn;
+                try
+                {
+                    File1.PostedFile.SaveAs(SaveLocation);
+                    Response.Write("The file has been uploaded.");
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Error: " + ex.Message);
+                    //Note: Exception.Message returns detailed message that describes the current exception. 
+                    //For security reasons, we do not recommend you return Exception.Message to end users in 
+                    //production environments. It would be better just to put a generic error message. 
+                }
+            }
+            else
+            {
+                Response.Write("Please select a file to upload.");
+            }
+        }
+
+
 
         // 'RESET' CLICKED: GET UNPRINTED INDEXES. 
         protected void getUnprintedIndexes_Click(object sender, EventArgs e)
@@ -155,7 +182,7 @@ namespace BarcodeConversion
                         if (row.RowType == DataControlRowType.DataRow)
                         {
                             try {
-                                var indexString = row.Cells[3].Text;
+                                var indexString = row.Cells[2].Text;
                                 SqlCommand cmd = new SqlCommand("DELETE FROM INDEX_DATA WHERE OPERATOR_ID=@opId AND BARCODE = @barcodeIndex", con);
                                 cmd.Parameters.AddWithValue("@opId", opID);
                                 cmd.Parameters.AddWithValue("@barcodeIndex", indexString);
@@ -250,8 +277,8 @@ namespace BarcodeConversion
                 Response.Write("<div id = 'pageToPrint' style = 'margin-top:-50px;'>");
                 foreach (GridViewRow row in indexesGridView.Rows)
                 {
-                    var indexString = row.Cells[3].Text;
-                    var imgBarCode = row.FindControl("imgBarCode") as Image;
+                    var indexString = row.Cells[2].Text;
+                    var imgBarCode = new Image();
                     CheckBox chxBox = row.FindControl("cbSelect") as CheckBox;
                     List<EntryContent> allEntriesList = new List<EntryContent>();
 
@@ -343,7 +370,7 @@ namespace BarcodeConversion
                         {
                             if (row.RowType == DataControlRowType.DataRow)
                             {
-                                var indexBarcode = row.Cells[3].Text;
+                                var indexBarcode = row.Cells[2].Text;
                                 imgBarCode.ImageUrl = "";
                             }
                         }
@@ -393,7 +420,7 @@ namespace BarcodeConversion
                             {
                                 if (row.RowType == DataControlRowType.DataRow)
                                 {
-                                    var indexString = row.Cells[3].Text;
+                                    var indexString = row.Cells[2].Text;
                                     cmd.Parameters.AddWithValue("@barcodeIndex", indexString);
                                     con.Open();
                                     if (cmd.ExecuteNonQuery() == 1)
@@ -503,16 +530,19 @@ namespace BarcodeConversion
         {   
             try 
             {
-                for (int i = 0; i < e.Row.Cells.Count; i++)
-                {
-                    e.Row.Cells[i].Attributes.Add("style", "white-space: nowrap;");
-                }
-
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
                     //e.Row.Cells[3].Text = "INDEX";
                     //e.Row.Cells[4].Text = "JOB";
+                }
+
+                // Set column borders & Prevent line breaks
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
             }
             catch (Exception ex)

@@ -251,7 +251,7 @@ namespace BarcodeConversion
                 }
 
                 SqlCommand cmd = new SqlCommand();
-                string cmdString = "SELECT NAME, JOB_ID, BARCODE, CREATION_TIME, PRINTED " +
+                string cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
                                         "FROM INDEX_DATA " +
                                         "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
                 using (SqlConnection con = Helper.ConnectionObj)
@@ -511,17 +511,19 @@ namespace BarcodeConversion
         {
             try
             {
-                for (int i = 0; i < e.Row.Cells.Count; i++)
-                {
-                    e.Row.Cells[i].Attributes.Add("style", "white-space: nowrap;");
-                }
-
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
                     //e.Row.Cells[1].Text = "OPERATOR";
                     //e.Row.Cells[2].Text = "JOB_ID";
                     //e.Row.Cells[3].Text = "INDEX";
+                }
+                // Set column borders & Prevent line breaks
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    for (int i=0; i<e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
             }
             catch (Exception ex)

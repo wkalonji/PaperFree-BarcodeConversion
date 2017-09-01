@@ -52,18 +52,28 @@
 
 
     <asp:Panel ID="unprintedIndexesPanel" runat="server">
-         <div style="margin-top:45px; margin-bottom:40px; height:50px; border-bottom:solid 1px green;width:899px;">
+         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:899px;">
             <table style="width:899px;">
                 <tr>
                     <td><h2 style="display:inline; padding-top:25px;">Print Index Sheets</h2></td>
                 </tr>
             </table>
         </div>
+        <table style="width:460px;">
+            <tr style="height:50px;"> <th colspan="2">Upload Index Data: </th></tr>
+            <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
+                <td style="width:300px; padding-left:5px;">
+                   <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
+                <td style="text-align:right; font-size:12px;padding-right:10px;"><input type="submit" id="Submit1" value="Upload" OnClick="Submit1_ServerClick" runat="server" /></td>
+                <td style="text-align:left;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="Submit1_ServerClick" runat="server"/></td>
+            </tr>
+        </table> 
 
         <div style="display:inline-block;">           
-            <table id="unprintedIndexTable" style="margin-top:15px; width:100%;" runat="server">
-                <tr style="background-color:aliceblue; height:40px;">
-                    <td style="text-align:left;">
+            <table id="unprintedIndexTable" style="width:100%;" runat="server">
+                <tr><td><h2 style="margin-top:35px">Unprinted Indexes</h2></td></tr>
+                <tr style="background-color:#e6f3ff; height:40px;margin-top:10px;">
+                    <td style="text-align:left; padding-left:5px;">
                         <asp:Button ID="deleteBtn" Width="105" Visible="false" runat="server" Text="Delete Indexes" 
                             OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
                             OnClick="deleteIndexes_Click" />
@@ -71,18 +81,12 @@
                     <td style="text-align:left;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
                     <td style="text-align:right;"> 
                         <div style="display:block;padding-bottom:1px;padding-top:6px;">
-                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="30" Height="30"  BackColor="aliceblue" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
+                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="30" Height="30"  BackColor="#e6f3ff" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
                         </div>
                     </td>
                 </tr>
             </table>
-            <table>
-                <tr><td colspan="3" style="padding-top:30px;">
-                        <h4 style="color:blue; display:inline"><asp:Label ID="description" Text="Your Unprinted Indexes" Visible="True" runat="server"></asp:Label></h4>
-                    </td>
-                </tr>
-            </table>
-            <table style="width:99.8%;">
+            <table style="width:99.9%;">
                 <tr >
                     <td style="padding-top:10px;">
                         <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label>
@@ -99,6 +103,7 @@
                     </td>
                 </tr>                  
             </table>
+            <asp:Label ID="description" runat="server"></asp:Label>
             <asp:GridView ID="indexesGridView" runat="server" style="margin-top:5px" CssClass="mydatagrid" PagerStyle-CssClass="pager" 
                           HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="True" OnPageIndexChanging="pageChange_Click"
                          OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" AllowSorting="True"> 
@@ -116,11 +121,6 @@
                             <%# Container.DataItemIndex + 1 %>
                         </ItemTemplate>
                     </asp:templatefield>
-                    <asp:TemplateField HeaderText="" ShowHeader="false">
-                        <ItemTemplate>
-                            <asp:Image ID="imgBarCode" runat="server" />
-                        </ItemTemplate>
-                    </asp:TemplateField>
                 </columns>
                 <HeaderStyle CssClass="header" />
                 <PagerStyle CssClass="pager" />

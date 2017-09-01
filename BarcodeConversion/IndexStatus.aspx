@@ -42,7 +42,7 @@
         </div>  
         <div style="display:inline-block;">           
             <table class = "table" style="width:99%;">
-                <tr style="background-color:aliceblue;">
+                <tr style="background-color:#e6f3ff;">
                     <td><asp:Label ID="filterLabel" Width="55" runat="server"><h4>Filter :</h4></asp:Label></td>
                     <td style="padding-top:14px;"> 
                         <asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" runat="server">
@@ -70,7 +70,7 @@
                     </td>
                     <td style="text-align:right;"> 
                         <div style="display:block;padding-bottom:1px;padding-top:6px;">
-                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="25" Height="25"  BackColor="aliceblue" Visible="true" runat="server" OnClick="reset_Click" />
+                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="25" Height="25"  BackColor="#e6f3ff" Visible="true" runat="server" OnClick="reset_Click" />
                         </div>
                     </td>
                 </tr>
@@ -92,7 +92,7 @@
                     </tr>
                 </table>
             </asp:Panel>
-            <div style="display:inline-block; width:99%">
+            <div style="display:inline-block; width:99.9%">
                 <table id="gridHeader" style="width:100%;margin-top:25px;margin-bottom:-10px;" runat="server">
                     <tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
                     <tr>
@@ -112,7 +112,7 @@
             
                 <asp:GridView ID="indexeStatusGridView" runat="server" style="margin-top:15px" CssClass="mydatagrid" PagerStyle-CssClass="pager"
                             PageSize="10" HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="true" OnPageIndexChanging="pageChange_Click"
-                            OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" AllowSorting="True"> 
+                            OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" AllowSorting="True" Width="631">  
                     <columns>
                         <asp:templatefield HeaderText ="&nbsp;N°" ShowHeader="true">
                             <ItemTemplate >

@@ -1084,10 +1084,10 @@ namespace BarcodeConversion
         // 'SET' CLICKED: SET INDEX FORM CONTROLS. FUNCTION
         protected void setRules_Click(object sender, EventArgs e)
         {
+            string selectedJob = "";
             try
             {
                 int jobID = 0;
-
                 // Make sure a job is selected & LABEL1 is filled.
                 if (this.selectJob.SelectedValue == "Select")
                 {
@@ -1124,7 +1124,7 @@ namespace BarcodeConversion
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
-
+                selectedJob = selectJob.SelectedValue;
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand()) 
@@ -1194,7 +1194,7 @@ namespace BarcodeConversion
                 string msg;
                 if (ex.Message.Contains("Violation of PRIMARY KEY"))
                 {
-                    msg = "The job selected has already been configured. If you want to reconfigure, please Unset then Set again!";
+                    msg = "\"" + selectedJob + "\"" + " job has already been configured. If you want to reconfigure, please Unset then Set again!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 }  
                 else

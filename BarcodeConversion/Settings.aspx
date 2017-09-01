@@ -331,7 +331,7 @@
                             <tr style="background-color:aliceblue; height:40px;">
                                 <td style="height: 10px; text-align:left;">
                                     <asp:Button ID="unsetRules" Visible="true" runat="server" Text="Unset"
-                                        OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Details section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with unsetting job configuration?');"
+                                        OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Index Data section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with unsetting job configuration?');"
                                         OnClick="unsetRules_Click" /></td>
                                 <td style="height: 10px; text-align:right;"><asp:Button ID="setRules" style="margin-left:25px;" Visible="true" runat="server" Text="Set " OnClick="setRules_Click" /></td>
                             </tr> 
