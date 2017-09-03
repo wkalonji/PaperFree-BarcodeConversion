@@ -59,7 +59,7 @@
             <asp:Button ID="selectJobBtn" Visible="false" runat="server" Text="Generate Jobs" onclick="selectJob_Click" />
 
             <table class = table>
-                <tr> <th colspan="2">Please Select a Job below </th></tr>
+                <tr> <th colspan="2" style="font-family:Arial;">Select a Job: </th></tr>
                 <tr>
                     <td style="width: 186px"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
                     <td> 
@@ -74,19 +74,36 @@
         
         <asp:panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin:auto">  
             <table style="width:455px;">
-                <tr style="height:50px;"> <th colspan="2">&nbsp;Upload Index Data File: </th></tr>
-                <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
+                <tr style="height:50px;"> <th colspan="2" style="font-family:Arial;">&nbsp;Upload Index Data File: </th></tr>
+                <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
                     <td style="width:300px; padding-left:5px;">
                        <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
-                    <td style="text-align:right; font-size:12px;padding-right:7px;"><asp:Button ID="upload" Text="Upload" Font-Size="9" OnClick="upload_Click" runat="server"/></td>
-                    <td style="text-align:center;"><asp:Button ID="viewContent" Text="View Content" Font-Size="9" OnClick="viewContent_Click" runat="server"/></td>
+                    <td style="text-align:right; font-size:13px;padding-right:7px;"><asp:Button ID="upload" Text="Upload" OnClick="upload_Click" runat="server"/></td>
                 </tr>
             </table>    
+
+            <table id="uploadedFileMenu" Visible="false" style="margin-top:12px;" runat="server">
+                <tr>
+                    <td style="padding-right:15px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
+                    <td style="text-align:right; padding-right:7px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
+                    <td style="text-align:right; padding-right:7px;">
+                        <asp:Button ID="saveIndexesBtn" Text="Save Indexes" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
+                    <td style="text-align:right; padding-right:7px;">
+                        <asp:Button ID="printIndexesBtn" Text="Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
+                </tr>
+                <tr>
+                    <td style="padding-right:15px;"><asp:Label ID ="uploadHidden" Text="" Visible="false" runat="server"></asp:Label></td>
+                </tr>
+            </table>
+
+            <asp:GridView ID="GridView1" CssClass="mGrid" Font-Size="10" OnRowDataBound="rowDataBound" style="margin-top:20px;" runat="server"></asp:GridView>
+
+            <asp:table id="invalidInputTable" runat="server"></asp:table>
                   
             <h2 style="margin-top:40px">Index Creation</h2>
 
             <table id="jobControls" class = table runat="server">
-                <tr> <th colspan="3">Please fill information below </th></tr>
+                <tr> <th colspan="3" style="font-family:Arial;">Index Data Information: </th></tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
                     <td><asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
@@ -123,8 +140,8 @@
      --%>   <asp:Panel ID="generateIndexSection" Visible="false" runat="server">
                 <table class = tableFull style="margin-top:25px; width:460px;">
                     <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
-                        <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" onclick="saveIndex_Click" /></td>
-                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" onclick="saveAndPrint_Click" /></td>
+                        <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" Font-Size="10" onclick="saveIndex_Click" /></td>
+                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" Font-Size="10" onclick="printIndexes_Click" /></td>
                     </tr>                  
                 </table>
             </asp:Panel>

@@ -6,6 +6,10 @@ using System.Data.SqlClient;
 using System.Globalization;
 using BarcodeConversion.App_Code;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.FileIO;
+using System.IO;
+using System.Linq;
+using System.Data;
 
 namespace BarcodeConversion
 {
@@ -31,10 +35,19 @@ namespace BarcodeConversion
             try
             {
                 // Set stage
+                ViewState["manualEntries"] = null;
+                ViewState["fileContent"] = null;
                 indexSavedMsg.Visible = false;
                 generateIndexSection.Visible = false;
                 indexCreationSection.Visible = false;
-                for (int i=1; i<=5; i++)
+                uploadSuccess.Text = "";
+                viewContentBtn.Text = "View";
+                viewContentBtn.Visible = false;
+                saveIndexesBtn.Visible = false;
+                printIndexesBtn.Visible = false;
+                GridView1.Visible = false;
+
+                for (int i = 1; i <= 5; i++)
                 {
                     Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as Label;
                     l.Visible = false;
@@ -79,10 +92,10 @@ namespace BarcodeConversion
                                     {
                                         while (i <= 13)
                                         {
-                                            if (reader.GetValue(i) != DBNull.Value)
+                                            if (reader.GetValue(i) != DBNull.Value) // Label i
                                             {
-                                                var tuple = Tuple.Create("","","");
-                                                if (reader.GetValue(i + 1) != DBNull.Value)
+                                                var tuple = Tuple.Create("", "", "");
+                                                if (reader.GetValue(i + 1) != DBNull.Value) // Regex i
                                                     tuple = Tuple.Create((string)reader.GetValue(i), (string)reader.GetValue(i + 1), (string)reader.GetValue(i + 2));
                                                 else
                                                     tuple = Tuple.Create((string)reader.GetValue(i), "", "");
@@ -99,13 +112,13 @@ namespace BarcodeConversion
                                             }
                                             i += 3;
                                         }
-                                        ViewState["regexList"] = regexList;
+                                        ViewState["regexList"] = regexList; // Contains (label,regex,alert) for each label set at Index Config Section
                                     }
                                     generateIndexSection.Visible = true;
                                 }
                                 else
                                 {
-                                    string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured by your system admin." 
+                                    string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured by your system admin."
                                                 + " Only jobs in red can be processed.";
                                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                     selectJob.SelectedValue = "Select";
@@ -125,110 +138,479 @@ namespace BarcodeConversion
 
 
 
-        // 'UPLOAD' CLICKED: UPLOAD CVS INDEX DATA FILE.
+        // 'UPLOAD' CLICKED: UPLOAD CSV INDEX DATA FILE.
         protected void upload_Click(object sender, EventArgs e)
         {
             if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
             {
                 // Check file extension first
-                String extension = System.IO.Path.GetExtension(File1.PostedFile.FileName);
+                String extension = Path.GetExtension(File1.PostedFile.FileName);
                 if (extension.ToLower() != ".csv")
                 {
-                    string msg = "Only .csv files are allowed";
-                    //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    //return;
+                    string msg = "Only csv files are allowed!";
+                    uploadSuccess.Text = msg;
+                    uploadSuccess.Attributes["style"] = "color:red;";
+                    uploadSuccess.Visible = true;
+                    return;
                 }
 
                 // Upload file
-                string fileName = System.IO.Path.GetFileName(File1.PostedFile.FileName);
+                string fileName = Path.GetFileName(File1.PostedFile.FileName);
                 string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
                 try
                 {
+                    // Save file
+                    if (File.Exists(SaveLocation)) File.Delete(SaveLocation);
                     File1.PostedFile.SaveAs(SaveLocation);
-                    Response.Write("The file has been uploaded.");
+                    bool isFileValid = true;
+                    var fileContent = new List<List<string>>();
+
+                    // Process file for error
+                    using (TextFieldParser parser = new TextFieldParser(SaveLocation))
+                    {
+                        parser.TextFieldType = FieldType.Delimited;
+                        parser.SetDelimiters(",");
+                        while (!parser.EndOfData)
+                        {
+                            //Process row
+                            var lineNumber = parser.LineNumber;
+                            string[] fields = parser.ReadFields();
+                            List<string> line = new List<string>(fields);
+                            fileContent.Add(line);
+                            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+                            if (line.Count != regexList.Count)
+                            {
+                                var errorMsg = new TableCell();
+                                var errorMsgRow = new TableRow();
+                                errorMsg.Text = "This job requires that every row in your csv file contains " + regexList.Count + " value(s) only. No blanks allowed.";
+                                errorMsg.Attributes["style"] = "color:red;";
+                                errorMsgRow.Cells.Add(errorMsg);
+                                invalidInputTable.Rows.Add(errorMsgRow);
+
+                                var error = new TableCell();
+                                var errorRow = new TableRow();
+                                error.Text = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + regexList.Count+".";
+                                error.Attributes["style"] = "color:red;";
+                                errorRow.Cells.Add(error);
+                                invalidInputTable.Rows.Add(errorRow);
+                                isFileValid = false;
+
+                                // Clear list of file contents if errors found
+                                fileContent.Clear();
+                                return;
+                            }
+
+                            //Process field
+                            for (int i = 1; i <= regexList.Count; i++)
+                            {
+                                if (regexList[i - 1].Item2 != string.Empty) // If regex exists for this label
+                                {
+                                    string label = regexList[i - 1].Item1;
+                                    string pattern = @regexList[i - 1].Item2;
+                                    Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+                                    
+                                    if (!r.IsMatch(fields[i - 1]))
+                                    {
+                                        string msg = label + ": " + regexList[i - 1].Item3;
+                                        var error = new TableCell();
+                                        error.Text = "Cell value \""+ (fields[i - 1]) + "\" for index data attribute \"" + label+ "\" at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:   " + regexList[i - 1].Item3;
+                                        error.Attributes["style"] = "color:red;";
+                                        var errorRow = new TableRow();
+                                        errorRow.Cells.Add(error);
+                                        invalidInputTable.Rows.Add(errorRow);
+                                        isFileValid = false;
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+
+                    // Process file for Barcode indexing if no error found
+                    if (isFileValid)
+                    {
+                        string shortFileName = fileName.Substring(0, 9) +" ... "+ fileName.Substring((fileName.Length - 6), 6);
+                        uploadSuccess.Text = "\"" + shortFileName + "\"" + " file uploaded successfully!";
+                        uploadHidden.Text = fileName;
+                        uploadSuccess.Attributes["style"] = "color:green;";
+                        uploadedFileMenu.Visible = true;
+                        viewContentBtn.Visible = true;
+                        saveIndexesBtn.Visible = true;
+                        printIndexesBtn.Visible = true;
+                    }
+                    else
+                    {
+                        // Delete file if errors found
+                        File.Delete(SaveLocation);
+                        fileContent.Clear();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("Error: " + ex.Message);
-                    //Note: Exception.Message returns detailed message that describes the current exception. 
-                    //For security reasons, we do not recommend you return Exception.Message to end users in 
-                    //production environments. It would be better just to put a generic error message. 
+                    uploadSuccess.Text = "Error 4a:  Couldn't upload file. Make sure it's a csv file. " + ex.Message;
+                    uploadSuccess.Attributes["style"] = "color:red;";
+                    uploadSuccess.Visible = true;
+                    return;
                 }
-
-                // Check regex for each cell
             }
             else
             {
-                Response.Write("Please select a file to upload.");
+                uploadSuccess.Text = "Please select a csv file to upload.";
+                uploadSuccess.Visible = true;
             }
         }
 
+
+
+        // UPPER 'SAVE INDEXES' CLICKED: SAVE UPLOADED FILE CONTENTS
+        protected void saveIndexes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ViewState["manualEntries"] = null; // Clearing any manual entries
+
+                // Get file name & Set save location
+                var fileName = uploadHidden.Text;
+                if (fileName == string.Empty)
+                {
+                    uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
+                    uploadSuccess.Attributes["style"] = "color:red;";
+                    uploadSuccess.Visible = true;
+                    return;
+                }
+                string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
+                var fileContent = new List<List<string>>();
+                int countSavedRecords = 0;
+                int countFileRecords = File.ReadLines(SaveLocation).Count();
+
+                // Process file to generate & save indexes
+                using (TextFieldParser parser = new TextFieldParser(SaveLocation))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    while (!parser.EndOfData)
+                    {
+                        // Get row entries
+                        var lineNumber = parser.LineNumber;
+                        string[] fields = parser.ReadFields();
+                        List<string> lineEntries = new List<string>(fields);
+                        if (lineEntries.Count < 5)
+                        {
+                            int diff = 5 - lineEntries.Count;
+                            for (int i = 1; i <= diff; i++) lineEntries.Add(string.Empty);
+                        }
+                        // Get barcode
+                        string barcodeIndex = generateBarcode();
+                        if (barcodeIndex.Contains("Error"))
+                        {
+                            uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only "+countSavedRecords+" records saved! Contact system admin.";
+                            uploadSuccess.Attributes["style"] = "color:red;";
+                            uploadSuccess.Visible = true;
+                            return;
+                        }
+                        // Save barcode and entries
+                        string result = saveIndexAndEntries(barcodeIndex, lineEntries);
+                        if (result.Contains("Error"))
+                        {
+                            uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only " + countSavedRecords + " records saved! Contact system admin.";
+                            uploadSuccess.Attributes["style"] = "color:red;";
+                            uploadSuccess.Visible = true;
+                            return;
+                        }
+                        // Stick barcode to the end of entries
+                        lineEntries.Add(barcodeIndex);
+                        fileContent.Add(lineEntries);
+                        countSavedRecords++;
+                    }
+                }
+                // Make sure all file records have been saved
+                if (countFileRecords == countSavedRecords)
+                {
+                    uploadSuccess.Text = countSavedRecords + " records processed successfully!";
+                    uploadSuccess.Attributes["style"] = "color:green;";
+                    uploadSuccess.Visible = true;
+                    viewContentBtn.Visible = false;
+                    saveIndexesBtn.Visible = false;
+                    printIndexesBtn.Visible = false;
+                    GridView1.Visible = false;
+
+                    ViewState["fileContent"] = fileContent;
+                }
+            }
+            catch(Exception ex)
+            {
+                uploadSuccess.Text = "Error 4c:  Couldn't process file. Contact system admin." + ex.Message;
+                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Visible = true;
+                return;
+            }
+        }
+
+
+
+        // 'PRINT INDEXES' CLICKED: SAVE & PRINT UPLOADED FILE CONTENTS
+        protected void printIndexes_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Set stage
+                Button b = (Button)sender;
+
+                // First, save index(es)
+                var fileContent = new List<List<string>>();
+                var manualEntries = new List<string>();
+                if (b.ID == "printIndexesBtn")
+                {
+                    saveIndexes_Click(new object(), new EventArgs());
+                    fileContent = (List<List<string>>)ViewState["fileContent"];
+                    if (fileContent == null) return;
+                }
+                else if (b.ID == "saveAndPrint")
+                {
+                    saveIndex_Click(new object(), new EventArgs());
+                    manualEntries = (List<string>)ViewState["manualEntries"];
+                    if (manualEntries == null) return;
+                }
+
+                // Clear page
+                formPanel.Visible = false;
+                indexSavedMsg.Visible = false;
+
+                // Start writing index sheet pages
+                Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
+
+                // Write index sheet pages
+                if (b.ID == "printIndexesBtn")
+                {
+                    foreach (List<string> entries in fileContent)
+                    {
+                        string result = writeIndexPage(entries);
+                        if (result.Contains("Error"))
+                        {
+                            string msg = result;
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return;
+                        }
+                    }
+                }
+                else if (b.ID == "saveAndPrint")
+                {
+                    string result = writeIndexPage(manualEntries);
+                    if (result.Contains("Error"))
+                    {
+                        string msg = result;
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        return;
+                    }
+                }
+               
+                // Close div tag
+                Response.Write("</div>");
+
+                // Finally, Print Index sheet.
+                ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+            }
+            catch (Exception ex)
+            {
+                uploadSuccess.Text = "Error 4cc:  Couldn't process file. Contact system admin." + ex.Message;
+                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Visible = true;
+                return;
+            }
+        }
 
 
         // 'VIEW CONTENT' CLICKED: VIEW CVS INDEX DATA FILE.
         protected void viewContent_Click(object sender, EventArgs e)
         {
+            if (viewContentBtn.Text == "Hide")
+            {
+                GridView1.Visible = false;
+                viewContentBtn.Text = "View";
+            }
+            else
+            {
+                GridView1.Visible = true;
+                viewContentBtn.Text = "Hide";
+            }
 
+            // Get file path
+            var fileName = uploadHidden.Text;
+            if (fileName == string.Empty)
+            {
+                uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
+                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Visible = true;
+                return;
+            }
+            string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
+
+            // Get row count
+            int colCount = 0;
+            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+            if (regexList != null) colCount = regexList.Count;
+
+            //Create a DataTable.
+            DataTable dt = new DataTable();
+            for (int i=0; i<colCount; i++)
+            {
+                dt.Columns.Add(regexList[i].Item1, typeof(string));
+            }
+
+            //Read the contents of CSV file.
+            string csvData = File.ReadAllText(SaveLocation);
+
+            //Execute a loop over the rows.
+            foreach (string row in csvData.Split('\n'))
+            {
+                if (!string.IsNullOrEmpty(row))
+                {
+                    dt.Rows.Add();
+                    int i = 0;
+
+                    //Execute a loop over the columns.
+                    foreach (string cell in row.Split(','))
+                    {
+                        dt.Rows[dt.Rows.Count - 1][i] = cell;
+                        i++;
+                    }
+                }
+            }
+
+            //Bind the DataTable.
+            GridView1.DataSource = dt;
+            GridView1.DataBind();
         }
 
 
-        // GENERATE INDEX AND BARCODE FROM FORM DATA.
-        private void generateBarcode()
+        // PREVENT LINE BREAKS
+        protected void rowDataBound(object sender, GridViewRowEventArgs e)
         {
             try
             {
-                if (!Page.IsValid) return;
-
-                // First, get list of all entries.
-                indexSetPrintedMsg.Visible = false;
-                List<EntryContent> allEntriesList = new List<EntryContent>();
-                allEntriesList = getEntries();
-                ViewState["allEntriesList"] = allEntriesList;
-
-                // If Index form not filled
-                if (allEntriesList.Count == 0)
+                // Set column borders & Prevent line breaks
+                if (e.Row.RowType == DataControlRowType.Header)
                 {
-                    string msg = "All fields are required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    return;
+                    string colBorder = "border: 1px solid #717171; white-space: nowrap; font-family: Arial";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
-                else
-                {   
-                    // Check Regex rules
 
-
-                    // Making the Index string
-                    string year = DateTime.Now.ToString("yy");
-                    JulianCalendar jc = new JulianCalendar();
-                    string julianDay = jc.GetDayOfYear(DateTime.Now).ToString();
-                    string time = DateTime.Now.ToString("HHmmssfff");
-                    
-                    ViewState["allEntriesConcat"] = selectJob.SelectedValue.ToUpper() + year + julianDay + time;
+                // Set column borders & Prevent line breaks
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    string colBorder = "border: 1px solid #cccccc; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
-                string indexString = (string)ViewState["allEntriesConcat"];
+            }
+            catch (Exception ex)
+            {
+                string msg = "Issue occured while attempting to prevent line breaks in table. Contact system admin." + Environment.NewLine + ex.Message;
+                System.Windows.Forms.MessageBox.Show(msg, "34");
+            }
+        }
+        // GENERATE INDEX. HELPER
+        private string generateBarcode()
+        {
+            try
+            {
+                if (!Page.IsValid) return "Error: page invalid";
+
+                // Making the Index string
+                string year = DateTime.Now.ToString("yy");
+                JulianCalendar jc = new JulianCalendar();
+                string julianDay = jc.GetDayOfYear(DateTime.Now).ToString();
+                string time = DateTime.Now.ToString("HHmmssfff");
                 indexSavedMsg.Visible = false;
                 generateIndexSection.Visible = true;
+                return selectJob.SelectedValue.ToUpper() + year + julianDay + time;
 
                 // Convert index to barcode
                 // imgBarcode.ImageUrl = string.Format("ShowCode39Barcode.ashx?code={0}&ShowText={1}&Thickness={2}",indexString,showTextValue, 1);
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to generate Index. Contact system admin." + Environment.NewLine + ex.Message;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 05a: " + msg + "');", true);
+                string msg = "Error 4b: Issue occured while attempting to generate Index. Contact system admin. ";
+                return msg + ex.Message;
             }
         }
 
 
 
-        // 'SAVE INDEX' CLICKED: SAVING INDEX INTO DB.
+        // BOTTOM 'SAVE INDEX' CLICKED: SAVING INDEX INTO DB.
         protected void saveIndex_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid) return;
+            ViewState["fileContent"] = null; // Clearing any file entries
 
+            // Get operator's entries & Check regex rules
+            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+            var entries = new List<string>();
+            for (int i = 1; i <= 5; i++)
+            {
+                TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                if (c.Visible == true)
+                {   
+                    // Make sure field not blank
+                    if (c.Text == string.Empty)
+                    {
+                        string msg = "All fields required!";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        c.Focus();
+                        return;
+                    }
+
+                    // Check regex rules
+                    if (regexList[i - 1].Item2 != string.Empty)
+                    {
+                        string label = regexList[i - 1].Item1;
+                        string pattern = @regexList[i - 1].Item2;
+                        Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+                        if (!r.IsMatch(c.Text))
+                        {
+                            string msg = label + ": " + regexList[i - 1].Item3;
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            c.Focus();
+                            return;
+                        }
+                    }
+                    entries.Add(c.Text);
+                }
+                else
+                    entries.Add(string.Empty);
+            }
+
+            // Get barcode
+            string barcodeIndex = generateBarcode();
+            if (barcodeIndex.Contains("Error"))
+            {
+                string msg = barcodeIndex;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                return;
+            }
+
+            // Save barcode and entries
+            string result = saveIndexAndEntries(barcodeIndex, entries);
+            if (result.Contains("Error"))
+            {
+                uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Contact system admin.";
+                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Visible = true;
+                return;
+            }
+            // Stick barcode to the end of entries
+            entries.Add(barcodeIndex);
+            ViewState["manualEntries"] = entries;
+        }
+
+
+
+        // SAVE INDEX & ENTRIES. HELPER
+        private string saveIndexAndEntries(string index, List<string>entries)
+        {
             try
             {
-                generateBarcode();
                 // First, get current user id via name.
                 string user = Environment.UserName;
                 int opID = Helper.getUserId(user);
@@ -236,7 +618,7 @@ namespace BarcodeConversion
                 {
                     string msg = "Error 05: Couldn't identify active user. Contact system admin.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    return;
+                    return msg;
                 }
 
                 // Then, get selected job id
@@ -246,10 +628,11 @@ namespace BarcodeConversion
                     string msg = "Error 06: Couldn't identify the selected job. Contact system admin.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     selectJob.SelectedValue = "Select";
-                    return;
+                    return msg;
                 }
 
                 // Saving
+                string barcodeIndex = index;
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
@@ -258,45 +641,29 @@ namespace BarcodeConversion
                                             "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex," +
                                             " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
-                        cmd.Parameters.AddWithValue("@barcodeIndex", ViewState["allEntriesConcat"]);
-                        var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
-                        for (int i=1; i<=5; i++)
+                        cmd.Parameters.AddWithValue("@barcodeIndex", barcodeIndex);
+                        for (int i = 1; i <= 5; i++)
                         {   
-                            TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
-                            if (c.Visible == true)
-                            {
-                                // Check regex rules
-                                if (regexList[i - 1].Item2 != string.Empty)
-                                {
-                                    string label = regexList[i - 1].Item1;
-                                    string pattern = @regexList[i - 1].Item2;
-                                    Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
-                                    if (!r.IsMatch(c.Text))
-                                    {
-                                        string msg = label + ": " + regexList[i - 1].Item3;
-                                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                        c.Focus();
-                                        return;
-                                    }
-                                }
-                                cmd.Parameters.AddWithValue("@val" + i, c.Text);
-                            }
-                            else { cmd.Parameters.AddWithValue("@val" + i, DBNull.Value); }
+                            if (entries[i - 1] != string.Empty) cmd.Parameters.AddWithValue("@val" + i, entries[i - 1]);
+                            else cmd.Parameters.AddWithValue("@val" + i, DBNull.Value);
                         }
                         cmd.Parameters.AddWithValue("@opId", opID);
                         cmd.Parameters.AddWithValue("@time", DateTime.Now);
                         cmd.Parameters.AddWithValue("@printed", 0);
+
                         con.Open();
                         if (cmd.ExecuteNonQuery() == 1)
                         {
                             indexSavedMsg.Visible = true;
                             ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOperation", "FadeOut();", true);
                             clearFields();
+                            return "pass";
                         }
                         else
                         {
                             string msg = "Error-07: Issue occured while attempting to save. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return msg;
                         }
                     }
                 }
@@ -307,35 +674,30 @@ namespace BarcodeConversion
                 {
                     string msg = "Error 08: The Index you are trying to save already exists! Click 'Generate Index' button to generate a new index.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    return msg;
                 }
                 else
                 {
-                    string msg = "Issue occured while attempting to save index. Contact system admin." + Environment.NewLine + ex.Message;
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 09: " + msg + "');", true);
+                    string msg = "Error 09: Issue occured while attempting to save index. Contact system admin." + Environment.NewLine + ex.Message;
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('"+ msg + "');", true);
+                    return msg;
                 }
             }
         }
+        
 
-
-        // 'SAVE & PRINT' CLICKED: SAVE THEN PRINT INDEX. 
-        protected void saveAndPrint_Click(object sender, EventArgs e)
-        {   
+        // WRITE INDEX SHEET PAGE CONTENT. HELPER
+        private string writeIndexPage(List<string> indexRecord)
+        {
             try
             {
-                // First, save index
-                saveIndex_Click(new object(), new EventArgs());
-
-                // Clear page
-                formPanel.Visible = false;
-                indexSavedMsg.Visible = false;
+                //Get index string
+                string indexString = indexRecord.Last();
                 Image imgBarcode = new Image();
-
-                // Write Index sheet page content
-                string indexString = (string)ViewState["allEntriesConcat"];
                 imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=50", indexString.PadLeft(8, '0'));
 
+                // Write Index sheet page content
                 Response.Write(
-                    "<div id = 'pageToPrint' style='margin-top:-50px;'>" +
                         "<div>" +
                             "<div style='font-size:25px; font-weight:500;'>" +
                                 "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='500px' style='margin-top:0px; '> " +
@@ -351,15 +713,15 @@ namespace BarcodeConversion
                                 "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                             "</tr>"
                  );
-                List<EntryContent> allEntriesList = new List<EntryContent>();
-                allEntriesList = (List<EntryContent>)ViewState["allEntriesList"];
+                var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
 
-                foreach (var entry in allEntriesList)
+                for (int i = 0; i < regexList.Count; i++)
                 {
+                    string label = regexList[i].Item1;
                     Response.Write(
                         "<tr>" +
-                            "<td style='font-size:25px; font-weight:500;'>" + entry.labelText + "</td>" +
-                            "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                            "<td style='font-size:25px; font-weight:500;'>" + label + "</td>" +
+                            "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
                         "</tr>"
                     );
                 }
@@ -368,31 +730,25 @@ namespace BarcodeConversion
                                 "<td style='font-size:25px; font-weight:500;'>Date Created: </td>" +
                                 "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + DateTime.Now + "</td>" +
                             "</tr>" +
-                        "</table >" +
-                    "</div>"
+                        "</table >"
                 );
-
-                // Finally, Print Index sheet.
-                ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+                return "pass";
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                string msg = "Issue occured while attempting to setup the printing job. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 10");
-            }     
+                return "Error: " + ex.Message;
+            }
         }
 
 
-
         // SET INDEX AS PRINTED IN DB. 
-        protected void setIndexAsPrinted()
+        protected string setIndexAsPrinted(string index)
         {
             try
             {
-                if (!Page.IsValid) return;
+                if (!Page.IsValid) return "Error: Page invalid";
                 var counter = 0;
-                string indexString = (string)ViewState["allEntriesConcat"];
-
+                string indexString = index;
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
@@ -411,25 +767,29 @@ namespace BarcodeConversion
                         {
                             string msg = "Error 11: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return msg;
                         }
 
                         // Confirmation msg & back to unprinted indexes gridview
                         if (counter == 1)
                         {
                             ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOperation", "FadeOut2();", true);
+                            return "pass";
                         }
                         else
                         {
                             string msg = "Error 12: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return msg;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                string msg = "Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin." + Environment.NewLine + ex.Message;
+                string msg = "Error: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin." + Environment.NewLine + ex.Message;
                 System.Windows.Forms.MessageBox.Show(msg, "Error 13");
+                return msg;
             }
         }
 
@@ -441,7 +801,36 @@ namespace BarcodeConversion
             try
             {
                 formPanel.Visible = true;
-                setIndexAsPrinted();
+
+                // For manual entries
+                if (ViewState["manualEntries"] != null)
+                {
+                    var manualEntries = (List<string>)ViewState["manualEntries"];
+                    string result = setIndexAsPrinted(manualEntries.Last());
+                    if (result.Contains("Error"))
+                    {
+                        string msg = result;
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        return;
+                    }
+                }
+
+                // For uploaded file
+                if (ViewState["fileContent"] != null)
+                {
+                    var fileContent = (List<List<string>>)ViewState["fileContent"];
+                    foreach (List<string> entries in fileContent)
+                    {
+                        string result = setIndexAsPrinted(entries.Last());
+                        if (result.Contains("Error"))
+                        {
+                            string msg = result;
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return;
+                        }
+                    }
+                }
+
             }
             catch (Exception ex)
             {
@@ -456,6 +845,10 @@ namespace BarcodeConversion
         protected void backToForm_Click(object sender, EventArgs e)
         {
             formPanel.Visible = true;
+            ViewState["manualEntries"] = null;
+            ViewState["fileContent"] = null;
+            TextBox c = this.Master.FindControl("MainContent").FindControl("label1Box") as TextBox;
+            if (c.Visible) c.Focus();
         }
 
 
@@ -654,52 +1047,6 @@ namespace BarcodeConversion
                 System.Windows.Forms.MessageBox.Show(msg, "Error 19");
             }
         }
-
-
-
-        // ALL ENTRIES.
-        private List<EntryContent> getEntries()
-        {
-            try
-            {
-                List<EntryControl> controlList = new List<EntryControl>();
-                List<EntryContent> contentList = new List<EntryContent>();
-                EntryControl entry1 = new EntryControl(LABEL1, label1Box);
-                controlList.Add(entry1);
-                EntryControl entry2 = new EntryControl(LABEL2, label2Box);
-                controlList.Add(entry2);
-                EntryControl entry3 = new EntryControl(LABEL3, label3Box);
-                controlList.Add(entry3);
-                EntryControl entry4 = new EntryControl(LABEL4, label4Box);
-                controlList.Add(entry4);
-                EntryControl entry5 = new EntryControl(LABEL5, label5Box);
-                controlList.Add(entry5);
-
-                foreach (var control in controlList)
-                {
-                    if (control.textBox.Visible == true && control.textBox.Text == string.Empty)
-                    {
-                        // Return empty list
-                        control.textBox.Focus();
-                        contentList = new List<EntryContent>();
-                        return contentList;
-                    }
-                    else if (control.textBox.Visible == true && control.textBox.Text != string.Empty)
-                    {
-                        EntryContent sampleEntry = new EntryContent(control.label.Text, control.textBox.Text);
-                        contentList.Add(sampleEntry);
-                    }
-                }
-                return contentList;
-            }
-            catch (Exception ex)
-            {
-                string msg = "Issue occured while retrieving entered entries. Contact system admin." +
-                                    System.Environment.NewLine + ex.Message;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 03: " + msg + "');", true);
-                return new List<EntryContent>();
-            }
-        }    
     }
 }
 

@@ -127,7 +127,7 @@ namespace BarcodeConversion
             if (check == 0)
             {
                 // Warning if no Index was selected
-                string warning = "No Index was selected. Please select at least Index to delete.";
+                string warning = "No index was selected. Please select at least one index to delete.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + warning + "');", true);
             }
             else

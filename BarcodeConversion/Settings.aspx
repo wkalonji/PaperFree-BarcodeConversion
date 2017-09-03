@@ -97,11 +97,11 @@
                                 </tr>
                                 <tr>
                                      <td style="height: 15px; text-align:right;">
-                                        <asp:Button ID="editJobBtn" Visible="false" runat="server" Text="Edit " OnClick="editJob_Click" /></td>
+                                        <asp:Button ID="editJobBtn" Visible="false" Font-Size="10" runat="server" Text="Edit " OnClick="editJob_Click" /></td>
                                 </tr>
                                 <tr>
                                      <td style="height: 10px;text-align:right;">
-                                        <asp:Button ID="createJobBtn"  Visible="true" runat="server" Text="Create" OnClick="createJob_Click"/></td>
+                                        <asp:Button ID="createJobBtn"  Visible="true" Font-Size="10" runat="server" Text="Create" OnClick="createJob_Click"/></td>
                                 </tr>
                                 <tr>
                                      <td style="height: 10px;text-align:left;">
@@ -141,7 +141,7 @@
                                 </tr>
                             </table>
                             <div style="text-align:right; margin-top:15px;" class="auto-style4" id="abc">
-                                <asp:Button ID="createBtn2" Visible="true" runat="server" Text="Submit" OnClick="setPermissions_Click" />
+                                <asp:Button ID="createBtn2" Visible="true" Font-Size="10" runat="server" Text="Submit" OnClick="setPermissions_Click" />
                             </div>
                         </asp:Panel>
                     </div>
@@ -186,9 +186,9 @@
                         </table>
                         <table style="margin-bottom:10px; width: 316px;">
                             <tr style="background-color:aliceblue; height:40px;">
-                                <td style="height: 10px; text-align:left;"><asp:Button ID="assignedBtn"  Visible="true" runat="server" Text="Accessible" OnClick="assignedJob_Click" /></td>
-                                <td style="height: 10px; text-align:center;padding-right:8px;"><asp:Button ID="inaccessibleBtn"  Visible="true" runat="server" Text="Inaccessible" OnClick="unassignedJob_Click" /></td>
-                                <td style="height: 10px; text-align:right;"><asp:Button ID="unassignedBtn" Visible="true" runat="server" Text="Active " OnClick="unassignedJob_Click"/></td>
+                                <td style="height:10px; text-align:left; padding-left:5px;"><asp:Button ID="assignedBtn"  Visible="true" Font-Size="10" runat="server" Text="Accessible" OnClick="assignedJob_Click" /></td>
+                                <td style="height:10px; text-align:center;padding-right:8px;"><asp:Button ID="inaccessibleBtn" Font-Size="10" Visible="true" runat="server" Text="Inaccessible" OnClick="unassignedJob_Click" /></td>
+                                <td style="height:10px; text-align:right;padding-right:5px;"><asp:Button ID="unassignedBtn" Visible="true" runat="server" Font-Size="10" Text="Active " OnClick="unassignedJob_Click"/></td>
                             </tr> 
                         </table>
                         <div> 
@@ -216,8 +216,8 @@
                         <div style="display:block; width: 535px;" >
                             <table class = table style="margin-top:25px; width: 320px;">
                                 <tr>
-                                    <td style="text-align:left"><asp:Button ID="deleteAssignedBtn" Visible="true" runat="server" Text="Deny" OnClick="deleteAssigned_Click"/></td>
-                                    <td style="text-align:right;width: 100%;"><asp:Button ID="jobAccessBtn" Visible="true" runat="server" Text="Grant" OnClick="jobAccess_Click" Width="59px"/></td>                 
+                                    <td style="text-align:left"><asp:Button ID="deleteAssignedBtn" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/></td>
+                                    <td style="text-align:right;width: 100%;"><asp:Button ID="jobAccessBtn" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" Width="59px"/></td>                 
                                 </tr>                  
                             </table>
                         </div>   
@@ -229,7 +229,7 @@
                         <table style="margin-top:25px;background-color:aliceblue;width:99%;">
                             <tr>
                                 <td><asp:Label runat="server">
-                                    <h4 >&nbsp;Create Form Controls for Jobs</h4></asp:Label></td>
+                                    <h4 >&nbsp;Create Index Data Controls for Jobs</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
                                     OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  For each label control, regex is optional. But if specified, an alert message must also be specified to let operator know if entry is valid when creating index.\nRegex example: \\w{4,6} with Alert: \'Please enter between 4 and 6 letters word only, no special characters.\'\n*  You can make use of \'regexr.com\' to test your regular expressions.')" runat="server"></asp:Button></td>
                             </tr>
@@ -329,11 +329,11 @@
 
                         <table style="margin-top:20px; margin-bottom:20px; width: 316px;">
                             <tr style="background-color:aliceblue; height:40px;">
-                                <td style="height: 10px; text-align:left;">
-                                    <asp:Button ID="unsetRules" Visible="true" runat="server" Text="Unset"
+                                <td style="height: 10px; text-align:left;padding-left:5px;">
+                                    <asp:Button ID="unsetRules" Visible="true" runat="server" Text="Unset" Font-Size="10"
                                         OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Index Data section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with unsetting job configuration?');"
                                         OnClick="unsetRules_Click" /></td>
-                                <td style="height: 10px; text-align:right;"><asp:Button ID="setRules" style="margin-left:25px;" Visible="true" runat="server" Text="Set " OnClick="setRules_Click" /></td>
+                                <td style="height: 10px; text-align:right;padding-right:5px;"><asp:Button ID="setRules" style="margin-left:25px;" Visible="true" Font-Size="10" runat="server" Text="Set " OnClick="setRules_Click" /></td>
                             </tr> 
                         </table>     
                     </asp:Panel>

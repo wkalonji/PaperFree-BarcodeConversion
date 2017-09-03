@@ -93,7 +93,7 @@
                 </table>
             </asp:Panel>
             <div style="display:inline-block; width:99.9%">
-                <table id="gridHeader" style="width:100%;margin-top:20px;margin-bottom:-10px;" runat="server">
+                <table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;" runat="server">
                     <tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
                     <tr>
                         <td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label></td>

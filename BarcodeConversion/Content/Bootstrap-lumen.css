@@ -8699,12 +8699,31 @@ a.list-group-item-danger.active {
     color: #555555;
 }
 
+.mydatagridSmall {
+    border-radius: 50px !important;
+    border-bottom: solid 2px #e6e6e6;
+}
 
+.headerSmall {
+    background-color: #646464;
+    font-family: Arial;
+    color: White;
+    border: none 0px transparent;
+    height: 20px;
+    text-align: left;
+    font-size: 12px;
+    padding-left:7px;
+    padding-right:7px;
+}
 
-
-
-
-
+.rowSmall {
+    background-color: #fff;
+    font-family: Arial;
+    font-size: 10px;
+    color: #4d4d4d;
+    min-height: 20px;
+    text-align: left;
+}
 
 
 .mydatagrid {
@@ -8720,17 +8739,17 @@ a.list-group-item-danger.active {
     font-family: Arial;
     color: White;
     border: none 0px transparent;
-    height: 25px;
+    height: 20px;
     text-align:left;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .rows {
     background-color: #fff;
     font-family: Arial;
-    font-size: 14px;
+    font-size: 12px;
     color: #4d4d4d;
-    min-height: 25px;
+    min-height: 18px;
     text-align:left;
 
 }
@@ -8738,13 +8757,17 @@ a.list-group-item-danger.active {
 .rows:nth-child(even) {
     background-color: #e6e6e6
 }
-
+   
 .rows:hover {
     background-color: #b3b3b3;
     font-family: Arial;
     color: #fff;
     text-align: left;
 }
+
+    .rows:hover span {
+        background-color: #b3b3b3!important;
+    }
 
 .selectedrow {
     background-color: #ff8000;
@@ -8756,21 +8779,25 @@ a.list-group-item-danger.active {
 
 .mydatagrid a /** FOR THE PAGING ICONS  **/ {
     background-color: Transparent;
-    padding: 5px 5px 5px 5px;
+    padding: 1px 5px 1px 5px;
     color: #fff;
     text-decoration: none;
     font-weight: bold;
 }
 
-    .mydatagrid a:hover /** FOR THE PAGING ICONS  HOVER STYLES**/ {
-        background-color: #000;
-        color: #fff;
-    }
+.mydatagrid a:hover /** FOR THE PAGING ICONS  HOVER STYLES**/ {
+    background-color: #000;
+    color: #fff;
+}
 
 .mydatagrid span /** FOR THE PAGING ICONS CURRENT PAGE INDICATOR **/ {
-    background-color: #c9c9c9;
+    background-color: #e6e6e6;
     color: #000;
-    padding: 5px 5px 5px 5px;
+    padding: 1px 5px 1px 5px;
+}
+
+.rows:nth-child(odd) span {
+    background-color: #fff
 }
 
 .pager {
@@ -8814,4 +8841,58 @@ a.list-group-item-danger.active {
 
 .adminSection{
     margin-top:50px;
+}
+
+
+
+.mGrid {
+    background-color: #fff;
+    margin: 5px 0 10px 0;
+    border: solid 1px #525252;
+    border-collapse: collapse;
+    width: 455px;
+}
+
+.mGrid td {
+    padding: 2px 5px;
+    border-color:black;
+    color: #717171;
+}
+
+.mGrid th {
+    padding: 3px 4px;
+    color: #fff;
+    background: #717171 url(grd_head.png) repeat-x top;
+    border-left: solid 1px #525252;
+    }
+
+.mGrid .alt {
+    background: #fcfcfc url(grd_alt.png) repeat-x top;
+}
+
+.mGrid .pgr {
+    background: #424242 url(grd_pgr.png) repeat-x top;
+}
+
+.mGrid .pgr table {
+    margin: 5px 0;
+}
+
+.mGrid .pgr td {
+    border-width: 0;
+    padding: 0 6px;
+    border-left: solid 1px #666;
+    font-weight: bold;
+    color: #fff;
+    line-height: 12px;
+}
+
+.mGrid .pgr a {
+    color: #666;
+    text-decoration: none;
+}
+
+.mGrid .pgr a:hover {
+    color: #000;
+    text-decoration: none;
 }
