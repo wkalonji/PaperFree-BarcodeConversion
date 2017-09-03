@@ -11,6 +11,10 @@ namespace BarcodeConversion
 {
     public partial class About : Page
     {
+        public void Page_Init(object o, EventArgs e)
+        {
+            Page.MaintainScrollPositionOnPostBack = true;
+        }
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -508,6 +512,9 @@ namespace BarcodeConversion
                 {
                     //e.Row.Cells[3].Text = "INDEX";
                     //e.Row.Cells[4].Text = "JOB";
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
 
                 // Set column borders & Prevent line breaks

@@ -59,7 +59,7 @@
             <asp:Button ID="selectJobBtn" Visible="false" runat="server" Text="Generate Jobs" onclick="selectJob_Click" />
 
             <table class = table>
-                <tr> <th colspan="2" style="font-family:Arial;">Select a Job: </th></tr>
+                <tr> <th colspan="2" style="font-family:Arial;">Select Job: </th></tr>
                 <tr>
                     <td style="width: 186px"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
                     <td> 
@@ -110,19 +110,19 @@
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL2" Text="LABEL2"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label2Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="label2Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL3" Text="LABEL3"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label3Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="label3Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL4" Text="LABEL4"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label4Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="label4Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL5" Text="LABEL5"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label5Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="label5Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
                 </tr>
             </table>
 

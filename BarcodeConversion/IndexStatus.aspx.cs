@@ -10,6 +10,11 @@ namespace BarcodeConversion
 {
     public partial class IndexStatus : System.Web.UI.Page
     {
+        public void Page_Init(object o, EventArgs e)
+        {
+            Page.MaintainScrollPositionOnPostBack = true;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -517,6 +522,9 @@ namespace BarcodeConversion
                     //e.Row.Cells[1].Text = "OPERATOR";
                     //e.Row.Cells[2].Text = "JOB_ID";
                     //e.Row.Cells[3].Text = "INDEX";
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
                 // Set column borders & Prevent line breaks
                 if (e.Row.RowType == DataControlRowType.DataRow)

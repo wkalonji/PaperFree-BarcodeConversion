@@ -13,6 +13,11 @@ namespace BarcodeConversion
 {
     public partial class Contact : Page
     {
+        public void Page_Init(object o, EventArgs e)
+        {
+            Page.MaintainScrollPositionOnPostBack = true;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -20,7 +25,6 @@ namespace BarcodeConversion
                 // Make sure only admins can see Settings page
                 if (!Page.IsPostBack) jobAbb.Focus();
 
-                Page.MaintainScrollPositionOnPostBack = true;
                 if (userStatus() == "True")
                 {
                     SettingsPanel.Visible = true;
@@ -251,7 +255,7 @@ namespace BarcodeConversion
                             return;
                         }
                         if (this.jobName.Text == string.Empty)
-                            cmd.CommandText = "UPDATE JOB SET ACTIVE = @active WHERE ABBREVIATION = @abbr";
+                            cmd.CommandText = "UPDATE JOB SET ACTIVE=@active WHERE ABBREVIATION=@abbr";
                         else
                         {
                             cmd.CommandText = "UPDATE JOB SET NAME=@job, ACTIVE=@active WHERE ABBREVIATION=@abbr";
@@ -285,6 +289,7 @@ namespace BarcodeConversion
                             else
                             {
                                 success.Text = "Job updated successfully!";
+                                success.Attributes["style"] = "color:green;";
                                 success.Visible = true;
                                 ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
                                 jobFormClear();
@@ -632,7 +637,7 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME = @name";
+                        cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME=@name";
                         cmd.Parameters.AddWithValue("@name", assignee.Text);
                         con.Open();
                         object result = cmd.ExecuteScalar();
@@ -651,8 +656,9 @@ namespace BarcodeConversion
                         cmd.Parameters.Clear();
                         cmd.CommandText =   "SELECT ABBREVIATION " +
                                             "FROM JOB " +
-                                            "INNER JOIN OPERATOR_ACCESS ON JOB.ID = OPERATOR_ACCESS.JOB_ID " +
-                                            "WHERE ACTIVE = 1 AND OPERATOR_ACCESS.OPERATOR_ID = @ID";
+                                            "INNER JOIN OPERATOR_ACCESS ON JOB.ID=OPERATOR_ACCESS.JOB_ID " +
+                                            "WHERE ACTIVE=1 AND OPERATOR_ACCESS.OPERATOR_ID=@ID " +
+                                            "ORDER BY ABBREVIATION ASC";
                         cmd.Parameters.AddWithValue("@ID", opID);
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
@@ -1250,7 +1256,7 @@ namespace BarcodeConversion
                         {
                             string msg = selectJob.SelectedValue + " Job config successfully unset.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            setDropdownColor();
+                            getActiveJobs();
                             clearRules();
                             return;
                         }
@@ -1355,8 +1361,9 @@ namespace BarcodeConversion
                             // Then, set cmd to retrieve operator's inaccessible jobs
                             cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT ABBREVIATION " +
-                                                "FROM JOB " +
-                                                "WHERE ACTIVE = 1 AND ID NOT IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ID=@opId)";
+                                              "FROM JOB " +
+                                              "WHERE ACTIVE=1 AND ID NOT IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ID=@opId) " +
+                                              "ORDER BY ABBREVIATION ASC";
                             cmd.Parameters.AddWithValue("@opId", opID);
                         }
                         else
@@ -1364,7 +1371,8 @@ namespace BarcodeConversion
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT ABBREVIATION " +
-                                                "FROM JOB WHERE ACTIVE=1";
+                                               "FROM JOB WHERE ACTIVE=1 " +
+                                               "ORDER BY ABBREVIATION ASC";
                                                 // "LEFT JOIN OPERATOR_ACCESS ON JOB.ID = OPERATOR_ACCESS.JOB_ID " +   //In case we want jobs inaccessible by everyone
                                                 // "WHERE JOB.ACTIVE = 1 AND OPERATOR_ACCESS.JOB_ID IS NULL", con);"
                         }
@@ -1423,7 +1431,7 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT ABBREVIATION, ACTIVE FROM JOB";
+                        cmd.CommandText = "SELECT ABBREVIATION, ACTIVE FROM JOB ORDER BY ABBREVIATION ASC";
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -1478,7 +1486,7 @@ namespace BarcodeConversion
                     using (SqlCommand cmd = con.CreateCommand())
                     {   
                         // Get all active jobs
-                        cmd.CommandText = "SELECT ABBREVIATION FROM JOB WHERE ACTIVE = 1";
+                        cmd.CommandText = "SELECT ABBREVIATION FROM JOB WHERE ACTIVE=1 ORDER BY ABBREVIATION ASC";
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {

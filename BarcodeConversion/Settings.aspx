@@ -214,10 +214,12 @@
                             </asp:GridView>     
                         </div>
                         <div style="display:block; width: 535px;" >
-                            <table class = table style="margin-top:25px; width: 320px;">
+                            <table class = table style="margin-top:5px; width: 320px;">
                                 <tr>
-                                    <td style="text-align:left"><asp:Button ID="deleteAssignedBtn" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/></td>
-                                    <td style="text-align:right;width: 100%;"><asp:Button ID="jobAccessBtn" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" Width="59px"/></td>                 
+                                    <td style="text-align:right;width: 100%;">
+                                        <asp:Button ID="deleteAssignedBtn" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
+                                        <asp:Button ID="jobAccessBtn" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" Width="59px"/>
+                                    </td>                 
                                 </tr>                  
                             </table>
                         </div>   
@@ -231,7 +233,7 @@
                                 <td><asp:Label runat="server">
                                     <h4 >&nbsp;Create Index Data Controls for Jobs</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
-                                    OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  For each label control, regex is optional. But if specified, an alert message must also be specified to let operator know if entry is valid when creating index.\nRegex example: \\w{4,6} with Alert: \'Please enter between 4 and 6 letters word only, no special characters.\'\n*  You can make use of \'regexr.com\' to test your regular expressions.')" runat="server"></asp:Button></td>
+                                    OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  For each label, regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\S.*    Alert: Field can not be empty!\n*  Unspecified regex means entry not required when creating index.\n*  You can make use of \'regexr.com\' to test your regular expressions.')" runat="server"></asp:Button></td>
                             </tr>
                         </table>
                         <table class = table style="width:320px;">
@@ -307,7 +309,7 @@
 
                         <table id="labelControlsTable" visible="false" style="width: 98%;"  class=auto-style3 runat="server" >
                             <tr style="height:33px;">
-                                <td colspan="2"><h4>Label Setup : </h4></td>
+                                <th colspan="2" style="font-family:Arial;">Label Setup: </th>
                             </tr>
                             <tr style="height:33px;">
                                 <td style="width: 80px"><asp:Label Text="NAME:" runat="server"></asp:Label></td>
@@ -315,7 +317,7 @@
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px"><asp:Label Text="REGEX:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="221px" Height="60px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional.  Remove delimiters //  &nbsp; &nbsp; &nbsp;Write:    .*\S.*   instead of   /.*\S.*/" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="221px" Height="60px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px;"><asp:Label Text="ALERT:" runat="server"></asp:Label></td>

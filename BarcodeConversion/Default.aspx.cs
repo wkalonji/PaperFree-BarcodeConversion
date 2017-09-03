@@ -16,6 +16,11 @@ namespace BarcodeConversion
 
     public partial class _Default : Page
     {
+        public void Page_Init(object o, EventArgs e)
+        {
+            Page.MaintainScrollPositionOnPostBack = true;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -75,8 +80,10 @@ namespace BarcodeConversion
                     {
                         using (SqlCommand cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3, REGEX3, ALERT3," +
-                                              "LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5 FROM JOB_CONFIG_INDEX WHERE JOB_ID = @jobID";
+                            cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3," + 
+                                                      "REGEX3, ALERT3,LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5 " + 
+                                              "FROM JOB_CONFIG_INDEX " + 
+                                              "WHERE JOB_ID = @jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
                             con.Open();
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -92,22 +99,38 @@ namespace BarcodeConversion
                                     {
                                         while (i <= 13)
                                         {
-                                            if (reader.GetValue(i) != DBNull.Value) // Label i
+                                            if (reader.GetValue(i) != DBNull.Value) // If label i is set
                                             {
                                                 var tuple = Tuple.Create("", "", "");
-                                                if (reader.GetValue(i + 1) != DBNull.Value) // Regex i
-                                                    tuple = Tuple.Create((string)reader.GetValue(i), (string)reader.GetValue(i + 1), (string)reader.GetValue(i + 2));
-                                                else
-                                                    tuple = Tuple.Create((string)reader.GetValue(i), "", "");
+                                                string label = (string)reader.GetValue(i);
+                                                string regex = string.Empty;
+                                                string alert = string.Empty;
+                                                if (reader.GetValue(i + 1) != DBNull.Value) // if regex i is set
+                                                {
+                                                    regex = (string)reader.GetValue(i + 1);
+                                                    alert = (string)reader.GetValue(i + 2);
+                                                }
+                                                tuple = Tuple.Create(label, regex, alert);
+
                                                 regexList.Add(tuple);
-                                                string text = (string)reader.GetValue(i);
+                                                string text = label;
                                                 text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
                                                 Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
                                                 l.Text = text + " :";
                                                 l.Visible = true;
                                                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + j + "Box") as TextBox;
                                                 t.Visible = true;
-                                                if (i == 1) t.Focus();
+                                                
+                                                if (i == 1)
+                                                {
+                                                    t.Attributes["placeholder"] = " Required";
+                                                    t.Focus();
+                                                }
+                                                else
+                                                {
+                                                    if (regex == string.Empty) t.Attributes["placeholder"] = " Optional";
+                                                    else t.Attributes["placeholder"] = " Required";
+                                                }
                                                 j += 1;
                                             }
                                             i += 3;
@@ -143,6 +166,14 @@ namespace BarcodeConversion
         {
             if ((File1.PostedFile != null) && (File1.PostedFile.ContentLength > 0))
             {
+                // Clear previous upload displays
+                uploadSuccess.Text = "";
+                viewContentBtn.Text = "View";
+                viewContentBtn.Visible = false;
+                saveIndexesBtn.Visible = false;
+                printIndexesBtn.Visible = false;
+                GridView1.Visible = false;
+
                 // Check file extension first
                 String extension = Path.GetExtension(File1.PostedFile.FileName);
                 if (extension.ToLower() != ".csv")
@@ -178,11 +209,13 @@ namespace BarcodeConversion
                             List<string> line = new List<string>(fields);
                             fileContent.Add(line);
                             var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
-                            if (line.Count != regexList.Count)
+
+                            // If more row items than required
+                            if (line.Count > regexList.Count)
                             {
                                 var errorMsg = new TableCell();
                                 var errorMsgRow = new TableRow();
-                                errorMsg.Text = "This job requires that every row in your csv file contains " + regexList.Count + " value(s) only. No blanks allowed.";
+                                errorMsg.Text = "This job requires that every row in your csv file contains no more than " + regexList.Count + " items.";
                                 errorMsg.Attributes["style"] = "color:red;";
                                 errorMsgRow.Cells.Add(errorMsg);
                                 invalidInputTable.Rows.Add(errorMsgRow);
@@ -220,7 +253,19 @@ namespace BarcodeConversion
                                         invalidInputTable.Rows.Add(errorRow);
                                         isFileValid = false;
                                     }
-                                    
+                                }
+                                else
+                                {   
+                                    if (i == 1 && fields[0] == string.Empty)
+                                    {
+                                        var error = new TableCell();
+                                        error.Text = "First item of row " + lineNumber + " in csv file can not be blank.";
+                                        error.Attributes["style"] = "color:red;";
+                                        var errorRow = new TableRow();
+                                        errorRow.Cells.Add(error);
+                                        invalidInputTable.Rows.Add(errorRow);
+                                        isFileValid = false;
+                                    }
                                 }
                             }
                         }
@@ -552,10 +597,11 @@ namespace BarcodeConversion
                 TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
                 if (c.Visible == true)
                 {   
-                    // Make sure field not blank
-                    if (c.Text == string.Empty)
+                    // Make sure 1st field not blank
+                    if (i == 1 && c.Text == string.Empty)
                     {
-                        string msg = "All fields required!";
+                        string label = regexList[0].Item1;
+                        string msg = label + " field is required!";
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                         c.Focus();
                         return;
@@ -875,7 +921,11 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID = @userId";
+                        cmd.CommandText = "SELECT ABBREVIATION " +
+                                          "FROM JOB " +
+                                          "JOIN OPERATOR_ACCESS ON JOB.ID=OPERATOR_ACCESS.JOB_ID " +
+                                          "WHERE ACTIVE=1 AND OPERATOR_ID=@userId " +
+                                          "ORDER BY ABBREVIATION ASC";
                         cmd.Parameters.AddWithValue("@userId", opID);
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -884,8 +934,8 @@ namespace BarcodeConversion
                             {
                                 while (reader.Read())
                                 {
-                                    jobID = (int)reader.GetValue(0);
-                                    jobIdList.Add(jobID);
+                                    string jobAbb = (string)reader.GetValue(0);
+                                    selectJob.Items.Add(jobAbb);
                                 }
                             }
                             else
@@ -896,42 +946,6 @@ namespace BarcodeConversion
                             }
                         }
                     }
-                }
-
-                // Now, for each job ID, get corresponding job abbreviation.
-                if (jobIdList.Count > 0)
-                {
-                    foreach (var id in jobIdList)
-                    {
-                        using (SqlConnection con = Helper.ConnectionObj)
-                        {
-                            using (SqlCommand cmd = con.CreateCommand())
-                            {
-                                cmd.CommandText = "SELECT ABBREVIATION FROM JOB WHERE ID = @job";
-                                cmd.Parameters.AddWithValue("@job", id);
-                                con.Open();
-                                var result = cmd.ExecuteScalar();
-                                if (result != null)
-                                {
-                                    // Fill dropdown list
-                                    string jobAbb = result.ToString();
-                                    selectJob.Items.Add(jobAbb);
-                                }
-                                else
-                                {
-                                    string msg = "Error 15: Issue occured while attempting to retrieve jobs accessible to you. Contact system admin.";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    string msg = "Error 16: Issue occured while attempting to retrieve jobs accessible to you. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    return;
                 }
             }
             catch (Exception ex)
