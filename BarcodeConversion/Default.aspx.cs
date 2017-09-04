@@ -178,10 +178,12 @@ namespace BarcodeConversion
                 String extension = Path.GetExtension(File1.PostedFile.FileName);
                 if (extension.ToLower() != ".csv")
                 {
-                    string msg = "Only csv files are allowed!";
-                    uploadSuccess.Text = msg;
-                    uploadSuccess.Attributes["style"] = "color:red;";
-                    uploadSuccess.Visible = true;
+                    var error = new TableCell();
+                    var errorRow = new TableRow();
+                    error.Text = "Only csv files are allowed!";
+                    error.Attributes["style"] = "color:red;";
+                    errorRow.Cells.Add(error);
+                    invalidInputTable.Rows.Add(errorRow);
                     return;
                 }
 

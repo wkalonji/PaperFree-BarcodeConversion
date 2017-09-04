@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Create Indexes" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="BarcodeConversion._Default" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+
     <script>
         // FADEOUT INDEX-SAVED MSG. FUNCTION
         function FadeOut() {

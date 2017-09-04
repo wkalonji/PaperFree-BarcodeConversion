@@ -931,8 +931,15 @@ namespace BarcodeConversion
                 edit3.Visible = true;
                 edit4.Visible = true;
                 edit5.Visible = true;
+                labelControlsTable.Visible = true;
+                edit1.Visible = false;
+                labelTextBox.Focus();
             }
-            else labelsTable.Visible = false;
+            else
+            {
+                labelsTable.Visible = false;
+                labelControlsTable.Visible = false;
+            }
         }
 
         // SET COLOR FOR DROPDOWN CONFIGURED JOB ITEMS. FUNCTION
@@ -1002,6 +1009,7 @@ namespace BarcodeConversion
                 // Hold entered values in viewstate
                 var labelValues = new List<string> { labelTextBox.Text.Trim(), regexTextBox.Text.Trim(), msgTextBox.Text.Trim()};
                 string id = (string)ViewState["senderID"];
+                if (edit1.Visible == false) id = "edit1";
                 ViewState["labelValues" + id] = labelValues;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + id.Substring(id.Length - 1)) as TextBox;
                 if (labelTextBox.Text != string.Empty)
@@ -1274,6 +1282,37 @@ namespace BarcodeConversion
                 clearRules();
                 string msg = "Configuration rules for the selected job has already been unset. If you want to reconfigure, Make sure it is selected, then Set!" + Environment.NewLine + ex.Message;
                 System.Windows.Forms.MessageBox.Show(msg, "Error 78");
+            }
+        }
+
+
+        // PREVENT LINE BREAKS IN GRIDVIEW
+        protected void rowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            try
+            {
+                // GIVE CUSTOM COLUMN NAMES
+                if (e.Row.RowType == DataControlRowType.Header)
+                {
+                    e.Row.Cells[2].Text = "JOB";
+                    //e.Row.Cells[2].Text = "JOB_ID";
+                    //e.Row.Cells[3].Text = "INDEX";
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
+                }
+                // Set column borders & Prevent line breaks
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "Issue occured while attempting to prevent line breaks within gridview. Contact system admin.." + Environment.NewLine + ex.Message;
+                System.Windows.Forms.MessageBox.Show(msg, "47");
             }
         }
 

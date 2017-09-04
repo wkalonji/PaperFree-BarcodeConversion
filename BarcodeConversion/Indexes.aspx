@@ -114,10 +114,10 @@
                 <columns>
                     <asp:templatefield HeaderText="Select">
                         <HeaderTemplate>
-                            &nbsp;<asp:CheckBox ID="selectAll" runat="server" AutoPostBack="true" OnCheckedChanged="selectAll_changed" />
+                            &nbsp;&nbsp;<asp:CheckBox ID="selectAll" runat="server" AutoPostBack="true" OnCheckedChanged="selectAll_changed" />
                         </HeaderTemplate>
                         <ItemTemplate>
-                            <asp:CheckBox ID="cbSelect" runat="server" />
+                            &nbsp;<asp:CheckBox ID="cbSelect" runat="server" />
                         </ItemTemplate>
                     </asp:templatefield>
                     <asp:templatefield HeaderText="&nbsp;N°" ShowHeader="true">
