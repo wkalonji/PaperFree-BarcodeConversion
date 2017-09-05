@@ -22,7 +22,7 @@ namespace BarcodeConversion
                 if (!IsPostBack)
                 {
                     Session["jobsList"] = populateJobsList();
-                    getIndexes("All Jobs", "meOnly", "allTime", "allSheets");
+                    getIndexes("Your Jobs", "meOnly", "allTime", "allSheets");
                     indexeStatusGridView.Visible = true;
                 }
 
@@ -49,11 +49,11 @@ namespace BarcodeConversion
         {
             try
             {
-                jobsFilter.SelectedValue = "All Jobs";
+                jobsFilter.SelectedValue = "Your Jobs";
                 whoFilter.SelectedValue = "meOnly";
                 whenFilter.SelectedValue = "allTime";
                 whatFilter.SelectedValue = "allSheets";
-                getIndexes("All Jobs", "meOnly", "allTime", "allSheets");
+                getIndexes("Your Jobs", "meOnly", "allTime", "allSheets");
                 indexeStatusGridView.Visible = true;
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
@@ -66,13 +66,13 @@ namespace BarcodeConversion
 
 
 
-        // 'ALL JOBS' DROPDOWN: POPULATE JOBSFILTER. 
+        // 'Your Jobs' DROPDOWN: POPULATE JOBSFILTER. 
         private Dictionary<int, string> populateJobsList()
         {
             try
             {
                 jobsFilter.Items.Clear();
-                jobsFilter.Items.Add("All Jobs");
+                jobsFilter.Items.Add("Your Jobs");
 
                 // First, get current user id via name.
                 string user = Environment.UserName;
@@ -155,6 +155,7 @@ namespace BarcodeConversion
         {
             try
             {
+                sortOrder.Text = "Sorted By : CREATION_TIME ASC";
                 getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
             }
             catch (Exception ex)
@@ -234,7 +235,7 @@ namespace BarcodeConversion
                 Page.Validate();
                 if (!Page.IsValid) return;
 
-                // First, populate 'All Jobs' filter
+                // First, populate 'Your Jobs' filter
                 Dictionary<int, string> jobsDict = (Dictionary<int, string>)Session["jobsList"];
 
                 string user = Environment.UserName;
@@ -268,7 +269,7 @@ namespace BarcodeConversion
                             timePanel.Visible = false;
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID", con);
@@ -278,7 +279,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=1", con);
@@ -288,7 +289,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=0", con);
@@ -316,7 +317,7 @@ namespace BarcodeConversion
 
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND (CREATION_TIME BETWEEN @start AND @end)", con);
@@ -326,7 +327,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
@@ -336,7 +337,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
@@ -357,7 +358,7 @@ namespace BarcodeConversion
                             if (what == "allSheets")
                             {
                                 string cmdStringShort = cmdString;
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdStringShort.Substring(0, cmdString.Length - 7), con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdStringShort.Substring(0, cmdString.Length - 7), con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdStringShort.Substring(0, cmdString.Length - 7) + " WHERE JOB_ID=@jobID", con);
@@ -367,7 +368,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=1", con);
@@ -377,7 +378,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=0", con);
@@ -405,7 +406,7 @@ namespace BarcodeConversion
 
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "CREATION_TIME BETWEEN @start AND @end", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "CREATION_TIME BETWEEN @start AND @end", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND CREATION_TIME BETWEEN @start AND @end", con);
@@ -415,7 +416,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
@@ -425,7 +426,7 @@ namespace BarcodeConversion
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "All Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
@@ -518,17 +519,78 @@ namespace BarcodeConversion
             {
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
-                {
-                    //e.Row.Cells[1].Text = "OPERATOR";
-                    //e.Row.Cells[2].Text = "JOB_ID";
-                    //e.Row.Cells[3].Text = "INDEX";
+                {   
+                    if (jobsFilter.SelectedValue != "Your Jobs")
+                    {
+                        // Get job ID of selected Job
+                        int jobID = 0;
+                        Dictionary<int, string> jobsDict = (Dictionary<int, string>)Session["jobsList"];
+                        foreach (var jobTuple in jobsDict)
+                        {
+                            if (jobTuple.Value == jobsFilter.SelectedValue) jobID = jobTuple.Key;
+                        }
+
+                        // Retrieve job labels
+                        var jobLabels = new Dictionary<string, string>();
+                        using (SqlConnection con = Helper.ConnectionObj)
+                        {
+                            using (SqlCommand cmd = con.CreateCommand())
+                            {
+                                cmd.CommandText = "SELECT LABEL1, LABEL2, LABEL3, LABEL4, LABEL5 " +
+                                                  "FROM JOB_CONFIG_INDEX " +
+                                                  "WHERE JOB_ID = @jobID";
+                                cmd.Parameters.AddWithValue("@jobID", jobID);
+                                con.Open();
+                                using (SqlDataReader reader = cmd.ExecuteReader())
+                                {
+                                    if (reader.HasRows)
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (reader.GetValue(i - 1) != DBNull.Value)
+                                                    jobLabels["label" + i] = (string)reader.GetValue(i - 1);
+                                                else
+                                                    jobLabels["label" + i] = string.Empty;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        ViewState["jobLabels"] = jobLabels;
+
+                        // Rename columns headers & remove empty columns
+                        for (int i = 3; i <= 7; i++)
+                        {
+                            if (jobLabels["label" + (i - 2)] == string.Empty)
+                                e.Row.Cells[i].Visible = false;
+                            else
+                                ((LinkButton)e.Row.Cells[i].Controls[0]).Text = jobLabels["label" + (i - 2)].ToUpper();
+                        }
+                    }
+                    // Set column borders & Prevent headers' line breaks
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
-                // Set column borders & Prevent line breaks
+
+                // Set column borders & Prevent rows' line breaks
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
+                    // Remove empty columns
+                    var jobLabels = (Dictionary<string, string>)ViewState["jobLabels"];
+                    if (jobsFilter.SelectedValue != "Your Jobs")
+                    {
+                        for (int i = 3; i <= 7; i++)
+                        {
+                            if (jobLabels["label" + (i - 2)] == string.Empty)
+                                e.Row.Cells[i].Visible = false;
+                        }
+                    }
+
+                    // Set column borders
                     string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
                     for (int i=0; i<e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
@@ -553,9 +615,20 @@ namespace BarcodeConversion
 
                 if (dt != null)
                 {
+                    string label;
+                    if (e.SortExpression.Contains("VALUE") && jobsFilter.SelectedValue != "Your Jobs")
+                    {
+                        string last = e.SortExpression.Substring(e.SortExpression.Length - 1, 1);
+                        int lastInt = Convert.ToInt32(last);
+                        var jobLabels = (Dictionary<string, string>)ViewState["jobLabels"];
+                        label = jobLabels["label" + lastInt];
+                    }
+                    else
+                        label = e.SortExpression;
                     //Sort the data.
-                    dt.DefaultView.Sort = e.SortExpression + " " + GetSortDirection(e.SortExpression);
-                    sortOrder.Text = "Sorted By : " + dt.DefaultView.Sort;
+                    string sortDirection = GetSortDirection(e.SortExpression);
+                    dt.DefaultView.Sort = e.SortExpression + " " + sortDirection;
+                    sortOrder.Text = "Sorted By : " + label.ToUpper() + " " + sortDirection;
                     indexeStatusGridView.DataSource = Session["TaskTable"];
                     indexeStatusGridView.DataBind();
                 }

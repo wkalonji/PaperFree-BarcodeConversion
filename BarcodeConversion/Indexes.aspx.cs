@@ -510,8 +510,7 @@ namespace BarcodeConversion
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
-                    //e.Row.Cells[3].Text = "INDEX";
-                    //e.Row.Cells[4].Text = "JOB";
+                    ((LinkButton)e.Row.Cells[3].Controls[0]).Text = "JOB";
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);

@@ -135,7 +135,7 @@ namespace BarcodeConversion
                                             }
                                             i += 3;
                                         }
-                                        ViewState["regexList"] = regexList; // Contains (label,regex,alert) for each label set at Index Config Section
+                                        Session["regexList"] = regexList; // Contains (label,regex,alert) for each label set at Index Config Section
                                     }
                                     generateIndexSection.Visible = true;
                                 }
@@ -210,7 +210,7 @@ namespace BarcodeConversion
                             string[] fields = parser.ReadFields();
                             List<string> line = new List<string>(fields);
                             fileContent.Add(line);
-                            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+                            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
 
                             // If more row items than required
                             if (line.Count > regexList.Count)
@@ -494,7 +494,7 @@ namespace BarcodeConversion
 
             // Get row count
             int colCount = 0;
-            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
             if (regexList != null) colCount = regexList.Count;
 
             //Create a DataTable.
@@ -592,7 +592,7 @@ namespace BarcodeConversion
             ViewState["fileContent"] = null; // Clearing any file entries
 
             // Get operator's entries & Check regex rules
-            var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
             var entries = new List<string>();
             for (int i = 1; i <= 5; i++)
             {
@@ -761,7 +761,7 @@ namespace BarcodeConversion
                                 "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                             "</tr>"
                  );
-                var regexList = (List<Tuple<string, string, string>>)ViewState["regexList"];
+                var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
 
                 for (int i = 0; i < regexList.Count; i++)
                 {

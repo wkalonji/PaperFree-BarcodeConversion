@@ -322,7 +322,7 @@
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width: 80px;"><asp:Label Text="ALERT:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="msgTextBox" placeholder=" Alert message of what a valid entry &nbsp;should be if entry fails regex rules." TextMode="MultiLine" onfocus="this.select()" runat="server" Height="70px" Width="221px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="msgTextBox" placeholder=" Alert message of what a valid entry &nbsp;should be if entry fails regex test." TextMode="MultiLine" onfocus="this.select()" runat="server" Height="70px" Width="221px"></asp:TextBox></td>
                             </tr>
                             <tr>
                                 <td colspan="2" style="text-align:right;"><asp:ImageButton ID="labelContents" ImageUrl="Content/submit.png" Font-Size="Small" runat="server" Height="22px" Width="21px" OnClick="labelContents_Click" /></td>
