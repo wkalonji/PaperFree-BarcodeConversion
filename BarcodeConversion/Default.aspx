@@ -6,11 +6,11 @@
         // FADEOUT INDEX-SAVED MSG. FUNCTION
         function FadeOut() {
             $("span[id$='indexSetPrintedMsg']").hide();
-            $("span[id$='indexSavedMsg']").fadeOut(3000);
+            $("span[id$='indexSavedMsg']").fadeOut(5000);
         } 
         function FadeOut2() {
             $("span[id$='indexSavedMsg']").hide();
-            $("span[id$='indexSetPrintedMsg']").fadeOut(4000);
+            $("span[id$='indexSetPrintedMsg']").fadeOut(5000);
         }
         // PRINTING INDEX SHEETS. FUNCTION
         function printing() {
@@ -83,13 +83,13 @@
                 </tr>
             </table>    
 
-            <table id="uploadedFileMenu" Visible="false" style="margin-top:12px;" runat="server">
+            <table id="uploadedFileMenu" Visible="false" style="margin-top:12px; width:455px;" runat="server">
                 <tr>
                     <td style="padding-right:15px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
-                    <td style="text-align:right; padding-right:7px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
-                    <td style="text-align:right; padding-right:7px;">
+                    <td style="text-align:right; padding-right:5px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
+                    <td style="text-align:right; padding-right:5px;">
                         <asp:Button ID="saveIndexesBtn" Text="Save Indexes" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
-                    <td style="text-align:right; padding-right:7px;">
+                    <td style="text-align:right;">
                         <asp:Button ID="printIndexesBtn" Text="Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
                 </tr>
                 <tr>
@@ -99,7 +99,7 @@
 
             <asp:GridView ID="GridView1" CssClass="mGrid" Font-Size="10" OnRowDataBound="rowDataBound" style="margin-top:20px;" runat="server"></asp:GridView>
 
-            <asp:table id="invalidInputTable" runat="server"></asp:table>
+            <asp:table id="fileEntryMsg" runat="server"></asp:table>
                   
             <h2 style="margin-top:40px">Index Creation</h2>
 
@@ -150,10 +150,9 @@
 
         <div style="margin-top:50px;"></div>
         <%--Link to Print Indexes page --%>     
-        <asp:HyperLink ID="HyperLink1" Font-Underline="true" runat="server" NavigateUrl="~/Indexes"><span style="font-size:medium;">View all of your unprinted indexes</span></asp:HyperLink>
-        <div style="margin-bottom:25px; margin-top:15px;">
-            <asp:Label ID="indexSavedMsg" Visible="false" Text="Index string saved successfully..." runat="server"></asp:Label>
-        </div>
+        <asp:HyperLink ID="HyperLink1" Font-Underline="true" runat="server" NavigateUrl="~/Indexes">
+            <span style="font-size:medium;">View all of your unprinted indexes</span>
+        </asp:HyperLink>
         <input id="indexString" type="hidden"  runat="server"  value=""/>
     </asp:Panel>
 
@@ -166,7 +165,5 @@
     </div>
   
     <%-- Msgs showing up when successful save or saveAndPrint operations happens.--%>
-    <div style="margin-bottom:25px;">
-        <asp:Label ID="indexSetPrintedMsg" Visible="false" Text="1 Index record was saved and set as PRINTED" runat="server"></asp:Label>
-    </div>
+    <div style="margin-top:10px;"><asp:table id="manualEntryMsg" runat="server"></asp:table></div>
 </asp:Content>

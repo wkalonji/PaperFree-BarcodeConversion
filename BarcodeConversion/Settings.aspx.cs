@@ -934,6 +934,7 @@ namespace BarcodeConversion
                 labelControlsTable.Visible = true;
                 edit1.Visible = false;
                 labelTextBox.Focus();
+                labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
             }
             else
             {
@@ -1069,7 +1070,9 @@ namespace BarcodeConversion
             // Get id of edit icon btn then hide it
             ImageButton b = (ImageButton)sender;
             ViewState["senderID"] = b.ID;
+            string last = b.ID.Substring(b.ID.Length - 1, 1);
             b.Visible = false;
+            labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
 
             // Show viewstate held data
             if (ViewState["labelValues" + b.ID] != null)
@@ -1077,8 +1080,6 @@ namespace BarcodeConversion
                 List<string> labelVal = (List<string>)ViewState["labelValues" + b.ID];
                 if (labelVal[0] != string.Empty)
                     labelTextBox.Text = " " + labelVal[0];
-                else
-                    labelTextBox.Attributes["placeholder"] = " Label name";
                 if (labelVal[1] != string.Empty)
                     regexTextBox.Text = " " + labelVal[1];
                 else

@@ -7,7 +7,7 @@
         } 
     </script>
     <asp:Panel ID="SettingsPanel" Visible="false" runat="server">
-        <div style="margin-top:45px; margin-bottom:40px; height:50px; border-bottom:solid 1px green;width:860px;">
+        <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:860px;">
             <table style="width:860px;">
                 <tr>
                     <td><h2 style="display:inline; padding-top:25px;">Settings</h2></td>
@@ -149,19 +149,19 @@
             </tr>
             <tr>
                 <td colspan="2">
-                     <div id="line" visible="false" style=" height:50px; border-bottom:solid 1px green;width:860px;" runat="server"></div>
+                     <div id="line" visible="false" style=" height:30px; border-bottom:solid 1px green;width:860px;" runat="server"></div>
                 </td>
             </tr>
             <tr>
                 <td style="width: 480px">
                     <%--JOB ACCESS SECTION --%>
-                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:50px;">
+                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:30px;">
                         <asp:Button ID="assignBtn" Visible="true" runat="server" Text="Job Access Section" Width="310px" OnClick="assignShow_Click" />
                     </div>
                 </td>
                 <td style="width: 324px">
                     <%--JOB INDEX CONFIG SECTION --%>
-                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:50px;">
+                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:30px;">
                         <asp:Button ID="jobIndexEditingBtn" Visible="true" runat="server" Text="Job Index Configuration Section" Width="310px" OnClick="jobIndexEditingShow_Click" />
                     </div>
                 </td>

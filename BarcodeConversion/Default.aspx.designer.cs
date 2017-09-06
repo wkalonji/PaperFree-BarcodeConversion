@@ -157,13 +157,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.GridView GridView1;
         
         /// <summary>
-        /// invalidInputTable control.
+        /// fileEntryMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table invalidInputTable;
+        protected global::System.Web.UI.WebControls.Table fileEntryMsg;
         
         /// <summary>
         /// jobControls control.
@@ -301,15 +301,6 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
         
         /// <summary>
-        /// indexSavedMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label indexSavedMsg;
-        
-        /// <summary>
         /// indexString control.
         /// </summary>
         /// <remarks>
@@ -337,12 +328,12 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Button backToForm;
         
         /// <summary>
-        /// indexSetPrintedMsg control.
+        /// manualEntryMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label indexSetPrintedMsg;
+        protected global::System.Web.UI.WebControls.Table manualEntryMsg;
     }
 }
