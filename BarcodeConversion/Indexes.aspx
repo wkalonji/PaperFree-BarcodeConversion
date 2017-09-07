@@ -61,35 +61,19 @@
         </div>
 
         <div style="display:inline-block;">           
-            <table id="unprintedIndexTable" runat="server">
-                <tr style="background-color:#e6f3ff; height:40px;margin-top:10px;">
-                    <td><asp:Label ID="filterLabel" Width="55" runat="server"><h4>&nbsp;Filter :</h4></asp:Label></td>
-                    <td style="padding-right:5px; padding-left:10px;"> 
-                        <asp:DropDownList ID="jobsFilter" runat="server">
-                            <asp:ListItem Value="allJobs">All Jobs</asp:ListItem>
-                        </asp:DropDownList>
-                    </td>
-                    <td style="padding-right:15px;"> 
-                        <asp:DropDownList ID="whenFilter" runat="server" AutoPostBack="true">
-                            <asp:ListItem Value="allTime">For All Time</asp:ListItem>
-                            <asp:ListItem Value="pickRange">Pick Date/Time Range</asp:ListItem>
-                        </asp:DropDownList>
-                    </td>
-                    <td style="text-align:left; padding-right:10px;">
-                        <asp:Button ID="deleteBtn" Width="105" Font-Size="10" Visible="false" runat="server" Text="Delete Indexes" 
+            <table id="unprintedIndexTable" style="width:100%;" runat="server">
+                <tr style="height:30px;">
+                    <td colspan="2"><h4 style="color:blue"><asp:Label ID="Label2" Text="Your Unprinted Indexes" runat="server"></asp:Label></h4> </td>
+                    <td style="padding-left:5px;text-align:left;padding-bottom:5px;text-align:right;">
+                        <asp:Button ID="deleteBtn" Font-Size="10" Visible="false" runat="server" Text="Delete" 
                             OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
                             OnClick="deleteIndexes_Click" />
-                    </td>
-                    <td style="text-align:left;padding-right:5px;"><asp:Button ID="printBarcodeBtn" Width="105" Font-Size="10" Visible="false" runat="server" Text="Print Barcodes" onclick="printBarcode_Click"/></td>
-                    <td style="text-align:right;"> 
-                        <div style="display:block;padding-bottom:1px;padding-top:6px;">
-                            <asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="30" Height="30"  BackColor="#e6f3ff" Visible="true" runat="server" OnClick="getUnprintedIndexes_Click" />
-                        </div>
+                        <asp:Button ID="printBarcodeBtn" style="margin-left:10px;" Font-Size="10" Visible="false" runat="server" Text="Print" onclick="printBarcode_Click"/>
+                        <asp:ImageButton ID="resetBtn" style="margin-bottom:-10px;" ImageUrl="Content/reset.png" Width="30" Height="30" Visible="false" runat="server" OnClick="getUnprintedIndexes_Click" />
                     </td>
                 </tr>
             </table>
             <table style="width:99.8%; margin-top:20px;">
-                <tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="Label1" Text="Your Unprinted Indexes" runat="server"></asp:Label></h4> </td></tr>
                 <tr >
                     <td>
                         <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label>

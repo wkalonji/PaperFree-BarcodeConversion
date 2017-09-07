@@ -31,31 +31,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.HtmlControls.HtmlTable unprintedIndexTable;
         
         /// <summary>
-        /// filterLabel control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label filterLabel;
-        
-        /// <summary>
-        /// jobsFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList jobsFilter;
-        
-        /// <summary>
-        /// whenFilter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList whenFilter;
+        protected global::System.Web.UI.WebControls.Label Label2;
         
         /// <summary>
         /// deleteBtn control.
@@ -83,15 +65,6 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton resetBtn;
-        
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
         /// sortOrder control.

@@ -174,7 +174,7 @@ namespace BarcodeConversion
                                 cmd.CommandText = "INSERT INTO JOB (ABBREVIATION, NAME, ACTIVE) VALUES(@abbr, @name, @active)";
                                 cmd.Parameters.AddWithValue("@abbr", this.jobAbb.Text);
                                 cmd.Parameters.AddWithValue("@name", this.jobName.Text);
-                                cmd.Parameters.AddWithValue("@active", this.jobActiveBtn.SelectedValue);
+                                cmd.Parameters.AddWithValue("@active", this.jobActiveBtn.SelectedValue.ToUpper());
                                 con.Open();
                                 if (cmd.ExecuteNonQuery() == 1)
                                 {
