@@ -542,9 +542,15 @@ namespace BarcodeConversion
 
                 if (dt != null)
                 {
+                    string label;
+                    if (e.SortExpression == "ABBREVIATION")
+                        label = "JOB";
+                    else
+                        label = e.SortExpression;
                     //Sort the data.
-                    dt.DefaultView.Sort = e.SortExpression + " " + GetSortDirection(e.SortExpression);
-                    sortOrder.Text = "Sorted By : " + dt.DefaultView.Sort;
+                    string sortDirection = GetSortDirection(e.SortExpression);
+                    dt.DefaultView.Sort = e.SortExpression + " " + sortDirection;   
+                    sortOrder.Text = "Sorted By : " + label.ToUpper() + " " + sortDirection;
                     indexesGridView.DataSource = Session["Table"];
                     indexesGridView.DataBind();
                 }

@@ -96,7 +96,7 @@
 				<table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;" runat="server">
 					<tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
 					<tr>
-						<td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label></td>
+						<td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label><asp:Label id="sortDirection" Font-Size="8" Text ="  (&uarr;)" runat="server"></asp:Label></td>
 						<td style="text-align:right;">
 							<asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>
 							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">

@@ -622,6 +622,7 @@ namespace BarcodeConversion
                         int lastInt = Convert.ToInt32(last);
                         var jobLabels = (Dictionary<string, string>)ViewState["jobLabels"];
                         label = jobLabels["label" + lastInt];
+                        //string directSymbol = 
                     }
                     else
                         label = e.SortExpression;
