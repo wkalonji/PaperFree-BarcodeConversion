@@ -4,9 +4,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using BarcodeConversion.App_Code;
-using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
-using System.Collections;
 using System.Text.RegularExpressions;
 
 namespace BarcodeConversion
@@ -42,7 +40,7 @@ namespace BarcodeConversion
                 else if (userStatus() == "Not Found")
                 {
                     string msg = "Operator not Found.";
-                    System.Windows.Forms.MessageBox.Show(msg);
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
                 jobSectionDropdownColor(); // Job section
@@ -51,8 +49,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to load page. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 50");
+                string msg = "Error 50: Issue occured while attempting to load page. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 return;
             }
         }
@@ -79,8 +77,8 @@ namespace BarcodeConversion
                     }
                     catch (Exception ex)
                     {
-                        string msg = "Issue occured while attempting to identify operator status. Contact system admin." + Environment.NewLine + ex.Message ;
-                        System.Windows.Forms.MessageBox.Show(msg, "Error 51");
+                        string msg = "Error 51: Issue occured while attempting to identify operator status. Contact system admin." ;
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                         return "Failed";
                     }
                 }
@@ -133,8 +131,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to choose action. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 52");    
+                string msg  = "Error 52: Issue occured while attempting to choose action. Contact system admin. " ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -222,16 +220,16 @@ namespace BarcodeConversion
                         }
                         else
                         {
-                            string msg = "Issue occured while attempting to save the created job. Contact system admin." + Environment.NewLine + ex.Message;
-                            System.Windows.Forms.MessageBox.Show(msg, "Error 54");
+                            string msg = "Error 54: Issue occured while attempting to save the created job. Contact system admin.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to save the created job. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 55");
+                string msg  = "Error 55: Issue occured while attempting to save the created job. Contact system admin." ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -303,8 +301,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to update the job ACTIVE status. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 56");
+                string msg = "Error 56: Issue occured while attempting to update the job ACTIVE status. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
         
@@ -475,8 +473,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to set permissions. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 58");
+                string msg  = "Error 58: Issue occured while attempting to set permissions. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -498,8 +496,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while processing master CheckBox. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 59");
+                string msg  = "Error 59: Issue occured while processing master CheckBox. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -521,8 +519,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to clear fields. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 60");
+                string msg  = "Error 60: Issue occured while attempting to clear fields. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -557,9 +555,9 @@ namespace BarcodeConversion
             }
            catch (Exception ex)
            {
-                string msg  = "Issue occured while attempting to hide or collapse panel. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 61");
-           }
+                string msg  = "Error 61: Issue occured while attempting to hide or collapse panel. Contact system admin." ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+            }
         }
 
 
@@ -602,8 +600,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to hide or show panel. Contac system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 62");
+                string msg  = "Error 62: Issue occured while attempting to hide or show panel. Contac system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -693,8 +691,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to get operator's accessible jobs. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 65");
+                string msg  = "Error 65: Issue occured while attempting to get operator's accessible jobs. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
         
@@ -711,8 +709,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to retrieve active jobs. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 66");
+                string msg  = "Error 66: Issue occured while attempting to retrieve active jobs. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -806,8 +804,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to deny operator's job accesses. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 71");
+                string msg = "Error 71: Issue occured while attempting to deny operator's job accesses. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -884,8 +882,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to grant jobs accesses to operator. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 72");
+                string msg  = "Error 72: Issue occured while attempting to grant jobs accesses to operator. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -913,8 +911,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to show or hide section. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 73");
+                string msg  = "Error 73: Issue occured while attempting to show or hide section. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1214,8 +1212,8 @@ namespace BarcodeConversion
                 }  
                 else
                 {
-                    msg = "Issue occured while attempting to configure selected job" + Environment.NewLine + ex.Message + ex.InnerException;
-                    System.Windows.Forms.MessageBox.Show(msg, "Error 75");
+                    msg = "Error 75: Issue occured while attempting to configure selected job";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
                    
             }
@@ -1281,8 +1279,8 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 clearRules();
-                string msg = "Configuration rules for the selected job has already been unset. If you want to reconfigure, Make sure it is selected, then Set!" + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 78");
+                string msg = "Error 78: Configuration rules for the selected job has already been unset. If you want to reconfigure, Make sure it is selected, then Set!";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1312,8 +1310,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to prevent line breaks within gridview. Contact system admin.." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "47");
+                string msg = "Error 47: Issue occured while attempting to prevent line breaks within gridview. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1350,8 +1348,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to hile or collapse all sections. Contacy system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 79");
+                string msg = "Error 79: Issue occured while attempting to hile or collapse all sections. Contacy system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1452,8 +1450,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to retrieve jobs. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 81");
+                string msg = "Error 81: Issue occured while attempting to retrieve jobs. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1507,8 +1505,8 @@ namespace BarcodeConversion
             }
             catch(Exception ex) 
             {
-                string msg = "Issue occured while attempting to retrieve jobs. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 84");
+                string msg = "Error 84: Issue occured while attempting to retrieve jobs. Contact system admin. " ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1551,8 +1549,8 @@ namespace BarcodeConversion
             }
             catch(Exception ex) 
             {
-                string msg = "Issue occured while attempting to retrieve active jobs. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 86");
+                string msg = "Error 86: Issue occured while attempting to retrieve active jobs. Contact system admin. ";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1590,8 +1588,8 @@ namespace BarcodeConversion
                             if (result != null) jobID = (int)result2;
                         }
                         catch (SqlException ex) {
-                            string msg = "Issue occured while attempting to retrieve job ID. Contact system admin. " + Environment.NewLine + ex.Message;
-                            System.Windows.Forms.MessageBox.Show(msg, "Error 88");
+                            string msg = "Error 88: Issue occured while attempting to retrieve job ID. Contact system admin. ";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                         }
 
                         // Now, Save operator ID & new job ID in OPERATOR_ACCESS
@@ -1658,8 +1656,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to color appropriate jobs. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 90");
+                string msg = "Error 90: Issue occured while attempting to color appropriate jobs. Contact system admin. ";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1701,8 +1699,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to color appropriate jobs. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 90a");
+                string msg = "Error 90a: Issue occured while attempting to color appropriate jobs. Contact system admin. ";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1725,8 +1723,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to operator's ID. Contact system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 91");
+                string msg = "Error 91: Issue occured while attempting to operator's ID. Contact system admin. " ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 

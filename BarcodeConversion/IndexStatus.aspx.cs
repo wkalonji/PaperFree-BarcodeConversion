@@ -37,8 +37,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while loading this page. Contact your system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "37");
+                string msg = "Error 37: Issue occured while loading this page. Contact your system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -59,8 +59,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting reset. Contact your system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "38");    
+                string msg  = "Error 38: Issue occured while attempting reset. Contact your system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -142,8 +142,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to populate jobs dropdown. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "39");
+                string msg  = "Error 39: Issue occured while attempting to populate jobs dropdown. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 return new Dictionary<int, string>();
             }
         }
@@ -160,8 +160,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to process filter entries. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "40");
+                string msg = "Error 40: Issue occured while attempting to process filter entries. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -187,8 +187,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to process filter entries. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "41");
+                string msg  = "Error 41: Issue occured while attempting to process filter entries. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -203,8 +203,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to process filter entries. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "42");
+                string msg  = "Error 42: Issue occured while attempting to process filter entries. Contact system admin." ;
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -220,8 +220,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to change page & process filter entries. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "43");
+                string msg  = "Error 43:   Issue occured while attempting to change page & process filter entries. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -486,8 +486,8 @@ namespace BarcodeConversion
                 }
                 else
                 {
-                    msg = "Issue occured while attempting to process filter entries." + Environment.NewLine + ex.Message;
-                    System.Windows.Forms.MessageBox.Show(msg, "Error 45");
+                    msg = "Error 45: Issue occured while attempting to process filter entries." ;
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
             }
         }
@@ -505,8 +505,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to display requested number of records. Contact your system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "46");
+                string msg = "Error 46: Issue occured while attempting to display requested number of records. Contact your system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -598,8 +598,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Issue occured while attempting to prevent line breaks within gridview. Contact system admin.." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "47");
+                string msg  = "Error 47: Issue occured while attempting to prevent line breaks within gridview. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -636,8 +636,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to sort table. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "48");    
+                string msg  = "Error 48: Issue occured while attempting to sort table. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -674,8 +674,8 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Issue occured while attempting to sort table. Contact system admin." + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "49");
+                string msg  = "Error 49: Issue occured while attempting to sort table. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 return "ASC";
             }
         }

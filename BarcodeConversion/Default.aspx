@@ -128,7 +128,7 @@
             </table>
 
      <%--
-        Not utilized yet.
+        Not utilized (yet).
         <p>
             Barcode thickness:
             <asp:DropDownList ID="ddlBarcodeThickness" runat="server">
