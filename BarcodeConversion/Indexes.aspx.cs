@@ -388,17 +388,17 @@ namespace BarcodeConversion
                     using (SqlCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = "UPDATE INDEX_DATA SET Printed = 1 WHERE BARCODE = @barcodeIndex";
+                        cmd.Parameters.AddWithValue("@barcodeIndex", "");
+                        con.Open();
                         foreach (GridViewRow row in indexesGridView.Rows)
                         {
                             CheckBox chxBox = row.FindControl("cbSelect") as CheckBox;
-
                             if (chxBox.Checked)
                             {
                                 if (row.RowType == DataControlRowType.DataRow)
                                 {
                                     var indexString = row.Cells[2].Text;
-                                    cmd.Parameters.AddWithValue("@barcodeIndex", indexString);
-                                    con.Open();
+                                    cmd.Parameters["@barcodeIndex"].Value = indexString;
                                     if (cmd.ExecuteNonQuery() == 1)
                                     {
                                         counter++;
@@ -441,7 +441,12 @@ namespace BarcodeConversion
         {
             try
             {
-                indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
+                if (recordsPerPage.SelectedValue != "all")
+                {
+                    indexesGridView.AllowPaging = true;
+                    indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
+                }
+                else indexesGridView.AllowPaging = false;
                 getUnprintedIndexes_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
@@ -509,6 +514,7 @@ namespace BarcodeConversion
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
+                    ((LinkButton)e.Row.Cells[4].Controls[0]).Text = "CREATION TIME";
                     ((LinkButton)e.Row.Cells[3].Controls[0]).Text = "JOB";
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)

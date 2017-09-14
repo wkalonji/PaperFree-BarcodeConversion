@@ -128,6 +128,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\ErrorLog.txt" />
     <Content Include="Content\calendar-blue.css" />
     <Content Include="Content\calender.png" />
     <Content Include="Content\delete.png" />
@@ -137,6 +138,7 @@
     <Content Include="Content\reset.png" />
     <Content Include="Content\submit.png" />
     <Content Include="Content\uploadFile.png" />
+    <Content Include="ErrorPage.aspx" />
     <Content Include="Indexes.aspx" />
     <Content Include="IndexStatus.aspx" />
     <Content Include="Scripts\calendar-en.min.js" />
@@ -184,6 +186,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Code\Class Diagram.cd" />
+    <None Include="Properties\PublishProfiles\Offline Deployment.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -223,8 +226,16 @@
   <ItemGroup>
     <Content Include="App_Code\Code39Barcode.cs" />
     <Compile Include="App_Code\EntryControl.cs" />
+    <Compile Include="App_Code\ExceptionUtility.cs" />
     <Compile Include="App_Code\Helper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="ErrorPage.aspx.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ErrorPage.aspx.designer.cs">
+      <DependentUpon>ErrorPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Indexes.aspx.cs">
       <DependentUpon>Indexes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -280,9 +291,7 @@
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />

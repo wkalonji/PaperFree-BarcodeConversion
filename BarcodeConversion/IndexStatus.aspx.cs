@@ -499,7 +499,12 @@ namespace BarcodeConversion
         {
             try
             {
-                indexeStatusGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
+                if (recordsPerPage.SelectedValue != "all")
+                {
+                    indexeStatusGridView.AllowPaging = true;
+                    indexeStatusGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
+                }
+                else indexeStatusGridView.AllowPaging = false;
                 getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
@@ -570,6 +575,8 @@ namespace BarcodeConversion
                                 ((LinkButton)e.Row.Cells[i].Controls[0]).Text = jobLabels["label" + (i - 2)].ToUpper();
                         }
                     }
+                    ((LinkButton)e.Row.Cells[1].Controls[0]).Text = "OPERATOR";
+                    ((LinkButton)e.Row.Cells[e.Row.Cells.Count - 2].Controls[0]).Text = "CREATION TIME";
                     // Set column borders & Prevent headers' line breaks
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
@@ -624,12 +631,16 @@ namespace BarcodeConversion
                         label = jobLabels["label" + lastInt];
                         //string directSymbol = 
                     }
+                    else if (e.SortExpression.Contains("NAME"))
+                    {
+                        label = "OPERATOR";
+                    }
                     else
                         label = e.SortExpression;
                     //Sort the data.
                     string sortDirection = GetSortDirection(e.SortExpression);
                     dt.DefaultView.Sort = e.SortExpression + " " + sortDirection;
-                    sortOrder.Text = "Sorted By : " + label.ToUpper() + " " + sortDirection;
+                    sortOrder.Text = "Sorted By : " + label.ToUpper() + "  " + sortDirection;
                     indexeStatusGridView.DataSource = Session["TaskTable"];
                     indexeStatusGridView.DataBind();
                 }

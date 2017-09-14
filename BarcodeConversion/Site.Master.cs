@@ -42,7 +42,14 @@ namespace BarcodeConversion
                                     catch (SqlException ex)
                                     {
                                         string msg = "Issue occured trying to save operator. Please contact system admin. " + Environment.NewLine + ex.Message;
-                                        System.Windows.Forms.MessageBox.Show(msg, "Error 94");
+                                        Response.Redirect("~/ErrorPage.aspx");
+
+                                        // Log the exception and notify system operators
+                                        ExceptionUtility.LogException(ex, "Site.Master.cs");
+                                        ExceptionUtility.NotifySystemOps(ex);
+
+                                        // Clear the error from the server
+                                        Server.ClearError();
                                     }
                                 }
                             }
@@ -53,7 +60,14 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Issue occured while attempting to identify active user. Please contact your system admin. " + Environment.NewLine + ex.Message;
-                System.Windows.Forms.MessageBox.Show(msg, "Error 95");
+                Response.Redirect("~/ErrorPage.aspx");
+
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex, "Site.Master.cs");
+                ExceptionUtility.NotifySystemOps(ex);
+
+                // Clear the error from the server
+                Server.ClearError();
             }
             if (isAdmin) settings.Visible = true;
         }

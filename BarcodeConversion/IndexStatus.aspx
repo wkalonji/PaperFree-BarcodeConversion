@@ -100,19 +100,19 @@
 						<td style="text-align:right;">
 							<asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>
 							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">
-								<asp:ListItem Value="5">5</asp:ListItem>
 								<asp:ListItem Value="10" Selected="true">10</asp:ListItem>
 								<asp:ListItem Value="15">15</asp:ListItem>
 								<asp:ListItem Value="20">20</asp:ListItem>
 								<asp:ListItem Value="30">30</asp:ListItem>
 								<asp:ListItem Value="50">50</asp:ListItem>
+								<asp:ListItem Value="all">ALL</asp:ListItem>
 							</asp:DropDownList>
 						</td>
 					</tr>
 				</table>
 			
 				<asp:GridView ID="indexeStatusGridView" runat="server" style="margin-top:15px" CssClass="mydatagrid" PagerStyle-CssClass="pager"
-							PageSize="10" HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="true" OnPageIndexChanging="pageChange_Click"
+							HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="true" OnPageIndexChanging="pageChange_Click"
 							OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" AllowSorting="True" Width="637">  
 					<columns>
 						<asp:templatefield HeaderText ="&nbsp;N°" ShowHeader="true">
