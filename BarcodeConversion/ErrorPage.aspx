@@ -9,9 +9,9 @@
     <body>
         <form id="form1" runat="server">
             <div>
-                <h2>Global Page Error</h2>
+                <h2>Page Error</h2>
                 <h3>Something went wrong.</h3>
-                <p>Return to the <a href='Default.aspx'>Default Page</a></p>
+                <p>Return to <a href="Default.aspx">Home Page</a></p>
             </div>
         </form>
     </body>
