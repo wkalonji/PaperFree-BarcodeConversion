@@ -10,7 +10,7 @@
         <form id="form1" runat="server">
             <div>
                 <h2>Global Page Error</h2>
-                <p>Something went wrong.</p>
+                <h3>Something went wrong.</h3>
                 <p>Return to the <a href='Default.aspx'>Default Page</a></p>
             </div>
         </form>
