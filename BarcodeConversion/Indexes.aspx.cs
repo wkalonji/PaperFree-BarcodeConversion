@@ -264,7 +264,7 @@ namespace BarcodeConversion
                         if (row.RowType == DataControlRowType.DataRow)
                         {
                             // Get barcode Image
-                            string urlString = @"ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=50";
+                            string urlString = @"ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=40";
                             imgBarCode.ImageUrl = string.Format(urlString, indexString.PadLeft(8, '0'));
 
                             // Get operator's entries
@@ -305,39 +305,44 @@ namespace BarcodeConversion
                                     }
                                 }
                             }
+                            string jobName = indexString.Substring(0, indexString.Length - 14);
 
                             // Write to index page
                             Response.Write(
+                                   "<center style='font-size:50px; font-family:Arial; font-weight:bold; padding-top:130px;'>" + jobName + " - Index Header" + "</center>" +
                                    "<div>" +
-                                       "<div style='font-size:25px; font-weight:500;'>" +
-                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='500px' style='margin-top:0px; '> " +
-                                       "</div>" +
-                                       "<div style='font-size:25px; font-weight:500; text-align:right;' >" +
-                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='500px' style='margin-top:250px; margin-right:-180px;' class='rotate'> " +
+                                        "<center style='font-size:25px; margin-top:70px;'>" +
+                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='550px' style='margin-top:0px; '> " +
+                                       "</center>" +
+                                       "<div style='font-size:25px; text-align:right;' >" +
+                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='550px' style='margin-top:230px; margin-right:-150px;' class='rotate'> " +
                                        "</div>" +
                                    "</div>" +
 
-                                   "<table style='margin-top:250px; margin-bottom:580px; margin-left:40px;'>" +
+                                   "<table style='margin-top:250px; margin-bottom:580px; margin-left:300px;'>" +
                                        "<tr>" +
-                                           "<td style='font-size:25px; font-weight:500;'> Index String: </td>" +
-                                           "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                           "<td style='font-size:30px;'> INDEX STRING: </td>" +
+                                           "<td style='font-size:30px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                                        "</tr>"
                             );
 
                             foreach (var entry in allEntriesList)
-                            {
-                                string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
-                                Response.Write(
-                                    "<tr>" +
-                                        "<td style='font-size:25px; font-weight:500;'>" + label + ":" + "</td>" +
-                                        "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
-                                    "</tr>"
-                                );
+                            {   
+                                if (entry.text != string.Empty)
+                                {
+                                    string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
+                                    Response.Write(
+                                        "<tr>" +
+                                            "<td style='font-size:30px;'>" + label.ToUpper() + ":" + "</td>" +
+                                            "<td style='font-size:30px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                        "</tr>"
+                                    );
+                                }
                             }
                             Response.Write(
                                         "<tr>" +
-                                            "<td style='font-size:25px; font-weight:500;'>Date Created: </td>" +
-                                            "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                            "<td style='font-size:30px;'>DATE CREATED: </td>" +
+                                            "<td style='font-size:30px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                         "</tr>" +
                                     "</table>" +
                                 "</div>"

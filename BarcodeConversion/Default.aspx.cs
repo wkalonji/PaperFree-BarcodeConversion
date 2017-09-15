@@ -577,7 +577,7 @@ namespace BarcodeConversion
                 string julianDay = jc.GetDayOfYear(DateTime.Now).ToString();
                 string time = DateTime.Now.ToString("HHmmssfff");
                 generateIndexSection.Visible = true;
-                return selectJob.SelectedValue.ToUpper() + year + julianDay + time;
+                return selectJob.SelectedValue.ToUpper() + " " + year + julianDay + time;
 
                 // Convert index to barcode
                 // imgBarcode.ImageUrl = string.Format("ShowCode39Barcode.ashx?code={0}&ShowText={1}&Thickness={2}",indexString,showTextValue, 1);
@@ -686,7 +686,7 @@ namespace BarcodeConversion
                 }
 
                 // Saving
-                string barcodeIndex = index;
+                string barcodeIndex = index.Replace(" ", "");
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
@@ -755,45 +755,50 @@ namespace BarcodeConversion
             try
             {
                 //Get index string
-                string indexString = indexRecord.Last();
+                string indexString = indexRecord.Last().Replace(" ","");
+                string jobName = indexRecord.Last().Split(' ')[0];
                 Image imgBarcode = new Image();
-                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=50", indexString.PadLeft(8, '0'));
+                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=45", indexString.PadLeft(8, '0'));
 
                 // Write Index sheet page content
                 Response.Write(
-                        "<div>" +
-                            "<div style='font-size:25px; font-weight:500;'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='500px' style='margin-top:0px; '> " +
-                            "</div>" +
-                            "<div style='font-size:25px; font-weight:500; text-align:right;' >" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='500px' style='margin-top:250px; margin-right:-180px;' class='rotate'> " +
-                            "</div>" +
-                        "</div>" +
+                      "<center style='font-size:50px; font-family:Arial; font-weight:bold; padding-top:130px;'>" + jobName + " - Index Header" + "</center>" +
+                      "<div>" +
+                           "<center style='font-size:25px; margin-top:70px;'>" +
+                              "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='550px' style='margin-top:0px; '> " +
+                          "</center>" +
+                          "<div style='font-size:25px; text-align:right;' >" +
+                              "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='550px' style='margin-top:230px; margin-right:-150px;' class='rotate'> " +
+                          "</div>" +
+                      "</div>" +
 
-                        "<table style='margin-top:250px; margin-bottom:580px; margin-left:40px;'>" +
-                            "<tr>" +
-                                "<td style='font-size:25px; font-weight:500;'> Index String: </td>" +
-                                "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                            "</tr>"
-                 );
+                      "<table style='margin-top:250px; margin-bottom:580px; margin-left:300px;'>" +
+                          "<tr>" +
+                              "<td style='font-size:30px;'> INDEX STRING: </td>" +
+                              "<td style='font-size:30px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                          "</tr>"
+                );
                 var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
 
                 for (int i = 0; i < regexList.Count; i++)
-                {
-                    string label = regexList[i].Item1;
-                    Response.Write(
-                        "<tr>" +
-                            "<td style='font-size:25px; font-weight:500;'>" + label + "</td>" +
-                            "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
-                        "</tr>"
-                    );
+                {   
+                    if (indexRecord[i] != string.Empty)
+                    {
+                        string label = regexList[i].Item1;
+                        Response.Write(
+                            "<tr>" +
+                                "<td style='font-size:30px;'>" + label.ToUpper() + ":" + "</td>" +
+                                "<td style='font-size:30px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
+                            "</tr>"
+                        );
+                    }
                 }
                 Response.Write(
                             "<tr>" +
-                                "<td style='font-size:25px; font-weight:500;'>Date Created: </td>" +
-                                "<td style='font-size:25px; font-weight:500; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                "<td style='font-size:30px;'>DATE CREATED: </td>" +
+                                "<td style='font-size:30px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                             "</tr>" +
-                        "</table >"
+                        "</table>" 
                 );
                 return "pass";
             }

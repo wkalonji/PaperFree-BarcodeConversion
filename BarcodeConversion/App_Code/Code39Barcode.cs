@@ -79,7 +79,7 @@ namespace BarcodeConversion.App_Code
 			this.BarcodePadding = 5;
 			this.ShowBarcodeText = true;
 			this.BarcodeWeight = BarcodeWeight.Small;
-			this.BarcodeTextFont = new Font("Arial", 9.0F);
+			this.BarcodeTextFont = new Font("Calibri", 9.0F);
 			this.ImageFormat = ImageFormat.Gif;
 		}
 		#endregion
@@ -168,8 +168,21 @@ namespace BarcodeConversion.App_Code
 					{
 						var barcodeTextTop = barcodeBottom + SpacingBetweenBarcodeAndText;
 
-						gfx.DrawString(this.BarcodeText, this.BarcodeTextFont, Brushes.Black, barcodeTextX, barcodeTextTop);
-					}
+                        this.BarcodeTextFont = new Font("Calibri", 9.0F);
+
+                        // Create rectangle for drawing
+
+                        //float xCoord = barcodeTextX;
+                        //float yCoord = barcodeTextTop;
+                        //float width = 1000.0F;
+                        //float height = 12.0F;
+                        //RectangleF drawRect = new RectangleF(xCoord, yCoord, width, height);
+                        //drawRect.Inflate(2, 1);
+                        //this.BarcodeTextFont = new Font("Calibri", 6.0F);
+                        //gfx.DrawString(this.BarcodeText, this.BarcodeTextFont, Brushes.Black, drawRect);
+
+                        gfx.DrawString(this.BarcodeText, this.BarcodeTextFont, Brushes.Black, barcodeTextX, barcodeTextTop);
+                    }
 
 					var output = new MemoryStream();
 					bmp.Save(output, this.ImageFormat);
@@ -177,7 +190,6 @@ namespace BarcodeConversion.App_Code
 				}
 			}
 		}
-
 	}
 
 }
