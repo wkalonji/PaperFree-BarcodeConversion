@@ -193,6 +193,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.TextBox label1Box;
         
         /// <summary>
+        /// label1Dropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList label1Dropdown;
+        
+        /// <summary>
         /// LABEL2 control.
         /// </summary>
         /// <remarks>
@@ -209,6 +218,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox label2Box;
+        
+        /// <summary>
+        /// label2Dropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList label2Dropdown;
         
         /// <summary>
         /// LABEL3 control.
@@ -229,6 +247,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.TextBox label3Box;
         
         /// <summary>
+        /// label3Dropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList label3Dropdown;
+        
+        /// <summary>
         /// LABEL4 control.
         /// </summary>
         /// <remarks>
@@ -247,6 +274,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.TextBox label4Box;
         
         /// <summary>
+        /// label4Dropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList label4Dropdown;
+        
+        /// <summary>
         /// LABEL5 control.
         /// </summary>
         /// <remarks>
@@ -263,6 +299,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox label5Box;
+        
+        /// <summary>
+        /// label5Dropdown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList label5Dropdown;
         
         /// <summary>
         /// generateIndexSection control.

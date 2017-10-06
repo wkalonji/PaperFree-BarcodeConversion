@@ -22,13 +22,22 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel SettingsPanel;
         
         /// <summary>
-        /// collapseIcon control.
+        /// upArrow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton collapseIcon;
+        protected global::System.Web.UI.WebControls.LinkButton upArrow;
+        
+        /// <summary>
+        /// downArrow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton downArrow;
         
         /// <summary>
         /// newJobBtn control.
@@ -544,6 +553,42 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.HtmlControls.HtmlTable labelControlsTable;
         
         /// <summary>
+        /// txtBoxType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton txtBoxType;
+        
+        /// <summary>
+        /// dropdownType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton dropdownType;
+        
+        /// <summary>
+        /// valuesLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label valuesLabel;
+        
+        /// <summary>
+        /// dropdownValues control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox dropdownValues;
+        
+        /// <summary>
         /// labelTextBox control.
         /// </summary>
         /// <remarks>
@@ -553,6 +598,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.TextBox labelTextBox;
         
         /// <summary>
+        /// regex control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label regex;
+        
+        /// <summary>
         /// regexTextBox control.
         /// </summary>
         /// <remarks>
@@ -560,6 +614,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox regexTextBox;
+        
+        /// <summary>
+        /// alert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label alert;
         
         /// <summary>
         /// msgTextBox control.
@@ -577,7 +640,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton labelContents;
+        protected global::System.Web.UI.WebControls.Button labelContents;
         
         /// <summary>
         /// unsetRules control.

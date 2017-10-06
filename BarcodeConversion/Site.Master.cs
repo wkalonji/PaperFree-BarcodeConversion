@@ -70,6 +70,18 @@ namespace BarcodeConversion
                 Server.ClearError();
             }
             if (isAdmin) settings.Visible = true;
+
+            // Hide Footer before printing
+            Control c = Helper.GetPostBackControl(this.Page);
+            if (c != null)
+            {
+                if (c.ID == "printIndexesBtn" || c.ID == "saveAndPrint" || c.ID == "printBarcodeBtn")
+                {
+                    footerSection.Visible = false;
+                }
+            }
+            else
+                footerSection.Visible = true;
         }
     }
 }

@@ -58,6 +58,8 @@ namespace BarcodeConversion
                     TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
                     t.Visible = false;
                     t.Text = string.Empty;
+                    DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+                    d.Visible = false;
                 }
 
                 // Make sure a job is selected
@@ -79,10 +81,12 @@ namespace BarcodeConversion
                     {
                         using (SqlCommand cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "SELECT JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3," + 
-                                                      "REGEX3, ALERT3,LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5 " + 
+                            cmd.CommandText = "SELECT JOB_ID, LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, " +
+                                                             "REGEX1, REGEX2, REGEX3, REGEX4, REGEX5, " + 
+                                                             "ALERT1, ALERT2, ALERT3, ALERT4, ALERT5, " + 
+                                                             "TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
                                               "FROM JOB_CONFIG_INDEX " + 
-                                              "WHERE JOB_ID = @jobID";
+                                              "WHERE JOB_ID=@jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
                             con.Open();
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -93,46 +97,82 @@ namespace BarcodeConversion
                                     int i = 1;
                                     int j = 1;
                                     var regexList = new List<Tuple<string, string, string>> { };
+
                                     // Set & display controls
-                                    while (reader.Read())
+                                    if (reader.Read())
                                     {
-                                        while (i <= 13)
+                                        while (i <= 5)
                                         {
                                             if (reader.GetValue(i) != DBNull.Value) // If label i is set
                                             {
-                                                var tuple = Tuple.Create("", "", "");
-                                                string label = (string)reader.GetValue(i);
-                                                string regex = string.Empty;
-                                                string alert = string.Empty;
-                                                if (reader.GetValue(i + 1) != DBNull.Value) // if regex i is set
+                                                if (reader.GetValue(i + 15) == DBNull.Value) // If tableid is set
                                                 {
-                                                    regex = (string)reader.GetValue(i + 1);
-                                                    alert = (string)reader.GetValue(i + 2);
-                                                }
-                                                tuple = Tuple.Create(label, regex, alert);
+                                                    var tuple = Tuple.Create("", "", "");
+                                                    string label = (string)reader.GetValue(i);
+                                                    string regex = string.Empty;
+                                                    string alert = string.Empty;
+                                                    if (reader.GetValue(i + 5) != DBNull.Value) // if regex i is set
+                                                    {
+                                                        regex = (string)reader.GetValue(i + 5);
+                                                        alert = (string)reader.GetValue(i + 10);
+                                                    }
+                                                    tuple = Tuple.Create(label, regex, alert);
 
-                                                regexList.Add(tuple);
-                                                string text = label;
-                                                text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
-                                                Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
-                                                l.Text = text + " :";
-                                                l.Visible = true;
-                                                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + j + "Box") as TextBox;
-                                                t.Visible = true;
-                                                
-                                                if (i == 1)
-                                                {
-                                                    t.Attributes["placeholder"] = " Required";
-                                                    t.Focus();
+                                                    regexList.Add(tuple);
+                                                    string text = label;
+                                                    text = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower());
+                                                    Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
+                                                    l.Text = text + " :";
+                                                    l.Visible = true;
+                                                    TextBox t = this.Master.FindControl("MainContent").FindControl("label" + j + "Box") as TextBox;
+                                                    t.Visible = true;
+
+                                                    if (i == 1)
+                                                    {
+                                                        t.Attributes["placeholder"] = " Required";
+                                                        t.Focus();
+                                                    }
+                                                    else
+                                                    {
+                                                        if (regex == string.Empty) t.Attributes["placeholder"] = " Optional";
+                                                        else t.Attributes["placeholder"] = " Required";
+                                                    }
+                                                    //j += 1;
                                                 }
                                                 else
                                                 {
-                                                    if (regex == string.Empty) t.Attributes["placeholder"] = " Optional";
-                                                    else t.Attributes["placeholder"] = " Required";
+                                                    string label = (string)reader.GetValue(i);
+                                                    var tuple = Tuple.Create(label, "", "");
+                                                    regexList.Add(tuple);
+                                                    label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(label.ToLower());
+                                                    Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + j) as Label;
+                                                    l.Text = label + " :";
+                                                    l.Visible = true;
+                                                    DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + j + "Dropdown") as DropDownList;
+                                                    d.Visible = true;
+
+                                                    // Fill dropdown
+                                                    using (SqlCommand cmd2 = con.CreateCommand())
+                                                    {
+                                                        cmd2.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id ORDER BY ORD";
+                                                        cmd2.Parameters.AddWithValue("@id", reader.GetValue(i + 15).ToString());
+                                                        using (SqlDataReader reader2 = cmd2.ExecuteReader())
+                                                        {
+                                                            while (reader2.Read())
+                                                            {
+                                                                d.Items.Add(reader2.GetValue(0).ToString());
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                                j += 1;
+
                                             }
-                                            i += 3;
+                                            else
+                                            {
+                                                var tuple = Tuple.Create("", "", "");
+                                                regexList.Add(tuple);
+                                            } 
+                                            i += 1; j += 1; 
                                         }
                                         Session["regexList"] = regexList; // Contains (label,regex,alert) for each label set at Index Config Section
                                     }
@@ -153,7 +193,7 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to retrieve selected job's form controls. Contact system admin.";
+                string msg = "Issue occured while attempting to retrieve selected job index data controls. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 04: " + msg + "');", true);
             }
         }
@@ -180,7 +220,7 @@ namespace BarcodeConversion
                     var error = new TableCell();
                     var errorRow = new TableRow();
                     error.Text = "Only csv files are allowed!";
-                    error.Attributes["style"] = "color:red;";
+                    error.Attributes["style"] = "color:#ff3333;";
                     errorRow.Cells.Add(error);
                     fileEntryMsg.Rows.Add(errorRow);
                     return;
@@ -217,14 +257,14 @@ namespace BarcodeConversion
                                 var errorMsg = new TableCell();
                                 var errorMsgRow = new TableRow();
                                 errorMsg.Text = "This job requires that every row in your csv file contains no more than " + regexList.Count + " items.";
-                                errorMsg.Attributes["style"] = "color:red;";
+                                errorMsg.Attributes["style"] = "color:#ff3333;";
                                 errorMsgRow.Cells.Add(errorMsg);
                                 fileEntryMsg.Rows.Add(errorMsgRow);
 
                                 var error = new TableCell();
                                 var errorRow = new TableRow();
                                 error.Text = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + regexList.Count+".";
-                                error.Attributes["style"] = "color:red;";
+                                error.Attributes["style"] = "color:#ff3333;";
                                 errorRow.Cells.Add(error);
                                 fileEntryMsg.Rows.Add(errorRow);
                                 isFileValid = false;
@@ -232,6 +272,63 @@ namespace BarcodeConversion
                                 // Clear list of file contents if errors found
                                 fileContent.Clear();
                                 return;
+                            }
+
+                            // Then, check whether any line entry is a dropdown value.
+                            int jobID = getJobId(this.selectJob.SelectedValue);
+                            using (SqlConnection con = Helper.ConnectionObj)
+                            {
+                                using (SqlCommand cmd = con.CreateCommand()) // Retrieve all the tableids
+                                {
+                                    cmd.CommandText = "SELECT TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
+                                                      "FROM JOB_CONFIG_INDEX " +
+                                                      "WHERE JOB_ID=@jobID";
+                                    cmd.Parameters.AddWithValue("@jobID", jobID);
+                                    con.Open();
+                                    using (SqlDataReader reader = cmd.ExecuteReader())
+                                    {
+                                        if (reader.HasRows && reader.Read())
+                                        {
+                                            for (int i = 0; i <= 4; i++) // For each tableid
+                                            {
+                                                bool found = false;
+                                                string validEntries = string.Empty;
+                                                if (reader.GetValue(i).ToString() != DBNull.Value.ToString()) // If tableid exists
+                                                {
+                                                    using (SqlCommand cmd2 = con.CreateCommand()) // Retrieve all the tableids
+                                                    {
+                                                        cmd2.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id ORDER BY ORD";
+                                                        cmd2.Parameters.AddWithValue("@id", reader.GetValue(i).ToString());
+                                                        using (SqlDataReader reader2 = cmd2.ExecuteReader()) // Get tableid values
+                                                        {
+                                                            while (reader2.Read())  // For each tableid value, check whether line entry is among those values
+                                                            {
+                                                                string dropdownValue = reader2.GetValue(0).ToString();
+                                                                if (line[i] == dropdownValue)
+                                                                    found = true;
+                                                                validEntries += dropdownValue + ", ";
+                                                            }
+                                                        }
+                                                    }
+                                                    if (found == false) // if line entry not among tableid values
+                                                    {
+                                                        uploadSuccess.Visible = false;
+                                                        var error = new TableCell();
+                                                        var errorRow = new TableRow();
+                                                        if (line[i] != string.Empty)
+                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") = '" + line[i] + "'  is invalid. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2); 
+                                                        else
+                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") does not exist. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2);
+                                                        error.Attributes["style"] = "color:#ff3333;";
+                                                        errorRow.Cells.Add(error);
+                                                        fileEntryMsg.Rows.Add(errorRow);
+                                                        return;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                             //Process field
@@ -248,7 +345,7 @@ namespace BarcodeConversion
                                         string msg = label + ": " + regexList[i - 1].Item3;
                                         var error = new TableCell();
                                         error.Text = "Cell value \""+ (fields[i - 1]) + "\" for index data attribute \"" + label+ "\" at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:   " + regexList[i - 1].Item3;
-                                        error.Attributes["style"] = "color:red;";
+                                        error.Attributes["style"] = "color:#ff3333;";
                                         var errorRow = new TableRow();
                                         errorRow.Cells.Add(error);
                                         fileEntryMsg.Rows.Add(errorRow);
@@ -261,7 +358,7 @@ namespace BarcodeConversion
                                     {
                                         var error = new TableCell();
                                         error.Text = "First item of row " + lineNumber + " in csv file can not be blank.";
-                                        error.Attributes["style"] = "color:red;";
+                                        error.Attributes["style"] = "color:#ff3333;";
                                         var errorRow = new TableRow();
                                         errorRow.Cells.Add(error);
                                         fileEntryMsg.Rows.Add(errorRow);
@@ -276,7 +373,7 @@ namespace BarcodeConversion
                     if (isFileValid)
                     {
                         string shortFileName;
-                        if (fileName.Length > 15)
+                        if (fileName.Length > 17)
                             shortFileName = fileName.Substring(0, 9) + " ... " + fileName.Substring((fileName.Length - 6), 6);
                         else shortFileName = fileName;
                         uploadSuccess.Text = "\"" + shortFileName + "\"" + " file uploaded successfully!";
@@ -298,7 +395,7 @@ namespace BarcodeConversion
                 catch (Exception ex)
                 {
                     uploadSuccess.Text = "Error 4a:  Couldn't upload file. Make sure it's a csv file. " + ex.Message;
-                    uploadSuccess.Attributes["style"] = "color:red;";
+                    uploadSuccess.Attributes["style"] = "color:#ff3333;";
                     uploadSuccess.Visible = true;
                     return;
                 }
@@ -324,7 +421,7 @@ namespace BarcodeConversion
                 if (fileName == string.Empty)
                 {
                     uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
-                    uploadSuccess.Attributes["style"] = "color:red;";
+                    uploadSuccess.Attributes["style"] = "color:#ff3333;";
                     uploadSuccess.Visible = true;
                     return;
                 }
@@ -349,12 +446,24 @@ namespace BarcodeConversion
                             int diff = 5 - lineEntries.Count;
                             for (int i = 1; i <= diff; i++) lineEntries.Add(string.Empty);
                         }
+                        // Check to make sure that file's line entries are within dropdown range if it applies
+                        // First, get selected job ID.
+                        int jobID = getJobId(this.selectJob.SelectedValue);
+
+                        if (jobID == 0)
+                        {
+                            string msg = "Error 02:     Selected job not found. Contact system admin.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            selectJob.SelectedValue = "Select";
+                            return;
+                        }
+
                         // Get barcode
                         string barcodeIndex = generateBarcode();
                         if (barcodeIndex.Contains("Error"))
                         {
                             uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only "+countSavedRecords+" records saved! Contact system admin.";
-                            uploadSuccess.Attributes["style"] = "color:red;";
+                            uploadSuccess.Attributes["style"] = "color:#ff3333;";
                             uploadSuccess.Visible = true;
                             return;
                         }
@@ -363,7 +472,7 @@ namespace BarcodeConversion
                         if (result.Contains("Error"))
                         {
                             uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only " + countSavedRecords + " records saved! Contact system admin.";
-                            uploadSuccess.Attributes["style"] = "color:red;";
+                            uploadSuccess.Attributes["style"] = "color:#ff3333;";
                             uploadSuccess.Visible = true;
                             return;
                         }
@@ -395,7 +504,7 @@ namespace BarcodeConversion
             catch(Exception ex)
             {
                 uploadSuccess.Text = "Error 4c:  Couldn't process file. Contact system admin." + ex.Message;
-                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
                 return;
             }
@@ -403,7 +512,7 @@ namespace BarcodeConversion
 
 
 
-        // 'PRINT INDEXES' CLICKED: SAVE & PRINT UPLOADED FILE CONTENTS
+        // 'PRINT INDEXES' or 'SAVE & PRINT BARCODE' CLICKED: SAVE & PRINT UPLOADED FILE CONTENTS or Manual entries
         protected void printIndexes_Click(object sender, EventArgs e)
         {
             try
@@ -436,9 +545,11 @@ namespace BarcodeConversion
                 // Write index sheet pages
                 if (b.ID == "printIndexesBtn")
                 {
+                    int currentCount = 0;
                     foreach (List<string> entries in fileContent)
                     {
-                        string result = writeIndexPage(entries);
+                        currentCount++;
+                        string result = writeIndexPage(entries, currentCount, fileContent.Count);
                         if (result.Contains("Error"))
                         {
                             string msg = result;
@@ -449,7 +560,7 @@ namespace BarcodeConversion
                 }
                 else if (b.ID == "saveAndPrint")
                 {
-                    string result = writeIndexPage(manualEntries);
+                    string result = writeIndexPage(manualEntries, 1, 1);
                     if (result.Contains("Error"))
                     {
                         string msg = result;
@@ -460,14 +571,13 @@ namespace BarcodeConversion
                
                 // Close div tag
                 Response.Write("</div>");
-
                 // Finally, Print Index sheet.
                 ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
             }
             catch (Exception ex)
             {
                 uploadSuccess.Text = "Error 4cc:  Couldn't process file. Contact system admin." + ex.Message;
-                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
                 return;
             }
@@ -493,7 +603,7 @@ namespace BarcodeConversion
             if (fileName == string.Empty)
             {
                 uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
-                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
                 return;
             }
@@ -574,10 +684,10 @@ namespace BarcodeConversion
                 // Making the Index string
                 string year = DateTime.Now.ToString("yy");
                 JulianCalendar jc = new JulianCalendar();
-                string julianDay = jc.GetDayOfYear(DateTime.Now).ToString();
+                string julianDay = DateTime.Today.DayOfYear.ToString();
                 string time = DateTime.Now.ToString("HHmmssfff");
                 generateIndexSection.Visible = true;
-                return selectJob.SelectedValue.ToUpper() + " " + year + julianDay + time;
+                return selectJob.SelectedValue.ToUpper() + year + julianDay + time;
 
                 // Convert index to barcode
                 // imgBarcode.ImageUrl = string.Format("ShowCode39Barcode.ashx?code={0}&ShowText={1}&Thickness={2}",indexString,showTextValue, 1);
@@ -587,6 +697,11 @@ namespace BarcodeConversion
                 string msg = "Error 4b: Issue occured while attempting to generate Index. Contact system admin. ";
                 return msg + ex.Message;
             }
+        }
+
+        private object GetDayOfYear(DateTime today)
+        {
+            throw new NotImplementedException();
         }
 
 
@@ -603,8 +718,10 @@ namespace BarcodeConversion
             for (int i = 1; i <= 5; i++)
             {
                 TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
-                if (c.Visible == true)
-                {   
+                DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+                
+                if (c != null && c.Visible == true)     // If control is a textbox
+                {
                     // Make sure 1st field not blank
                     if (i == 1 && c.Text == string.Empty)
                     {
@@ -631,6 +748,19 @@ namespace BarcodeConversion
                     }
                     entries.Add(c.Text);
                 }
+                else if (d != null && d.Visible == true)    // If control is a dropdown
+                {
+                    // Make sure 1st field not blank
+                    if (d.SelectedValue == "Select")
+                    {
+                        string label = regexList[i-1].Item1;
+                        string msg = label + " field is required!";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        d.Focus();
+                        return;
+                    }
+                    entries.Add(d.SelectedValue);
+                }
                 else
                     entries.Add(string.Empty);
             }
@@ -649,9 +779,15 @@ namespace BarcodeConversion
             if (result.Contains("Error"))
             {
                 uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Contact system admin.";
-                uploadSuccess.Attributes["style"] = "color:red;";
+                uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
                 return;
+            }
+            for (int i = 1; i <= 5; i++)
+            {
+                DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+                if (d != null && d.Visible == true)
+                    d.SelectedValue = "Select";
             }
             // Stick barcode to the end of entries
             entries.Add(barcodeIndex);
@@ -686,14 +822,14 @@ namespace BarcodeConversion
                 }
 
                 // Saving
-                string barcodeIndex = index.Replace(" ", "");
+                string barcodeIndex = index;
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = "INSERT INTO INDEX_DATA (JOB_ID, BARCODE, VALUE1, VALUE2, " +
-                                            "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex," +
-                                            " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
+                                          "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex," +
+                                          " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
                         cmd.Parameters.AddWithValue("@barcodeIndex", barcodeIndex);
                         for (int i = 1; i <= 5; i++)
@@ -714,7 +850,7 @@ namespace BarcodeConversion
                             {
                                 var error = new TableCell();
                                 var errorRow = new TableRow();
-                                error.Text = "Index string successfully saved...";
+                                error.Text = "Index string successfully saved.";
                                 error.Attributes["style"] = "color:green;";
                                 errorRow.Cells.Add(error);
                                 manualEntryMsg.Rows.Add(errorRow);
@@ -750,57 +886,143 @@ namespace BarcodeConversion
         
 
         // WRITE INDEX SHEET PAGE CONTENT. HELPER
-        private string writeIndexPage(List<string> indexRecord)
+        private string writeIndexPage(List<string> indexRecord, int currentCount, int totalCount)
         {
             try
             {
                 //Get index string
-                string indexString = indexRecord.Last().Replace(" ","");
-                string jobName = indexRecord.Last().Split(' ')[0];
+                string indexString = indexRecord.Last();
+                string jobName = indexString.Substring(0, indexString.Length - 14);
                 Image imgBarcode = new Image();
-                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=45", indexString.PadLeft(8, '0'));
+                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=65", indexString.PadLeft(8, '0'));
 
-                // Write Index sheet page content
-                Response.Write(
-                      "<center style='font-size:50px; font-family:Arial; font-weight:bold; padding-top:130px;'>" + jobName + " - Index Header" + "</center>" +
-                      "<div>" +
-                           "<center style='font-size:25px; margin-top:70px;'>" +
-                              "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='550px' style='margin-top:0px; '> " +
-                          "</center>" +
-                          "<div style='font-size:25px; text-align:right;' >" +
-                              "<img src='" + imgBarcode.ImageUrl + "' height='160px' width='550px' style='margin-top:230px; margin-right:-150px;' class='rotate'> " +
-                          "</div>" +
-                      "</div>" +
-
-                      "<table style='margin-top:250px; margin-bottom:580px; margin-left:300px;'>" +
-                          "<tr>" +
-                              "<td style='font-size:30px;'> INDEX STRING: </td>" +
-                              "<td style='font-size:30px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                          "</tr>"
-                );
-                var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
-
-                for (int i = 0; i < regexList.Count; i++)
-                {   
-                    if (indexRecord[i] != string.Empty)
+                // Write Index sheet page content if IE browser
+                System.Web.HttpBrowserCapabilities browser = Request.Browser;
+                if (browser.Browser == "InternetExplorer")
+                {
+                    // Write to index page
+                    Response.Write(
+                        "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                        "<div>" +
+                            "<div style='margin-top:70px;text-align:center;'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='450px' style='border:none;outline:none;'> " +
+                            "</div>" +
+                            "<div style='font-size:17px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                            "<div style='width:450px; margin-top:210px;float:right;margin-right:-120px;' class='rotate'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='100%' style='border:none;outline:none;' > " +
+                                "<div style='font-size:17px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                            "</div>" +
+                        "</div>"
+                    );
+                    // Remove extra space if it's the last page to print
+                    if (totalCount == currentCount)
                     {
-                        string label = regexList[i].Item1;
                         Response.Write(
-                            "<tr>" +
-                                "<td style='font-size:30px;'>" + label.ToUpper() + ":" + "</td>" +
-                                "<td style='font-size:30px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
-                            "</tr>"
+                            "<table style='margin-top:500px; margin-left:178px;padding-top:10px;display:block;'>" +
+                                "<tr>" +
+                                    "<td style='font-size:21px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>"
                         );
                     }
+                    else
+                    {
+                        Response.Write(
+                           "<table style='margin-top:500px;margin-bottom:570px; margin-left:178px;padding-top:10px;display:block;'>" +
+                               "<tr>" +
+                                   "<td style='font-size:21px;'> INDEX STRING: </td>" +
+                                   "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                               "</tr>"
+                        );
+                    }
+                    var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
+
+                    for (int i = 0; i < regexList.Count; i++)
+                    {
+                        if (indexRecord[i] != string.Empty)
+                        {
+                            string label = regexList[i].Item1;
+                            Response.Write(
+                                "<tr>" +
+                                    "<td style='font-size:21px;'>" + label.ToUpper() + ":" + "</td>" +
+                                    "<td style='font-size:21px; padding-left:15px;;'>" + indexRecord[i].ToUpper() + "</td>" +
+                                "</tr>"
+                            );
+                        }
+                    }
+                    Response.Write(
+                                "<tr>" +
+                                    "<td style='font-size:21px;'>DATE PRINTED: </td>" +
+                                    "<td style='font-size:21px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                "</tr>" +
+                            "</table>"
+                    );
+                    return "pass";
                 }
-                Response.Write(
-                            "<tr>" +
-                                "<td style='font-size:30px;'>DATE CREATED: </td>" +
-                                "<td style='font-size:30px; padding-left:15px;'>" + DateTime.Now + "</td>" +
-                            "</tr>" +
-                        "</table>" 
-                );
-                return "pass";
+                else
+                {
+                    // Write Index sheet page content
+                    Response.Write(
+                        "<div style='font-size:50px; font-family:Arial; font-weight:bold; text-align:center;padding-top:80px;'>" + jobName + " - Index Header" + "</div>" +
+                        "<div style='position:relative;'>" +
+                            "<div style='margin-top:100px;text-align:center;'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='60px' width='600px' style='margin-top:0px; '> " +
+                            "</div>" +
+                            "<div style='font-size:22px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+
+                            "<div style='width:600px; margin-top:310px;float:right;margin-right:-150px;' class='rotate'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='60px' width='100%' > " +
+                                "<div style='font-size:22px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                            "</div>" +
+                        "</div>"
+                    );
+
+                    // Remove extra space if it's the last page to print
+                    if (currentCount == totalCount)
+                    {
+                        Response.Write(
+                            "<table style='margin-top:670px; margin-left:255px;padding-top:10px;'>" +
+                                "<tr>" +
+                                    "<td style='font-size:27px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:27px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>"
+                        );
+                    }
+                    else
+                    {
+                        Response.Write(
+                           "<table style='margin-top:670px; margin-bottom:570px; margin-left:255px;padding-top:10px;'>" +
+                               "<tr>" +
+                                   "<td style='font-size:27px;'> INDEX STRING: </td>" +
+                                   "<td style='font-size:27px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                               "</tr>"
+                        );
+                    }
+
+                    var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
+
+                    for (int i = 0; i < regexList.Count; i++)
+                    {
+                        if (indexRecord[i] != string.Empty)
+                        {
+                            string label = regexList[i].Item1;
+                            Response.Write(
+                                "<tr>" +
+                                    "<td style='font-size:27px;'>" + label.ToUpper() + ":" + "</td>" +
+                                    "<td style='font-size:27px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
+                                "</tr>"
+                            );
+                        }
+                    }
+                    Response.Write(
+                                "<tr>" +
+                                    "<td style='font-size:27px;'>DATE PRINTED: </td>" +
+                                    "<td style='font-size:27px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                "</tr>" +
+                            "</table>"
+                    );
+                    return "pass";
+                }
             }
             catch(Exception ex)
             {
@@ -821,11 +1043,12 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "UPDATE INDEX_DATA SET PRINTED = @printed WHERE BARCODE = @barcodeIndex";
+                        cmd.CommandText = "UPDATE INDEX_DATA SET PRINTED=@printed WHERE BARCODE=@barcodeIndex";
                         cmd.Parameters.AddWithValue("@printed", 1);
                         cmd.Parameters.AddWithValue("@barcodeIndex", indexString);
                         con.Open();
-                        if (cmd.ExecuteNonQuery() == 1)
+                        int result = cmd.ExecuteNonQuery();
+                        if (result == 1)
                         {
                             counter++;
                         }
@@ -833,6 +1056,7 @@ namespace BarcodeConversion
                         {
                             string msg = "Error 11: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            clearFields();
                             return msg;
                         }
 
@@ -846,6 +1070,7 @@ namespace BarcodeConversion
                         {
                             string msg = "Error 12: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            clearFields();
                             return msg;
                         }
                     }
@@ -949,18 +1174,41 @@ namespace BarcodeConversion
                     return;
                 }
 
-                // Then, get all jobS accessible to current operator from OPERATOR_ACCESS.
+                // Check if current operator is Admin
+
+                // Then, get all appropriate jobs for current operator from OPERATOR_ACCESS.
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT ABBREVIATION " +
-                                          "FROM JOB " +
-                                          "JOIN OPERATOR_ACCESS ON JOB.ID=OPERATOR_ACCESS.JOB_ID " +
-                                          "WHERE ACTIVE=1 AND OPERATOR_ID=@userId " +
-                                          "ORDER BY ABBREVIATION ASC";
+                        // Get operator's Admin status
+                        cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE ID = @userId";
                         cmd.Parameters.AddWithValue("@userId", opID);
                         con.Open();
+                        object result = cmd.ExecuteScalar();
+                        bool isAdmin =false;
+                        if (result != null)
+                            isAdmin = (bool)cmd.ExecuteScalar();
+                        cmd.Parameters.Clear(); 
+
+                        // If Admin, get all jobs    
+                        if (isAdmin ==  true)
+                        {
+                            cmd.CommandText =   "SELECT ABBREVIATION " +
+                                                "FROM JOB " +
+                                                "WHERE ACTIVE=1 " +
+                                                "ORDER BY ABBREVIATION ASC";
+                        }
+                        else // Else get assigned jobs only.
+                        {
+                            cmd.CommandText =   "SELECT ABBREVIATION " +
+                                                "FROM JOB " +
+                                                "JOIN OPERATOR_ACCESS ON JOB.ID=OPERATOR_ACCESS.JOB_ID " +
+                                                "WHERE ACTIVE=1 AND OPERATOR_ID=@userId " +
+                                                "ORDER BY ABBREVIATION ASC";
+                            cmd.Parameters.AddWithValue("@userId", opID);
+                        }
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.HasRows)
@@ -1013,7 +1261,7 @@ namespace BarcodeConversion
                                     {
                                         if (item.Value == (string)reader.GetValue(0))
                                         {
-                                            item.Attributes.Add("style", "color:Red;");
+                                            item.Attributes.Add("style", "color:#ff3333;");
                                         }
                                     }
                                 }

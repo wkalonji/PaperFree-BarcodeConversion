@@ -53,10 +53,10 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText =   "SELECT BARCODE, ABBREVIATION, CREATION_TIME " +
-                                            "FROM INDEX_DATA " +
-                                            "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
-                                            "WHERE OPERATOR_ID=@opId AND PRINTED=0";
+                        cmd.CommandText = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
+                                          "FROM INDEX_DATA " +
+                                          "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
+                                          "WHERE OPERATOR_ID=@opId AND PRINTED=0";
                         cmd.Parameters.AddWithValue("@opId", opID);
                         con.Open();
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -159,7 +159,7 @@ namespace BarcodeConversion
                         if (row.RowType == DataControlRowType.DataRow)
                         {
                             try {
-                                var indexString = row.Cells[2].Text;
+                                var indexString = row.Cells[3].Text;
                                 SqlCommand cmd = new SqlCommand("DELETE FROM INDEX_DATA WHERE OPERATOR_ID=@opId AND BARCODE = @barcodeIndex", con);
                                 cmd.Parameters.AddWithValue("@opId", opID);
                                 cmd.Parameters.AddWithValue("@barcodeIndex", indexString);
@@ -234,10 +234,15 @@ namespace BarcodeConversion
             {
                 // First check whether any checkbox was checked
                 bool boxChecked = false;
+                int totalCount = 0;
                 foreach (GridViewRow row in indexesGridView.Rows)
                 {
                     CheckBox chxBox = row.FindControl("cbSelect") as CheckBox;
-                    if (chxBox.Checked) boxChecked = true;
+                    if (chxBox.Checked)
+                    {
+                        totalCount++;
+                        boxChecked = true;
+                    }
                 }  
                 if (boxChecked == false)
                 {
@@ -251,109 +256,188 @@ namespace BarcodeConversion
                 if (!Page.IsValid) return;
 
                 // Creating index barcode webpage
+                int currentCount = 0;
                 Response.Write("<div id = 'pageToPrint' style = 'margin-top:-50px;'>");
                 foreach (GridViewRow row in indexesGridView.Rows)
                 {
-                    var indexString = row.Cells[2].Text;
-                    var imgBarCode = new Image();
+                    var indexString = row.Cells[3].Text;
+                    var imgBarcode = new Image();
                     CheckBox chxBox = row.FindControl("cbSelect") as CheckBox;
                     List<EntryContent> allEntriesList = new List<EntryContent>();
 
                     if (chxBox.Checked)
                     {
+                        currentCount++;
                         if (row.RowType == DataControlRowType.DataRow)
                         {
                             // Get barcode Image
-                            string urlString = @"ShowCode39BarCode.ashx?code={0}&ShowText=1&Height=40";
-                            imgBarCode.ImageUrl = string.Format(urlString, indexString.PadLeft(8, '0'));
+                            string urlString = @"ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=40";
+                            imgBarcode.ImageUrl = string.Format(urlString, indexString.PadLeft(8, '0'));
 
                             // Get operator's entries
                             using (SqlConnection con = Helper.ConnectionObj)
                             {
                                 using (SqlCommand cmd = con.CreateCommand())
                                 {
-                                    cmd.CommandText =   "SELECT LABEL1, VALUE1, LABEL2, VALUE2, LABEL3, VALUE3," +
-                                                        " LABEL4, VALUE4, LABEL5, VALUE5 FROM JOB_CONFIG_INDEX" +
-                                                        " INNER JOIN INDEX_DATA ON JOB_CONFIG_INDEX.JOB_ID = INDEX_DATA.JOB_ID" +
-                                                        " WHERE INDEX_DATA.BARCODE = @indexString";
+                                    cmd.CommandText =   "SELECT LABEL1, VALUE1, LABEL2, VALUE2, LABEL3, VALUE3, " +
+                                                        "LABEL4, VALUE4, LABEL5, VALUE5 FROM JOB_CONFIG_INDEX " +
+                                                        "JOIN INDEX_DATA ON JOB_CONFIG_INDEX.JOB_ID = INDEX_DATA.JOB_ID " +
+                                                        "WHERE INDEX_DATA.BARCODE=@indexString";
                                     cmd.Parameters.AddWithValue("@indexString", indexString);
                                     con.Open();
                                     using (SqlDataReader reader = cmd.ExecuteReader())
                                     {
-                                        if (reader.HasRows)
+                                        int i = 0;
+                                        if (reader.Read())
                                         {
-                                            int i = 0;
-                                            while (reader.Read())
+                                            int count = reader.FieldCount;
+                                            while (i < count - 1)
                                             {
-                                                int count = reader.FieldCount;
-                                                while (i < count - 1)
+                                                if (reader.GetSqlValue(i) != null && reader.GetSqlValue(i + 1) != null) 
                                                 {
                                                     if (reader.GetValue(i) != DBNull.Value && reader.GetValue(i + 1) != DBNull.Value)
                                                     {
                                                         EntryContent content = new EntryContent((string)reader.GetValue(i), (string)reader.GetValue(i + 1));
                                                         allEntriesList.Add(content);
                                                     }
-                                                    i = i + 2;
                                                 }
+                                                i = i + 2;
                                             }
-                                            ViewState["allEntriesList"] = allEntriesList;
                                         }
-                                        else
-                                        {
-                                            // Handle this
-                                        }
+                                        ViewState["allEntriesList"] = allEntriesList;
                                     }
                                 }
                             }
                             string jobName = indexString.Substring(0, indexString.Length - 14);
 
                             // Write to index page
-                            Response.Write(
-                                   "<center style='font-size:50px; font-family:Arial; font-weight:bold; padding-top:130px;'>" + jobName + " - Index Header" + "</center>" +
-                                   "<div>" +
-                                        "<center style='font-size:25px; margin-top:70px;'>" +
-                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='550px' style='margin-top:0px; '> " +
-                                       "</center>" +
-                                       "<div style='font-size:25px; text-align:right;' >" +
-                                           "<img src='" + imgBarCode.ImageUrl + "' height='160px' width='550px' style='margin-top:230px; margin-right:-150px;' class='rotate'> " +
-                                       "</div>" +
-                                   "</div>" +
-
-                                   "<table style='margin-top:250px; margin-bottom:580px; margin-left:300px;'>" +
-                                       "<tr>" +
-                                           "<td style='font-size:30px;'> INDEX STRING: </td>" +
-                                           "<td style='font-size:30px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                       "</tr>"
-                            );
-
-                            foreach (var entry in allEntriesList)
-                            {   
-                                if (entry.text != string.Empty)
+                            System.Web.HttpBrowserCapabilities browser = Request.Browser;
+                            if (browser.Browser == "InternetExplorer")
+                            {
+                                // Write to index page
+                                Response.Write(
+                                    "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                                    "<div>" +
+                                        "<div style='margin-top:70px;text-align:center;'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='450px' style='border:none;outline:none;'> " +
+                                        "</div>" +
+                                        "<div style='font-size:17px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                                        "<div style='width:450px; margin-top:210px;float:right;margin-right:-120px;' class='rotate'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='100%' style='border:none;outline:none;' > " +
+                                            "<div style='font-size:17px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                                        "</div>" +
+                                    "</div>"
+                                );
+                                // Remove extra space if it's the last page to print
+                                if (totalCount == currentCount)
                                 {
-                                    string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
                                     Response.Write(
-                                        "<tr>" +
-                                            "<td style='font-size:30px;'>" + label.ToUpper() + ":" + "</td>" +
-                                            "<td style='font-size:30px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
-                                        "</tr>"
+                                        "<table style='margin-top:500px; margin-left:178px;padding-top:10px;display:block;'>" +
+                                            "<tr>" +
+                                                "<td style='font-size:21px;'> INDEX STRING: </td>" +
+                                                "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                            "</tr>"
                                     );
                                 }
+                                else
+                                {
+                                    Response.Write(
+                                       "<table style='margin-top:500px;margin-bottom:570px; margin-left:178px;padding-top:10px;display:block;'>" +
+                                           "<tr>" +
+                                               "<td style='font-size:21px;'> INDEX STRING: </td>" +
+                                               "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                           "</tr>"
+                                    );
+                                }
+
+                                foreach (var entry in allEntriesList)
+                                {
+                                    if (entry.text != string.Empty)
+                                    {
+                                        string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
+                                        Response.Write(
+                                            "<tr>" +
+                                                "<td style='font-size:21px;'>" + label.ToUpper() + ":" + "</td>" +
+                                                "<td style='font-size:21px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                            "</tr>"
+                                        );
+                                    }
+                                }
+                                
+                                Response.Write(
+                                            "<tr>" +
+                                                "<td style='font-size:21px;'>DATE PRINTED: </td>" +
+                                                "<td style='font-size:21px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                            "</tr>" +
+                                        "</table>"
+                                );
                             }
-                            Response.Write(
-                                        "<tr>" +
-                                            "<td style='font-size:30px;'>DATE CREATED: </td>" +
-                                            "<td style='font-size:30px; padding-left:15px;'>" + DateTime.Now + "</td>" +
-                                        "</tr>" +
-                                    "</table>" +
-                                "</div>"
-                            );
+                            else
+                            {
+                                Response.Write(
+                                    "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                                    "<div>" +
+                                        "<div style='margin-top:70px;text-align:center;'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='400px'> " +
+                                        "</div>" +
+                                        "<div style='font-size:15px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                                        "<div style='width:400px; margin-top:200px;float:right;margin-right:-130px;' class='rotate'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='100%' > " +
+                                            "<div style='font-size:15px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                                        "</div>" +
+                                    "</div>"
+                                );
+                                // Remove extra space if it's the last page to print
+                                if (totalCount == currentCount)
+                                {
+                                    Response.Write(
+                                        "<table style='margin-top:430px; margin-left:170px;padding-top:10px;display:block;'>" +
+                                            "<tr>" +
+                                                "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                            "</tr>"
+                                    );
+                                }
+                                else
+                                {
+                                    Response.Write(
+                                       "<table style='margin-top:430px;margin-bottom:570px; margin-left:170px;padding-top:10px;display:block;'>" +
+                                           "<tr>" +
+                                               "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                               "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                           "</tr>"
+                                    );
+                                }
+
+
+                                foreach (var entry in allEntriesList)
+                                {
+                                    if (entry.text != string.Empty)
+                                    {
+                                        string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
+                                        Response.Write(
+                                            "<tr>" +
+                                                "<td style='font-size:20px;'>" + label.ToUpper() + ":" + "</td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                            "</tr>"
+                                        );
+                                    }
+                                }
+                                Response.Write(
+                                            "<tr>" +
+                                                "<td style='font-size:20px;'>DATE PRINTED: </td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                            "</tr>" +
+                                        "</table>"
+                                );
+                            }
                         }
                         else
                         {
                             if (row.RowType == DataControlRowType.DataRow)
                             {
                                 var indexBarcode = row.Cells[2].Text;
-                                imgBarCode.ImageUrl = "";
+                                imgBarcode.ImageUrl = "";
                             }
                         }
                     }
@@ -519,9 +603,10 @@ namespace BarcodeConversion
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
-                    ((LinkButton)e.Row.Cells[4].Controls[0]).Text = "CREATION TIME";
-                    ((LinkButton)e.Row.Cells[3].Controls[0]).Text = "JOB";
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    e.Row.Cells[3].Visible = false;
+                    ((LinkButton)e.Row.Cells[9].Controls[0]).Text = "CREATION TIME";
+                    ((LinkButton)e.Row.Cells[2].Controls[0]).Text = "JOB";
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
@@ -529,6 +614,7 @@ namespace BarcodeConversion
                 // Set column borders & Prevent line breaks
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
+                    e.Row.Cells[3].Visible = false;
                     string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);

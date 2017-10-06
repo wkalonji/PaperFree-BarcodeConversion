@@ -76,11 +76,12 @@ namespace BarcodeConversion.App_Code
 		{
 			this.BarcodeText = barcodeText;
 			this.Height = height;
-			this.BarcodePadding = 5;
-			this.ShowBarcodeText = true;
+			this.BarcodePadding = 0;
+			this.ShowBarcodeText = false;
 			this.BarcodeWeight = BarcodeWeight.Small;
-			this.BarcodeTextFont = new Font("Calibri", 9.0F);
-			this.ImageFormat = ImageFormat.Gif;
+			//this.BarcodeTextFont = new Font("Calibri", 9.0F);
+            this.BarcodeTextFont = new Font("Arial", 9.0F);
+            this.ImageFormat = ImageFormat.Gif;
 		}
 		#endregion
 
@@ -105,7 +106,6 @@ namespace BarcodeConversion.App_Code
 				if (code39alphabet.IndexOf(this.BarcodeText[i]) == -1)
 					throw new ArgumentException(string.Format("Invalid character for Barcode: '{0}' is not a valid code 39 character", this.BarcodeText[i]));
 
-
 			// Create the encoded string
 			var codeToGenerate = "*" + this.BarcodeText + "*";
 			var encodedString = string.Empty;
@@ -113,7 +113,6 @@ namespace BarcodeConversion.App_Code
 			{
 				if (i > 0)
 					encodedString += InterchangeGap;
-
 				encodedString += code39code[code39alphabet.IndexOf(codeToGenerate[i])];
 			}
 
@@ -127,9 +126,7 @@ namespace BarcodeConversion.App_Code
 				else
 					widthOfBarcodeString += (int)this.BarcodeWeight;
 			}
-
 			var widthOfImage = widthOfBarcodeString + (BarcodePadding * 2);
-
 
 			// Create Bitmap class
 			using (var bmp = new Bitmap(widthOfImage, this.Height, PixelFormat.Format32bppArgb))
@@ -167,20 +164,6 @@ namespace BarcodeConversion.App_Code
 					if (this.ShowBarcodeText)
 					{
 						var barcodeTextTop = barcodeBottom + SpacingBetweenBarcodeAndText;
-
-                        this.BarcodeTextFont = new Font("Calibri", 9.0F);
-
-                        // Create rectangle for drawing
-
-                        //float xCoord = barcodeTextX;
-                        //float yCoord = barcodeTextTop;
-                        //float width = 1000.0F;
-                        //float height = 12.0F;
-                        //RectangleF drawRect = new RectangleF(xCoord, yCoord, width, height);
-                        //drawRect.Inflate(2, 1);
-                        //this.BarcodeTextFont = new Font("Calibri", 6.0F);
-                        //gfx.DrawString(this.BarcodeText, this.BarcodeTextFont, Brushes.Black, drawRect);
-
                         gfx.DrawString(this.BarcodeText, this.BarcodeTextFont, Brushes.Black, barcodeTextX, barcodeTextTop);
                     }
 
@@ -191,5 +174,4 @@ namespace BarcodeConversion.App_Code
 			}
 		}
 	}
-
 }

@@ -578,7 +578,7 @@ namespace BarcodeConversion
                     ((LinkButton)e.Row.Cells[1].Controls[0]).Text = "OPERATOR";
                     ((LinkButton)e.Row.Cells[e.Row.Cells.Count - 2].Controls[0]).Text = "CREATION TIME";
                     // Set column borders & Prevent headers' line breaks
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }

@@ -18,6 +18,9 @@ public class ShowCode39Barcode : IHttpHandler {
             barcode.BarcodeWeight = BarcodeWeight.Large;
         else if (context.Request.QueryString["thickness"] == "2")
             barcode.BarcodeWeight = BarcodeWeight.Medium;
+        else 
+            barcode.BarcodeWeight = BarcodeWeight.Small;
+
         if (!string.IsNullOrEmpty(context.Request.QueryString["Height"]))
             barcode.Height = Convert.ToInt32(context.Request.QueryString["Height"]);
 

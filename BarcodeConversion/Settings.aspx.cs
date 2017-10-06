@@ -920,26 +920,107 @@ namespace BarcodeConversion
 
         // 'JOB ABBREVIATION' DROPDOWN SELECT
         protected void JobAbbSelect(object sender, EventArgs e)
-        {
-            if (selectJob.SelectedValue != "Select")
+        {   
+            try
             {
-                labelsTable.Visible = true;
-                edit1.Visible = true;
-                edit2.Visible = true;
-                edit3.Visible = true;
-                edit4.Visible = true;
-                edit5.Visible = true;
-                labelControlsTable.Visible = true;
-                edit1.Visible = false;
-                labelTextBox.Focus();
-                labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
+                if (selectJob.SelectedValue != "Select")
+                {
+                    labelsTable.Visible = true;
+                    edit1.Visible = true;
+                    edit2.Visible = true;
+                    edit3.Visible = true;
+                    edit4.Visible = true;
+                    edit5.Visible = true;
+                    labelControlsTable.Visible = true;
+                    edit1.Visible = false;
+
+                    // Get type of 1st control 
+                    int jobId = Helper.getJobId(selectJob.SelectedValue);
+                    bool isDropdown = isDropdownType(1, jobId).Item2;
+                    bool isLabel1Set = isDropdownType(1, jobId).Item1;
+
+                    if (isDropdown == true)
+                    {
+                        dropdownType.Checked = true;
+                        dropdownValues.Visible = true;
+                        valuesLabel.Visible = true;
+                        regexTextBox.Visible = false;
+                        msgTextBox.Visible = false;
+                        regex.Visible = false;
+                        alert.Visible = false;
+
+                        string values = getDropdownValues(jobId, 1);
+                        dropdownValues.Text = values;
+                    }
+                    else
+                    {
+                        dropdownValues.Visible = false;
+                        valuesLabel.Visible = false;
+                        regexTextBox.Visible = true;
+                        msgTextBox.Visible = true;
+                        regex.Visible = true;
+                        alert.Visible = true;
+                    }
+
+                    // Retrieve & fill controls textboxes
+                    
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        using (SqlConnection con = Helper.ConnectionObj)
+                        {
+                            using (SqlCommand cmd = con.CreateCommand())
+                            {
+                                con.Open();
+                                TextBox t = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as TextBox;
+                                cmd.CommandText = "SELECT LABEL" + i + " FROM JOB_CONFIG_INDEX WHERE JOB_ID=@jobID";
+                                cmd.Parameters.AddWithValue("@jobID", jobId);
+                                object result = cmd.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    if (result.ToString() != DBNull.Value.ToString())
+                                    {
+                                        t.Text = " " + (string)result;
+                                        if (i == 1)
+                                        {
+                                            processRequest(new object(), new EventArgs());
+                                            labelTextBox.Text = " " + (string)result;
+                                            isLabel1Set = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (i == 1) t.Text = " Required";
+                                        else t.Text = " Optional";
+                                        if (isLabel1Set == false)
+                                            labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
+                                    }
+                                }
+                                else
+                                {
+                                    if (i == 1) t.Text = " Required";
+                                    else t.Text = " Optional";
+                                    if (isLabel1Set == false)
+                                        labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
+                                }
+                            }
+                        }
+                    }
+                    labelTextBox.Focus();
+                }
+                else
+                {
+                    labelsTable.Visible = false;
+                    labelControlsTable.Visible = false;
+                }
             }
-            else
+            catch(Exception ex)
             {
-                labelsTable.Visible = false;
-                labelControlsTable.Visible = false;
+                string msg = "Error 73a: Issue occured while retrieving saved index data. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
+            
         }
+
 
         // SET COLOR FOR DROPDOWN CONFIGURED JOB ITEMS. FUNCTION
         protected void onJobSelect(object sender, EventArgs e)
@@ -970,6 +1051,17 @@ namespace BarcodeConversion
         {
             try
             {
+                // Make sure label field is not empty when Regex and Alert are filled.
+                if ((regexTextBox.Text != string.Empty && msgTextBox.Text != string.Empty) && labelTextBox.Text == string.Empty)
+                {
+                    string msg = "Label field is required!";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    labelTextBox.Text = string.Empty;
+                    labelTextBox.Attributes["placeholder"] = " required for set";
+                    labelTextBox.Focus();
+                    return;
+                }
+
                 // Make sure that regex & message fields are both either filled or blank
                 if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
                 {
@@ -978,17 +1070,6 @@ namespace BarcodeConversion
                     labelTextBox.Attributes["placeholder"] = " required for set";
                     if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
                     else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
-                    return;
-                }
-
-                // Make sure label field is not empty when Regex and Alert are filled.
-                if (regexTextBox.Text != string.Empty && msgTextBox.Text != string.Empty && labelTextBox.Text == string.Empty)
-                {
-                    string msg = "Label field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    labelTextBox.Text = string.Empty;
-                    labelTextBox.Attributes["placeholder"] = " required for set";
-                    labelTextBox.Focus();
                     return;
                 }
                 
@@ -1004,33 +1085,135 @@ namespace BarcodeConversion
                         return;
                     } 
                 }
-       
-                // Hold entered values in viewstate
-                var labelValues = new List<string> { labelTextBox.Text.Trim(), regexTextBox.Text.Trim(), msgTextBox.Text.Trim()};
-                string id = (string)ViewState["senderID"];
-                if (edit1.Visible == false) id = "edit1";
-                ViewState["labelValues" + id] = labelValues;
-                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + id.Substring(id.Length - 1)) as TextBox;
-                if (labelTextBox.Text != string.Empty)
-                    t.Text = " " + labelTextBox.Text;
-                else 
+
+                // Get job id
+                int jobId = Helper.getJobId(selectJob.SelectedValue);
+                if (jobId <= 0)
                 {
-                    if (t.ID == "label1") t.Attributes["placeholder"] = " Required only for Set";
-                    else t.Attributes["placeholder"] = " Optional";
-                } 
+                    string msg = "Job selected could not be found.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    selectJob.SelectedValue = "Select";
+                    return;
+                }
+
+                // Check if job already configured
+                bool isJobConfigured = isDropdownType(1, jobId).Item1;
+
+                // All fields required if it's 1st control
+                int controlBeingSet = 0;
+                for (int i = 1; i <= 5; i++)
+                {
+                    ImageButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as ImageButton;
+                    if (btn.Visible == false)
+                    {
+                        controlBeingSet = i;
+                        if (controlBeingSet == 1)
+                        {
+                            if (labelTextBox.Text == string.Empty)
+                            {
+                                string msg = "Control's NAME field is required!";
+                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                labelTextBox.Focus();
+                                return;
+                            }
+                        }
+                    }
+                }
+
+                // If job not configured
+                if (!isJobConfigured)
+                {
+                    if (dropdownValues.Visible)
+                    {
+                        if (dropdownValues.Text == string.Empty)
+                        {
+                            // Just Save job config in JOB_CONFIG_INDEX
+                            int result = saveJobConfig(jobId, 1, "dropdown", "insert");
+                            handleResult(result, "B");
+                            return;
+                        }
+                        else    // if dropdownValues = not empty
+                        {
+                            string[] values = dropdownValues.Text.Split(',');
+                            // First Save values in INDEX_TABLE_FIELD first
+                            for (int i = 1; i <= values.Length; i++)
+                            {
+                                int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), i);
+                                if (result2 <= 0)
+                                {
+                                    string msg = "Error 73C. Couldn't save dropdown values";
+                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    selectJob.SelectedValue = "Select";
+                                    return;
+                                }
+                            }
+
+                            // Then Save job config in JOB_CONFIG_INDEX
+                            int result = saveJobConfig(jobId, 1, "dropdown", "insert");
+                            handleResult(result, "D");
+                            return;
+                        }
+                    }
+                    else // If control type = textbox
+                    {
+                        int result = saveJobConfig(jobId, 1, "textbox", "insert");
+                        handleResult(result, "E");
+                        return;
+                    }
+                }
+                else    // If job already configured
+                {
+                    if (dropdownValues.Visible)
+                    {
+                        if (dropdownValues.Text == string.Empty)
+                        {   
+                            // First, delete dropdown values from INDEX_TABLE_FIELD
+                            deleteDropdownValues(jobId, controlBeingSet);
+
+                            // Then update job config
+                            int result2 = saveJobConfig(jobId, controlBeingSet, "dropdown", "update");
+                            handleResult(result2, "F");
+                            return;
+                        }
+                        string[] values = dropdownValues.Text.Split(',');
+
+                        // Save values in INDEX_TABLE_FIELD first
+                        for (int i = 1; i <= values.Length; i++)
+                        {
+                            int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), i);
+                            if (result2 <= 0)
+                            {
+                                string msg = "Error 73G. Couldn't save dropdown values";
+                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                selectJob.SelectedValue = "Select";
+                                return;
+                            }
+                        }
+
+                        // Then Save job config in JOB_CONFIG_INDEX
+                        int result = saveJobConfig(jobId, 1, "dropdown", "insert");
+                        handleResult(result, "H");
+                        return;
+                    }
+                    else // If control type = textbox
+                    {
+                        int result = saveJobConfig(jobId, 1, "textbox", "insert");
+                        handleResult(result, "I");
+                        return;
+                    }
+                }
                 
-                ImageButton b = this.Master.FindControl("MainContent").FindControl(id) as ImageButton;
-                b.Visible = true;
-                labelTextBox.Text = string.Empty;
-                labelTextBox.Focus();
-                regexTextBox.Text = string.Empty;
-                msgTextBox.Text = string.Empty;
-                labelControlsTable.Visible = false;
             }
             catch (Exception ex)
             {
                 string msg = "Error 74: Issue occured while attempting to add label controls. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + ex.Message + "');", true);
+                if (ex.Message.Contains("Cannot insert the value NULL"))
+                {
+                    msg = " Label1 is required! Please make sure NAME field is not blank while setting Label1.";
+                    labelControlsTable.Visible = false;
+                    edit1.Visible = true;
+                }
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
@@ -1056,43 +1239,181 @@ namespace BarcodeConversion
 
         // 'EDIT' ICON CLICKED: EDIT LABEL CONTENTS
         protected void processRequest(object sender, EventArgs e)
-        {   
-            // Make sure current edit is done before starting another one
-            if (labelControlsTable.Visible == true)
+        {  
+            try
             {
-                string msg = "Current label setup must be submitted prior starting another one";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                return;
-            }
+                // Get id of edit icon btn then hide it
+                string last = string.Empty;
+                ImageButton b = new ImageButton();
 
-            // Get id of edit icon btn then hide it
-            ImageButton b = (ImageButton)sender;
-            ViewState["senderID"] = b.ID;
-            string last = b.ID.Substring(b.ID.Length - 1, 1);
-            b.Visible = false;
-            labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
-
-            // Show viewstate held data
-            if (ViewState["labelValues" + b.ID] != null)
-            {
-                List<string> labelVal = (List<string>)ViewState["labelValues" + b.ID];
-                if (labelVal[0] != string.Empty)
-                    labelTextBox.Text = " " + labelVal[0];
-                if (labelVal[1] != string.Empty)
-                    regexTextBox.Text = " " + labelVal[1];
+                if (sender is ImageButton)
+                {
+                    b = (ImageButton)sender;
+                    if (b.ID.Contains("edit"))
+                    {
+                        // Make sure current edit is done before starting another one
+                        if (labelControlsTable.Visible == true)
+                        {
+                            string msg = "Current label setup must be submitted prior starting another one";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return;
+                        }
+                        ViewState["senderID"] = b.ID;
+                        last = b.ID.Substring(b.ID.Length - 1, 1);
+                    }
+                }
                 else
-                    regexTextBox.Attributes["placeholder"] = " Regular Expression (Optional)";
+                {
+                    for (int i = 1; i <= 5; i++)
+                    {
+                        ImageButton btn = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as ImageButton;
+                        if (btn != null)
+                        {
+                            if (btn.Visible == false)
+                                last = i.ToString();
+                        }
+                        else
+                            last = "1";
+                            
+                    }
+                }
+                
+                b.Visible = false;
+
+                // Retrieve DB saved values
+                int jobId = 0;
+                bool isLabelSet = false;
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        // First, get job ID of selected job
+                        cmd.CommandText = "SELECT ID FROM JOB WHERE ABBREVIATION = @jobAbb";
+                        cmd.Parameters.AddWithValue("@jobAbb", selectJob.SelectedValue);
+                        con.Open();
+                        object result = cmd.ExecuteScalar();
+                        if (result != null) jobId = (int)result;
+                        else
+                        {
+                            string msg = "Job selected could not be found.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            selectJob.SelectedValue = "Select";
+                            return;
+                        }
+                        cmd.Parameters.Clear();
+
+                        // Check control type
+                        cmd.CommandText = "SELECT TABLEID" + last + " FROM JOB_CONFIG_INDEX WHERE JOB_ID=@jobId";
+                        cmd.Parameters.AddWithValue("jobID", jobId + last);
+                        object result2 = cmd.ExecuteScalar();
+                        if (result2 != null)
+                        {
+                            dropdownType.Checked = true;
+                            dropdownValues.Visible = true;
+                            valuesLabel.Visible = true;
+                            regexTextBox.Visible = false;
+                            msgTextBox.Visible = false;
+                            regex.Visible = false;
+                            alert.Visible = false;
+                        }
+                        cmd.Parameters.Clear();
+
+                        // Get saved values
+                        if (dropdownValues.Visible) // Control type = dropdown
+                        {
+                            string values = string.Empty;
+                            cmd.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id";
+                            cmd.Parameters.AddWithValue("@id", jobId + last);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {   
+                                    while (reader.Read())
+                                    {
+                                        values += reader.GetValue(0).ToString() + ", ";
+                                    }
+                                    values = values.Substring(0,values.Length - 2);
+                                    dropdownValues.Text = values;
+                                }
+                            }
+                        }
+                        else // Control type = textbox
+                        {
+                            cmd.CommandText = "SELECT LABEL" + last + ", REGEX" + last + ", ALERT" + last + " " +
+                                              "FROM JOB_CONFIG_INDEX " +
+                                              "WHERE JOB_ID=@jobID";
+                            cmd.Parameters.AddWithValue("jobID", jobId);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.HasRows)
+                                {
+                                    if (reader.Read() && reader.GetValue(0) != null)
+                                    {
+                                        if (reader.GetValue(0).ToString() != DBNull.Value.ToString())
+                                        {
+                                            isLabelSet = true;
+                                            labelTextBox.Text = " " + (string)reader.GetValue(0);
+                                            if (reader.GetValue(1).ToString() != string.Empty)
+                                                regexTextBox.Text = " " + reader.GetValue(1).ToString();
+                                            else
+                                                regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // Write:    .*\\S.*   instead of   /.*\\S.*/";
+                                            if (reader.GetValue(2).ToString() != string.Empty)
+                                                msgTextBox.Text = " " + reader.GetValue(2).ToString();
+                                            else
+                                                msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
+                                    regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // e.g. write:    .*\\S.*   instead of   /.*\\S.*/";
+                                    msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
+                                }
+                            }
+                        }
+                    }
+                }
+                if (isLabelSet == false)
+                {
+                    labelTextBox.Text = string.Empty;
+                    labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
+                    regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // e.g. write:    .*\\S.*   instead of   /.*\\S.*/";
+                    msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
+                }
+                labelControlsTable.Visible = true;
                 labelTextBox.Focus();
-                if (labelVal[2] != string.Empty)
-                    msgTextBox.Text = " " + labelVal[2];
-                else
-                    msgTextBox.Attributes["placeholder"] = " Alert message if entry not valid." +Environment.NewLine+ " Required only if Regex is set";
             }
-            labelControlsTable.Visible = true;
-            labelTextBox.Focus();
+            catch(Exception ex)
+            {
+                string msg = "Error 74a: Issue occured while retrieveing saved index data. Contact sytem admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + ex.Message + "');", true);
+            } 
         }
 
 
+        // 'TYPE' RADIO GROUP CHECKED.
+        protected void radioBtnChanged_Click(object sender, EventArgs e)
+        {
+            if (dropdownType.Checked)
+            {
+                dropdownValues.Visible = true;
+                valuesLabel.Visible = true;
+                regexTextBox.Visible = false;
+                msgTextBox.Visible = false;
+                regex.Visible = false;
+                alert.Visible = false;
+            }
+            else
+            {
+                dropdownValues.Visible = false;
+                valuesLabel.Visible = false;
+                regexTextBox.Visible = true;
+                msgTextBox.Visible = true;
+                regex.Visible = true;
+                alert.Visible = true;
+            }
+        }
 
         // 'SET' CLICKED: SET INDEX FORM CONTROLS. FUNCTION
         protected void setRules_Click(object sender, EventArgs e)
@@ -1293,7 +1614,7 @@ namespace BarcodeConversion
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
-                    e.Row.Cells[2].Text = "JOB";
+                    e.Row.Cells[2].Text = "  JOB";
                     //e.Row.Cells[2].Text = "JOB_ID";
                     //e.Row.Cells[3].Text = "INDEX";
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
@@ -1321,9 +1642,10 @@ namespace BarcodeConversion
         {   
             try
             {
-                if (collapseIcon.ImageUrl == "Content/collapse_all.png")
+                if (downArrow.Visible == true)
                 {
-                    collapseIcon.ImageUrl = "Content/hide_all.png";
+                    downArrow.Visible = false;
+                    upArrow.Visible = true;
                     jobSection.Visible = true;
                     newUserSection.Visible = true;
                     getUnassignedJobs(null);
@@ -1338,7 +1660,8 @@ namespace BarcodeConversion
                 }
                 else
                 {
-                    collapseIcon.ImageUrl = "Content/collapse_all.png";
+                    downArrow.Visible = true;
+                    upArrow.Visible = false;
                     jobSection.Visible = false;
                     newUserSection.Visible = false;
                     assignPanel.Visible = false;
@@ -1768,5 +2091,260 @@ namespace BarcodeConversion
             jobAssignedToLabel.Visible = true;
             jobAssignedTo.Visible = true;
         }
+
+        // CHECK CONTROL TYPE
+        private Tuple<bool,bool> isDropdownType(int order, int jobId)
+        {
+            using (SqlConnection con = Helper.ConnectionObj)
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT LABEL" + order + ", TABLEID" + order + " FROM JOB_CONFIG_INDEX WHERE JOB_ID=@jobID";
+                    cmd.Parameters.AddWithValue("@jobID", jobId);
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows && reader.Read())
+                        {
+                            // If Control type = dropdown, hide textbox & associates
+                            if (reader.GetValue(0) != DBNull.Value)
+                            {
+                                if (reader.GetValue(1) != DBNull.Value)
+                                    return Tuple.Create(true,true);
+                                return Tuple.Create(true, false);
+                            }
+                            return Tuple.Create(true, false);
+                        }
+                        return Tuple.Create(false,false);
+                    }
+                }
+            }
+        }
+
+
+        // GET DROPDOWN VALUES
+        private string getDropdownValues(int jobId, int order)
+        {
+            using (SqlConnection con = Helper.ConnectionObj)
+            {
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    string values = string.Empty;
+                    cmd.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id";
+                    cmd.Parameters.AddWithValue("@id", jobId + order.ToString());
+                    con.Open();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                values += reader.GetValue(0).ToString() + ", ";
+                            }
+                            values = values.Substring(0, values.Length - 2);
+                            return values;
+                        }
+                        return string.Empty;
+                    }
+                }
+            }
+        }
+
+        // SAVE DROPDOWN VALUES
+        private int saveDropdownValues (int jobId, string value, int order)
+        {   
+            try
+            {
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        // Save new table id
+                        cmd.CommandText = "INSERT INTO INDEX_TABLE_FIELD(ID, VALUE, ORD) VALUES(@id, @value, @ord)";
+                        cmd.Parameters.AddWithValue("@id", jobId + order.ToString());
+                        cmd.Parameters.AddWithValue("@value", value);
+                        cmd.Parameters.AddWithValue("@ord", order);
+                        con.Open();
+                        if (cmd.ExecuteNonQuery() == 1)
+                        {
+                            cmd.Parameters.Clear();
+                            return 1;
+                        }
+                        return 0;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                return -1; // Error
+            }
+        }
+
+        // DELETE DROPDOWN VALUES
+        private int deleteDropdownValues(int jobId, int order)
+        {
+            try
+            {
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        // Clear table id if exists
+                        con.Open();
+                        cmd.CommandText = "DELETE FROM INDEX_TABLE_FIELD WHERE ID=@id";
+                        cmd.Parameters.AddWithValue("@id", jobId + order.ToString());
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1; // Error
+            }
+        }
+
+
+        // SAVE JOB CONFIG
+        private int saveJobConfig(int jobId, int order, string controlType, string sqlType)
+        {
+            try
+            {
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        // Now set job config index
+                        con.Open();
+
+                        // If 1st control
+                        if (sqlType == "insert") 
+                        {
+                            cmd.CommandText =   "INSERT INTO JOB_CONFIG_INDEX" +
+                                                "(JOB_ID, LABEL1, REGEX1, ALERT1, TABLEID1, LABEL2, REGEX2, ALERT2, TABLEID2, LABEL3, REGEX3, ALERT3, TABLEID3, " +
+                                                "LABEL4, REGEX4, ALERT4, TABLEID4, LABEL5, REGEX5, ALERT5, TABLEID5) " +
+                                                "VALUES(@jobID, @label1, @regex1, @alert1, @tableid1, @label2, @regex2, @alert2, @tableid2, " +
+                                                "@label3, @regex3, @alert3, @tableid3, @label4, @regex4, @alert4, @tableid4, @label5, @regex5, @alert5, @tableid5)";
+                            if (controlType == "dropdown")
+                            {
+                                for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i == 1)
+                                    {
+                                        cmd.Parameters.AddWithValue("@label" + i, labelTextBox.Text.Trim());
+                                        if (dropdownValues.Text == string.Empty)
+                                            cmd.Parameters.AddWithValue("@tableid" + i, DBNull.Value);
+                                        else cmd.Parameters.AddWithValue("@tableid" + i, jobId + order.ToString());
+                                    }
+                                    else
+                                    {
+                                        cmd.Parameters.AddWithValue("@label" + i, DBNull.Value);
+                                        cmd.Parameters.AddWithValue("@tableid" + i, DBNull.Value);
+                                    }
+                                    cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
+                                    cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
+                                }
+                            }
+                            else // If control = textbox
+                            {
+                                for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i == 1)
+                                    {
+                                        cmd.Parameters.AddWithValue("@label" + i, labelTextBox.Text.Trim());
+                                        if (regexTextBox.Text != string.Empty)
+                                            cmd.Parameters.AddWithValue("@regex" + i, regexTextBox.Text.Trim());
+                                        else cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
+                                        if (msgTextBox.Text != string.Empty)
+                                            cmd.Parameters.AddWithValue("@alert" + i, msgTextBox.Text.Trim());
+                                        else cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
+                                    }
+                                    else
+                                    {
+                                        cmd.Parameters.AddWithValue("@label" + i, DBNull.Value);
+                                        cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
+                                        cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
+                                    }
+                                    cmd.Parameters.AddWithValue("@tableid" + i, DBNull.Value);
+                                }
+                            }
+                            return cmd.ExecuteNonQuery();
+                        }
+                        else // if sqlType = update
+                        {
+                            cmd.CommandText =   "UPDATE JOB_CONFIG_INDEX " +
+                                                "SET LABEL" + order + "=@label, REGEX" + order + "=@regex, ALERT" + order + "=@alert, TABLEID" + order + "=@tableid " +
+                                                "WHERE JOB_ID=@jobID";
+
+                            // If control type is dropdown
+                            if (controlType == "dropdown")
+                            {
+                                if (labelTextBox.Text == string.Empty)
+                                    cmd.Parameters.AddWithValue("@label", DBNull.Value);
+                                else cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
+                                cmd.Parameters.AddWithValue("@regex", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@alert", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@tableid", jobId + order.ToString());
+                            }
+                            else    // if control type is textbox
+                            {
+                                if (labelTextBox.Text == string.Empty)
+                                    cmd.Parameters.AddWithValue("@label", DBNull.Value);
+                                else cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
+                                if (regexTextBox.Text != string.Empty)
+                                    cmd.Parameters.AddWithValue("@regex", regexTextBox.Text.Trim());
+                                else cmd.Parameters.AddWithValue("@regex", DBNull.Value);
+                                if (msgTextBox.Text != string.Empty)
+                                    cmd.Parameters.AddWithValue("@alert", msgTextBox.Text.Trim());
+                                else cmd.Parameters.AddWithValue("@alert", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@tableid", DBNull.Value);
+                            }
+                            return cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1; // Error
+            }
+        }
+
+        // HIDE LABEL INPUT FORM
+        private void hideLabelControlsTable()
+        {
+            setDropdownColor();
+            labelControlsTable.Visible = false;
+            for (int i = 1; i <= 5; i++)
+            {
+                ImageButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as ImageButton;
+                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i) as TextBox;
+                if (btn.Visible == false)
+                {
+                    btn.Visible = true;
+                    if (labelTextBox.Text != string.Empty)
+                        t.Text = labelTextBox.Text;
+                    else if (labelTextBox.Text == string.Empty && i != 1)
+                        t.Text = " Optional";
+                }
+            }
+        }
+
+        // HANDLE RESULT
+        private void handleResult(int result, string e)
+        {
+            if (result != 1)
+            {
+                string msg = "Error 73" + e + ". Couldn't save job config.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                selectJob.SelectedValue = "Select";
+                return;
+            }
+            else
+            {
+                hideLabelControlsTable();
+                return;
+            }
+        }
+                            
     }
 }

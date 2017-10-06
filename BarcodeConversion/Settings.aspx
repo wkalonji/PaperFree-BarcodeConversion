@@ -10,12 +10,16 @@
         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:860px;">
             <table style="width:860px;">
                 <tr>
-                    <td><h2 style="display:inline; padding-top:25px;">Settings</h2></td>
+                    <td><h2 style="display:inline; padding-top:25px; color:#595959;">Settings</h2></td>
                     <td style="text-align:right;"> 
                         <%-- COLLAPSE ALL--%>
                         <div style="display:block;margin-left:710px;padding-top:15px;">
-                            <asp:ImageButton ID="collapseIcon" ImageUrl="Content/collapse_all.png" Width="30" Height="20" BackColor="White" Visible="true" runat="server" OnClick="collapseAll_Click" />
-                            <%--<asp:Button ID="collapseAll" Visible="false" Width="87px" runat="server" Text="Collapse All" OnClick="collapseAll_Click"/> --%>
+                            <asp:linkButton ID="upArrow" Visible="false" runat="server" ForeColor="#737373" OnClick="collapseAll_Click" >
+                                <i class="fa fa-angle-double-up" style="font-size:30px;" BackColor="#e6f3ff" runat="server" ></i>
+                            </asp:linkButton>
+                            <asp:linkButton ID="downArrow" Visible="true" runat="server" ForeColor="#737373" OnClick="collapseAll_Click" >
+                                <i class=" fa fa-angle-double-down" style="font-size:30px;" BackColor="#e6f3ff" runat="server" ></i>
+                            </asp:linkButton>
                         </div>
                     </td>
                 </tr>
@@ -26,13 +30,13 @@
             <tr>
                 <td style="width:480px;">
                      <%-- JOB SECTION --%>
-                    <div style="width:284px; border:solid 2px black; border-radius:3px; background-color:lightgray; display:inline-block;">
+                    <div style="width:284px; border:solid 2px #808080; border-radius:3px; background-color:lightgray; display:inline-block;">
                         <asp:Button ID="newJobBtn" Visible="true" Width="330px" runat="server" Text="Job Section" OnClick="newJobShow_Click" />
                     </div>
                 </td>
                 <td style="width:324px;">
                      <%--USER & PERMISSION SECTION --%>
-                    <div style="width:284px; border: solid 2px black; border-radius:3px;">
+                    <div style="width:284px; border: solid 2px #808080; border-radius:3px;">
                         <asp:Button ID="newUserBtn" Visible="true" runat="server" Text="User & Permission Section" Width="310px" OnClick="permissionsShow_Click" />
                     </div>
                 </td>
@@ -45,7 +49,7 @@
                             <table style="margin-top:25px;background-color:aliceblue;width:76%;">
                                 <tr>
                                     <td><asp:Label runat="server">
-                                        <h4 >&nbsp;Create/Edit Jobs</h4></asp:Label></td>
+                                        <h4 style="color:#4d4d4d;">&nbsp;Create/Edit Jobs</h4></asp:Label></td>
                                     <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23"
                                         OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away. If operator entered does not exist, a new job is created anyway.\n*    Jobs made accessible in this section will be visible to the specified Operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')" runat="server"></asp:Button></td>
                                 </tr>
@@ -119,7 +123,7 @@
                             <table style="margin-top:25px;background-color:aliceblue;width:97%;">
                                 <tr>
                                     <td><asp:Label runat="server">
-                                        <h4 >&nbsp;Add Operators & Admins</h4></asp:Label></td>
+                                        <h4 style="color:#4d4d4d;">&nbsp;Add Operators & Admins</h4></asp:Label></td>
                                     <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
                                         OnClientClick="return alert('Notes:\n*  Anyone accessing the site for the 1st time is automatically added as operator. An operator can also be added prior accessing the site.\nTo add, just type in operator\'s username, set Permissions & submit.\n*    You can also change existing operator\'s permissions.')" runat="server"></asp:Button></td>
                                 </tr>
@@ -155,13 +159,13 @@
             <tr>
                 <td style="width: 480px">
                     <%--JOB ACCESS SECTION --%>
-                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:30px;">
+                    <div style="width:284px; border: solid 2px #808080; border-radius:3px; margin-top:30px;">
                         <asp:Button ID="assignBtn" Visible="true" runat="server" Text="Job Access Section" Width="310px" OnClick="assignShow_Click" />
                     </div>
                 </td>
                 <td style="width: 324px">
                     <%--JOB INDEX CONFIG SECTION --%>
-                    <div style="width:284px; border: solid 2px black; border-radius:3px; margin-top:30px;">
+                    <div style="width:284px; border: solid 2px #808080; border-radius:3px; margin-top:30px;">
                         <asp:Button ID="jobIndexEditingBtn" Visible="true" runat="server" Text="Job Index Configuration Section" Width="310px" OnClick="jobIndexEditingShow_Click" />
                     </div>
                 </td>
@@ -173,7 +177,7 @@
                         <table style="margin-top:25px;background-color:aliceblue;width:315px;">
                             <tr>
                                 <td><asp:Label runat="server">
-                                    <h4 >&nbsp;Assign Jobs to Operators</h4></asp:Label></td>
+                                    <h4 style="color:#4d4d4d;">&nbsp;Assign Jobs to Operators</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
                                     OnClientClick="return alert('Notes:\n*   Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section.')" runat="server"></asp:Button></td>
                             </tr>
@@ -191,9 +195,9 @@
                                 <td style="height:10px; text-align:right;padding-right:5px;"><asp:Button ID="unassignedBtn" Visible="true" runat="server" Font-Size="10" Text="Active " OnClick="unassignedJob_Click"/></td>
                             </tr> 
                         </table>
-                        <div> 
+                        
                             <asp:Label ID="jobsLabel" Text="Active Jobs" runat="server"></asp:Label>
-                            <asp:GridView ID="jobAccessGridView" Width="318px" runat="server" style="margin-top:8px" CssClass="mydatagrid" PagerStyle-CssClass="pager"
+                            <asp:GridView ID="jobAccessGridView" runat="server" style="margin-top:8px;" CssClass="settingsGridview" PagerStyle-CssClass="pager"
                                         PageSize="10" HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="true" OnPageIndexChanging="pageChange_Click"
                                         OnRowDataBound="rowDataBound"> 
                                 <columns>             
@@ -213,11 +217,11 @@
                                     </asp:templatefield>
                                 </columns>       
                             </asp:GridView>     
-                        </div>
+                        
                         <div style="display:block; width: 480px;" >
-                            <table class = table style="margin-top:5px; width: 320px;">
+                            <table style="margin-top:8px; width:316px;">
                                 <tr>
-                                    <td style="text-align:right;width: 100%;">
+                                    <td style="text-align:right;width: 320px;">
                                         <asp:Button ID="deleteAssignedBtn" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
                                         <asp:Button ID="jobAccessBtn" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" Width="59px"/>
                                     </td>                 
@@ -232,22 +236,21 @@
                         <table style="margin-top:25px;background-color:aliceblue;width:315px;">
                             <tr>
                                 <td><asp:Label runat="server">
-                                    <h4 >&nbsp;Create Index Data Controls for Jobs</h4></asp:Label></td>
+                                    <h4 style="color:#4d4d4d;">&nbsp;Create Index Data Controls for Jobs</h4></asp:Label></td>
                                 <td style="text-align:right;padding-right:5px;"><asp:Button Text="?" Height="23" 
                                     OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  Regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\\S.*    Alert: Field can not be empty!\n*  Unspecified regex means entry not required when creating index.\n*  You can make use of \'regexr.com\' to test your regular expressions.')" runat="server"></asp:Button></td>
                             </tr>
                         </table>
-                        <table class = table style="width:320px;">
+                        <table class = table style="width:297px;">
                             <tr>
-                                <td style="width: 121px"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
-                                <td style="text-align:left;"> 
+                                <td style="width:200px;white-space:nowrap;"><asp:Label ID="selectJobLabel" Text ="Job Abbreviation: " runat="server"></asp:Label></td>
+                                <td style="text-align:right;padding-left:20px;"> 
                                     <asp:DropDownList ID="selectJob" runat="server" AutoPostBack="true" OnSelectedIndexChanged="JobAbbSelect">
                                         <asp:ListItem Value="Select">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
                             </tr>
                         </table>
-
 
                         <table id="labelsTable" visible="false" style="margin-top:20px; width:315px;"  class=auto-style3 runat="server">
                             <tr>
@@ -308,29 +311,41 @@
                             </tr>
                         </table>
 
-                        <table id="labelControlsTable" visible="false" style="width: 315px;"  class=auto-style3 runat="server" >
+                        <table id="labelControlsTable" visible="false" style="width: 309px;"  class=auto-style3 runat="server" >
                             <tr style="height:33px;">
-                                <th colspan="2" style="font-family:Arial;">Label Setup: </th>
+                                <th colspan="2" style="font-family:Arial;">Control Setup: </th>
                             </tr>
-                            <tr style="height:33px;">
-                                <td style="width: 80px"><asp:Label Text="NAME:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="labelTextBox" placeholder=" Label name" onfocus="this.select()" runat="server" Width="221px"></asp:TextBox></td>
-                            </tr>
-                            <tr style="vertical-align:top;">
-                                <td style="width: 80px"><asp:Label Text="REGEX:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" placeholder=" Optional.     Remove delimiters //  &nbsp; &nbsp; &nbsp;e.g. write:    .*\S.*   instead of   /.*\S.*/" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="221px" Height="70px"></asp:TextBox></td>
-                            </tr>
-                            <tr style="vertical-align:top;">
-                                <td style="width: 80px;"><asp:Label Text="ALERT:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="msgTextBox" placeholder=" Alert message of what a valid entry &nbsp;should be if entry fails regex test." TextMode="MultiLine" onfocus="this.select()" runat="server" Height="70px" Width="221px"></asp:TextBox></td>
+                            
+                            <tr>
+                                <td style="width: 75px"><asp:Label Text="TYPE:" runat="server"></asp:Label></td>
+                                <td style="text-align:left;padding:5px 0px 0px 19px;">
+                                    <asp:RadioButton ID="txtBoxType" Text="&nbsp;Textbox" GroupName="radioGroup" Checked="true" AutoPostBack="true" OnCheckedChanged="radioBtnChanged_Click" runat="server"/>
+                                    <asp:RadioButton ID="dropdownType" Text="&nbsp;Dropdown" GroupName="radioGroup" style="margin-left:30px;" AutoPostBack="true" OnCheckedChanged="radioBtnChanged_Click" runat="server"/>
+                                </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="text-align:right;"><asp:ImageButton ID="labelContents" ImageUrl="Content/submit.png" Font-Size="Small" runat="server" Height="22px" Width="21px" OnClick="labelContents_Click" /></td>
+                                <td style="width: 75px"><asp:Label ID="valuesLabel" Visible="false" Text="VALUES:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="dropdownValues" style="margin-top:5px;" Visible="false" placeholder=" e.g.: 10, 20, 30" onfocus="this.select()" runat="server" Width="216px"></asp:TextBox></td>
+                            </tr>
+                            <tr style="height:33px;">
+                                <td style="width: 75px"><asp:Label Text="NAME:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="labelTextBox" style="margin-top:5px;" placeholder=" Label name" onfocus="this.select()" runat="server" Width="216px"></asp:TextBox></td>
+                            </tr>
+                            <tr style="vertical-align:top;">
+                                <td style="width: 75px"><asp:Label ID="regex" Text="REGEX:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" style="margin-top:5px;" placeholder=" Optional.     Remove delimiters //  &nbsp; &nbsp; &nbsp;e.g. write:    .*\S.*   instead of   /.*\S.*/" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
+                            </tr>
+                            <tr style="vertical-align:top;">
+                                <td style="width: 75px"><asp:Label ID="alert" Text="ALERT:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="msgTextBox" style="margin-top:5px;" placeholder=" Alert message of what a valid entry &nbsp;should be if entry fails regex test." TextMode="MultiLine" onfocus="this.select()" runat="server" Height="70px" Width="216px"></asp:TextBox></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align:right;padding-top:5px;"><asp:Button ID="labelContents" Text="Submit" Font-Size="Small" runat="server" OnClick="labelContents_Click" /></td>
                             </tr>
                         </table>
 
 
-                        <table style="margin-top:20px; margin-bottom:20px; width: 315px;">
+                        <table style="margin-top:20px; margin-bottom:20px; width: 315px;" visible="false" runat="server">
                             <tr style="background-color:aliceblue; height:40px;">
                                 <td style="height: 10px; text-align:left;padding-left:5px;">
                                     <asp:Button ID="unsetRules" Visible="true" runat="server" Text="Unset" Font-Size="10"

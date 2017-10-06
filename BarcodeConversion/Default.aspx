@@ -14,48 +14,34 @@
         }
         // PRINTING INDEX SHEETS. FUNCTION
         function printing() {
+            $.when($.ajax(function1())).then(function () {
+                setTimeout(function () {
+                    function2();
+                }, 1300);
+            });
+        }
+        function function1() {
             window.print();
         }
-
-        // PRINT WINDOW LISTNER. FUNCTION: ALLOW STUFF BE DONE RIGHT BFR or AFTER PRINT PREVIEW WINDOW.
-        (function () {
-            var beforePrint = function () {
-                // Do something before printing dialogue box appears
-            };
-            // After printing dialogue box disappears, back to unprinted indexes gridview
-            var afterPrint = function () {
-                var answer = confirm("IMPORTANT!\n\n" +
-                    "Click OK If you did print and are satisfied with the Index Sheets.\n" +
-                    "Click CANCEL if you did not print or are not satisfied with the Index Sheets.");
-                if (answer == true) {
-                    // Set the just printed index as PRINTED
-                    document.getElementById("pageToPrint").style.display = "none";
-                    document.getElementById('<%=setAsPrinted.ClientID%>').click();
-                } else {
-                    document.getElementById("pageToPrint").style.display = "none";
-                    document.getElementById('<%=backToForm.ClientID%>').click(); 
-                }
-            };
-
-            if (window.matchMedia) {
-                var mediaQueryList = window.matchMedia('print');
-                mediaQueryList.addListener(function (mql) {
-                    if (mql.matches) {
-                        beforePrint();
-                    } else {
-                        afterPrint();
-                    }
-                });
+        function function2() {
+            var answer = confirm("Are you satisfied?\n\n" +
+                "Click OK If you did print and are satisfied with the Index Sheets.\n" +
+                "Click CANCEL if you did not print or are not satisfied with the Index Sheets.");
+            if (answer == true) {
+                // Set the just printed index as PRINTED
+                document.getElementById("pageToPrint").style.display = "none";
+                document.getElementById('<%=setAsPrinted.ClientID%>').click();
+            } else {
+                document.getElementById("pageToPrint").style.display = "none";
+                document.getElementById('<%=backToForm.ClientID%>').click(); 
             }
-            window.onbeforeprint = beforePrint;
-            window.onafterprint = afterPrint;
-        }());
+        }
     </script>
 
     <asp:Panel ID="formPanel" runat="server">
         <asp:Panel ID="formPanelJobSelection" runat="server">
             <div style="margin-top:45px; margin-bottom:40px; height:50px; border-bottom:solid 1px green;width:899px;">
-                <h2 style="margin-top:45px">Index Setup</h2>
+                <h2 style="margin-top:45px;color:#595959;">Index Setup</h2>
             </div>
             <asp:Button ID="selectJobBtn" Visible="false" runat="server" Text="Generate Jobs" onclick="selectJob_Click" />
 
@@ -64,7 +50,7 @@
                 <tr>
                     <td style="width: 186px"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
                     <td> 
-                        <asp:DropDownList ID="selectJob" OnSelectedIndexChanged="onJobSelect" AutoPostBack="true" runat="server">
+                        <asp:DropDownList ID="selectJob"  OnSelectedIndexChanged="onJobSelect" AutoPostBack="true" runat="server">
                             <asp:ListItem Value="Select">Select</asp:ListItem>
                         </asp:DropDownList>
                     </td>
@@ -74,18 +60,18 @@
         </asp:Panel>
         
         <asp:panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin:auto">  
-            <table style="width:455px;">
+            <table style="width:470px;">
                 <tr style="height:50px;"> <th colspan="2" style="font-family:Arial;">&nbsp;Upload Index Data File: </th></tr>
                 <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
-                    <td style="width:300px; padding-left:5px;">
+                    <td style="width:315px; padding-left:5px;">
                        <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
                     <td style="text-align:right; font-size:13px;padding-right:7px;"><asp:Button ID="upload" Text="Upload" OnClick="upload_Click" runat="server"/></td>
                 </tr>
             </table>    
 
-            <table id="uploadedFileMenu" Visible="false" style="margin-top:12px; width:455px;" runat="server">
+            <table id="uploadedFileMenu" Visible="false" style="margin-top:12px; width:470px;" runat="server">
                 <tr>
-                    <td style="padding-right:15px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
+                    <td style="padding-right:15px;width:330px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
                     <td style="text-align:right; padding-right:5px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
                     <td style="text-align:right; padding-right:5px;">
                         <asp:Button ID="saveIndexesBtn" Text="Save Indexes" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
@@ -97,33 +83,58 @@
                 </tr>
             </table>
 
-            <asp:GridView ID="GridView1" CssClass="mGrid" Font-Size="10" OnRowDataBound="rowDataBound" style="margin-top:20px;" runat="server"></asp:GridView>
+            <asp:GridView ID="GridView1" CssClass="mGrid" Font-Size="10" OnRowDataBound="rowDataBound" style="margin-top:20px;" Width=470 runat="server"></asp:GridView>
 
             <asp:table id="fileEntryMsg" runat="server"></asp:table>
                   
-            <h2 style="margin-top:40px">Index Creation</h2>
+            <h2 style="margin-top:40px;color:#666666;">Index Creation</h2>
 
             <table id="jobControls" class = table runat="server">
                 <tr> <th colspan="3" style="font-family:Arial;">Index Data Information: </th></tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td>
+                        <asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="label1Dropdown" Visible="false" runat="server">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL2" Text="LABEL2"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label2Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td>
+                        <asp:TextBox ID="label2Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="label2Dropdown" Visible="false" runat="server">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL3" Text="LABEL3"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label3Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td>
+                        <asp:TextBox ID="label3Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="label3Dropdown" Visible="false" runat="server">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL4" Text="LABEL4"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label4Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td>
+                        <asp:TextBox ID="label4Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="label4Dropdown" Visible="false" runat="server">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                 </tr>
                 <tr>
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL5" Text="LABEL5"  Visible="false" runat="server"></asp:Label></td>
-                    <td><asp:TextBox ID="label5Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox></td>
+                    <td>
+                        <asp:TextBox ID="label5Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
+                        <asp:DropDownList ID="label5Dropdown" Visible="false" runat="server">
+                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                        </asp:DropDownList>
+                    </td>
                 </tr>
             </table>
 
@@ -139,11 +150,11 @@
         </p>
            
      --%>   <asp:Panel ID="generateIndexSection" Visible="false" runat="server">
-                <table class = tableFull style="margin-top:25px; width:460px;">
+                <table class = tableFull style="margin-top:25px; width:470px;">
                     <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
                         <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" Font-Size="10" onclick="saveIndex_Click" /></td>
                         <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" Font-Size="10" onclick="printIndexes_Click" /></td>
-                    </tr>                  
+                    </tr>               
                 </table>
             </asp:Panel>
         </asp:panel>

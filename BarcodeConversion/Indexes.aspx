@@ -2,7 +2,11 @@
 <%@ Page Title="Print Indexes" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Indexes.aspx.cs" Inherits="BarcodeConversion.About" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
+     <style type="text/css">
+        .print+.print{
+            page-break-before: always;
+        }
+     </style>
      <script>
          // FADEOUT INDEX-SAVED MSG. FUNCTION
          //function FadeOut() {
@@ -12,42 +16,28 @@
           //   $("span[id$='indexSetPrintedMsg']").fadeOut(3000);
          //}
         // PRINTING INDEX SHEETS. FUNCTION
-        function printing() {
+         function printing() {
+            $.when($.ajax(function1())).then(function () {
+                setTimeout(function () {
+                    function2();
+                }, 1300);
+            });
+        }
+        function function1() {
             window.print();
         }
-
-        // PRINT WINDOW LISTNER. FUNCTION: ALLOW STUFF BE DONE RIGHT BFR or AFTER PRINT PREVIEW WINDOW.
-        (function () {
-            var beforePrint = function () {
-                // Do something before printing dialogue box appears
-            };
-            // After printing dialogue box disappears, back to unprinted indexes gridview
-            var afterPrint = function () {
-                var answer = confirm("IMPORTANT!\n\nAre you satisfied?\n" +
-                    "Click OK If you did print and are satisfied with the Index Sheets.\n" +
-                    "Click CANCEL if you did not print or are not satisfied with the Index Sheets.");
-                if (answer == true) {
-                    document.getElementById("pageToPrint").style.display = "none";
-                    document.getElementById('<%=setAsPrinted.ClientID%>').click();                                    
-                } else {
-                    document.getElementById("pageToPrint").style.display = "none";
-                    document.getElementById('<%=getUnprinted.ClientID%>').click(); 
-                }
-            };
-
-            if (window.matchMedia) {
-                var mediaQueryList = window.matchMedia('print');
-                mediaQueryList.addListener(function (mql) {
-                    if (mql.matches) {
-                        beforePrint();
-                    } else {
-                        afterPrint();
-                    }
-                });
+        function function2() {
+            var answer = confirm("Are you satisfied?\n\n" +
+                "Click OK If you did print and are satisfied with the Index Sheets.\n" +
+                "Click CANCEL if you did not print or are not satisfied with the Index Sheets.");
+            if (answer == true) {
+                document.getElementById("pageToPrint").style.display = "none";
+                document.getElementById('<%=setAsPrinted.ClientID%>').click();                                    
+            } else {
+                document.getElementById("pageToPrint").style.display = "none";
+                document.getElementById('<%=getUnprinted.ClientID%>').click(); 
             }
-            window.onbeforeprint = beforePrint;
-            window.onafterprint = afterPrint;
-         }());
+        }
     </script>
 
 
@@ -55,7 +45,7 @@
          <div style="margin-top:45px; margin-bottom:20px; height:50px; border-bottom:solid 1px green;width:899px;">
             <table style="width:899px;">
                 <tr>
-                    <td><h2 style="display:inline; padding-top:25px;">Print Index Sheets</h2></td>
+                    <td><h2 style="display:inline; padding-top:25px;color:#595959">Print Index Sheets</h2></td>
                 </tr>
             </table>
         </div>
@@ -63,7 +53,7 @@
         <div style="display:inline-block;">           
             <table id="unprintedIndexTable" style="width:100%;" runat="server">
                 <tr style="height:30px;">
-                    <td colspan="2"><h4 style="color:blue"><asp:Label ID="Label2" Text="Your Unprinted Indexes" runat="server"></asp:Label></h4> </td>
+                    <td colspan="2"><h4 style="color:#4d4dff"><asp:Label ID="Label2" Text="Your Unprinted Indexes" runat="server"></asp:Label></h4> </td>
                     <td style="padding-left:5px;text-align:left;padding-bottom:5px;text-align:right;">
                         <asp:Button ID="deleteBtn" Font-Size="10" Visible="false" runat="server" Text="Delete" 
                             OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
@@ -79,7 +69,7 @@
                         <asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label>
                     </td>
                     <td style="text-align:right;">
-                        <asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>
+                        <asp:Label ID="recordsPerPageLabel" Text="Records per page " style="padding-right:5px;" runat="server"></asp:Label>
                         <asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">
                             <asp:ListItem Value="10" Selected="true">10</asp:ListItem>
                             <asp:ListItem Value="15">15</asp:ListItem>
@@ -91,7 +81,7 @@
                     </td>
                 </tr>                  
             </table>
-            <h4 style="color:blue"><asp:Label ID="description" runat="server"></asp:Label></h4>
+            <h4 style="color:#4d4dff"><asp:Label ID="description" runat="server"></asp:Label></h4>
             <asp:GridView ID="indexesGridView" runat="server" style="margin-top:5px" CssClass="mydatagrid" PagerStyle-CssClass="pager" 
                           HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="True" OnPageIndexChanging="pageChange_Click"
                          OnRowDataBound="rowDataBound" OnSorting="gridView_Sorting" Width="600" AllowSorting="True"> 

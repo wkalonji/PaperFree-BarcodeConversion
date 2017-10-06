@@ -36,7 +36,7 @@
 		<div style="margin-top:45px; height:50px; border-bottom:solid 1px green;width:899px;">
 			<table style="width:899px;">
 				<tr>
-					<td><h2 style="display:inline; padding-top:25px;">Index Status Report</h2></td>
+					<td><h2 style="display:inline; padding-top:25px;color:#595959">Index Status Report</h2></td>
 				</tr>
 			</table>
 		</div>  
@@ -69,14 +69,16 @@
 						</asp:DropDownList>
 					</td>
 					<td style="text-align:right;"> 
-						<div style="display:block;padding-bottom:1px;padding-top:6px;">
-							<asp:ImageButton ID="resetBtn" ImageUrl="Content/reset.png" Width="25" Height="25"  BackColor="#e6f3ff" Visible="true" runat="server" OnClick="reset_Click" />
+						<div style="display:block;padding:10px 5px 1px 4px;" >
+                            <asp:linkButton runat="server" ForeColor="#737373" OnClick="reset_Click" >
+                                <i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
+                            </asp:linkButton>
 						</div>
 					</td>
 				</tr>
 			</table> 
 			<asp:Panel ID="timePanel" Visible="false" runat="server">
-				<table class = "table" style="width:548px;">
+				<table class = "table" style="width:600px;height:50px !important;">
 					<tr>
 						<td><asp:label runat="server">From:&nbsp;&nbsp;&nbsp;</asp:label>
 							<asp:TextBox ID="from" runat="server" ></asp:TextBox>
@@ -84,7 +86,7 @@
 						</td>
 						<td style="padding-left:15px;"><asp:label runat="server">To:&nbsp;&nbsp;</asp:label>
 							<asp:TextBox ID="to" runat="server" ></asp:TextBox>
-							<img style="margin-left:2px;" src="Content/calender.png" /> 
+							<img style="margin-left:2px;display:inline;s" src="Content/calender.png" /> 
 						</td>
 						<td style="padding-left:15px;">
 							<asp:Button ID="dates" Text="Submit" runat="server" onclick="submit_Click" />
@@ -94,11 +96,11 @@
 			</asp:Panel>
 			<div style="display:inline-block; width:99.9%">
 				<table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;" runat="server">
-					<tr><td colspan="2"><h4 style="color:blue"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
+					<tr><td colspan="2"><h4 style="color:#4d4dff"><asp:Label ID="description" Text="" runat="server"></asp:Label></h4> </td></tr>
 					<tr>
 						<td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label><asp:Label id="sortDirection" Font-Size="8" runat="server"></asp:Label></td>
 						<td style="text-align:right;">
-							<asp:Label ID="recordsPerPageLabel" Text="Records per page" runat="server"></asp:Label>
+							<asp:Label ID="recordsPerPageLabel" Text="Records per page " style="padding-right:5px;" runat="server"></asp:Label>
 							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="10" Selected="true">10</asp:ListItem>
 								<asp:ListItem Value="15">15</asp:ListItem>

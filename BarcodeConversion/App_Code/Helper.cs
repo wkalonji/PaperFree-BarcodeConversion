@@ -52,6 +52,35 @@ namespace BarcodeConversion.App_Code
         }
 
 
+        // GET JOB ID via job abbreviation
+        public static int getJobId(string jobAbb)
+        {
+            try
+            {
+                int jobID = 0;
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT ID FROM JOB WHERE ABBREVIATION = @abb";
+                        cmd.Parameters.AddWithValue("@abb", jobAbb);
+                        con.Open();
+                        var result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            jobID = (int)result;
+                            return jobID;
+                        }
+                        else return jobID;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1; // Error
+            }
+        }
+
 
         // GET CONTROL THAT FIRED POSTBACK. HELPER FUNCTION.
         public static Control GetPostBackControl(Page page)

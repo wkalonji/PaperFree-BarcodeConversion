@@ -16,10 +16,12 @@ html {
     font-family: sans-serif;
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
+    height:auto;
 }
 
 body {
     margin: 0;
+    height:90%;
 }
 
 article,
@@ -306,6 +308,7 @@ th {
 
     .label {
         border: 1px solid #000;
+        white-space:nowrap !important;
     }
 
     .table {
@@ -315,11 +318,13 @@ th {
         .table td,
         .table th {
             background-color: #fff !important;
+            white-space:nowrap !important;
         }
 
     .table-bordered th,
     .table-bordered td {
         border: 1px solid #ddd !important;
+        white-space:nowrap !important;
     }
 }
 
@@ -1412,7 +1417,7 @@ body {
     font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
-    color: #555555;
+    color: #666666;
     background-color: #ffffff;
 }
 
@@ -3186,6 +3191,7 @@ label {
     max-width: 100%;
     margin-bottom: 5px;
     font-weight: bold;
+    white-space:nowrap;
 }
 
 input[type="search"] {
@@ -8725,6 +8731,14 @@ a.list-group-item-danger.active {
     text-align: left;
 }
 
+.settingsGridview {
+    width: 316px;
+    border-radius: 50px !important;
+    border-bottom: solid 2px #e6e6e6;
+    border-right-width: 0px !important;
+    border-left-width: 0px !important;
+
+}
 
 .mydatagrid {
     width: 40%;
@@ -8737,7 +8751,7 @@ a.list-group-item-danger.active {
 }
 
 .header {
-    background-color: #646464;
+    background-color: #737373;
     font-family: Arial;
     color: White;
     border: none 0px transparent;
@@ -8750,7 +8764,7 @@ a.list-group-item-danger.active {
     background-color: #fff;
     font-family: Arial;
     font-size: 12px;
-    color: #4d4d4d;
+    color: #666666;
     min-height: 18px;
     text-align:left;
 
@@ -8779,7 +8793,15 @@ a.list-group-item-danger.active {
     text-align: left;
 }
 
-.mydatagrid a /** FOR THE PAGING ICONS  **/ {
+.mydatagrid a/** FOR THE PAGING ICONS  **/ {
+    background-color: Transparent;
+    padding: 1px 5px 1px 5px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.settingsGridview a/** FOR THE PAGING ICONS  **/ {
     background-color: Transparent;
     padding: 1px 5px 1px 5px;
     color: #fff;
@@ -8798,6 +8820,11 @@ a.list-group-item-danger.active {
     padding: 1px 5px 1px 5px;
 }
 
+.settingsGridview span/** FOR THE PAGING ICONS CURRENT PAGE INDICATOR **/ {
+    background-color: #e6e6e6;
+    color: #000;
+    padding: 1px 5px 1px 5px;
+}
 .rows:nth-child(odd) span {
     background-color: #fff
 }
@@ -8815,7 +8842,15 @@ a.list-group-item-danger.active {
     padding: 4px 10px 4px 10px;
 }
 
+.settingsGridview td{
+    padding: 4px 10px 4px 10px;
+}
 .mydatagrid th {
+    padding: 5px;
+    text-align: left;
+}
+
+.settingsGridview th{
     padding: 5px;
     text-align: left;
 }
@@ -8898,4 +8933,8 @@ a.list-group-item-danger.active {
 .mGrid .pgr a:hover {
     color: #000;
     text-decoration: none;
+}
+
+.print:last-child {
+     page-break-after: auto !important;
 }
