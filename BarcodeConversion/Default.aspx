@@ -105,7 +105,7 @@
                     <td>
                         <asp:TextBox ID="label2Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
                         <asp:DropDownList ID="label2Dropdown" Visible="false" runat="server">
-                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>
@@ -114,7 +114,7 @@
                     <td>
                         <asp:TextBox ID="label3Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
                         <asp:DropDownList ID="label3Dropdown" Visible="false" runat="server">
-                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>
@@ -123,7 +123,7 @@
                     <td>
                         <asp:TextBox ID="label4Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
                         <asp:DropDownList ID="label4Dropdown" Visible="false" runat="server">
-                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>
@@ -132,7 +132,7 @@
                     <td>
                         <asp:TextBox ID="label5Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
                         <asp:DropDownList ID="label5Dropdown" Visible="false" runat="server">
-                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>

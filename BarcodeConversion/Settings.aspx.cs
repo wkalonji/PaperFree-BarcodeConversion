@@ -177,9 +177,9 @@ namespace BarcodeConversion
                                 if (cmd.ExecuteNonQuery() == 1)
                                 {
                                     // Assign job to assignee
-                                    if (jobAssignedTo.Text != string.Empty)
+                                    if (jobAssignedTo.SelectedValue != "Select")
                                     {
-                                        string assignee = jobAssignedTo.Text;
+                                        string assignee = jobAssignedTo.SelectedValue;
                                         string abbr = jobAbb.Text;
                                         bool answer = AssignJob(assignee, abbr); // calling assignJob function
                                         if (answer == true)
@@ -265,9 +265,9 @@ namespace BarcodeConversion
                         if (cmd.ExecuteNonQuery() == 1)
                         {
                             // Assign job to assignee
-                            if (jobAssignedTo.Visible = true && jobAssignedTo.Text != string.Empty)
+                            if (jobAssignedTo.Visible = true && jobAssignedTo.SelectedValue != "Select")
                             {
-                                string assignee = jobAssignedTo.Text;
+                                string assignee = jobAssignedTo.SelectedValue;
                                 string abbr = this.selectJobList.SelectedValue;
                                 bool answer = AssignJob(assignee, abbr); // calling assignJob function
                                 if (answer == true)
@@ -311,45 +311,21 @@ namespace BarcodeConversion
         // 'DELETE' CLICKED: DELETE JOB. FUNCTION
         protected void deleteJob_Click(object sender, EventArgs e)
         {
-            int jobID = 0;
-            SqlConnection con = Helper.ConnectionObj;
-            con.Open();
             if (selectJobList.SelectedValue != "Select")
             {
-                // First, get ID of specified job.
-                SqlCommand cmd = new SqlCommand("SELECT ID FROM JOB WHERE ABBREVIATION = @abb", con);               
-                cmd.Parameters.AddWithValue("@abb", this.selectJobList.SelectedValue);
-                try
+                // First, Get selected job id
+                int jobID = Helper.getJobId(selectJobList.SelectedValue);
+                if (jobID <= 0)
                 {
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            jobID = (int)reader.GetValue(0);
-                        }
-                        reader.Close();
-                    }
-                    else
-                    {
-                        string msg = "Specified job does not exist, thus cannot be deleted!";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                        jobFormClear();
-                        jobAssignedToLabel.Visible = false;
-                        jobAssignedTo.Visible = false;
-                        con.Close();
-                        return;
-                    }
-                }
-                catch(Exception ex)
-                {
-                    string msg = "Error: Something went wrong while attempting to identify this job. Contact your system admin.";
+                    string msg = "Job selected could not be found. Contact system admin.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    Console.WriteLine(ex.Message);
+                    selectJob.SelectedValue = "Select";
+                    return;
                 }
-                
 
-                if(jobID > 0)
+                SqlConnection con = Helper.ConnectionObj;
+                con.Open();
+                if (jobID > 0)
                 {
                     try 
                     {
@@ -418,8 +394,8 @@ namespace BarcodeConversion
                     }
                    
                 }
+                con.Close();
             }
-            con.Close();
             getDropdownJobItems();
             jobAssignedToLabel.Visible = false;
             jobAssignedTo.Visible = false;
@@ -512,9 +488,10 @@ namespace BarcodeConversion
                 selectJobList.SelectedValue = "Select";
                 jobName.Text = string.Empty;
                 jobActiveBtn.SelectedValue = "1";
-                jobAssignedTo.Text = string.Empty;
+                jobAssignedTo.SelectedValue = "Select";
                 jobAssignedToLabel.Visible = true;
                 jobAssignedTo.Visible = true;
+                getOperators();
                 jobAbb.Focus();
             }
             catch (Exception ex)
@@ -588,10 +565,11 @@ namespace BarcodeConversion
                 {
                     Page.Validate();
                     assignPanel.Visible = true;
-                    assignee.Text = string.Empty;
+                    assignee.SelectedValue = "Select";
                     assignee.Focus();
                     // Get all unassigned jobs
                     getUnassignedJobs(null);
+                    getOperators();
                 }
                 else
                 {
@@ -600,12 +578,48 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg  = "Error 62: Issue occured while attempting to hide or show panel. Contac system admin.";
+                string msg  = "Error 62: Issue occured while attempting to hide or show panel. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
 
 
+
+        // 'OPERATOR' SELECTION
+        private void getOperators()
+        {
+            try
+            {
+                assignee.Items.Clear();
+                jobAssignedTo.Items.Clear();
+                assignee.Items.Add("Select");
+                jobAssignedTo.Items.Add("Select");
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = "SELECT NAME FROM OPERATOR";
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {   
+                                    assignee.Items.Add(reader.GetValue(0).ToString());
+                                    jobAssignedTo.Items.Add(reader.GetValue(0).ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                string msg = "Error 62a: Issue occured while retrieving operators. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+            }
+        }
 
 
         // 'ACCESSIBLE' CLICKED: GET OP'S ACCESSIBLE JOBS. FUNCTION
@@ -622,7 +636,7 @@ namespace BarcodeConversion
         {
             try
             {
-                if (assignee.Text == string.Empty)
+                if (assignee.SelectedValue == "Select")
                 {
                     string msg = "Operator field is required!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -636,7 +650,7 @@ namespace BarcodeConversion
                     using (SqlCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME=@name";
-                        cmd.Parameters.AddWithValue("@name", assignee.Text);
+                        cmd.Parameters.AddWithValue("@name", assignee.SelectedValue);
                         con.Open();
                         object result = cmd.ExecuteScalar();
                         if (result != null) opID = (int)result;
@@ -722,7 +736,7 @@ namespace BarcodeConversion
             try
             {
                 int opID = 0, jobID = 0, count = 0;
-                if (assignee.Text == string.Empty)
+                if (assignee.SelectedValue == "Select")
                 {
                     string msg = "Operator field is required!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -735,7 +749,7 @@ namespace BarcodeConversion
                     {
                         // If operator field not empty, get Operator ID
                         cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME = @name";
-                        cmd.Parameters.AddWithValue("@name", assignee.Text);
+                        cmd.Parameters.AddWithValue("@name", assignee.SelectedValue);
                         con.Open();
                         object result = cmd.ExecuteScalar();
                         if (result != null) opID = (int)result;
@@ -816,7 +830,7 @@ namespace BarcodeConversion
         {   
             try
             {
-                string assigneeName = assignee.Text;
+                string assigneeName = assignee.SelectedValue;
                 int countGranted = 0, countChecked = 0, countError = 0;
                 if (assigneeName == string.Empty)
                 {
@@ -923,25 +937,34 @@ namespace BarcodeConversion
         {   
             try
             {
+
                 if (selectJob.SelectedValue != "Select")
-                {
+                {   
                     labelsTable.Visible = true;
-                    edit1.Visible = true;
+                    edit1.Visible = false;
                     edit2.Visible = true;
                     edit3.Visible = true;
                     edit4.Visible = true;
                     edit5.Visible = true;
                     labelControlsTable.Visible = true;
-                    edit1.Visible = false;
+
+                    // Clear labelControlsTable current values
+                    labelTextBox.Text = string.Empty;
+                    dropdownValues.Text = string.Empty;
+                    regexTextBox.Text = string.Empty;
+                    msgTextBox.Text = string.Empty;
 
                     // Get type of 1st control 
                     int jobId = Helper.getJobId(selectJob.SelectedValue);
-                    bool isDropdown = isDropdownType(1, jobId).Item2;
-                    bool isLabel1Set = isDropdownType(1, jobId).Item1;
+                    var controlInfo = isDropdownType(1, jobId);
+                    
+                    bool isLabel1Set = controlInfo.Item1;
+                    bool isControlDropdown = controlInfo.Item2;
 
-                    if (isDropdown == true)
+                    if (isControlDropdown == true)
                     {
                         dropdownType.Checked = true;
+                        textBoxType.Checked = false;
                         dropdownValues.Visible = true;
                         valuesLabel.Visible = true;
                         regexTextBox.Visible = false;
@@ -954,6 +977,8 @@ namespace BarcodeConversion
                     }
                     else
                     {
+                        textBoxType.Checked = true;
+                        dropdownType.Checked = false;
                         dropdownValues.Visible = false;
                         valuesLabel.Visible = false;
                         regexTextBox.Visible = true;
@@ -963,7 +988,6 @@ namespace BarcodeConversion
                     }
 
                     // Retrieve & fill controls textboxes
-                    
                     for (int i = 1; i <= 5; i++)
                     {
                         using (SqlConnection con = Helper.ConnectionObj)
@@ -992,7 +1016,7 @@ namespace BarcodeConversion
                                         if (i == 1) t.Text = " Required";
                                         else t.Text = " Optional";
                                         if (isLabel1Set == false)
-                                            labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
+                                            labelTextBox.Attributes["placeholder"] = " Required";
                                     }
                                 }
                                 else
@@ -1000,7 +1024,7 @@ namespace BarcodeConversion
                                     if (i == 1) t.Text = " Required";
                                     else t.Text = " Optional";
                                     if (isLabel1Set == false)
-                                        labelTextBox.Attributes["placeholder"] = " LABEL1  Name";
+                                        labelTextBox.Attributes["placeholder"] = " Required";
                                 }
                             }
                         }
@@ -1037,6 +1061,7 @@ namespace BarcodeConversion
             {
                 jobAssignedToLabel.Visible = true;
                 jobAssignedTo.Visible = true;
+                getOperators();
             }
             else
             {
@@ -1046,44 +1071,53 @@ namespace BarcodeConversion
         }
         
 
-        // 'SUBMIT' ICON CLICKED: ADD LABEL CONTROLS
+        // 'X' ICON CLICKED: CLOSE CONTROL INFOs TABLE
+        protected void hideControlInfo_Click(object sender, EventArgs e)
+        {
+            setDropdownColor();
+            labelControlsTable.Visible = false;
+            for (int i = 1; i <= 5; i++)
+            {
+                LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
+                TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i) as TextBox;
+                if (btn.Visible == false)
+                {
+                    btn.Visible = true;
+                }
+            }
+        }
+
+
+        // 'SAVE' ICON CLICKED: ADD LABEL CONTROLS
         protected void labelContents_Click(object sender, EventArgs e)
         {
             try
-            {
-                // Make sure label field is not empty when Regex and Alert are filled.
-                if ((regexTextBox.Text != string.Empty && msgTextBox.Text != string.Empty) && labelTextBox.Text == string.Empty)
+            {   
+                if (labelTextBox.Text != string.Empty)
                 {
-                    string msg = "Label field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    labelTextBox.Text = string.Empty;
-                    labelTextBox.Attributes["placeholder"] = " required for set";
-                    labelTextBox.Focus();
-                    return;
-                }
-
-                // Make sure that regex & message fields are both either filled or blank
-                if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
-                {
-                    string msg = "Both regex and message fields must be either blank or filled.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    labelTextBox.Attributes["placeholder"] = " required for set";
-                    if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
-                    else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
-                    return;
-                }
-                
-                // If Regex entered, check whether it's valid
-                if (regexTextBox.Text != string.Empty)
-                {
-                    bool isValid = IsValidRegex(regexTextBox.Text.Trim());
-                    if (isValid == false)
+                    // Make sure that regex & message fields are both either filled or blank
+                    if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
                     {
-                        string msg = "The Regex pattern entered is not valid. You can test your Regex pattern at regexr.com";
+                        string msg = "Both regex and message fields must be either blank or filled.";
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                        regexTextBox.Focus();
+                        labelTextBox.Attributes["placeholder"] = " required for set";
+                        if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
+                        else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
                         return;
-                    } 
+                    }
+
+                    // If Regex entered, check whether it's valid
+                    if (regexTextBox.Text != string.Empty)
+                    {
+                        bool isValid = IsValidRegex(regexTextBox.Text.Trim());
+                        if (isValid == false)
+                        {
+                            string msg = "The Regex pattern entered is not valid. You can test your Regex pattern at regexr.com";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            regexTextBox.Focus();
+                            return;
+                        }
+                    }
                 }
 
                 // Get job id
@@ -1097,26 +1131,30 @@ namespace BarcodeConversion
                 }
 
                 // Check if job already configured
-                bool isJobConfigured = isDropdownType(1, jobId).Item1;
+                var controlInfo = isDropdownType(1, jobId);
+                bool isJobConfigured = controlInfo.Item1;
+                bool isControlDropdown = controlInfo.Item2;
 
-                // All fields required if it's 1st control
+                // Get current control
                 int controlBeingSet = 0;
                 for (int i = 1; i <= 5; i++)
                 {
-                    ImageButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as ImageButton;
+                    LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                     if (btn.Visible == false)
                     {
                         controlBeingSet = i;
-                        if (controlBeingSet == 1)
-                        {
-                            if (labelTextBox.Text == string.Empty)
-                            {
-                                string msg = "Control's NAME field is required!";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                labelTextBox.Focus();
-                                return;
-                            }
-                        }
+                    }
+                }
+
+                // Make sure 1st control NAME field isn't blank
+                if (controlBeingSet == 1)
+                {
+                    if (labelTextBox.Text == string.Empty)
+                    {
+                        string msg = "NAME field is required!";
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        labelTextBox.Focus();
+                        return;
                     }
                 }
 
@@ -1138,10 +1176,10 @@ namespace BarcodeConversion
                             // First Save values in INDEX_TABLE_FIELD first
                             for (int i = 1; i <= values.Length; i++)
                             {
-                                int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), i);
+                                int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), controlBeingSet, i);
                                 if (result2 <= 0)
                                 {
-                                    string msg = "Error 73C. Couldn't save dropdown values";
+                                    string msg = "Error 73C. Could not save dropdown values";
                                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                     selectJob.SelectedValue = "Select";
                                     return;
@@ -1165,11 +1203,11 @@ namespace BarcodeConversion
                 {
                     if (dropdownValues.Visible)
                     {
-                        if (dropdownValues.Text == string.Empty)
-                        {   
-                            // First, delete dropdown values from INDEX_TABLE_FIELD
-                            deleteDropdownValues(jobId, controlBeingSet);
+                        // First, delete current dropdown values from INDEX_TABLE_FIELD
+                        deleteDropdownValues(jobId, controlBeingSet);
 
+                        if (labelTextBox.Text == string.Empty || dropdownValues.Text == string.Empty)
+                        {   
                             // Then update job config
                             int result2 = saveJobConfig(jobId, controlBeingSet, "dropdown", "update");
                             handleResult(result2, "F");
@@ -1180,10 +1218,10 @@ namespace BarcodeConversion
                         // Save values in INDEX_TABLE_FIELD first
                         for (int i = 1; i <= values.Length; i++)
                         {
-                            int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), i);
+                            int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), controlBeingSet, i);
                             if (result2 <= 0)
                             {
-                                string msg = "Error 73G. Couldn't save dropdown values";
+                                string msg = "Error 73G. Could not save dropdown values";
                                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                 selectJob.SelectedValue = "Select";
                                 return;
@@ -1191,18 +1229,18 @@ namespace BarcodeConversion
                         }
 
                         // Then Save job config in JOB_CONFIG_INDEX
-                        int result = saveJobConfig(jobId, 1, "dropdown", "insert");
+                        int result = saveJobConfig(jobId, controlBeingSet, "dropdown", "update");
                         handleResult(result, "H");
                         return;
                     }
                     else // If control type = textbox
                     {
-                        int result = saveJobConfig(jobId, 1, "textbox", "insert");
+                        if (isControlDropdown) deleteDropdownValues(jobId, controlBeingSet);
+                        int result = saveJobConfig(jobId, controlBeingSet, "textbox", "update");
                         handleResult(result, "I");
                         return;
                     }
                 }
-                
             }
             catch (Exception ex)
             {
@@ -1232,7 +1270,6 @@ namespace BarcodeConversion
             {
                 return false;
             }
-
             return true;
         }
 
@@ -1241,14 +1278,16 @@ namespace BarcodeConversion
         protected void processRequest(object sender, EventArgs e)
         {  
             try
-            {
-                // Get id of edit icon btn then hide it
-                string last = string.Empty;
-                ImageButton b = new ImageButton();
+            {   
 
-                if (sender is ImageButton)
+                
+                // Get id of edit icon button then hide it
+                string last = string.Empty;
+                LinkButton b = new LinkButton();
+
+                if (sender is LinkButton)
                 {
-                    b = (ImageButton)sender;
+                    b = (LinkButton)sender;
                     if (b.ID.Contains("edit"))
                     {
                         // Make sure current edit is done before starting another one
@@ -1266,127 +1305,109 @@ namespace BarcodeConversion
                 {
                     for (int i = 1; i <= 5; i++)
                     {
-                        ImageButton btn = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as ImageButton;
+                        LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                         if (btn != null)
                         {
                             if (btn.Visible == false)
                                 last = i.ToString();
                         }
-                        else
-                            last = "1";
-                            
+                        else last = "1";
                     }
                 }
                 
                 b.Visible = false;
 
-                // Retrieve DB saved values
-                int jobId = 0;
-                bool isLabelSet = false;
-                using (SqlConnection con = Helper.ConnectionObj)
+                // Make sure the 1st control is set 
+                if (last != "1" && label1.Text == " Required")
                 {
-                    using (SqlCommand cmd = con.CreateCommand())
-                    {
-                        // First, get job ID of selected job
-                        cmd.CommandText = "SELECT ID FROM JOB WHERE ABBREVIATION = @jobAbb";
-                        cmd.Parameters.AddWithValue("@jobAbb", selectJob.SelectedValue);
-                        con.Open();
-                        object result = cmd.ExecuteScalar();
-                        if (result != null) jobId = (int)result;
-                        else
-                        {
-                            string msg = "Job selected could not be found.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            selectJob.SelectedValue = "Select";
-                            return;
-                        }
-                        cmd.Parameters.Clear();
-
-                        // Check control type
-                        cmd.CommandText = "SELECT TABLEID" + last + " FROM JOB_CONFIG_INDEX WHERE JOB_ID=@jobId";
-                        cmd.Parameters.AddWithValue("jobID", jobId + last);
-                        object result2 = cmd.ExecuteScalar();
-                        if (result2 != null)
-                        {
-                            dropdownType.Checked = true;
-                            dropdownValues.Visible = true;
-                            valuesLabel.Visible = true;
-                            regexTextBox.Visible = false;
-                            msgTextBox.Visible = false;
-                            regex.Visible = false;
-                            alert.Visible = false;
-                        }
-                        cmd.Parameters.Clear();
-
-                        // Get saved values
-                        if (dropdownValues.Visible) // Control type = dropdown
-                        {
-                            string values = string.Empty;
-                            cmd.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id";
-                            cmd.Parameters.AddWithValue("@id", jobId + last);
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                if (reader.HasRows)
-                                {   
-                                    while (reader.Read())
-                                    {
-                                        values += reader.GetValue(0).ToString() + ", ";
-                                    }
-                                    values = values.Substring(0,values.Length - 2);
-                                    dropdownValues.Text = values;
-                                }
-                            }
-                        }
-                        else // Control type = textbox
-                        {
-                            cmd.CommandText = "SELECT LABEL" + last + ", REGEX" + last + ", ALERT" + last + " " +
-                                              "FROM JOB_CONFIG_INDEX " +
-                                              "WHERE JOB_ID=@jobID";
-                            cmd.Parameters.AddWithValue("jobID", jobId);
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
-                                if (reader.HasRows)
-                                {
-                                    if (reader.Read() && reader.GetValue(0) != null)
-                                    {
-                                        if (reader.GetValue(0).ToString() != DBNull.Value.ToString())
-                                        {
-                                            isLabelSet = true;
-                                            labelTextBox.Text = " " + (string)reader.GetValue(0);
-                                            if (reader.GetValue(1).ToString() != string.Empty)
-                                                regexTextBox.Text = " " + reader.GetValue(1).ToString();
-                                            else
-                                                regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // Write:    .*\\S.*   instead of   /.*\\S.*/";
-                                            if (reader.GetValue(2).ToString() != string.Empty)
-                                                msgTextBox.Text = " " + reader.GetValue(2).ToString();
-                                            else
-                                                msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
-                                    regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // e.g. write:    .*\\S.*   instead of   /.*\\S.*/";
-                                    msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
-                                }
-                            }
-                        }
-                    }
+                    string msg = "LABEL1 must be set first.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    b.Visible = true;
+                    return;
                 }
-                if (isLabelSet == false)
+
+
+                // Get selected job id
+                int jobId = Helper.getJobId(selectJob.SelectedValue);
+                if (jobId <= 0)
                 {
-                    labelTextBox.Text = string.Empty;
-                    labelTextBox.Attributes["placeholder"] = " LABEL" + last + "  Name";
-                    regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters // e.g. write:    .*\\S.*   instead of   /.*\\S.*/";
-                    msgTextBox.Attributes["placeholder"] = " Alert message of what a valid entry should be if entry fails regex test.";
+                    string msg = "Job selected could not be found. Contact system admin.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    selectJob.SelectedValue = "Select";
+                    return;
+                }
+
+                // Clear labelControlsTable current values
+                labelTextBox.Text = string.Empty;
+                dropdownValues.Text = string.Empty;
+                regexTextBox.Text = string.Empty;
+                msgTextBox.Text = string.Empty;
+
+                // Retrieve DB saved values
+                var controlInfo = isDropdownType(Convert.ToInt32(last), jobId);
+                bool isLabel1Set = controlInfo.Item1;
+                bool isControlDropdown = controlInfo.Item2;
+
+                // Check control type
+                if (isControlDropdown == true)
+                {
+                    dropdownType.Checked = true;
+                    textBoxType.Checked = false;
+                    dropdownValues.Visible = true;
+                    valuesLabel.Visible = true;
+                    regexTextBox.Visible = false;
+                    msgTextBox.Visible = false;
+                    regex.Visible = false;
+                    alert.Visible = false;
+                    TextBox t = this.Master.FindControl("MainContent").FindControl("label" + last) as TextBox;
+                    if (t.Text == string.Empty)
+                    {
+                        labelTextBox.Text = string.Empty;
+                        string placeholder = string.Empty;
+                        if (last == "1") placeholder = " Required";
+                        else placeholder = " Optional";
+                        labelTextBox.Attributes["placeholder"] = placeholder;
+                    }
+                    else labelTextBox.Text = t.Text;
+                    string values = getDropdownValues(jobId, Convert.ToInt32(last));
+                    dropdownValues.Text = " " + values;
+                }
+                else
+                {
+                    textBoxType.Checked = true;
+                    dropdownType.Checked = false;
+                    dropdownValues.Visible = false;
+                    valuesLabel.Visible = false;
+                    regexTextBox.Visible = true;
+                    msgTextBox.Visible = true;
+                    regex.Visible = true;
+                    alert.Visible = true;
+
+                    if (isLabel1Set == true)  // If textbox type
+                    {
+                       int success = showControlInfo(jobId, Convert.ToInt32(last));
+                       if (success == -1)
+                       {
+                            string msg = "Error 74a: Issue occured while retrieving saved index data. Contact system admin.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                       }
+                    }
+                    else
+                    {
+                        string placeholder = string.Empty;
+                        if (last == "1") placeholder = " Required";
+                        else placeholder = " Optional";
+                        labelTextBox.Attributes["placeholder"] = placeholder;
+                        regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters //";
+                        msgTextBox.Attributes["placeholder"] = " Message of what a valid entry should be.";
+                    }
                 }
                 labelControlsTable.Visible = true;
                 labelTextBox.Focus();
             }
             catch(Exception ex)
             {
-                string msg = "Error 74a: Issue occured while retrieveing saved index data. Contact sytem admin.";
+                string msg = "Error 74b: Issue occured while retrieveing saved index data. Contact sytem admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + ex.Message + "');", true);
             } 
         }
@@ -1399,6 +1420,7 @@ namespace BarcodeConversion
             {
                 dropdownValues.Visible = true;
                 valuesLabel.Visible = true;
+                labelTextBox.Focus();
                 regexTextBox.Visible = false;
                 msgTextBox.Visible = false;
                 regex.Visible = false;
@@ -1408,6 +1430,7 @@ namespace BarcodeConversion
             {
                 dropdownValues.Visible = false;
                 valuesLabel.Visible = false;
+                labelTextBox.Focus();
                 regexTextBox.Visible = true;
                 msgTextBox.Visible = true;
                 regex.Visible = true;
@@ -1545,64 +1568,7 @@ namespace BarcodeConversion
         // 'UNSET' CLICKED: UNSET INPUT-CONTROLS RULES. FUNCTION.
         protected void unsetRules_Click(object sender, EventArgs e)
         {
-            try
-            {
-                int jobID = 0;
-
-                // Make sure a job is selected
-                if (this.selectJob.SelectedValue == "Select")
-                {
-                    string msg = "Please select a specific job to Unset!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    jobAbb.Text = string.Empty;
-                    jobAbb.Focus();
-                    return;
-                }
-                using (SqlConnection con = Helper.ConnectionObj)
-                {
-                    using (SqlCommand cmd = con.CreateCommand())
-                    {
-                        // First, get job ID of selected job
-                        cmd.CommandText = "SELECT ID FROM JOB WHERE ABBREVIATION = @jobAbb";
-                        cmd.Parameters.AddWithValue("@jobAbb", selectJob.SelectedValue);
-                        con.Open();
-                        object result = cmd.ExecuteScalar();
-                        if (result != null) jobID = (int)result;
-                        else
-                        {
-                            string msg = "Job selected could not be found.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            selectJob.SelectedValue = "Select";
-                            return;
-                        }
-
-                        // Then, use that job ID to unset job rules into JOB_CONFIG_INDEX
-                        cmd.Parameters.Clear();
-                        cmd.CommandText = "DELETE FROM JOB_CONFIG_INDEX WHERE JOB_ID=@jobID";
-                        cmd.Parameters.AddWithValue("@jobID", jobID);
-                        if (cmd.ExecuteNonQuery() == 1)
-                        {
-                            string msg = selectJob.SelectedValue + " Job config successfully unset.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            getActiveJobs();
-                            clearRules();
-                            return;
-                        }
-                        else
-                        {
-                            string msg = "Error 77: Something went wrong while attempting to unset. Please contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            clearRules();
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                clearRules();
-                string msg = "Error 78: Configuration rules for the selected job has already been unset. If you want to reconfigure, Make sure it is selected, then Set!";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-            }
+           
         }
 
 
@@ -1614,10 +1580,11 @@ namespace BarcodeConversion
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
-                    e.Row.Cells[2].Text = "  JOB";
-                    //e.Row.Cells[2].Text = "JOB_ID";
+                    e.Row.Cells[2].Text = "JOB";
+                    if (e.Row.Cells.Count == 4)
+                        e.Row.Cells[3].Text = "IDX COUNT";
                     //e.Row.Cells[3].Text = "INDEX";
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
@@ -1649,6 +1616,7 @@ namespace BarcodeConversion
                     jobSection.Visible = true;
                     newUserSection.Visible = true;
                     getUnassignedJobs(null);
+                    getOperators();
                     assignPanel.Visible = true;
                     jobIndexEditingPanel.Visible = true;
                     getActiveJobs();
@@ -1698,7 +1666,7 @@ namespace BarcodeConversion
                         if (button != null && (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn"))
                         {
                             // Make sure Operator is entered
-                            if (assignee.Text != string.Empty) assigneeName = assignee.Text;
+                            if (assignee.SelectedValue != "Select") assigneeName = assignee.SelectedValue;
                             else
                             {
                                 string msg = "Operator field required.";
@@ -1731,8 +1699,11 @@ namespace BarcodeConversion
                         {
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
-                            cmd.CommandText = "SELECT ABBREVIATION " +
-                                               "FROM JOB WHERE ACTIVE=1 " +
+                            cmd.CommandText =  "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID) " +
+                                               "FROM JOB " +
+                                               "LEFT JOIN INDEX_DATA ON JOB.ID=INDEX_DATA.JOB_ID " +
+                                               "WHERE ACTIVE=1 " +
+                                               "GROUP BY ABBREVIATION " +
                                                "ORDER BY ABBREVIATION ASC";
                                                 // "LEFT JOIN OPERATOR_ACCESS ON JOB.ID = OPERATOR_ACCESS.JOB_ID " +   //In case we want jobs inaccessible by everyone
                                                 // "WHERE JOB.ACTIVE = 1 AND OPERATOR_ACCESS.JOB_ID IS NULL", con);"
@@ -2090,6 +2061,7 @@ namespace BarcodeConversion
             jobActiveBtn.SelectedValue = "1";
             jobAssignedToLabel.Visible = true;
             jobAssignedTo.Visible = true;
+            getOperators();
         }
 
         // CHECK CONTROL TYPE
@@ -2151,7 +2123,7 @@ namespace BarcodeConversion
         }
 
         // SAVE DROPDOWN VALUES
-        private int saveDropdownValues (int jobId, string value, int order)
+        private int saveDropdownValues (int jobId, string value, int controlBeingSet, int dropdownOrder)
         {   
             try
             {
@@ -2161,9 +2133,9 @@ namespace BarcodeConversion
                     {
                         // Save new table id
                         cmd.CommandText = "INSERT INTO INDEX_TABLE_FIELD(ID, VALUE, ORD) VALUES(@id, @value, @ord)";
-                        cmd.Parameters.AddWithValue("@id", jobId + order.ToString());
+                        cmd.Parameters.AddWithValue("@id", jobId + controlBeingSet.ToString());
                         cmd.Parameters.AddWithValue("@value", value);
-                        cmd.Parameters.AddWithValue("@ord", order);
+                        cmd.Parameters.AddWithValue("@ord", dropdownOrder);
                         con.Open();
                         if (cmd.ExecuteNonQuery() == 1)
                         {
@@ -2243,6 +2215,7 @@ namespace BarcodeConversion
                                     cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
                                     cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
                                 }
+                                cmd.Parameters.AddWithValue("@jobID", jobId);
                             }
                             else // If control = textbox
                             {
@@ -2266,10 +2239,11 @@ namespace BarcodeConversion
                                     }
                                     cmd.Parameters.AddWithValue("@tableid" + i, DBNull.Value);
                                 }
+                                cmd.Parameters.AddWithValue("@jobID", jobId);
                             }
                             return cmd.ExecuteNonQuery();
                         }
-                        else // if sqlType = update
+                        else // if job already configured
                         {
                             cmd.CommandText =   "UPDATE JOB_CONFIG_INDEX " +
                                                 "SET LABEL" + order + "=@label, REGEX" + order + "=@regex, ALERT" + order + "=@alert, TABLEID" + order + "=@tableid " +
@@ -2279,24 +2253,41 @@ namespace BarcodeConversion
                             if (controlType == "dropdown")
                             {
                                 if (labelTextBox.Text == string.Empty)
+                                {
                                     cmd.Parameters.AddWithValue("@label", DBNull.Value);
-                                else cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
+                                    cmd.Parameters.AddWithValue("@tableid", DBNull.Value);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
+                                    if (dropdownValues.Text == string.Empty)
+                                        cmd.Parameters.AddWithValue("@tableid", DBNull.Value);
+                                    else cmd.Parameters.AddWithValue("@tableid", jobId + order.ToString());
+                                } 
                                 cmd.Parameters.AddWithValue("@regex", DBNull.Value);
                                 cmd.Parameters.AddWithValue("@alert", DBNull.Value);
-                                cmd.Parameters.AddWithValue("@tableid", jobId + order.ToString());
+                                cmd.Parameters.AddWithValue("@jobID", jobId);
                             }
                             else    // if control type is textbox
                             {
                                 if (labelTextBox.Text == string.Empty)
+                                {
                                     cmd.Parameters.AddWithValue("@label", DBNull.Value);
-                                else cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
-                                if (regexTextBox.Text != string.Empty)
-                                    cmd.Parameters.AddWithValue("@regex", regexTextBox.Text.Trim());
-                                else cmd.Parameters.AddWithValue("@regex", DBNull.Value);
-                                if (msgTextBox.Text != string.Empty)
-                                    cmd.Parameters.AddWithValue("@alert", msgTextBox.Text.Trim());
-                                else cmd.Parameters.AddWithValue("@alert", DBNull.Value);
+                                    cmd.Parameters.AddWithValue("@regex", DBNull.Value);
+                                    cmd.Parameters.AddWithValue("@alert", DBNull.Value);
+                                }
+                                else
+                                {
+                                    cmd.Parameters.AddWithValue("@label", labelTextBox.Text.Trim());
+                                    if (regexTextBox.Text != string.Empty)
+                                        cmd.Parameters.AddWithValue("@regex", regexTextBox.Text.Trim());
+                                    else cmd.Parameters.AddWithValue("@regex", DBNull.Value);
+                                    if (msgTextBox.Text != string.Empty)
+                                        cmd.Parameters.AddWithValue("@alert", msgTextBox.Text.Trim());
+                                    else cmd.Parameters.AddWithValue("@alert", DBNull.Value);
+                                }
                                 cmd.Parameters.AddWithValue("@tableid", DBNull.Value);
+                                cmd.Parameters.AddWithValue("@jobID", jobId);
                             }
                             return cmd.ExecuteNonQuery();
                         }
@@ -2316,13 +2307,13 @@ namespace BarcodeConversion
             labelControlsTable.Visible = false;
             for (int i = 1; i <= 5; i++)
             {
-                ImageButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as ImageButton;
+                LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i) as TextBox;
                 if (btn.Visible == false)
                 {
                     btn.Visible = true;
                     if (labelTextBox.Text != string.Empty)
-                        t.Text = labelTextBox.Text;
+                        t.Text = " " + labelTextBox.Text;
                     else if (labelTextBox.Text == string.Empty && i != 1)
                         t.Text = " Optional";
                 }
@@ -2334,7 +2325,7 @@ namespace BarcodeConversion
         {
             if (result != 1)
             {
-                string msg = "Error 73" + e + ". Couldn't save job config.";
+                string msg = "Error 73" + e + ". Could not save job config. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 selectJob.SelectedValue = "Select";
                 return;
@@ -2343,6 +2334,53 @@ namespace BarcodeConversion
             {
                 hideLabelControlsTable();
                 return;
+            }
+        }
+
+
+        // RETRIEVE TEXTBOX CONTROL TYPE INFOS
+        private int showControlInfo (int jobId, int controlBeingSet)
+        {
+            try
+            {
+                // Retrieve DB saved values
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText =   "SELECT LABEL" + controlBeingSet + ", REGEX" + controlBeingSet + ", ALERT" + controlBeingSet + " " +
+                                            "FROM JOB_CONFIG_INDEX " +
+                                            "WHERE JOB_ID=@jobID";
+                        cmd.Parameters.AddWithValue("jobID", jobId);
+                        con.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                if (reader.Read() && reader.GetValue(0) != null)
+                                {
+                                    if (reader.GetValue(0).ToString() != DBNull.Value.ToString())
+                                    {
+                                        labelTextBox.Text = " " + (string)reader.GetValue(0);
+                                        if (reader.GetValue(1).ToString() != string.Empty)
+                                            regexTextBox.Text = " " + reader.GetValue(1).ToString();
+                                        else
+                                            regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters //";
+                                        if (reader.GetValue(2).ToString() != string.Empty)
+                                            msgTextBox.Text = " " + reader.GetValue(2).ToString();
+                                        else
+                                            msgTextBox.Attributes["placeholder"] = " Message of what a valid entry should be.";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return 1;
+            }
+            catch(Exception ex)
+            {
+                return -1;
             }
         }
                             

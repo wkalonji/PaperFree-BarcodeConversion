@@ -750,13 +750,12 @@ namespace BarcodeConversion
                 }
                 else if (d != null && d.Visible == true)    // If control is a dropdown
                 {
-                    // Make sure 1st field not blank
-                    if (d.SelectedValue == "Select")
+                    if (i == 1 && d.SelectedValue == "Select")
                     {
-                        string label = regexList[i-1].Item1;
+                        string label = regexList[0].Item1;
                         string msg = label + " field is required!";
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                        d.Focus();
+                        c.Focus();
                         return;
                     }
                     entries.Add(d.SelectedValue);
@@ -787,7 +786,12 @@ namespace BarcodeConversion
             {
                 DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
                 if (d != null && d.Visible == true)
-                    d.SelectedValue = "Select";
+                {
+                    if (d.Items.Contains(d.Items.FindByValue("Select")))
+                        d.SelectedValue = "Select";
+                    else d.SelectedValue = string.Empty;
+                }
+                    
             }
             // Stick barcode to the end of entries
             entries.Add(barcodeIndex);
@@ -1174,8 +1178,7 @@ namespace BarcodeConversion
                     return;
                 }
 
-                // Check if current operator is Admin
-
+                // Check if current operator is Admin &
                 // Then, get all appropriate jobs for current operator from OPERATOR_ACCESS.
                 using (SqlConnection con = Helper.ConnectionObj)
                 {

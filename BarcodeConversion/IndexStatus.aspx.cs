@@ -73,7 +73,7 @@ namespace BarcodeConversion
             {
                 jobsFilter.Items.Clear();
                 jobsFilter.Items.Add("Your Jobs");
-
+                
                 // First, get current user id via name.
                 string user = Environment.UserName;
                 List<int> jobIdList = new List<int>();
@@ -81,62 +81,56 @@ namespace BarcodeConversion
                 int opID = Helper.getUserId(user);
                 if (opID == 0) return new Dictionary<int, string>();
 
-                // Then, get all job IDs accessible to current user from OPERATOR_ACCESS.
+                // Check if current operator is Admin &
+                // Then, get all appropriate jobs for current operator from OPERATOR_ACCESS.
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID = @userId";
+                        // Get operator's Admin status
+                        cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE ID = @userId";
                         cmd.Parameters.AddWithValue("@userId", opID);
                         con.Open();
+                        object result = cmd.ExecuteScalar();
+                        bool isAdmin = false;
+                        if (result != null)
+                            isAdmin = (bool)cmd.ExecuteScalar();
+                        cmd.Parameters.Clear();
+
+                        // If Admin, get all jobs    
+                        if (isAdmin == true)
+                        {
+                            cmd.CommandText =   "SELECT ID, ABBREVIATION " +
+                                                "FROM JOB " +
+                                                "WHERE ACTIVE=1 " +
+                                                "ORDER BY ABBREVIATION ASC";
+                        }
+                        else // Else get assigned jobs only.
+                        {
+                            cmd.CommandText =   "SELECT ID, ABBREVIATION " +
+                                                "FROM JOB " +
+                                                "JOIN OPERATOR_ACCESS ON JOB.ID=OPERATOR_ACCESS.JOB_ID " +
+                                                "WHERE ACTIVE=1 AND OPERATOR_ID=@userId " +
+                                                "ORDER BY ABBREVIATION ASC";
+                            cmd.Parameters.AddWithValue("@userId", opID);
+                        }
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.HasRows)
                             {
                                 while (reader.Read())
                                 {
-                                    int jobID = (int)reader.GetValue(0);
-                                    jobIdList.Add(jobID);
+                                    int jobId = (int)reader.GetValue(0);
+                                    string jobAbb = (string)reader.GetValue(1);
+                                    jobsFilter.Items.Add(jobAbb);
+                                    jobsDict.Add(jobId, jobAbb);
                                 }
+                                jobsFilter.AutoPostBack = true;
                             }
                             else return new Dictionary<int, string>();
                         }
                     }
-                }
-
-                // Now, for each job ID, get corresponding job abbreviation.
-                if (jobIdList.Count > 0)
-                {
-                    using (SqlConnection con = Helper.ConnectionObj)
-                    {
-                        con.Open();
-                        foreach (var jobId in jobIdList)
-                        {
-                            using (SqlCommand cmd = con.CreateCommand())
-                            {
-                                cmd.CommandText = "SELECT ABBREVIATION FROM JOB WHERE ID = @job";
-                                cmd.Parameters.AddWithValue("@job", jobId);
-                                using (SqlDataReader reader = cmd.ExecuteReader())
-                                {
-                                    if (reader.HasRows)
-                                    {
-                                        while (reader.Read())
-                                        {
-                                            string jobAbb = (string)reader.GetValue(0);
-                                            jobsFilter.Items.Add(jobAbb);
-                                            jobsDict.Add(jobId, jobAbb);
-                                        }
-                                        jobsFilter.AutoPostBack = true;
-                                    }
-                                    else return new Dictionary<int, string>();
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    return new Dictionary<int, string>();
                 }
                 return jobsDict;
             }
@@ -257,9 +251,9 @@ namespace BarcodeConversion
                 }
 
                 SqlCommand cmd = new SqlCommand();
-                string cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
-                                        "FROM INDEX_DATA " +
-                                        "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
+                string cmdString =  "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                    "FROM INDEX_DATA " +
+                                    "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     if (who == "meOnly")
@@ -578,7 +572,7 @@ namespace BarcodeConversion
                     ((LinkButton)e.Row.Cells[1].Controls[0]).Text = "OPERATOR";
                     ((LinkButton)e.Row.Cells[e.Row.Cells.Count - 2].Controls[0]).Text = "CREATION TIME";
                     // Set column borders & Prevent headers' line breaks
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #737373; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }

@@ -70,9 +70,9 @@
 					</td>
 					<td style="text-align:right;"> 
 						<div style="display:block;padding:10px 5px 1px 4px;" >
-                            <asp:linkButton runat="server" ForeColor="#737373" OnClick="reset_Click" >
-                                <i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
-                            </asp:linkButton>
+							<asp:linkButton runat="server" ForeColor="#737373" OnClick="reset_Click" >
+								<i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
+							</asp:linkButton>
 						</div>
 					</td>
 				</tr>

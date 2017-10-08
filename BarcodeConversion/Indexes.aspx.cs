@@ -606,7 +606,7 @@ namespace BarcodeConversion
                     e.Row.Cells[3].Visible = false;
                     ((LinkButton)e.Row.Cells[9].Controls[0]).Text = "CREATION TIME";
                     ((LinkButton)e.Row.Cells[2].Controls[0]).Text = "JOB";
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #737373; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
