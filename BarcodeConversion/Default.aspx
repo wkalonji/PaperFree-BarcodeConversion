@@ -153,7 +153,7 @@
                 <table class = tableFull style="margin-top:25px; width:470px;">
                     <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
                         <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" Font-Size="10" onclick="saveIndex_Click" /></td>
-                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print Barcode" Font-Size="10" onclick="printIndexes_Click" /></td>
+                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print" Font-Size="10" onclick="printIndexes_Click" /></td>
                     </tr>               
                 </table>
             </asp:Panel>
