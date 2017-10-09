@@ -316,3 +316,60 @@ Stack Trace:
    at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
 
+********** 10/9/2017 10:08:51 AM **********
+Inner Exception Type: System.Web.HttpParseException
+Inner Exception: Literal content ('<th style="padding-left:5px;font-family:Arial;font-size:12px;>Unprinted Indexes</th>') is not allowed within a 'System.Web.UI.HtmlControls.HtmlTableCellCollection'.
+Inner Source: System.Web
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Exception Type: System.Web.HttpParseException
+Exception: Literal content ('<th style="padding-left:5px;font-family:Arial;font-size:12px;>Unprinted Indexes</th>') is not allowed within a 'System.Web.UI.HtmlControls.HtmlTableCellCollection'.
+Source: System.Web
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.Abstractions.BuildManagerWrapper.GetObjectFactory(String virtualPath, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetWebObjectFactory(HttpContextBase httpContext, String modifiedVirtualPath)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Microsoft.AspNet.FriendlyUrls.Abstractions.IFriendlyUrlRouteSupportFunctions.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext, String pathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.RouteCollection.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.UrlRoutingModule.PostResolveRequestCache(HttpContextBase context)
+   at System.Web.Routing.UrlRoutingModule.OnApplicationPostResolveRequestCache(Object sender, EventArgs e)
+   at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+********** 10/9/2017 10:26:10 AM **********
+Exception Type: System.Web.HttpCompileException
+Exception: C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion2\BarcodeConversion\Indexes.aspx(62): error CS1061: 'indexes_aspx' does not contain a definition for 'reset_Click' and no extension method 'reset_Click' accepting a first argument of type 'indexes_aspx' could be found (are you missing a using directive or an assembly reference?)
+Source: System.Web
+Stack Trace: 
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.Abstractions.BuildManagerWrapper.GetObjectFactory(String virtualPath, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetWebObjectFactory(HttpContextBase httpContext, String modifiedVirtualPath)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Microsoft.AspNet.FriendlyUrls.Abstractions.IFriendlyUrlRouteSupportFunctions.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext, String pathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.RouteCollection.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.UrlRoutingModule.PostResolveRequestCache(HttpContextBase context)
+   at System.Web.Routing.UrlRoutingModule.OnApplicationPostResolveRequestCache(Object sender, EventArgs e)
+   at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+

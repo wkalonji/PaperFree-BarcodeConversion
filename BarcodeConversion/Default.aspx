@@ -74,9 +74,9 @@
                     <td style="padding-right:15px;width:330px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
                     <td style="text-align:right; padding-right:5px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
                     <td style="text-align:right; padding-right:5px;">
-                        <asp:Button ID="saveIndexesBtn" Text="Save Indexes" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
+                        <asp:Button ID="saveIndexesBtn" Text="Save" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
                     <td style="text-align:right;">
-                        <asp:Button ID="printIndexesBtn" Text="Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
+                        <asp:Button ID="printIndexesBtn" Text="Save & Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
                 </tr>
                 <tr>
                     <td style="padding-right:15px;"><asp:Label ID ="uploadHidden" Text="" Visible="false" runat="server"></asp:Label></td>

@@ -28,8 +28,26 @@ namespace BarcodeConversion
         }
 
 
-       
-        // 'RESET' CLICKED: GET UNPRINTED INDEXES. 
+        // 'RESET' ICON CLICKET: GET UNPRINTED INDEXES & RESIZE GRIDVIEW
+        protected void reset_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                indexesGridView.AllowPaging = true;
+                indexesGridView.PageSize = 10;
+                recordsPerPage.SelectedValue = "10";
+                getUnprintedIndexes_Click(new object(), new EventArgs());
+                sortOrder.Text = "Sorted By : CREATION_TIME ASC";
+            }
+            catch (Exception ex)
+            {
+                string msg = "Error 30: Issue occured while attempting to reset. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+            }
+        }
+
+
+        // GET UNPRINTED INDEXES. HELPER
         protected void getUnprintedIndexes_Click(object sender, EventArgs e)
         {
             try
@@ -545,7 +563,7 @@ namespace BarcodeConversion
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
             }
         }
-
+        
 
 
         // SET PRINTED INDEXES AS PRINTED IN DB. HERLPER FUNCTION
