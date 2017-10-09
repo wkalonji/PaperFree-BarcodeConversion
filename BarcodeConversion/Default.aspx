@@ -92,11 +92,11 @@
             <table id="jobControls" class = table runat="server">
                 <tr> <th colspan="3" style="font-family:Arial;">Index Data Information: </th></tr>
                 <tr>
-                    <td style="vertical-align:middle;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
+                    <td style="vertical-align:middle;width:185px;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox>
                         <asp:DropDownList ID="label1Dropdown" Visible="false" runat="server">
-                            <asp:ListItem Value="Select">Select</asp:ListItem>
+                            <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>

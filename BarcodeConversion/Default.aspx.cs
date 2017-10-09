@@ -68,7 +68,7 @@ namespace BarcodeConversion
                     // First, get selected job ID.
                     int jobID = getJobId(this.selectJob.SelectedValue);
 
-                    if (jobID == 0)
+                    if (jobID <= 0)
                     {
                         string msg = "Error 02:     Selected job not found. Contact system admin.";
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -82,9 +82,9 @@ namespace BarcodeConversion
                         using (SqlCommand cmd = con.CreateCommand())
                         {
                             cmd.CommandText = "SELECT JOB_ID, LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, " +
-                                                             "REGEX1, REGEX2, REGEX3, REGEX4, REGEX5, " + 
-                                                             "ALERT1, ALERT2, ALERT3, ALERT4, ALERT5, " + 
-                                                             "TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
+                                                    "REGEX1, REGEX2, REGEX3, REGEX4, REGEX5, " + 
+                                                    "ALERT1, ALERT2, ALERT3, ALERT4, ALERT5, " + 
+                                                    "TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
                                               "FROM JOB_CONFIG_INDEX " + 
                                               "WHERE JOB_ID=@jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
@@ -105,7 +105,7 @@ namespace BarcodeConversion
                                         {
                                             if (reader.GetValue(i) != DBNull.Value) // If label i is set
                                             {
-                                                if (reader.GetValue(i + 15) == DBNull.Value) // If tableid is set
+                                                if (reader.GetValue(i + 15) == DBNull.Value) // If control is a Textbox
                                                 {
                                                     var tuple = Tuple.Create("", "", "");
                                                     string label = (string)reader.GetValue(i);
@@ -139,8 +139,8 @@ namespace BarcodeConversion
                                                     }
                                                     //j += 1;
                                                 }
-                                                else
-                                                {
+                                                else    // If control is a dropdown
+                                                {       
                                                     string label = (string)reader.GetValue(i);
                                                     var tuple = Tuple.Create(label, "", "");
                                                     regexList.Add(tuple);
@@ -150,6 +150,8 @@ namespace BarcodeConversion
                                                     l.Visible = true;
                                                     DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + j + "Dropdown") as DropDownList;
                                                     d.Visible = true;
+                                                    d.Items.Clear(); // Clear current dropdown items
+                                                    d.Items.Add("");
 
                                                     // Fill dropdown
                                                     using (SqlCommand cmd2 = con.CreateCommand())
@@ -249,21 +251,47 @@ namespace BarcodeConversion
                             string[] fields = parser.ReadFields();
                             List<string> line = new List<string>(fields);
                             fileContent.Add(line);
-                            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
 
-                            // If more row items than required
-                            if (line.Count > regexList.Count)
+                            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
+                            int labelsCount = 0;
+                            int regexCount = 0;
+                            string required = string.Empty;
+                            foreach (Tuple<string,string,string>controlSettings in regexList)
+                            {
+                                if (controlSettings.Item1 != string.Empty)  // Check how many controls were set
+                                    labelsCount++;
+                                if (controlSettings.Item2 != string.Empty)  // Check how many regex were set
+                                    regexCount++;
+                            }
+
+                            // If less row items than the min required
+                            if (line.Count < regexCount)
                             {
                                 var errorMsg = new TableCell();
                                 var errorMsgRow = new TableRow();
-                                errorMsg.Text = "This job requires that every row in your csv file contains no more than " + regexList.Count + " items.";
+                                errorMsg.Text = "This job requires that every row in your csv file contains no less than " + regexCount + " items. That is not the case for row " + lineNumber + ".";
+                                errorMsg.Attributes["style"] = "color:#ff3333;";
+                                errorMsgRow.Cells.Add(errorMsg);
+                                fileEntryMsg.Rows.Add(errorMsgRow);
+
+                                // Clear list of file contents if errors found
+                                fileContent.Clear();
+                                return;
+                            }
+
+                            // If more row items than the max required
+                            if (line.Count > labelsCount)
+                            {
+                                var errorMsg = new TableCell();
+                                var errorMsgRow = new TableRow();
+                                errorMsg.Text = "This job requires that every row in your csv file contains no more than " + labelsCount + " items.";
                                 errorMsg.Attributes["style"] = "color:#ff3333;";
                                 errorMsgRow.Cells.Add(errorMsg);
                                 fileEntryMsg.Rows.Add(errorMsgRow);
 
                                 var error = new TableCell();
                                 var errorRow = new TableRow();
-                                error.Text = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + regexList.Count+".";
+                                error.Text = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + labelsCount + ".";
                                 error.Attributes["style"] = "color:#ff3333;";
                                 errorRow.Cells.Add(error);
                                 fileEntryMsg.Rows.Add(errorRow);
@@ -293,9 +321,9 @@ namespace BarcodeConversion
                                             {
                                                 bool found = false;
                                                 string validEntries = string.Empty;
-                                                if (reader.GetValue(i).ToString() != DBNull.Value.ToString()) // If tableid exists
+                                                if (reader.GetValue(i).ToString() != DBNull.Value.ToString()) // If tableid[i] exists
                                                 {
-                                                    using (SqlCommand cmd2 = con.CreateCommand()) // Retrieve all the tableids
+                                                    using (SqlCommand cmd2 = con.CreateCommand()) // Retrieve all the table ids
                                                     {
                                                         cmd2.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id ORDER BY ORD";
                                                         cmd2.Parameters.AddWithValue("@id", reader.GetValue(i).ToString());
@@ -304,21 +332,24 @@ namespace BarcodeConversion
                                                             while (reader2.Read())  // For each tableid value, check whether line entry is among those values
                                                             {
                                                                 string dropdownValue = reader2.GetValue(0).ToString();
-                                                                if (line[i] == dropdownValue)
+                                                                if ((String.Compare(line[i],dropdownValue,true) == 0) || line[i] == string.Empty)
                                                                     found = true;
                                                                 validEntries += dropdownValue + ", ";
                                                             }
                                                         }
                                                     }
+
                                                     if (found == false) // if line entry not among tableid values
                                                     {
                                                         uploadSuccess.Visible = false;
                                                         var error = new TableCell();
                                                         var errorRow = new TableRow();
                                                         if (line[i] != string.Empty)
-                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") = '" + line[i] + "'  is invalid. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2); 
+                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") =  '" + line[i] + 
+                                                            "'  is invalid. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2) + ", or blank."; 
                                                         else
-                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") does not exist. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2);
+                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") does not exist. Valid entry must be one of following: " 
+                                                            + validEntries.Remove(validEntries.Length - 2, 2) + ", or blank.";
                                                         error.Attributes["style"] = "color:#ff3333;";
                                                         errorRow.Cells.Add(error);
                                                         fileEntryMsg.Rows.Add(errorRow);
@@ -331,7 +362,7 @@ namespace BarcodeConversion
                                 }
                             }
 
-                            //Process field
+                            //Process field for regex
                             for (int i = 1; i <= regexList.Count; i++)
                             {
                                 if (regexList[i - 1].Item2 != string.Empty) // If regex exists for this label
@@ -340,11 +371,25 @@ namespace BarcodeConversion
                                     string pattern = @regexList[i - 1].Item2;
                                     Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
                                     
+                                    if ((i - 1) > fields.Length)
+                                    {
+                                        string msg = label + ": " + regexList[i - 1].Item3;
+                                        var error = new TableCell();
+                                        error.Text = "Line " + lineNumber + "is missing required item " + i;
+                                        error.Attributes["style"] = "color:#ff3333;";
+                                        var errorRow = new TableRow();
+                                        errorRow.Cells.Add(error);
+                                        fileEntryMsg.Rows.Add(errorRow);
+                                        isFileValid = false;
+
+                                        return;
+                                    }
+
                                     if (!r.IsMatch(fields[i - 1]))
                                     {
                                         string msg = label + ": " + regexList[i - 1].Item3;
                                         var error = new TableCell();
-                                        error.Text = "Cell value \""+ (fields[i - 1]) + "\" for index data attribute \"" + label+ "\" at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:   " + regexList[i - 1].Item3;
+                                        error.Text = "Value '"+ (fields[i - 1]) + "' for index data '" + label+ "' at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:    " + regexList[i - 1].Item3;
                                         error.Attributes["style"] = "color:#ff3333;";
                                         var errorRow = new TableRow();
                                         errorRow.Cells.Add(error);
@@ -353,16 +398,21 @@ namespace BarcodeConversion
                                     }
                                 }
                                 else
-                                {   
-                                    if (i == 1 && fields[0] == string.Empty)
+                                {
+                                    TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                                    DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+                                    if (c.Visible == true)
                                     {
-                                        var error = new TableCell();
-                                        error.Text = "First item of row " + lineNumber + " in csv file can not be blank.";
-                                        error.Attributes["style"] = "color:#ff3333;";
-                                        var errorRow = new TableRow();
-                                        errorRow.Cells.Add(error);
-                                        fileEntryMsg.Rows.Add(errorRow);
-                                        isFileValid = false;
+                                        if (i == 1 && fields[0] == string.Empty)
+                                        {
+                                            var error = new TableCell();
+                                            error.Text = "1st item of row " + lineNumber + " can not be blank.";
+                                            error.Attributes["style"] = "color:#ff3333;";
+                                            var errorRow = new TableRow();
+                                            errorRow.Cells.Add(error);
+                                            fileEntryMsg.Rows.Add(errorRow);
+                                            isFileValid = false;
+                                        }
                                     }
                                 }
                             }
@@ -441,6 +491,34 @@ namespace BarcodeConversion
                         var lineNumber = parser.LineNumber;
                         string[] fields = parser.ReadFields();
                         List<string> lineEntries = new List<string>(fields);
+
+                        // Get number of controls set for this job
+                        var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
+                        int labelsCount = 0;
+                        foreach (Tuple<string, string, string> controlSettings in regexList)
+                        {
+                            if (controlSettings.Item1 != string.Empty)
+                                labelsCount++;
+                        }
+
+                        // Fill blanks with N/A
+                        var newLineEntries = new List<string>();
+                        if (lineEntries.Count <= labelsCount)
+                        {
+                            foreach (string field in lineEntries)
+                            {
+                                if (field != string.Empty)
+                                    newLineEntries.Add(field);
+                                else newLineEntries.Add("N/A");
+                            }
+                            int diff = labelsCount - lineEntries.Count;
+                            for (int i = 1; i <= diff; i++) newLineEntries.Add("N/A");
+                            lineEntries.Clear();
+                            lineEntries = newLineEntries;
+                        }
+
+
+                        // add blanks to make 5 items per row
                         if (lineEntries.Count < 5)
                         {
                             int diff = 5 - lineEntries.Count;
@@ -450,7 +528,7 @@ namespace BarcodeConversion
                         // First, get selected job ID.
                         int jobID = getJobId(this.selectJob.SelectedValue);
 
-                        if (jobID == 0)
+                        if (jobID <= 0)
                         {
                             string msg = "Error 02:     Selected job not found. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -608,11 +686,15 @@ namespace BarcodeConversion
                 return;
             }
             string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
-
-            // Get row count
+           
+            // Get column count
             int colCount = 0;
             var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
-            if (regexList != null) colCount = regexList.Count;
+            foreach (Tuple<string, string, string> controlSettings in regexList)
+            {
+                if (controlSettings.Item1 != string.Empty)
+                    colCount++;
+            }
 
             //Create a DataTable.
             DataTable dt = new DataTable();
@@ -746,19 +828,23 @@ namespace BarcodeConversion
                             return;
                         }
                     }
-                    entries.Add(c.Text);
+                    if (c.Text == string.Empty)
+                        entries.Add("N/A");
+                    else entries.Add(c.Text);
                 }
                 else if (d != null && d.Visible == true)    // If control is a dropdown
                 {
-                    if (i == 1 && d.SelectedValue == "Select")
-                    {
-                        string label = regexList[0].Item1;
-                        string msg = label + " field is required!";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                        c.Focus();
-                        return;
-                    }
-                    entries.Add(d.SelectedValue);
+                    //if (i == 1 && d.SelectedValue == "Select")
+                    //{
+                    //    string label = regexList[0].Item1;
+                    //    string msg = label + " field is required!";
+                    //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    //    c.Focus();
+                    //    return;
+                    //}
+                    if (d.SelectedValue == string.Empty)
+                        entries.Add("N/A");
+                    else entries.Add(d.SelectedValue);
                 }
                 else
                     entries.Add(string.Empty);
