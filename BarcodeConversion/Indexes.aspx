@@ -53,7 +53,7 @@
 		<div style="display:inline-block;">           
 			<table id="unprintedIndexTable" style="width:100%;" runat="server">
 				<tr style="height:40px;background-color:#e6f3ff;padding-top:5px;">
-					<th style="padding-left:5px;font-family:Arial;font-size:14px;">Unprinted Indexes</th> 
+					<th style="padding-left:5px;font-family:Arial;font-size:15px;">Unprinted Indexes</th> 
 					<td style="padding:5px 8px 5px 5px;text-align:left;text-align:right;">
 						<asp:Button ID="deleteBtn" Font-Size="10" Visible="false" runat="server" Text="Delete" 
 							OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 

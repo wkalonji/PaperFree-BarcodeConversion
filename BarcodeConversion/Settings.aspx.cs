@@ -566,9 +566,9 @@ namespace BarcodeConversion
                     Page.Validate();
                     assignPanel.Visible = true;
                     assignee.SelectedValue = "Select";
-                    assignee.Focus();
                     // Get all unassigned jobs
                     getUnassignedJobs(null);
+                    unassignedBtn.Focus();
                     getOperators();
                 }
                 else
@@ -643,6 +643,7 @@ namespace BarcodeConversion
                     assignee.Focus();
                     return;
                 }
+
                 // If operator field not empty, get operator ID, then jobs
                 int opID = 0;
                 using (SqlConnection con = Helper.ConnectionObj)
@@ -702,6 +703,7 @@ namespace BarcodeConversion
                         }
                     }
                 }
+                assignedBtn.Focus();
             }
             catch (Exception ex)
             {
@@ -719,7 +721,6 @@ namespace BarcodeConversion
             {
                 jobAccessGridView.PageIndex = 0;
                 getUnassignedJobs(sender);
-                assignee.Focus();
             }
             catch (Exception ex)
             {
@@ -829,10 +830,10 @@ namespace BarcodeConversion
         protected void jobAccess_Click(object sender, EventArgs e)
         {   
             try
-            {
+            {   
                 string assigneeName = assignee.SelectedValue;
                 int countGranted = 0, countChecked = 0, countError = 0;
-                if (assigneeName == string.Empty)
+                if (assigneeName == "Select")
                 {
                     string msg = "Operator field is required!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -868,7 +869,8 @@ namespace BarcodeConversion
                         return;
                     }
                     else
-                    {   
+                    {
+                        jobAccessGridView.PageIndex = 0;
                         if (countGranted > 0 && countGranted == countChecked)
                         {
                             string msg = countGranted + " job(s) granted.";
@@ -879,7 +881,7 @@ namespace BarcodeConversion
                         }
                         else 
                         {
-                            string msg = countGranted + " Job(s) access granted. Operator already has access to " +countError+ " of the selected Job(s)";
+                            string msg = countGranted + " Job(s) granted. Operator already has access to " +countError+ " Job(s)";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                             getUnassignedJobs(sender);
                             assignee.Focus();
@@ -889,7 +891,7 @@ namespace BarcodeConversion
                 }
                 else
                 {
-                    string msg = "There are no jobs to be granted.";
+                    string msg = "There are no jobs to be granted access to.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
@@ -1279,8 +1281,6 @@ namespace BarcodeConversion
         {  
             try
             {   
-
-                
                 // Get id of edit icon button then hide it
                 string last = string.Empty;
                 LinkButton b = new LinkButton();
@@ -1595,6 +1595,13 @@ namespace BarcodeConversion
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
+
+                if (e.Row.RowType == DataControlRowType.Pager)
+                {
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
+                }
             }
             catch (Exception ex)
             {
@@ -1616,6 +1623,7 @@ namespace BarcodeConversion
                     jobSection.Visible = true;
                     newUserSection.Visible = true;
                     getUnassignedJobs(null);
+                    unassignedBtn.Focus();
                     getOperators();
                     assignPanel.Visible = true;
                     jobIndexEditingPanel.Visible = true;
@@ -1671,8 +1679,10 @@ namespace BarcodeConversion
                             {
                                 string msg = "Operator field required.";
                                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                assignee.Focus();
                                 return;
                             }
+                            if (buttonId == "inaccessibleBtn") inaccessibleBtn.Focus();
 
                             // Then check if specified operator exists. If so, get ID.
                             cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME = @assignedTo";
@@ -1697,6 +1707,7 @@ namespace BarcodeConversion
                         }
                         else
                         {
+                            unassignedBtn.Focus(); // aka "Active" btn
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
                             cmd.CommandText =  "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID) " +
@@ -1902,11 +1913,14 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 // Skip jobs that have already been made accessible to specified operator.
-                if (!ex.Message.Contains("Violation of PRIMARY KEY"))
+                if (ex.Message.Contains("Violation of UNIQUE KEY") || ex.Message.Contains("Violation of PRIMARY KEY"))
                 {
-                    string str = ex.Message.Replace("'", "");
-                    string msg = "DUPLICATE ENTRY SKIPPED!. Contact system admin. " + str.Substring(0, str.IndexOf(Environment.NewLine));
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 89:  " + msg + "');", true);
+                    return false;
+                }
+                else
+                {
+                    string msg = "Error 88: Issue occured while attempting to assign " + abbr + " to operator. Contact system admin. ";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
                 return false;
             }

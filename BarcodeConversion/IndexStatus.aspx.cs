@@ -596,6 +596,13 @@ namespace BarcodeConversion
                     for (int i=0; i<e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
+
+                if (e.Row.RowType == DataControlRowType.Pager)
+                {
+                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    for (int i = 0; i < e.Row.Cells.Count; i++)
+                        e.Row.Cells[i].Attributes.Add("style", colBorder);
+                }
             }
             catch (Exception ex)
             {   
