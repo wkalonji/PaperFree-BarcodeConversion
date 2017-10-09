@@ -570,6 +570,7 @@ namespace BarcodeConversion
                         }
                     }
                     ((LinkButton)e.Row.Cells[1].Controls[0]).Text = "OPERATOR";
+                    ((LinkButton)e.Row.Cells[2].Controls[0]).Text = "INDEX";
                     ((LinkButton)e.Row.Cells[e.Row.Cells.Count - 2].Controls[0]).Text = "CREATION TIME";
                     // Set column borders & Prevent headers' line breaks
                     string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
@@ -635,6 +636,10 @@ namespace BarcodeConversion
                     else if (e.SortExpression.Contains("NAME"))
                     {
                         label = "OPERATOR";
+                    }
+                    else if (e.SortExpression.Contains("BARCODE"))
+                    {
+                        label = "INDEX";
                     }
                     else
                         label = e.SortExpression;
