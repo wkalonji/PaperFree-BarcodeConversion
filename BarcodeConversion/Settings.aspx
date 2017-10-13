@@ -51,7 +51,7 @@
                                     <th style="color:#737373;font-family:Arial;font-size:15px">&nbsp;Create / Edit Jobs</th>
                                     <td style="text-align:right;padding-right:5px;">
                                         <asp:linkButton ID="LinkButton1" runat="server" ForeColor="#737373" 
-                                            OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away.n*    Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')">
+                                            OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away.\n*    Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')">
                                             <i class="fa fa-info-circle" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
                                         </asp:linkButton></td>
                                 </tr>
@@ -320,8 +320,11 @@
                             <tr style="height:30px;background-color:aliceblue">
                                 <th style="font-family:Arial;width:190px;white-space:nowrap;padding-left:5px;">Control Setup </th>
                                 <th style="text-align:right;padding-right:5px;">
-                                    <asp:linkButton ID="hideControlInfo" Visible="true" runat="server" ForeColor="#737373" OnClick="hideControlInfo_Click" >
-                                        <i class=" fa fa-times" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    <asp:linkButton ID="trash" style="padding-left:15px;" Visible="false" runat="server" ForeColor="#737373" OnClick="hideControlInfo_Click" >
+                                        <i class="fa fa-trash" style="font-size:18px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                    <asp:linkButton ID="hideControlInfo" style="padding-left:15px;" Visible="false" runat="server" ForeColor="#737373" OnClick="hideControlInfo_Click" >
+                                        <i class="fa fa-times" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
                                     </asp:linkButton>
                                 </th>
                             </tr>

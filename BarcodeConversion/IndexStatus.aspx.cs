@@ -95,6 +95,7 @@ namespace BarcodeConversion
                         bool isAdmin = false;
                         if (result != null)
                             isAdmin = (bool)cmd.ExecuteScalar();
+                        ViewState["isAdmin"] = isAdmin;
                         cmd.Parameters.Clear();
 
                         // If Admin, get all jobs    
@@ -251,9 +252,21 @@ namespace BarcodeConversion
                 }
 
                 SqlCommand cmd = new SqlCommand();
-                string cmdString =  "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
-                                    "FROM INDEX_DATA " +
-                                    "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
+                string cmdString;
+                if ((bool)ViewState["isAdmin"] == true)
+                {
+                    cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                "FROM INDEX_DATA " +
+                                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
+                }
+                else
+                {
+                    cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                "FROM INDEX_DATA " +
+                                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
+                                "WHERE INDEX_DATA.JOB_ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID=@opId) ";
+                }
+                
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     if (who == "meOnly")
@@ -263,7 +276,7 @@ namespace BarcodeConversion
                             timePanel.Visible = false;
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString, con);
                                 else
                                 {
                                     cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID", con);

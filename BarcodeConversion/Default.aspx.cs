@@ -500,19 +500,16 @@ namespace BarcodeConversion
                             if (controlSettings.Item1 != string.Empty)
                                 labelsCount++;
                         }
-
-                        // Fill blanks with N/A
+                        
                         var newLineEntries = new List<string>();
                         if (lineEntries.Count <= labelsCount)
                         {
                             foreach (string field in lineEntries)
                             {
-                                if (field != string.Empty)
-                                    newLineEntries.Add(field);
-                                else newLineEntries.Add("N/A");
+                                newLineEntries.Add(field);
                             }
                             int diff = labelsCount - lineEntries.Count;
-                            for (int i = 1; i <= diff; i++) newLineEntries.Add("N/A");
+                            for (int i = 1; i <= diff; i++) newLineEntries.Add(string.Empty);
                             lineEntries.Clear();
                             lineEntries = newLineEntries;
                         }
@@ -828,9 +825,7 @@ namespace BarcodeConversion
                             return;
                         }
                     }
-                    if (c.Text == string.Empty)
-                        entries.Add("N/A");
-                    else entries.Add(c.Text);
+                    entries.Add(c.Text);
                 }
                 else if (d != null && d.Visible == true)    // If control is a dropdown
                 {
@@ -842,9 +837,7 @@ namespace BarcodeConversion
                     //    c.Focus();
                     //    return;
                     //}
-                    if (d.SelectedValue == string.Empty)
-                        entries.Add("N/A");
-                    else entries.Add(d.SelectedValue);
+                    entries.Add(d.SelectedValue);
                 }
                 else
                     entries.Add(string.Empty);
@@ -988,7 +981,7 @@ namespace BarcodeConversion
 
                 // Write Index sheet page content if IE browser
                 System.Web.HttpBrowserCapabilities browser = Request.Browser;
-                if (browser.Browser == "InternetExplorer")
+                if (browser.Browser == "InternetExplorer" || browser.Browser == "IE")
                 {
                     // Write to index page
                     Response.Write(

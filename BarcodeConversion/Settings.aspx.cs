@@ -598,7 +598,7 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT NAME FROM OPERATOR";
+                        cmd.CommandText = "SELECT NAME FROM OPERATOR WHERE ADMIN=0";
                         con.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -1175,7 +1175,8 @@ namespace BarcodeConversion
                         else    // if dropdownValues = not empty
                         {
                             string[] values = dropdownValues.Text.Split(',');
-                            // First Save values in INDEX_TABLE_FIELD first
+
+                            // First Save values in INDEX_TABLE_FIELD 
                             for (int i = 1; i <= values.Length; i++)
                             {
                                 int result2 = saveDropdownValues(jobId, values[i - 1].Trim(), controlBeingSet, i);
@@ -1368,9 +1369,9 @@ namespace BarcodeConversion
                         else placeholder = " Optional";
                         labelTextBox.Attributes["placeholder"] = placeholder;
                     }
-                    else labelTextBox.Text = t.Text;
+                    else labelTextBox.Text = t.Text.Trim();
                     string values = getDropdownValues(jobId, Convert.ToInt32(last));
-                    dropdownValues.Text = " " + values;
+                    dropdownValues.Text = " " + values.Trim();
                 }
                 else
                 {
@@ -2202,7 +2203,7 @@ namespace BarcodeConversion
                         // Now set job config index
                         con.Open();
 
-                        // If 1st control
+                        // If 1st control aka Job not yet configured
                         if (sqlType == "insert") 
                         {
                             cmd.CommandText =   "INSERT INTO JOB_CONFIG_INDEX" +
@@ -2327,7 +2328,7 @@ namespace BarcodeConversion
                 {
                     btn.Visible = true;
                     if (labelTextBox.Text != string.Empty)
-                        t.Text = " " + labelTextBox.Text;
+                        t.Text = " " + labelTextBox.Text.Trim();
                     else if (labelTextBox.Text == string.Empty && i != 1)
                         t.Text = " Optional";
                 }

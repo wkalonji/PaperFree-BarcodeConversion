@@ -17,7 +17,7 @@
             $.when($.ajax(function1())).then(function () {
                 setTimeout(function () {
                     function2();
-                }, 1300);
+                }, 1000);
             });
         }
         function function1() {
@@ -95,7 +95,7 @@
                     <td style="vertical-align:middle;width:185px;"><asp:Label ID="LABEL1" Text="LABEL1" Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label1Box" Visible="false" placeholder=" Required" onfocus="this.select()" runat="server"></asp:TextBox>
-                        <asp:DropDownList ID="label1Dropdown" Visible="false" runat="server">
+                        <asp:DropDownList ID="label1Dropdown" onmousedown="this.focus()" Visible="false" runat="server">
                             <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
@@ -104,7 +104,7 @@
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL2" Text="LABEL2"  Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label2Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
-                        <asp:DropDownList ID="label2Dropdown" Visible="false" runat="server">
+                        <asp:DropDownList ID="label2Dropdown" onmousedown="this.focus()" Visible="false" runat="server">
                             <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
@@ -113,7 +113,7 @@
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL3" Text="LABEL3"  Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label3Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
-                        <asp:DropDownList ID="label3Dropdown" Visible="false" runat="server">
+                        <asp:DropDownList ID="label3Dropdown" onmousedown="this.focus()" Visible="false" runat="server">
                             <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
@@ -122,7 +122,7 @@
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL4" Text="LABEL4"  Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label4Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
-                        <asp:DropDownList ID="label4Dropdown" Visible="false" runat="server">
+                        <asp:DropDownList ID="label4Dropdown" onmousedown="this.focus()" Visible="false" runat="server">
                             <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>
@@ -131,7 +131,7 @@
                     <td style="vertical-align:middle;"><asp:Label ID="LABEL5" Text="LABEL5"  Visible="false" runat="server"></asp:Label></td>
                     <td>
                         <asp:TextBox ID="label5Box" Visible="false" onfocus="this.select()" runat="server"></asp:TextBox>
-                        <asp:DropDownList ID="label5Dropdown" Visible="false" runat="server">
+                        <asp:DropDownList ID="label5Dropdown" onmousedown="this.focus()" Visible="false" runat="server">
                             <asp:ListItem Value=""></asp:ListItem>
                         </asp:DropDownList>
                     </td>

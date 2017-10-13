@@ -494,7 +494,7 @@ namespace BarcodeConversion
                 {
                     using (SqlCommand cmd = con.CreateCommand())
                     {
-                        cmd.CommandText = "UPDATE INDEX_DATA SET Printed = 1 WHERE BARCODE = @barcodeIndex";
+                        cmd.CommandText = "UPDATE INDEX_DATA SET Printed=1 WHERE BARCODE=@barcodeIndex";
                         cmd.Parameters.AddWithValue("@barcodeIndex", "");
                         con.Open();
                         foreach (GridViewRow row in indexesGridView.Rows)
@@ -504,7 +504,7 @@ namespace BarcodeConversion
                             {
                                 if (row.RowType == DataControlRowType.DataRow)
                                 {
-                                    var indexString = row.Cells[2].Text;
+                                    var indexString = row.Cells[3].Text;
                                     cmd.Parameters["@barcodeIndex"].Value = indexString;
                                     if (cmd.ExecuteNonQuery() == 1)
                                     {
