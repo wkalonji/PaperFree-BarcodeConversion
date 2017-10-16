@@ -31,6 +31,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.HtmlControls.HtmlTable unprintedIndexTable;
         
         /// <summary>
+        /// printTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label printTitle;
+        
+        /// <summary>
         /// deleteBtn control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button printBarcodeBtn;
+        
+        /// <summary>
+        /// showPrinted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button showPrinted;
         
         /// <summary>
         /// sortOrder control.

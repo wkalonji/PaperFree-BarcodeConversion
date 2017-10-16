@@ -38,6 +38,10 @@ namespace BarcodeConversion
                 recordsPerPage.SelectedValue = "10";
                 getUnprintedIndexes_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
+                printTitle.Text = "Unprinted Indexes";
+                printBarcodeBtn.Text = "Print";
+                showPrinted.Text = "Show Printed";
+                deleteBtn.Visible = true;
             }
             catch (Exception ex)
             {
@@ -70,13 +74,27 @@ namespace BarcodeConversion
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     using (SqlCommand cmd = con.CreateCommand())
-                    {
-                        cmd.CommandText = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
-                                          "FROM INDEX_DATA " +
-                                          "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
-                                          "WHERE OPERATOR_ID=@opId AND PRINTED=0";
-                        cmd.Parameters.AddWithValue("@opId", opID);
+                    {   
+                        // Get operator's Admin status
+                        cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE ID = @userId";
+                        cmd.Parameters.AddWithValue("@userId", opID);
                         con.Open();
+                        object result = cmd.ExecuteScalar();
+                        bool isAdmin = false;
+                        if (result != null)
+                            isAdmin = (bool)cmd.ExecuteScalar();
+                        cmd.Parameters.Clear();
+
+
+                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
+                                           "FROM INDEX_DATA " +
+                                           "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
+                                           "WHERE PRINTED=0";
+                        if (isAdmin) cmdString = cmdString + " AND OPERATOR_ID=@opId";
+                        else cmdString = cmdString + " AND INDEX_DATA.OPERATOR_ID=@opId AND JOB.ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ID=@opId)";
+
+                        cmd.CommandText = cmdString;
+                        cmd.Parameters.AddWithValue("@opId", opID);
                         using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                         {
                             using (DataSet ds = new DataSet())
@@ -99,13 +117,11 @@ namespace BarcodeConversion
                 if (indexesGridView.Rows.Count == 0)
                 {
                     indexesGridView.Visible = false;
-                    printBarcodeBtn.Visible = false;
-                    deleteBtn.Visible = false;
                     recordsPerPage.Visible = false;
                     recordsPerPageLabel.Visible = false;
                     sortOrder.Visible = false;
-                    unprintedIndexTable.Visible = false;
                     description.Text = "You have no records of unprinted indexes";
+                    description.Visible = true;
                 }
                 else
                 {
@@ -245,7 +261,7 @@ namespace BarcodeConversion
 
 
 
-        // 'PRINT BARCODE' CLICKED: PRINT INDEX BARCODES SHEETS FOR SELECTED INDEXES. 
+        // 'PRINT ' CLICKED: PRINT INDEX BARCODES SHEETS FOR SELECTED INDEXES. 
         protected void printBarcode_Click(object sender, EventArgs e)
         {
             try
@@ -483,6 +499,107 @@ namespace BarcodeConversion
 
 
 
+        // 'SHOW PRINTED' CLICKED
+        protected void showPrinted_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control c = sender as Control;
+                
+                if (showPrinted.Text == "Go Back" && c != null && c.ID == "showPrinted")
+                {
+                    reset_Click(new object(), new EventArgs());
+                    return;
+                }
+                printTitle.Text = "Printed Indexes";
+                printBarcodeBtn.Text = "Reprint";
+                showPrinted.Text = "Go Back";
+                deleteBtn.Visible = false;
+                
+                Page.Validate();
+                if (!Page.IsValid) return;
+                string user = Environment.UserName;
+                int opID = 0;
+
+                // Retrieve operator ID
+                opID = Helper.getUserId(user);
+                if (opID == 0)
+                {
+                    string msg = " Error 20: Could not identify active user. Contact system admin.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    return;
+                }
+
+                //Get unprinted indexes from DB
+                using (SqlConnection con = Helper.ConnectionObj)
+                {
+                    using (SqlCommand cmd = con.CreateCommand())
+                    {
+                        // Get operator's Admin status
+                        cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE ID = @userId";
+                        cmd.Parameters.AddWithValue("@userId", opID);
+                        con.Open();
+                        object result = cmd.ExecuteScalar();
+                        bool isAdmin = false;
+                        if (result != null)
+                            isAdmin = (bool)cmd.ExecuteScalar();
+                        cmd.Parameters.Clear();
+
+
+                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
+                                           "FROM INDEX_DATA " +
+                                           "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
+                                           "WHERE PRINTED=1";
+                        if (isAdmin) cmdString = cmdString + " AND OPERATOR_ID=@opId";
+                        else cmdString = cmdString + " AND INDEX_DATA.OPERATOR_ID=@opId AND JOB.ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ID=@opId)";
+
+                        cmd.CommandText = cmdString;
+                        cmd.Parameters.AddWithValue("@opId", opID);
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            using (DataSet ds = new DataSet())
+                            {
+                                da.Fill(ds);
+                                if (ds.Tables.Count > 0)
+                                {
+                                    //Persist the table in the Session object.
+                                    Session["Table"] = ds.Tables[0];
+                                    sortOrder.Text = "Sorted By : CREATION_TIME ASC";
+                                    indexesGridView.DataSource = ds.Tables[0];
+                                    indexesGridView.DataBind();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Handling of whether any index was returned from DB
+                if (indexesGridView.Rows.Count == 0)
+                {
+                    indexesGridView.Visible = false;
+                    recordsPerPage.Visible = false;
+                    recordsPerPageLabel.Visible = false;
+                    sortOrder.Visible = false;
+                    description.Text = "You have no records of printed indexes";
+                }
+                else
+                {
+                    indexesGridView.Visible = true;
+                    unprintedIndexTable.Visible = true;
+                    recordsPerPage.Visible = true;
+                    recordsPerPageLabel.Visible = true;
+                    sortOrder.Visible = true;
+                    description.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = "Error 21: Issue occured while attempting to reset page. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+            }
+        }
+
+
         // SET INDEX AS PRINTED IN DB. FUNCTION
         protected void setIndexAsPrinted_Click(object sender, EventArgs e)
         {
@@ -554,7 +671,8 @@ namespace BarcodeConversion
                     indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
                 }
                 else indexesGridView.AllowPaging = false;
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Text == "Show Printed") getUnprintedIndexes_Click(new object(), new EventArgs());
+                else showPrinted_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
             catch (Exception ex)

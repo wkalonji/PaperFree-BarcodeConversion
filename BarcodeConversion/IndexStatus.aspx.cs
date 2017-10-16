@@ -252,54 +252,68 @@ namespace BarcodeConversion
                 }
 
                 SqlCommand cmd = new SqlCommand();
-                string cmdString;
-                if ((bool)ViewState["isAdmin"] == true)
-                {
-                    cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
-                                "FROM INDEX_DATA " +
-                                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
-                }
-                else
-                {
-                    cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
-                                "FROM INDEX_DATA " +
-                                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
-                                "WHERE INDEX_DATA.JOB_ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID=@opId) ";
-                }
+                bool isAdmin = (bool)ViewState["isAdmin"];
+                string cmdString = string.Empty;
                 
+                //if (isAdmin == true)
+                //{
+                //    cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                //                "FROM INDEX_DATA " +
+                //                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE ";
+                //}
+                //else
+                //{
+                //    cmdString = "SELECT DISTINCT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                //                "FROM INDEX_DATA " +
+                //                "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
+                //                "INNER JOIN OPERATOR_ACCESS ON OPERATOR_ACCESS.JOB_ID=INDEX_DATA.JOB_ID " +
+                //                "WHERE ";
+                //}
+
                 using (SqlConnection con = Helper.ConnectionObj)
                 {
                     if (who == "meOnly")
-                    {
+                    {   
+                        if (isAdmin)
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                        "FROM INDEX_DATA " +
+                                        "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE INDEX_DATA.OPERATOR_ID=@opId ";
+                        else
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                        "FROM INDEX_DATA " +
+                                        "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
+                                        "INNER JOIN OPERATOR_ACCESS ON OPERATOR_ACCESS.JOB_ID=INDEX_DATA.JOB_ID " +
+                                        "WHERE OPERATOR_ACCESS.OPERATOR_ID=OPERATOR.ID AND INDEX_DATA.OPERATOR_ID=@opId ";
                         if (when == "allTime")
                         {
                             timePanel.Visible = false;
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString, con);
+                                if (jobAbb == "Your Jobs") 
+                                    cmd = new SqlCommand(cmdString, con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Indexes for all Time.";
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=1", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=1", con);
+                                    cmd = new SqlCommand(cmdString + " AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Printed Indexes for all Time.";
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=0", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=0", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Unprinted Indexes for all Time.";
@@ -324,30 +338,30 @@ namespace BarcodeConversion
 
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Indexes from " + start + " to " + end + ".";
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Printed Indexes from " + start + " to " + end + ".";
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "OPERATOR_ID=@opId AND JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Your Unprinted Indexes from " + start + " to " + end + ".";
@@ -359,36 +373,45 @@ namespace BarcodeConversion
                     }
                     else if (who == "everyone")
                     {
+                        if (isAdmin)
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                        "FROM INDEX_DATA " +
+                                        "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID ";
+                        else
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                                        "FROM INDEX_DATA " +
+                                        "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
+                                        "WHERE INDEX_DATA.JOB_ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID=@opId) ";
                         if (when == "allTime")
                         {
                             timePanel.Visible = false;
                             if (what == "allSheets")
                             {
-                                string cmdStringShort = cmdString;
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdStringShort.Substring(0, cmdString.Length - 7), con);
+                                string cmdStringShort = cmdString.Substring(0,cmdString.Length - 6);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString, con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdStringShort.Substring(0, cmdString.Length - 7) + " WHERE JOB_ID=@jobID", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Indexes for all Time.";
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=1", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=1", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Printed Indexes for all Time.";
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=0", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=0", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Unprinted Indexes for all Time.";
@@ -413,30 +436,30 @@ namespace BarcodeConversion
 
                             if (what == "allSheets")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "CREATION_TIME BETWEEN @start AND @end", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND CREATION_TIME BETWEEN @start AND @end", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND CREATION_TIME BETWEEN @start AND @end", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND CREATION_TIME BETWEEN @start AND @end", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Indexes from " + start + " to " + end + ".";
                             }
                             else if (what == "printed")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Printed Indexes From " + start + " to " + end + ".";
                             }
                             else if (what == "notPrinted")
                             {
-                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                if (jobAbb == "Your Jobs") cmd = new SqlCommand(cmdString + "AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                 else
                                 {
-                                    cmd = new SqlCommand(cmdString + "JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
+                                    cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
                                 description.Text = "Operators' Unprinted Indexes from " + start + " to " + end + ".";
@@ -444,6 +467,7 @@ namespace BarcodeConversion
                             cmd.Parameters.AddWithValue("@start", start);
                             cmd.Parameters.AddWithValue("@end", end);
                         }
+                        cmd.Parameters.AddWithValue("@opId", opID);
                     }
 
                     con.Open();

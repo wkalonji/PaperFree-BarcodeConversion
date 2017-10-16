@@ -9,8 +9,8 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$("#<%=from.ClientID %>").dynDateTime({
-			showsTime: true,
-			ifFormat: "%Y/%m/%d %H:%M",
+			showsTime: false,
+			ifFormat: " %Y/%m/%d",// %H:%M",
 			daFormat: "%l;%M %p, %e %m, %Y",
 			align: "BR",
 			electric: false,
@@ -19,8 +19,8 @@
 			button: ".next()"
 		});
 		$("#<%=to.ClientID %>").dynDateTime({
-			showsTime: true,
-			ifFormat: "%Y/%m/%d %H:%M",
+			showsTime: false,
+			ifFormat: " %Y/%m/%d",// %H:%M",
 			daFormat: "%l;%M %p, %e %m, %Y",
 			align: "BR",
 			electric: false,
