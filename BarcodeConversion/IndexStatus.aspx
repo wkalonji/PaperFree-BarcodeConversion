@@ -10,7 +10,7 @@
 	$(document).ready(function () {
 		$("#<%=from.ClientID %>").dynDateTime({
 			showsTime: false,
-			ifFormat: " %Y/%m/%d",// %H:%M",
+			ifFormat: " %m/%d/%Y",// %H:%M",
 			daFormat: "%l;%M %p, %e %m, %Y",
 			align: "BR",
 			electric: false,
@@ -20,7 +20,7 @@
 		});
 		$("#<%=to.ClientID %>").dynDateTime({
 			showsTime: false,
-			ifFormat: " %Y/%m/%d",// %H:%M",
+			ifFormat: " %m/%d/%Y",// %H:%M",
 			daFormat: "%l;%M %p, %e %m, %Y",
 			align: "BR",
 			electric: false,

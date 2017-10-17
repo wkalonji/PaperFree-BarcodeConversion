@@ -331,7 +331,7 @@
                             
                             <tr>
                                 <td style="width: 75px"><asp:Label Text="TYPE:" runat="server"></asp:Label></td>
-                                <td style="text-align:left;padding:10px 0px 2px 0px;">
+                                <td style="text-align:left;padding:15px 0px 4px 0px;">
                                     <asp:RadioButton ID="textBoxType" Text="&nbsp;Textbox" GroupName="radioGroup" Checked="true" AutoPostBack="true" OnCheckedChanged="radioBtnChanged_Click" runat="server"/>
                                     <asp:RadioButton ID="dropdownType" Text="&nbsp;Dropdown" GroupName="radioGroup" style="margin-left:30px;" AutoPostBack="true" OnCheckedChanged="radioBtnChanged_Click" runat="server"/>
                                 </td>

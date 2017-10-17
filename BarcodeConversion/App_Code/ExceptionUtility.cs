@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Net.Mail;
 using System.Web;
+using System.Linq;
+using System.Net;
 
 namespace BarcodeConversion.App_Code
 {
@@ -10,10 +13,12 @@ namespace BarcodeConversion.App_Code
         private ExceptionUtility() { }
 
         // Log an Exception 
-        public static void LogException(Exception exc, string source)
+        public static void LogException(Exception exc)
         {
             try
             {
+                string user = Environment.UserName;
+                var location = exc.StackTrace.Split('\n').Last().Split('\\').Last();
                 // Include enterprise logic for logging exceptions 
                 // Get the absolute path to the log file 
                 string logFile = "~/App_Data/ErrorLog.txt";
@@ -21,25 +26,33 @@ namespace BarcodeConversion.App_Code
 
                 // Open the log file for append and write the log
                 StreamWriter sw = new StreamWriter(logFile, true);
-                sw.WriteLine("********** {0} **********", DateTime.Now);
+                sw.WriteLine("\n*************** {0} ***************", DateTime.Now);
+                sw.WriteLine("\nSummary: From " + user + " at " +location + ": " + exc.Message + "\n\n");
+
                 if (exc.InnerException != null)
                 {
-                    sw.Write("Inner Exception Type: ");
-                    sw.WriteLine(exc.InnerException.GetType().ToString());
-                    sw.Write("Inner Exception: ");
+                    var innerLocation = exc.InnerException.StackTrace.Split('\n').Last().Split('\\').Last();
+                    sw.Write("Inner Exception Message: ");
                     sw.WriteLine(exc.InnerException.Message);
+                    sw.WriteLine("Location: " + innerLocation);
                     sw.Write("Inner Source: ");
                     sw.WriteLine(exc.InnerException.Source);
+                    sw.WriteLine("Function: " + exc.InnerException.TargetSite);
+                    sw.Write("Inner Exception Type: ");
+                    sw.WriteLine(exc.InnerException.GetType().ToString());
                     if (exc.InnerException.StackTrace != null)
                     {
                         sw.WriteLine("Inner Stack Trace: ");
                         sw.WriteLine(exc.InnerException.StackTrace);
                     }
                 }
+                
+                sw.WriteLine("Exception Message: " + exc.Message);
+                sw.WriteLine("Location: " + location);
+                sw.WriteLine("Source: " + exc.Source);
+                sw.WriteLine("Function: " + exc.TargetSite);
                 sw.Write("Exception Type: ");
                 sw.WriteLine(exc.GetType().ToString());
-                sw.WriteLine("Exception: " + exc.Message);
-                sw.WriteLine("Source: " + source);
                 sw.WriteLine("Stack Trace: ");
                 if (exc.StackTrace != null)
                 {
@@ -50,14 +63,57 @@ namespace BarcodeConversion.App_Code
             }
             catch (Exception ex)
             {
-                LogException(ex, "ExceptionUtility.cs");
+                LogException(ex);
             }
         }
 
         // Notify System Operators about an exception 
         public static void NotifySystemOps(Exception exc)
         {
-            // Include code for notifying IT system operators
+            try
+            {
+                string innerSummary = string.Empty;
+                string user = Environment.UserName;
+                var location = exc.StackTrace.Split('\n').Last().Split('\\').Last();
+                if (exc.InnerException != null)
+                {
+                    var innerLocation = exc.InnerException.StackTrace.Split('\n').Last().Split('\\').Last();
+                    innerSummary = "Inner Summary: From " + user + " at " + innerLocation + ": " + exc.InnerException.Message;
+                }
+                string summary = "\nException Summary:\n\nFrom: " + user + "\nLocation: " + location + "\nType: "+ exc.GetType() + "\nMessage: " + exc.Message;
+                emailException(innerSummary + "\n" + summary);
+            }
+            catch(Exception ex)
+            {
+                LogException(ex);
+            }
+         }
+
+        // Email exception
+        public static void emailException(string msg)
+        {
+            string to = "glory.ebtutor@gmail.com";
+            string from = "glory.ebtutor@gmail.com";
+            MailMessage message = new MailMessage(from, to);
+            message.Subject = "Exception: " + msg.Split('\n').Last();
+            message.Body = msg;
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.googlemail.com";
+            client.Port = 587;
+            //client.UseDefaultCredentials = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Credentials = new NetworkCredential("glory.ebtutor@gmail.com", "tutor2016");
+
+            try
+            {
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                LogException(ex);
+            }
         }
     }
 }

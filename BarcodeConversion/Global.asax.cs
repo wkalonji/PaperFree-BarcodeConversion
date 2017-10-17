@@ -24,7 +24,7 @@ namespace BarcodeConversion
             Server.Transfer("~/ErrorPage.aspx");
 
             // Log the exception and notify system operators
-            ExceptionUtility.LogException(exc, exc.Source);
+            ExceptionUtility.LogException(exc);
             ExceptionUtility.NotifySystemOps(exc);
 
             // Clear the error from the server

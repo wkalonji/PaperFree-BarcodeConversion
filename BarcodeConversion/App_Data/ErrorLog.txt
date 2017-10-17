@@ -409,3 +409,415 @@ Stack Trace:
    at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
 
+********** 10/16/2017 11:17:10 PM **********
+Summary: FromGlory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+********** 10/16/2017 11:19:02 PM **********
+Summary: FromGlory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+********** 10/16/2017 11:21:42 PM **********
+Summary: FromGlory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+********** 10/16/2017 11:22:14 PM **********
+Summary: FromGlory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+********** 10/16/2017 11:25:22 PM **********
+Summary: FromGlory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+********** 10/16/2017 11:34:06 PM **********
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+*************** 10/16/2017 11:40:04 PM ***************
+Summary: 
+From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+*************** 10/16/2017 11:54:11 PM ***************
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+*************** 10/17/2017 12:02:04 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+*************** 10/17/2017 12:12:02 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:16:50 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:21:43 AM ***************
+
+Summary: From Glory at ExceptionUtility.cs:line 111: Failure sending mail.
+
+
+Inner Exception Message: The remote name could not be resolved: 'smtp.googlemail.com'
+Location:    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+Inner Source: System
+Function: System.Net.Sockets.Socket GetConnection(System.Net.PooledStream, System.Object, Boolean, System.Net.IPAddress ByRef, System.Net.Sockets.Socket ByRef, System.Net.Sockets.Socket ByRef)
+Inner Exception Type: System.Net.WebException
+Inner Stack Trace: 
+   at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
+   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
+   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
+   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
+   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
+   at System.Net.Mail.SmtpClient.GetConnection()
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+Exception Message: Failure sending mail.
+Location: ExceptionUtility.cs:line 111
+Source: System
+Function: Void Send(System.Net.Mail.MailMessage)
+Exception Type: System.Net.Mail.SmtpException
+Stack Trace: 
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at BarcodeConversion.App_Code.ExceptionUtility.emailException(String msg) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\App_Code\ExceptionUtility.cs:line 111
+
+
+*************** 10/17/2017 12:22:02 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:26:45 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:29:56 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:36:03 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+
+
+*************** 10/17/2017 12:43:01 AM ***************
+
+Summary: From Glory at Settings.aspx.cs:line 178: String or binary data would be truncated.
+The statement has been terminated.
+
+
+Exception Message: String or binary data would be truncated.
+The statement has been terminated.
+Location: Settings.aspx.cs:line 178
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.createJob_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion3\BarcodeConversion\Settings.aspx.cs:line 178
+

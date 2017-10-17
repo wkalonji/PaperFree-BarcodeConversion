@@ -6,6 +6,7 @@ using System.Data;
 using BarcodeConversion.App_Code;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Reflection;
 
 namespace BarcodeConversion
 {
@@ -222,6 +223,12 @@ namespace BarcodeConversion
                         {
                             string msg = "Error 54: Issue occured while attempting to save the created job. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            // Log the exception and notify system operators
+                            ExceptionUtility.LogException(ex);
+                            ExceptionUtility.NotifySystemOps(ex);
+
+                            // Clear the error from the server
+                            Server.ClearError();
                         }
                     }
                 }

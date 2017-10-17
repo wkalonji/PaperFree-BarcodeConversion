@@ -45,7 +45,7 @@ namespace BarcodeConversion
                                         Response.Redirect("~/ErrorPage.aspx");
 
                                         // Log the exception and notify system operators
-                                        ExceptionUtility.LogException(ex, "Site.Master.cs");
+                                        ExceptionUtility.LogException(ex);
                                         ExceptionUtility.NotifySystemOps(ex);
 
                                         // Clear the error from the server
@@ -63,7 +63,7 @@ namespace BarcodeConversion
                 Response.Redirect("~/ErrorPage.aspx");
 
                 // Log the exception and notify system operators
-                ExceptionUtility.LogException(ex, "Site.Master.cs");
+                ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
 
                 // Clear the error from the server
