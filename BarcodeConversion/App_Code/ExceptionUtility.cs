@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Mail;
 using System.Web;
 using System.Linq;
-using System.Net;
 
 namespace BarcodeConversion.App_Code
 {
@@ -81,7 +80,7 @@ namespace BarcodeConversion.App_Code
                     innerSummary = "Inner Summary: From " + user + " at " + innerLocation + ": " + exc.InnerException.Message;
                 }
                 string summary = "\nException Summary:\n\nFrom: " + user + "\nLocation: " + location + "\nType: "+ exc.GetType() + "\nMessage: " + exc.Message;
-                emailException(innerSummary + "\n" + summary);
+                emailException(innerSummary + "\n" + summary, exc);
             }
             catch(Exception ex)
             {
@@ -90,21 +89,21 @@ namespace BarcodeConversion.App_Code
          }
 
         // Email exception
-        public static void emailException(string msg)
+        public static void emailException(string msg, Exception exc)
         {
-            string to = "glory.ebtutor@gmail.com";
-            string from = "glory.ebtutor@gmail.com";
+            string to = "c-wkalonji@pa.gov";
+            string from = "c-wkalonji@pa.gov";
             MailMessage message = new MailMessage(from, to);
-            message.Subject = "Exception: " + msg.Split('\n').Last();
+            message.Subject = "Exception: " + exc.GetType() + " At: " + exc.StackTrace.Split('\n').Last().Split('\\').Last();
             message.Body = msg;
 
             SmtpClient client = new SmtpClient();
             client.Host = "smtp.googlemail.com";
             client.Port = 587;
-            //client.UseDefaultCredentials = true;
+            client.UseDefaultCredentials = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.EnableSsl = true;
-            client.Credentials = new NetworkCredential("glory.ebtutor@gmail.com", "tutor2016");
+            //client.Credentials = new NetworkCredential("glory.ebtutor@gmail.com", "tutor2016");
 
             try
             {

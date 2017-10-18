@@ -47,6 +47,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 30: Issue occured while attempting to reset. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -84,7 +87,6 @@ namespace BarcodeConversion
                         if (result != null)
                             isAdmin = (bool)cmd.ExecuteScalar();
                         cmd.Parameters.Clear();
-
 
                         string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
                                            "FROM INDEX_DATA " +
@@ -137,6 +139,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 21: Issue occured while attempting to reset page. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -212,6 +217,10 @@ namespace BarcodeConversion
                                 counter += 1;
                                 string msg = "Error 24: Issue occured while attempting to delete selected Index Number " + counter;
                                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+
+                                // Log the exception and notify system operators
+                                ExceptionUtility.LogException(ex);
+                                ExceptionUtility.NotifySystemOps(ex);
                             }
                             
                         }
@@ -256,6 +265,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 25: Issue occured while attempting to handle checkboxes. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -482,6 +494,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 26: Issue occured while attempting to setup for printing. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
            
 
@@ -494,6 +509,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 27: Issue occured while attempting to print. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -596,6 +614,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 21: Issue occured while attempting to reset page. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -649,12 +670,15 @@ namespace BarcodeConversion
                     jobDone = counter + " index records were updated and set as PRINTED.";
                 }
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + jobDone + "');", true);
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                reset_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
             {
                 string msg = "Error 29: Issue occured while attempting to set Index to PRINTED. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -679,6 +703,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 30: Issue occured while attempting to process request of change in records per page. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
         
@@ -696,6 +723,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 31: Issue occured while attempting to set Index to PRINTED. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -710,6 +740,9 @@ namespace BarcodeConversion
             {
                 string msg  = "Error 32: Issue occured while attempting to get unprinted indexes. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -721,12 +754,16 @@ namespace BarcodeConversion
             try
             {
                 indexesGridView.PageIndex = e.NewPageIndex;
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Text == "Show Printed") getUnprintedIndexes_Click(new object(), new EventArgs());
+                else showPrinted_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
             {
                 string msg = "Error 33: Issue occured while attempting to change table page" ;
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -767,6 +804,9 @@ namespace BarcodeConversion
             {
                 string msg  = "Issue occured while attempting to prevent line breaks in table. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }  
 
@@ -798,6 +838,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 35: Issue occured while attempting to sort column. Contact system admin." ;
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -835,6 +878,9 @@ namespace BarcodeConversion
             {
                 string msg  = "Error 36: Issue occured while attempting to sort column. Contact system admin." ;
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return "ASC";
             }
         }

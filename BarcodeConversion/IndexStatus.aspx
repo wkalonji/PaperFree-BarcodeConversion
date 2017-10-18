@@ -78,18 +78,18 @@
 				</tr>
 			</table> 
 			<asp:Panel ID="timePanel" Visible="false" runat="server">
-				<table class = "table" style="width:600px;height:50px !important;">
+				<table class = "table" style="width:600px;height:40px !important;">
 					<tr>
 						<td><asp:label runat="server">From:&nbsp;&nbsp;&nbsp;</asp:label>
-							<asp:TextBox ID="from" runat="server" ></asp:TextBox>
-							<img style="margin-left:2px;" src="Content/calender.png" /> 
-						</td>
-						<td style="padding-left:15px;"><asp:label runat="server">To:&nbsp;&nbsp;</asp:label>
-							<asp:TextBox ID="to" runat="server" ></asp:TextBox>
+							<asp:TextBox ID="from" style="display:inline;" runat="server" ></asp:TextBox>
 							<img style="margin-left:2px;display:inline;" src="Content/calender.png" /> 
 						</td>
-						<td style="padding-left:15px;">
-							<asp:Button ID="dates" Font-Size="10" Text="Submit" runat="server" onclick="submit_Click" />
+						<td style="padding-left:15px;"><asp:label runat="server">To:&nbsp;&nbsp;&nbsp;</asp:label>
+							<asp:TextBox ID="to" style="display:inline;" runat="server" ></asp:TextBox>
+							<img style="margin-left:2px;display:inline;" src="Content/calender.png" /> 
+						</td>
+						<td>
+							<asp:Button ID="dates" style="padding:1px 6px 1px 6px;margin:1px 0px 0px 25px;" Font-Size="9" Text="Submit" runat="server" onclick="submit_Click" />
 						</td>
 					</tr>
 				</table>

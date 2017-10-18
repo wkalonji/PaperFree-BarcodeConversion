@@ -47,9 +47,7 @@ namespace BarcodeConversion
                                         // Log the exception and notify system operators
                                         ExceptionUtility.LogException(ex);
                                         ExceptionUtility.NotifySystemOps(ex);
-
-                                        // Clear the error from the server
-                                        Server.ClearError();
+                                        
                                     }
                                 }
                             }
@@ -65,9 +63,7 @@ namespace BarcodeConversion
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
-
-                // Clear the error from the server
-                Server.ClearError();
+                
             }
             if (isAdmin) settings.Visible = true;
 

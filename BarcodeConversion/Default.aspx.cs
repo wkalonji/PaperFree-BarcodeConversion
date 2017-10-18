@@ -196,7 +196,10 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Issue occured while attempting to retrieve selected job index data controls. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 04: " + msg + "');", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 03: " + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -444,9 +447,12 @@ namespace BarcodeConversion
                 }
                 catch (Exception ex)
                 {
-                    uploadSuccess.Text = "Error 4a:  Couldn't upload file. Make sure it's a csv file. " + ex.Message;
+                    uploadSuccess.Text = "Error 4:  Couldn't upload file. Make sure it's a csv file. " + ex.Message;
                     uploadSuccess.Attributes["style"] = "color:#ff3333;";
                     uploadSuccess.Visible = true;
+                    // Log the exception and notify system operators
+                    ExceptionUtility.LogException(ex);
+                    ExceptionUtility.NotifySystemOps(ex);
                     return;
                 }
             }
@@ -470,7 +476,7 @@ namespace BarcodeConversion
                 var fileName = uploadHidden.Text;
                 if (fileName == string.Empty)
                 {
-                    uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
+                    uploadSuccess.Text = "Error 4a:  Couldn't retrieve file name. Contact system admin. ";
                     uploadSuccess.Attributes["style"] = "color:#ff3333;";
                     uploadSuccess.Visible = true;
                     return;
@@ -527,7 +533,7 @@ namespace BarcodeConversion
 
                         if (jobID <= 0)
                         {
-                            string msg = "Error 02:     Selected job not found. Contact system admin.";
+                            string msg = "Error 4b: Selected job not found. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                             selectJob.SelectedValue = "Select";
                             return;
@@ -537,7 +543,7 @@ namespace BarcodeConversion
                         string barcodeIndex = generateBarcode();
                         if (barcodeIndex.Contains("Error"))
                         {
-                            uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only "+countSavedRecords+" records saved! Contact system admin.";
+                            uploadSuccess.Text = "Error 4c:  Error occurred while generating barcode! Contact system admin.";
                             uploadSuccess.Attributes["style"] = "color:#ff3333;";
                             uploadSuccess.Visible = true;
                             return;
@@ -546,7 +552,7 @@ namespace BarcodeConversion
                         string result = saveIndexAndEntries(barcodeIndex, lineEntries);
                         if (result.Contains("Error"))
                         {
-                            uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Only " + countSavedRecords + " records saved! Contact system admin.";
+                            uploadSuccess.Text = "Error 4e:  Error occurred while saving. Only " + countSavedRecords + " records saved! Contact system admin.";
                             uploadSuccess.Attributes["style"] = "color:#ff3333;";
                             uploadSuccess.Visible = true;
                             return;
@@ -578,9 +584,12 @@ namespace BarcodeConversion
             }
             catch(Exception ex)
             {
-                uploadSuccess.Text = "Error 4c:  Couldn't process file. Contact system admin." + ex.Message;
+                uploadSuccess.Text = "Error 4d:  Couldn't process file. Contact system admin." + ex.Message;
                 uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return;
             }
         }
@@ -651,9 +660,12 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                uploadSuccess.Text = "Error 4cc:  Couldn't process file. Contact system admin." + ex.Message;
+                uploadSuccess.Text = "Error 4f:  Couldn't process file. Contact system admin." + ex.Message;
                 uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return;
             }
         }
@@ -677,7 +689,7 @@ namespace BarcodeConversion
             var fileName = uploadHidden.Text;
             if (fileName == string.Empty)
             {
-                uploadSuccess.Text = "Error 4b:  Couldn't retrieve file name. Contact system admin. ";
+                uploadSuccess.Text = "Error 4g:  Couldn't retrieve file name. Contact system admin. ";
                 uploadSuccess.Attributes["style"] = "color:#ff3333;";
                 uploadSuccess.Visible = true;
                 return;
@@ -751,6 +763,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 34: Issue occured while attempting to prevent line breaks in table. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
         // GENERATE INDEX. HELPER
@@ -773,7 +788,10 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Error 4b: Issue occured while attempting to generate Index. Contact system admin. ";
+                string msg = "Error 4h: Issue occured while attempting to generate Index. Contact system admin. ";
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return msg + ex.Message;
             }
         }
@@ -911,8 +929,8 @@ namespace BarcodeConversion
                     using (SqlCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = "INSERT INTO INDEX_DATA (JOB_ID, BARCODE, VALUE1, VALUE2, " +
-                                          "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex," +
-                                          " @val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
+                                          "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex, " +
+                                          "@val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
                         cmd.Parameters.AddWithValue("@barcodeIndex", barcodeIndex);
                         for (int i = 1; i <= 5; i++)
@@ -943,7 +961,7 @@ namespace BarcodeConversion
                         }
                         else
                         {
-                            string msg = "Error-07: Issue occured while attempting to save. Contact system admin.";
+                            string msg = "Error 07: Issue occured while attempting to save. Contact system admin.";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                             return msg;
                         }
@@ -952,9 +970,12 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 if (ex.Message.Contains("Violation of UNIQUE KEY"))
                 {
-                    string msg = "Error 08: The Index you are trying to save already exists! Click 'Generate Index' button to generate a new index.";
+                    string msg = "Error 08: The Index you are trying to save already exists!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return msg;
                 }
@@ -1109,6 +1130,9 @@ namespace BarcodeConversion
             }
             catch(Exception ex)
             {
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return "Error: " + ex.Message;
             }
         }
@@ -1163,6 +1187,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 13: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return msg;
             }
         }
@@ -1224,6 +1251,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 14: Issue occured while attempting to set job as PRINTED. Contact system admin." ;
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -1315,6 +1345,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 17: Issue occured while attempting to retrieve jobs accessible to you. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -1356,6 +1389,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 18: Issue occured while attempting to color configured jobs in dropdown. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
 
@@ -1387,6 +1423,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 01: Issue occured while attempting to identify the selected Job. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
                 return 0;
             }
         }
@@ -1422,6 +1461,9 @@ namespace BarcodeConversion
             {
                 string msg = "Error 19: Issue occured while attempting to clear text fields. Contact system admin.";
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
             }
         }
     }

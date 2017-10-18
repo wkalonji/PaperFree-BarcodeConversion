@@ -55,11 +55,11 @@
 				<tr style="height:40px;background-color:#e6f3ff;padding-top:5px;">
 					<th style="padding-left:5px;font-family:Arial;font-size:15px;"><asp:Label ID="printTitle" Text="Unprinted Indexes" runat="server"></asp:Label></th> 
 					<td style="padding:5px 8px 5px 5px;text-align:left;text-align:right;">
-						<asp:Button ID="deleteBtn" Font-Size="10" runat="server" Text="Delete" 
+						<asp:Button ID="deleteBtn" style="padding:1px 6px 1px 6px;" Font-Size="10" runat="server" Text="Delete" 
 							OnClientClick="return confirm('Selected Indexes will be permanently deleted. Delete anyway?');" 
 							OnClick="deleteIndexes_Click" />
-						<asp:Button ID="printBarcodeBtn" style="margin-left:15px;" Font-Size="10" runat="server" Text="Print" onclick="printBarcode_Click"/>
-                        <asp:Button ID="showPrinted" style="margin-left:15px;" Font-Size="10" Visible="true" runat="server" Text="Show Printed" onclick="showPrinted_Click"/>
+						<asp:Button ID="printBarcodeBtn" style="margin-left:10px;padding:1px 6px 1px 6px;" Font-Size="10" runat="server" Text="Print" onclick="printBarcode_Click"/>
+                        <asp:Button ID="showPrinted" style="margin-left:10px;padding:1px 6px 1px 6px;" Font-Size="10" Visible="true" runat="server" Text="Show Printed" onclick="showPrinted_Click"/>
 						<asp:linkButton style="margin-left:10px;" runat="server" ForeColor="#737373" OnClick="reset_Click" >
 							<i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
 						</asp:linkButton>

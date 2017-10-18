@@ -65,18 +65,18 @@
                 <tr style="background-color:aliceblue;height:40px;margin-top:10px;">
                     <td style="width:315px; padding-left:5px;">
                        <INPUT style="width:300px;" type=file id=File1 name=File1 runat="server" /></td>
-                    <td style="text-align:right; font-size:13px;padding-right:7px;"><asp:Button ID="upload" Text="Upload" OnClick="upload_Click" runat="server"/></td>
+                    <td style="text-align:right; font-size:13px;padding-right:7px;"><asp:Button ID="upload" style="padding:1px 6px 1px 6px;" Text="Upload" OnClick="upload_Click" runat="server"/></td>
                 </tr>
             </table>    
 
             <table id="uploadedFileMenu" Visible="false" style="margin-top:12px; width:470px;" runat="server">
                 <tr>
                     <td style="padding-right:15px;width:330px;"><asp:Label ID ="uploadSuccess" Text="File Uploaded successfully!" runat="server"></asp:Label></td>
-                    <td style="text-align:right; padding-right:5px;"><asp:Button ID="viewContentBtn" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
+                    <td style="text-align:right; padding-right:5px;"><asp:Button ID="viewContentBtn" style="padding:0px 6px 1px 6px;" Text="View" Font-Size="8" OnClick="viewContent_Click" runat="server"/></td>
                     <td style="text-align:right; padding-right:5px;">
-                        <asp:Button ID="saveIndexesBtn" Text="Save" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
+                        <asp:Button ID="saveIndexesBtn" style="padding:0px 6px 1px 6px;" Text="Save" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and save indexes?');" OnClick="saveIndexes_Click" runat="server"/></td>
                     <td style="text-align:right;">
-                        <asp:Button ID="printIndexesBtn" Text="Save & Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
+                        <asp:Button ID="printIndexesBtn" style="padding:0px 6px 1px 6px;" Text="Save & Print" Font-Size="8" OnClientClick="return confirm('ATTENTION!\n\nMake sure the uploaded file corresponds to the currently selected Job.\nWish to proceed and print barcodes?');" OnClick="printIndexes_Click" runat="server"/></td>
                 </tr>
                 <tr>
                     <td style="padding-right:15px;"><asp:Label ID ="uploadHidden" Text="" Visible="false" runat="server"></asp:Label></td>
@@ -152,8 +152,8 @@
      --%>   <asp:Panel ID="generateIndexSection" Visible="false" runat="server">
                 <table class = tableFull style="margin-top:25px; width:470px;">
                     <tr style="background-color:#e6f3ff;height:40px;margin-top:10px;">
-                        <td style="padding-left:5px;"><asp:Button ID="saveIndex" runat="server" Text="Save Index" Font-Size="10" onclick="saveIndex_Click" /></td>
-                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" runat="server" Text="Save & Print" Font-Size="10" onclick="printIndexes_Click" /></td>
+                        <td style="padding-left:5px;"><asp:Button ID="saveIndex" style="padding:1px 6px 1px 6px;" runat="server" Text="Save Index" Font-Size="10" onclick="saveIndex_Click" /></td>
+                        <td style="text-align:right; padding-right:5px;"><asp:Button ID="saveAndPrint" style="padding:1px 6px 1px 6px;" runat="server" Text="Save & Print" Font-Size="10" onclick="printIndexes_Click" /></td>
                     </tr>               
                 </table>
             </asp:Panel>
