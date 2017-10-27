@@ -91,7 +91,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button upload;
+        protected global::System.Web.UI.WebControls.LinkButton upload;
         
         /// <summary>
         /// uploadedFileMenu control.
@@ -100,7 +100,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable uploadedFileMenu;
+        protected global::System.Web.UI.WebControls.Panel uploadedFileMenu;
         
         /// <summary>
         /// uploadSuccess control.
@@ -155,6 +155,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
+        
+        /// <summary>
+        /// errorUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label errorUpload;
         
         /// <summary>
         /// fileEntryMsg control.
@@ -325,7 +334,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button saveIndex;
+        protected global::System.Web.UI.WebControls.LinkButton saveIndex;
         
         /// <summary>
         /// saveAndPrint control.

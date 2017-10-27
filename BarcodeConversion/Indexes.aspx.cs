@@ -39,9 +39,11 @@ namespace BarcodeConversion
                 getUnprintedIndexes_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
                 printTitle.Text = "Unprinted Indexes";
-                printBarcodeBtn.Text = "Print";
-                showPrinted.Text = "Show Printed";
+                printBarcodeBtn.Visible = true;
+                showPrinted.Visible = true;
                 deleteBtn.Visible = true;
+                reprintBtn.Visible = false;
+                goBackBtn.Visible = false;
             }
             catch (Exception ex)
             {
@@ -118,6 +120,7 @@ namespace BarcodeConversion
                 // Handling of whether any index was returned from DB
                 if (indexesGridView.Rows.Count == 0)
                 {
+                    gridContainer.Visible = false;
                     indexesGridView.Visible = false;
                     recordsPerPage.Visible = false;
                     recordsPerPageLabel.Visible = false;
@@ -127,6 +130,7 @@ namespace BarcodeConversion
                 }
                 else
                 {
+                    gridContainer.Visible = true;
                     unprintedIndexTable.Visible = true;
                     printBarcodeBtn.Visible = true;
                     deleteBtn.Visible = true;
@@ -134,6 +138,7 @@ namespace BarcodeConversion
                     recordsPerPageLabel.Visible = true;
                     sortOrder.Visible = true;
                 }
+                
             }
             catch (Exception ex)
             {
@@ -503,7 +508,10 @@ namespace BarcodeConversion
             try
             {   
                 // Print generated Index sheets wepages, clear & get unprinted indexes again.
-                ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+                Control c = (Control)sender;
+                if (c.ID == "reprintBtn") ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "reprint();", true);
+                else ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+
             }
             catch (Exception ex)
             {
@@ -522,18 +530,13 @@ namespace BarcodeConversion
         {
             try
             {
-                Control c = sender as Control;
-                
-                if (showPrinted.Text == "Go Back" && c != null && c.ID == "showPrinted")
-                {
-                    reset_Click(new object(), new EventArgs());
-                    return;
-                }
                 printTitle.Text = "Printed Indexes";
-                printBarcodeBtn.Text = "Reprint";
-                showPrinted.Text = "Go Back";
+                reprintBtn.Visible = true;
+                goBackBtn.Visible = true;
                 deleteBtn.Visible = false;
-                
+                printBarcodeBtn.Visible = false;
+                showPrinted.Visible = false;
+
                 Page.Validate();
                 if (!Page.IsValid) return;
                 string user = Environment.UserName;
@@ -594,6 +597,7 @@ namespace BarcodeConversion
                 // Handling of whether any index was returned from DB
                 if (indexesGridView.Rows.Count == 0)
                 {
+                    gridContainer.Visible = false;
                     indexesGridView.Visible = false;
                     recordsPerPage.Visible = false;
                     recordsPerPageLabel.Visible = false;
@@ -602,6 +606,7 @@ namespace BarcodeConversion
                 }
                 else
                 {
+                    gridContainer.Visible = true;
                     indexesGridView.Visible = true;
                     unprintedIndexTable.Visible = true;
                     recordsPerPage.Visible = true;
@@ -695,7 +700,7 @@ namespace BarcodeConversion
                     indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
                 }
                 else indexesGridView.AllowPaging = false;
-                if (showPrinted.Text == "Show Printed") getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Visible == true) getUnprintedIndexes_Click(new object(), new EventArgs());
                 else showPrinted_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
@@ -733,6 +738,13 @@ namespace BarcodeConversion
         {
             try
             {
+                printTitle.Text = "Unprinted Indexes";
+                deleteBtn.Visible = true;
+                printBarcodeBtn.Visible = true;
+                showPrinted.Visible = true;
+                reprintBtn.Visible = false;
+                goBackBtn.Visible = false;
+                indexesGridView.PageIndex = 0;
                 unprintedIndexesPanel.Visible = true;
                 getUnprintedIndexes_Click(new object(), new EventArgs());
             }
@@ -754,7 +766,7 @@ namespace BarcodeConversion
             try
             {
                 indexesGridView.PageIndex = e.NewPageIndex;
-                if (showPrinted.Text == "Show Printed") getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Visible == true) getUnprintedIndexes_Click(new object(), new EventArgs());
                 else showPrinted_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
@@ -788,7 +800,7 @@ namespace BarcodeConversion
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
                     e.Row.Cells[3].Visible = false;
-                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    string colBorder = "border-width:1px 1px 1px 1px; border-style:solid; border-color:#cccccc; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }

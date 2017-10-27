@@ -1,1 +1,70 @@
 ﻿
+*************** 10/26/2017 5:37:55 PM ***************
+
+Summary: From c-wkalonji at    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously): Exception of type 'System.Web.HttpUnhandledException' was thrown.
+
+
+Inner Exception Message: Object reference not set to an instance of an object.
+Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Inner Source: BarcodeConversion
+Function: Void backToForm_Click(System.Object, System.EventArgs)
+Inner Exception Type: System.NullReferenceException
+Inner Stack Trace: 
+   at BarcodeConversion._Default.backToForm_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Bootstrap_BarcodeIndexing\BarcodeConversion\Default.aspx.cs:line 1277
+   at System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   at System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   at System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   at System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   at System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Boolean HandleError(System.Exception)
+Exception Type: System.Web.HttpUnhandledException
+Stack Trace: 
+   at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.default_aspx.ProcessRequest(HttpContext context)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 10/26/2017 5:39:53 PM ***************
+
+Summary: From c-wkalonji at    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously): Exception of type 'System.Web.HttpUnhandledException' was thrown.
+
+
+Inner Exception Message: Object reference not set to an instance of an object.
+Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Inner Source: BarcodeConversion
+Function: Void backToForm_Click(System.Object, System.EventArgs)
+Inner Exception Type: System.NullReferenceException
+Inner Stack Trace: 
+   at BarcodeConversion._Default.backToForm_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Bootstrap_BarcodeIndexing\BarcodeConversion\Default.aspx.cs:line 1277
+   at System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   at System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   at System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   at System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   at System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Boolean HandleError(System.Exception)
+Exception Type: System.Web.HttpUnhandledException
+Stack Trace: 
+   at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.default_aspx.ProcessRequest(HttpContext context)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+

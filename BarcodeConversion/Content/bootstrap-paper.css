@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+﻿@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
 /*!
  * bootswatch v3.3.7
  * Homepage: http://bootswatch.com
@@ -1086,8 +1086,8 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-family: "Arial", "Helvetica Neue", Helvetica, Roboto, sans-serif;
+  font-size: 14px;
   line-height: 1.846;
   color: #666666;
   background-color: #ffffff;
@@ -1268,15 +1268,15 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 56px;
+  font-size: 46px;
 }
 h2,
 .h2 {
-  font-size: 45px;
+  font-size: 34px;
 }
 h3,
 .h3 {
-  font-size: 34px;
+  font-size: 30px;
 }
 h4,
 .h4 {
@@ -2267,7 +2267,6 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 23px;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -2275,10 +2274,10 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 8px;
+  padding: 4px;
   line-height: 1.846;
   vertical-align: top;
-  border-top: 1px solid #dddddd;
+  /*border-top: 1px solid #dddddd;*/
 }
 .table > thead > tr > th {
   vertical-align: bottom;
@@ -2555,7 +2554,7 @@ output {
   width: 100%;
   height: 37px;
   padding: 6px 16px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.846;
   color: #666666;
   background-color: transparent;
@@ -3347,7 +3346,7 @@ fieldset[disabled] .btn-warning.focus {
 }
 .btn-danger {
   color: #ffffff;
-  background-color: #e51c23;
+  background-color: #ea484e;
   border-color: transparent;
 }
 .btn-danger:focus,
@@ -4597,7 +4596,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   border-color: transparent;
 }
 .navbar-inverse .navbar-brand {
-  color: #b2dbfb;
+  color: #cfe9fc;
 }
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:focus {
@@ -4608,7 +4607,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #bbbbbb;
 }
 .navbar-inverse .navbar-nav > li > a {
-  color: #b2dbfb;
+  color: #cfe9fc;
 }
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
@@ -7174,8 +7173,6 @@ label {
 }
 textarea,
 textarea.form-control,
-input.form-control,
-input[type=text],
 input[type=password],
 input[type=email],
 input[type=number],
@@ -7184,18 +7181,39 @@ input[type=number],
 [type=email].form-control,
 [type=tel].form-control,
 [contenteditable].form-control {
-  padding: 0;
-  border: none;
-  border-radius: 0;
-  -webkit-appearance: none;
-  -webkit-box-shadow: inset 0 -1px 0 #dddddd;
-  box-shadow: inset 0 -1px 0 #dddddd;
-  font-size: 16px;
+  border: 1px solid rgb(169, 169, 169);
+  border-radius: 3px;
+  background-position: right center;
+  -webkit-box-shadow:  1px 2px 1px 0px #dddddd !important;
+  box-shadow:  1px 2px 1px 0px #dddddd !important;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 2px 20px 2px 8px;
+  font-family: Arial;
+  width:auto;
 }
+input.form-control,
+input[type=text] {
+  border: 1px solid rgb(169, 169, 169);
+  border-radius: 3px;
+  -webkit-box-shadow:  1px 2px 1px 0px #dddddd !important;
+  box-shadow:  1px 2px 1px 0px #dddddd !important;
+  font-size: 14px;
+  padding: 2px 20px 2px 5px;
+  font-family: Arial;
+  line-height: 1.5;
+  width:auto;
+  height:26px;
+}
+
+input.form-control:focus,
+input[type=text]:focus{
+    -webkit-box-shadow:  0 1px 0 #dddddd;
+  box-shadow:  0 1px 0 #dddddd;
+}
+
 textarea:focus,
 textarea.form-control:focus,
-input.form-control:focus,
-input[type=text]:focus,
 input[type=password]:focus,
 input[type=email]:focus,
 input[type=number]:focus,
@@ -7204,8 +7222,8 @@ input[type=number]:focus,
 [type=email].form-control:focus,
 [type=tel].form-control:focus,
 [contenteditable].form-control:focus {
-  -webkit-box-shadow: inset 0 -2px 0 #2196f3;
-  box-shadow: inset 0 -2px 0 #2196f3;
+  -webkit-box-shadow:  0 1px 0 #dddddd;
+  box-shadow:  0 1px 0 #dddddd;
 }
 textarea[disabled],
 textarea.form-control[disabled],
@@ -7233,7 +7251,7 @@ input[type=number][readonly],
 [contenteditable].form-control[readonly] {
   -webkit-box-shadow: none;
   box-shadow: none;
-  border-bottom: 1px dotted #ddd;
+  /*border-bottom: 1px dotted #ddd;*/
 }
 textarea.input-sm,
 textarea.form-control.input-sm,
@@ -7265,8 +7283,8 @@ input[type=number].input-lg,
 }
 select,
 select.form-control {
-  border: 0;
-  border-radius: 0;
+  border: 1px solid rgb(169, 169, 169);
+  border-radius: 3px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -7277,10 +7295,14 @@ select.form-control {
           background-size: 13px;
   background-repeat: no-repeat;
   background-position: right center;
-  -webkit-box-shadow: inset 0 -1px 0 #dddddd;
-  box-shadow: inset 0 -1px 0 #dddddd;
-  font-size: 16px;
+  -webkit-box-shadow: 1px 2px 1px 0px #dddddd !important;
+  box-shadow:  1px 2px 1px 0px #dddddd !important;
+  font-size: 14px;
   line-height: 1.5;
+  padding: 2px 20px 1px 8px;
+  font-family: Arial;
+  width:auto;
+  height:26px;
 }
 select::-ms-expand,
 select.form-control::-ms-expand {
@@ -7296,8 +7318,9 @@ select.form-control.input-lg {
 }
 select:focus,
 select.form-control:focus {
-  -webkit-box-shadow: inset 0 -2px 0 #2196f3;
-  box-shadow: inset 0 -2px 0 #2196f3;
+  -webkit-box-shadow: inset 0 -2px 0 #dddddd;
+  box-shadow: inset 0 -2px 0 #dddddd;
+  background-color: none;
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAMAAACelLz8AAAAJ1BMVEUhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISF8S9ewAAAADHRSTlMAAgMJC0uWpKa6wMxMdjkoAAAANUlEQVR4AeXJyQEAERAAsNl7Hf3X6xt0QL6JpZWq30pdvdadme+0PMdzvHm8YThHcT1H7K0BtOMDniZhWOgAAAAASUVORK5CYII=);
 }
 select[disabled],
@@ -7445,11 +7468,12 @@ input[type="checkbox"]:after,
   height: 18px;
   margin-top: -2px;
   margin-right: 5px;
-  border: 2px solid #666666;
+  border: 1px solid #a6a6a6;
   border-radius: 2px;
   -webkit-transition: 240ms;
   -o-transition: 240ms;
   transition: 240ms;
+  background-color:white;
 }
 input[type="checkbox"]:checked:before,
 .checkbox input[type="checkbox"]:checked:before,
@@ -7674,3 +7698,262 @@ input[type="checkbox"]:disabled:checked:after,
 .carousel-caption h6 {
   color: inherit;
 }
+
+.card {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 10px 15px;
+  font-size: 13px;
+  line-height: 1.846;
+  border-radius: 3px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+    -webkit-box-shadow: 1px 3px 5px 1px rgba(0, 0, 0, 0.125);
+  box-shadow: 1px 3px 9px 1px rgba(0, 0, 0, 0.125);
+  border-left: 1px solid #e6e6e6;
+  border-top: 1px solid #f2f2f2;
+}
+
+.mydatagridSmall {
+    border-radius: 50px !important;
+    border-bottom: solid 2px #e6e6e6;
+}
+
+.headerSmall {
+    background-color: #646464;
+    font-family: Arial;
+    color: White;
+    border: none 0px transparent;
+    height: 20px;
+    text-align: left;
+    font-size: 12px;
+    padding-left:7px;
+    padding-right:7px;
+}
+
+.rowSmall {
+    background-color: #fff;
+    font-family: Arial;
+    font-size: 10px;
+    color: #4d4d4d;
+    min-height: 20px;
+    text-align: left;
+}
+
+.settingsGridview {
+    width: 316px;
+    border-radius: 50px !important;
+    border-bottom: solid 2px #e6e6e6;
+    border-right-width: 0px !important;
+    border-left-width: 0px !important;
+
+}
+
+.mydatagrid {
+    width: 40%;
+    border-radius: 50px !important;
+    border-bottom: solid 2px #e6e6e6;
+    max-width: 40%;
+    border-right-width: 0px !important;
+    border-left-width: 0px !important;
+
+}
+
+.header {
+    background-color: #737373;
+    font-family: Arial;
+    color: White;
+    border: none 0px transparent;
+    height: 20px;
+    text-align:left;
+    font-size: 14px;
+}
+
+.rows {
+    background-color: #fff;
+    font-family: Arial;
+    font-size: 12px;
+    color: #666666;
+    min-height: 18px;
+    text-align:left;
+}
+
+.rows:nth-child(even) {
+    background-color: #e6e6e6
+}
+   
+.rows:hover {
+    background-color: #b3b3b3;
+    font-family: Arial;
+    color: #fff;
+    text-align: left;
+}
+
+.rows:hover span {
+    background-color: #b3b3b3!important;
+}
+
+.selectedrow {
+    background-color: #ff8000;
+    font-family: Arial;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+}
+
+.mydatagrid a/** FOR THE PAGING ICONS  **/ {
+    background-color: Transparent;
+    padding: 1px 5px 1px 5px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.settingsGridview a/** FOR THE PAGING ICONS  **/ {
+    background-color: Transparent;
+    padding: 1px 5px 1px 5px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.mydatagrid a:hover /** FOR THE PAGING ICONS  HOVER STYLES**/ {
+    background-color: #000;
+    color: #fff;
+}
+
+.mydatagrid span /** FOR THE PAGING ICONS CURRENT PAGE INDICATOR **/ {
+    background-color: #e6e6e6;
+    color: #000;
+    padding: 1px 5px 1px 5px;
+}
+
+.settingsGridview span/** FOR THE PAGING ICONS CURRENT PAGE INDICATOR **/ {
+    background-color: #e6e6e6;
+    color: #000;
+    padding: 1px 5px 1px 5px;
+}
+.rows:nth-child(odd) span {
+    background-color: #fff
+}
+
+.pager {
+    background-color: #646464;
+    font-family: Arial;
+    color: White;
+    height: 25px;
+    text-align: left;
+    width:99%;
+}
+
+.mydatagrid td {
+    padding: 4px 10px 4px 10px;
+}
+
+.settingsGridview td{
+    padding: 4px 10px 4px 10px;
+}
+.mydatagrid th {
+    padding: 5px;
+    text-align: left;
+}
+
+.settingsGridview th{
+    padding: 5px;
+    text-align: left;
+}
+
+.myPage {
+    border: solid 2px black;
+    width: 100px;
+    height: 100px;
+    background-color: yellow;
+}
+
+.rotate {
+    /* FF3.5+ */
+    -moz-transform: rotate(90.0deg);
+    /* Opera 10.5 */
+    -o-transform: rotate(90.0deg);
+    /* Saf3.1+, Chrome */
+    -webkit-transform: rotate(90.0deg);
+    /* IE6,IE7 */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+    /* IE8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0.083)";
+    /* Standard */
+    transform: rotate(90.0deg);
+}
+
+.adminSection{
+    margin-top:50px;
+}
+
+
+
+.mGrid {
+    background-color: #fff;
+    /*margin: 5px 0 10px 0;*/
+    /*border: solid 1px #525252;*/
+    border-collapse: collapse;
+    /*width: 455px;*/ 
+}
+
+.mGrid td {
+    padding: 2px 5px;
+    border-color:black;
+    color: #717171;
+    font-size:12px;
+}
+
+.mGrid th {
+    padding: 3px 4px;
+    color: #fff;
+    background: #717171 url(grd_head.png) repeat-x top;
+    border-left: solid 1px #525252;
+    }
+
+.mGrid .alt {
+    background: #fcfcfc url(grd_alt.png) repeat-x top;
+}
+
+.mGrid .pgr {
+    background: #424242 url(grd_pgr.png) repeat-x top;
+}
+
+.mGrid .pgr table {
+    margin: 5px 0;
+}
+
+.mGrid .pgr td {
+    border-width: 0;
+    padding: 0 6px;
+    border-left: solid 1px #666;
+    font-weight: bold;
+    color: #fff;
+    line-height: 12px;
+}
+
+.mGrid .pgr a {
+    color: #666;
+    text-decoration: none;
+}
+
+.mGrid .pgr a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+.print:last-child {
+     page-break-after: auto !important;
+}
+

@@ -202,13 +202,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel newUserSection;
         
         /// <summary>
-        /// LinkButton2 control.
+        /// LinkButton5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton2;
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton5;
         
         /// <summary>
         /// user control.
@@ -535,13 +535,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.LinkButton edit5;
         
         /// <summary>
-        /// labelControlsTable control.
+        /// setupTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTable labelControlsTable;
+        protected global::System.Web.UI.WebControls.Panel setupTitle;
         
         /// <summary>
         /// trash control.
@@ -560,6 +560,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton hideControlInfo;
+        
+        /// <summary>
+        /// labelControlsTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTable labelControlsTable;
         
         /// <summary>
         /// textBoxType control.

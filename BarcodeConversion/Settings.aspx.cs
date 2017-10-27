@@ -601,7 +601,6 @@ namespace BarcodeConversion
                     assignee.SelectedValue = "Select";
                     // Get all unassigned jobs
                     getUnassignedJobs(null);
-                    unassignedBtn.Focus();
                     getOperators();
                 }
                 else
@@ -701,7 +700,7 @@ namespace BarcodeConversion
                             assignee.Focus();
                             return;
                         }
-                        jobsLabel.Text = "Operator's Currently Accessible Jobs";
+                        jobsLabel.Text = "Accessible Jobs";
 
                         // Get operator's assigned jobs
                         jobAccessBtn.Visible = false;
@@ -742,7 +741,6 @@ namespace BarcodeConversion
                         }
                     }
                 }
-                assignedBtn.Focus();
             }
             catch (Exception ex)
             {
@@ -969,6 +967,7 @@ namespace BarcodeConversion
                     jobIndexEditingPanel.Visible = true;
                     labelsTable.Visible = false;
                     labelControlsTable.Visible = false;
+                    setupTitle.Visible = false;
                     getActiveJobs();
                 }
                 else
@@ -1003,6 +1002,7 @@ namespace BarcodeConversion
                     edit4.Visible = true;
                     edit5.Visible = true;
                     labelControlsTable.Visible = true;
+                    setupTitle.Visible = true;
 
                     // Clear labelControlsTable current values
                     labelTextBox.Text = string.Empty;
@@ -1091,6 +1091,7 @@ namespace BarcodeConversion
                 {
                     labelsTable.Visible = false;
                     labelControlsTable.Visible = false;
+                    setupTitle.Visible = false;
                 }
             }
             catch(Exception ex)
@@ -1135,6 +1136,7 @@ namespace BarcodeConversion
         {
             setDropdownColor();
             labelControlsTable.Visible = false;
+            setupTitle.Visible = false;
             for (int i = 1; i <= 5; i++)
             {
                 LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
@@ -1309,6 +1311,7 @@ namespace BarcodeConversion
                 {
                     msg = " Label1 is required! Please make sure NAME field is not blank while setting Label1.";
                     labelControlsTable.Visible = false;
+                    setupTitle.Visible = false;
                     edit1.Visible = true;
                 }
                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -1464,6 +1467,7 @@ namespace BarcodeConversion
                     }
                 }
                 labelControlsTable.Visible = true;
+                setupTitle.Visible = true;
                 labelTextBox.Focus();
             }
             catch(Exception ex)
@@ -1658,7 +1662,7 @@ namespace BarcodeConversion
                 // Set column borders & Prevent line breaks
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    string colBorder = "border-width:1px 1px 1px 1px; border-style:solid; border-color:#cccccc; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
@@ -1693,7 +1697,6 @@ namespace BarcodeConversion
                     jobSection.Visible = true;
                     newUserSection.Visible = true;
                     getUnassignedJobs(null);
-                    unassignedBtn.Focus();
                     getOperators();
                     assignPanel.Visible = true;
                     jobIndexEditingPanel.Visible = true;
@@ -1702,6 +1705,7 @@ namespace BarcodeConversion
                     line.Visible = true;
                     labelsTable.Visible = false;
                     labelControlsTable.Visible = false;
+                    setupTitle.Visible = false;
                     //labelDropdown_Click(new object(), new EventArgs());
                 }
                 else
@@ -1755,7 +1759,6 @@ namespace BarcodeConversion
                                 assignee.Focus();
                                 return;
                             }
-                            if (buttonId == "inaccessibleBtn") inaccessibleBtn.Focus();
 
                             // Then check if specified operator exists. If so, get ID.
                             cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME = @assignedTo";
@@ -1780,7 +1783,6 @@ namespace BarcodeConversion
                         }
                         else
                         {
-                            unassignedBtn.Focus(); // aka "Active" btn
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
                             cmd.CommandText =  "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID) " +
@@ -1816,7 +1818,7 @@ namespace BarcodeConversion
                             }
                             else
                             {
-                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn") jobsLabel.Text = "Operator's Currently Inaccessible Jobs";
+                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn") jobsLabel.Text = "Inaccessible Jobs";
                                 else jobsLabel.Text = "Active Jobs";
                                 jobsLabel.Visible = true;
                                 jobAccessBtn.Visible = true;
@@ -2117,9 +2119,9 @@ namespace BarcodeConversion
                 jobAccessGridView.PageIndex = e.NewPageIndex;
                 object b = this.Master.FindControl("MainContent").FindControl("inaccessibleBtn") as Button;
 
-                if (jobsLabel.Text == "Operator's Currently Accessible Jobs")
+                if (jobsLabel.Text == "Accessible Jobs")
                     getAssignedJobs();
-                else if (jobsLabel.Text == "Operator's Currently Inaccessible Jobs")
+                else if (jobsLabel.Text == "Inaccessible Jobs")
                     getUnassignedJobs(b);
                 else
                     getUnassignedJobs(null);
@@ -2426,6 +2428,7 @@ namespace BarcodeConversion
         {
             setDropdownColor();
             labelControlsTable.Visible = false;
+            setupTitle.Visible = false;
             for (int i = 1; i <= 5; i++)
             {
                 LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;

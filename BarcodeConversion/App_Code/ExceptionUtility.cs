@@ -80,7 +80,7 @@ namespace BarcodeConversion.App_Code
                     innerSummary = "Inner Summary: From " + user + " at " + innerLocation + ": " + exc.InnerException.Message;
                 }
                 string summary = "\nException Summary:\n\nFrom: " + user + "\nLocation: " + location + "\nType: "+ exc.GetType() + "\nMessage: " + exc.Message;
-                emailException(innerSummary + "\n" + summary, exc);
+                //emailException(innerSummary + "\n" + summary, exc);
             }
             catch(Exception ex)
             {

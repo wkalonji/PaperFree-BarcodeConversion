@@ -34,7 +34,7 @@ namespace BarcodeConversion
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                             "~/Scripts/modernizr-*"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap-lumen.css",
+                "~/Content/bootstrap-paper.css",
                 "~/Content/font-awesome.min.css",
                 "~/Content/site.css"));
 

@@ -184,12 +184,14 @@ namespace BarcodeConversion
                     timePanel.Visible = false;
                     getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
                     indexeStatusGridView.Visible = true;
+                    description.Visible = true;
                 }
                 else
                 {
                     timePanel.Visible = true;
-                    gridHeader.Visible = false;
+                    gridContainer.Visible = false;
                     indexeStatusGridView.Visible = false;
+                    description.Visible = false;
                 }
             }
             catch (Exception ex)
@@ -259,9 +261,11 @@ namespace BarcodeConversion
                 if (opID == 0 || jobsDict.Count == 0)
                 {
                     description.Text = "No indexes found with the specified filter entries.";
+                    description.Visible = true;
                     recordsPerPageLabel.Visible = false;
                     recordsPerPage.Visible = false;
                     sortOrder.Visible = false;
+                    gridContainer.Visible = false;
                     return;
                 }
 
@@ -511,13 +515,17 @@ namespace BarcodeConversion
                             if (indexeStatusGridView.Rows.Count == 0)
                             {
                                 description.Text = "No indexes found with the specified filter entries.";
-                                gridHeader.Visible = true;
+                                description.Visible = true;
+                                gridContainer.Visible = false;
+                                gridHeader.Visible = false;
                                 recordsPerPageLabel.Visible = false;
                                 recordsPerPage.Visible = false;
                                 sortOrder.Visible = false;
                             }
                             else
                             {
+                                description.Visible = true;
+                                gridContainer.Visible = true;
                                 gridHeader.Visible = true;
                                 recordsPerPageLabel.Visible = true;
                                 recordsPerPage.Visible = true;
@@ -657,7 +665,7 @@ namespace BarcodeConversion
                     }
 
                     // Set column borders
-                    string colBorder = "border-left:1px solid #cccccc; border-right:1px solid #cccccc; white-space: nowrap;";
+                    string colBorder = "border-width:1px 1px 1px 1px; border-style:solid; border-color:#cccccc; white-space: nowrap;"; 
                     for (int i=0; i<e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }

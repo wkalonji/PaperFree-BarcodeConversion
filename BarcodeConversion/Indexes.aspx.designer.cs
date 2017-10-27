@@ -46,7 +46,16 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button deleteBtn;
+        protected global::System.Web.UI.WebControls.LinkButton deleteBtn;
+        
+        /// <summary>
+        /// deleteIcon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deleteIcon;
         
         /// <summary>
         /// printBarcodeBtn control.
@@ -55,7 +64,16 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button printBarcodeBtn;
+        protected global::System.Web.UI.WebControls.LinkButton printBarcodeBtn;
+        
+        /// <summary>
+        /// reprintBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton reprintBtn;
         
         /// <summary>
         /// showPrinted control.
@@ -64,7 +82,25 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button showPrinted;
+        protected global::System.Web.UI.WebControls.LinkButton showPrinted;
+        
+        /// <summary>
+        /// goBackBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton goBackBtn;
+        
+        /// <summary>
+        /// gridContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel gridContainer;
         
         /// <summary>
         /// sortOrder control.
@@ -94,15 +130,6 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.DropDownList recordsPerPage;
         
         /// <summary>
-        /// description control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label description;
-        
-        /// <summary>
         /// indexesGridView control.
         /// </summary>
         /// <remarks>
@@ -110,6 +137,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView indexesGridView;
+        
+        /// <summary>
+        /// description control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label description;
         
         /// <summary>
         /// setAsPrinted control.

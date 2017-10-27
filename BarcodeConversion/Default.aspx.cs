@@ -31,6 +31,7 @@ namespace BarcodeConversion
                 selectJob_Click(new object(), new EventArgs());
             }
             setDropdownColor();
+            errorUpload.Visible = false;
         }
 
 
@@ -50,6 +51,7 @@ namespace BarcodeConversion
                 saveIndexesBtn.Visible = false;
                 printIndexesBtn.Visible = false;
                 GridView1.Visible = false;
+                uploadedFileMenu.Visible = false;
 
                 for (int i = 1; i <= 5; i++)
                 {
@@ -447,9 +449,9 @@ namespace BarcodeConversion
                 }
                 catch (Exception ex)
                 {
-                    uploadSuccess.Text = "Error 4:  Couldn't upload file. Make sure it's a csv file. " + ex.Message;
-                    uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                    uploadSuccess.Visible = true;
+                    errorUpload.Text = "Error 4:  Could not upload file. Make sure it is a csv file and that it corresponds to the currently selected Job. ";
+                    errorUpload.Attributes["style"] = "color:#ff3333;display:block;margin-top:5px;";
+                    errorUpload.Visible = true;
                     // Log the exception and notify system operators
                     ExceptionUtility.LogException(ex);
                     ExceptionUtility.NotifySystemOps(ex);
@@ -465,7 +467,7 @@ namespace BarcodeConversion
 
 
 
-        // FILE 'SAVE INDEXES' CLICKED: SAVE UPLOADED FILE CONTENTS
+        // FILE 'SAVE' CLICKED: SAVE UPLOADED FILE CONTENTS
         protected void saveIndexes_Click(object sender, EventArgs e)
         {
             try
@@ -569,18 +571,21 @@ namespace BarcodeConversion
                     uploadSuccess.Visible = false;
                     var error = new TableCell();
                     var errorRow = new TableRow();
-                    error.Text = countSavedRecords + " index strings successfully saved...";
+                    error.Text = countSavedRecords + " index strings successfully saved.";
                     error.Attributes["style"] = "color:green;";
                     errorRow.Cells.Add(error);
                     fileEntryMsg.Rows.Add(errorRow);
-                    
+
+                    uploadedFileMenu.Visible = false;
                     viewContentBtn.Visible = false;
                     saveIndexesBtn.Visible = false;
                     printIndexesBtn.Visible = false;
                     GridView1.Visible = false;
 
                     ViewState["fileContent"] = fileContent;
+                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
+                ViewState["printCancelled"] = countSavedRecords;
             }
             catch(Exception ex)
             {
@@ -596,7 +601,7 @@ namespace BarcodeConversion
 
 
 
-        // 'PRINT INDEXES' or 'SAVE & PRINT BARCODE' CLICKED: SAVE & PRINT UPLOADED FILE CONTENTS or Manual entries
+        // 'SAVE & PRINT' CLICKED: SAVE & PRINT UPLOADED FILE CONTENTS or Manual entries
         protected void printIndexes_Click(object sender, EventArgs e)
         {
             try
@@ -604,7 +609,7 @@ namespace BarcodeConversion
                 // Set stage
                 Button b = (Button)sender;
 
-                // First, save index(es)
+                // First, save index(es) if File Entries
                 var fileContent = new List<List<string>>();
                 var manualEntries = new List<string>();
                 if (b.ID == "printIndexesBtn")
@@ -613,6 +618,7 @@ namespace BarcodeConversion
                     fileContent = (List<List<string>>)ViewState["fileContent"];
                     if (fileContent == null) return;
                 }
+                // Or save index(es) if Manual Entries
                 else if (b.ID == "saveAndPrint")
                 {
                     saveIndex_Click(new object(), new EventArgs());
@@ -626,7 +632,7 @@ namespace BarcodeConversion
                 // Start writing index sheet pages
                 Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
 
-                // Write index sheet pages
+                // Write index sheet pages if File Entries
                 if (b.ID == "printIndexesBtn")
                 {
                     int currentCount = 0;
@@ -642,6 +648,7 @@ namespace BarcodeConversion
                         }
                     }
                 }
+                // Or Write index sheet pages if Manual Entries
                 else if (b.ID == "saveAndPrint")
                 {
                     string result = writeIndexPage(manualEntries, 1, 1);
@@ -888,11 +895,12 @@ namespace BarcodeConversion
                         d.SelectedValue = "Select";
                     else d.SelectedValue = string.Empty;
                 }
-                    
             }
             // Stick barcode to the end of entries
             entries.Add(barcodeIndex);
             ViewState["manualEntries"] = entries;
+
+            if(result.Contains("pass")) ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
         }
 
 
@@ -955,8 +963,8 @@ namespace BarcodeConversion
                                 error.Attributes["style"] = "color:green;";
                                 errorRow.Cells.Add(error);
                                 manualEntryMsg.Rows.Add(errorRow);
-                                clearFields();
                             }
+                            clearFields();
                             return "pass";
                         }
                         else
@@ -1170,7 +1178,6 @@ namespace BarcodeConversion
                         // Confirmation msg & back to unprinted indexes gridview
                         if (counter == 1)
                         {
-                            ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOperation", "FadeOut2();", true);
                             return "pass";
                         }
                         else
@@ -1216,11 +1223,12 @@ namespace BarcodeConversion
                     }
                     var error = new TableCell();
                     var errorRow = new TableRow();
-                    error.Text = "Index string successfully saved and set as PRINTED...";
+                    error.Text = "Index string successfully saved and set as PRINTED.";
                     error.Attributes["style"] = "color:green;";
                     errorRow.Cells.Add(error);
                     manualEntryMsg.Rows.Add(errorRow);
                     clearFields();
+                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
                 }
 
                 // For uploaded file
@@ -1241,10 +1249,11 @@ namespace BarcodeConversion
                     }
                     var error = new TableCell();
                     var errorRow = new TableRow();
-                    error.Text = countPass + " index strings successfully saved and set as PRINTED...";
+                    error.Text = countPass + " index strings successfully saved and set as PRINTED.";
                     error.Attributes["style"] = "color:green;";
                     errorRow.Cells.Add(error);
                     fileEntryMsg.Rows.Add(errorRow);
+                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
             }
             catch (Exception ex)
@@ -1267,6 +1276,19 @@ namespace BarcodeConversion
             ViewState["fileContent"] = null;
             TextBox c = this.Master.FindControl("MainContent").FindControl("label1Box") as TextBox;
             if (c.Visible) c.Focus();
+
+            if(ViewState["printCancelled"] != null)
+            {
+                int countPass = (int)ViewState["printCancelled"];
+                var error = new TableCell();
+                var errorRow = new TableRow();
+
+                error.Text = countPass + " index strings saved but not set as PRINTED.";
+                error.Attributes["style"] = "color:green;";
+                errorRow.Cells.Add(error);
+                fileEntryMsg.Rows.Add(errorRow);
+                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
+            }
         }
 
 
