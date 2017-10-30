@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using BarcodeConversion.App_Code;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace BarcodeConversion
 {
@@ -514,9 +515,9 @@ namespace BarcodeConversion
             {   
                 // Print generated Index sheets wepages, clear & get unprinted indexes again.
                 Control c = (Control)sender;
+                //Task.Delay(2000).Wait();
                 if (c.ID == "reprintBtn") ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "reprint();", true);
                 else ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
-
             }
             catch (Exception ex)
             {
@@ -730,6 +731,8 @@ namespace BarcodeConversion
             {
                 unprintedIndexesPanel.Visible = true;
                 setIndexAsPrinted_Click(new object(), new EventArgs());
+                Panel p = Master.FindControl("footerSection") as Panel;
+                p.Visible = true;
             }
             catch (Exception ex)
             {
@@ -754,6 +757,8 @@ namespace BarcodeConversion
                 indexesGridView.PageIndex = 0;
                 unprintedIndexesPanel.Visible = true;
                 getUnprintedIndexes_Click(new object(), new EventArgs());
+                Panel p = Master.FindControl("footerSection") as Panel;
+                p.Visible = true;
             }
             catch (Exception ex)
             {

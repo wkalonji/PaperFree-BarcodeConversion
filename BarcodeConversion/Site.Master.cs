@@ -73,7 +73,7 @@ namespace BarcodeConversion
             // Show/Hile footer before printing
             if (c != null)
             {
-                if (c.ID == "printIndexesBtn" || c.ID == "saveAndPrint" || c.ID == "printBarcodeBtn")
+                if (c.ID == "printIndexesBtn" || c.ID == "saveAndPrint" || c.ID == "printBarcodeBtn" || c.ID == "reprintBtn")
                 {
                     footerSection.Visible = false;
                 }

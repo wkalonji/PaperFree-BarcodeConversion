@@ -1265,6 +1265,9 @@ namespace BarcodeConversion
                     onScreenMsg(msg, color, "file");
                     ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
+
+                Panel p = Master.FindControl("footerSection") as Panel;
+                p.Visible = true;
             }
             catch (Exception ex)
             {
@@ -1304,6 +1307,9 @@ namespace BarcodeConversion
                 onScreenMsg(msg, color, "manual");
                 ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
             }
+
+            Panel p = Master.FindControl("footerSection") as Panel;
+            p.Visible = true;
         }
 
 
