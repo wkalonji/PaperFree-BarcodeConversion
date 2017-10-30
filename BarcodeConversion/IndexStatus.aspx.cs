@@ -19,21 +19,29 @@ namespace BarcodeConversion
         {
             try
             {
-                if (!IsPostBack)
+                if (!IsPostBack) // First page load
                 {
                     Session["jobsList"] = populateJobsList();
                     getIndexes("Your Jobs", "meOnly", "allTime", "allSheets");
                     indexeStatusGridView.Visible = true;
                 }
 
-                // Make date fields entries persist
-                from.Attributes.Add("readonly", "readonly");
-                to.Attributes.Add("readonly", "readonly");
-
                 // Reset gridview page
                 Control c = Helper.GetPostBackControl(this.Page);
                 if (c != null && (c.ID == "resetBtn" || c.ID == "whoFilter" || c.ID == "whenFilter" ||
                     c.ID == "whatFilter" || c.ID == "recordsPerPage")) indexeStatusGridView.PageIndex = 0;
+                
+                // Persits date entries
+                if (c != null && (c.ID == "jobsFilter" || c.ID == "whoFilter" ||
+                    c.ID == "whatFilter" || c.ID == "dates"))
+                {
+                    if (timePanel.Visible == true) 
+                    {
+                        if (ViewState["from"] != null) from.Text = ViewState["from"].ToString();
+                        if (ViewState["to"] != null) to.Text = ViewState["to"].ToString();
+                    }
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -158,7 +166,7 @@ namespace BarcodeConversion
         protected void onSelectedChange(object sender, EventArgs e)
         {
             try
-            {
+            {   
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
                 getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
             }
@@ -188,6 +196,8 @@ namespace BarcodeConversion
                 }
                 else
                 {
+                    from.Text = string.Empty;
+                    to.Text = string.Empty;
                     timePanel.Visible = true;
                     gridContainer.Visible = false;
                     indexeStatusGridView.Visible = false;
@@ -211,7 +221,13 @@ namespace BarcodeConversion
         {
             try
             {
+                DateTime start = DateTime.Parse(Request.Form[from.UniqueID]);
+                DateTime end = DateTime.Parse(Request.Form[to.UniqueID]).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+                if (start != null) ViewState["from"] = start.Date.ToString("MM/dd/yyyy");
+                if (end != null) ViewState["to"] = end.Date.ToString("MM/dd/yyyy");
                 getIndexes(jobsFilter.SelectedValue, whoFilter.SelectedValue, whenFilter.SelectedValue, whatFilter.SelectedValue);
+                from.Text = start.Date.ToString("MM/dd/yyyy");
+                to.Text = end.Date.ToString("MM/dd/yyyy");
             }
             catch (Exception ex)
             {   
@@ -347,7 +363,7 @@ namespace BarcodeConversion
                         else if (when == "pickRange")
                         {
                             DateTime start = DateTime.Parse(Request.Form[from.UniqueID]);
-                            DateTime end = DateTime.Parse(Request.Form[to.UniqueID]);
+                            DateTime end = DateTime.Parse(Request.Form[to.UniqueID]).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                             if (start == default(DateTime))
                             {
                                 string msg = "Please pick a start date.";
@@ -369,7 +385,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Your Indexes from " + start + " to " + end + ".";
+                                description.Text = "Your Indexes from " + start.Date.ToString("MM/dd/yyyy") + " to " + end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             else if (what == "printed")
                             {
@@ -379,7 +395,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Your Printed Indexes from " + start + " to " + end + ".";
+                                description.Text = "Your Printed Indexes from " + start.Date.ToString("MM/dd/yyyy") + " to " +end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             else if (what == "notPrinted")
                             {
@@ -389,7 +405,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Your Unprinted Indexes from " + start + " to " + end + ".";
+                                description.Text = "Your Unprinted Indexes from " +start.Date.ToString("MM/dd/yyyy")+ " to " +end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             cmd.Parameters.AddWithValue("@start", start);
                             cmd.Parameters.AddWithValue("@end", end);
@@ -445,7 +461,7 @@ namespace BarcodeConversion
                         else if (when == "pickRange")
                         {
                             DateTime start = DateTime.Parse(Request.Form[from.UniqueID]);
-                            DateTime end = DateTime.Parse(Request.Form[to.UniqueID]);
+                            DateTime end = DateTime.Parse(Request.Form[to.UniqueID]).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
                             if (start == default(DateTime))
                             {
                                 string msg = "Please pick a start date.";
@@ -467,7 +483,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND CREATION_TIME BETWEEN @start AND @end", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Operators' Indexes from " + start + " to " + end + ".";
+                                description.Text = "Operators' Indexes from " +start.Date.ToString("MM/dd/yyyy")+ " to " + end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             else if (what == "printed")
                             {
@@ -477,7 +493,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=1 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Operators' Printed Indexes From " + start + " to " + end + ".";
+                                description.Text = "Operators' Printed Indexes From " +start.Date.ToString("MM/dd/yyyy")+ " to " + end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             else if (what == "notPrinted")
                             {
@@ -487,7 +503,7 @@ namespace BarcodeConversion
                                     cmd = new SqlCommand(cmdString + "AND INDEX_DATA.JOB_ID=@jobID AND PRINTED=0 AND (CREATION_TIME BETWEEN @start AND @end)", con);
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
                                 }
-                                description.Text = "Operators' Unprinted Indexes from " + start + " to " + end + ".";
+                                description.Text = "Operators' Unprinted Indexes from " +start.Date.ToString("MM/dd/yyyy")+ " to " + end.Date.ToString("MM/dd/yyyy") + ".";
                             }
                             cmd.Parameters.AddWithValue("@start", start);
                             cmd.Parameters.AddWithValue("@end", end);

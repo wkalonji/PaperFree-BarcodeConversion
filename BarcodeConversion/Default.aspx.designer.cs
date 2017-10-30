@@ -319,6 +319,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.DropDownList label5Dropdown;
         
         /// <summary>
+        /// manualEntryMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table manualEntryMsg;
+        
+        /// <summary>
         /// generateIndexSection control.
         /// </summary>
         /// <remarks>
@@ -380,14 +389,5 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button backToForm;
-        
-        /// <summary>
-        /// manualEntryMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table manualEntryMsg;
     }
 }

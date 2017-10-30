@@ -175,8 +175,9 @@ namespace BarcodeConversion
             if (check == 0)
             {
                 // Warning if no Index was selected
-                string warning = "No index was selected. Please select at least one index to delete.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + warning + "');", true);
+                string msg = "No index was selected. Please select at least one index to delete.";
+                string color = "#ff3333;";
+                showMsg(msg, color);
             }
             else
             {
@@ -239,7 +240,9 @@ namespace BarcodeConversion
                 {
                     jobDone = counter + " Index records were deleted.";
                 }
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + jobDone + "');", true);
+                string color = "green;";
+                showMsg(jobDone, color);
+                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
                 con.Close();
                 getUnprintedIndexes_Click(new object(), new EventArgs());
             }         
@@ -298,7 +301,8 @@ namespace BarcodeConversion
                 if (boxChecked == false)
                 {
                     string msg = "To print barcode, please select at least one index";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    string color = "#ff3333;";
+                    showMsg(msg, color);
                     return;
                 }
 
@@ -363,7 +367,7 @@ namespace BarcodeConversion
 
                             // Write to index page
                             System.Web.HttpBrowserCapabilities browser = Request.Browser;
-                            if (browser.Browser == "InternetExplorer")
+                            if (browser.Browser == "InternetExplorer" || browser.Browser == "IE")
                             {
                                 // Write to index page
                                 Response.Write(
@@ -668,13 +672,15 @@ namespace BarcodeConversion
                 string jobDone;
                 if (counter == 1)
                 {
-                    jobDone = counter + " index record was updated and set as PRINTED.";
+                    jobDone = counter + " index record set as PRINTED.";
                 }
                 else
                 {
-                    jobDone = counter + " index records were updated and set as PRINTED.";
+                    jobDone = counter + " index records set as PRINTED.";
                 }
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + jobDone + "');", true);
+                string color = "green;";
+                showMsg(jobDone, color);
+                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
                 reset_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
@@ -895,6 +901,18 @@ namespace BarcodeConversion
                 ExceptionUtility.NotifySystemOps(ex);
                 return "ASC";
             }
+        }
+
+
+        // PRINT VARIOUS MSG ON SCREEN INSTEAD OF A POPUP
+        private void showMsg(string msg, string color)
+        {
+            var screenMsg = new TableCell();
+            var screenMsgRow = new TableRow();
+            screenMsg.Text = msg;
+            screenMsg.Attributes["style"] = "color:" + color;
+            screenMsgRow.Cells.Add(screenMsg);
+            onScreenMsg.Rows.Add(screenMsgRow);
         }
     }
 }

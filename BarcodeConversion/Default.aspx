@@ -15,7 +15,7 @@
             $.when($.ajax(function1())).then(function () {
                 setTimeout(function () {
                     function2();
-                }, 1000);
+                }, 2500);
             });
         }
         function function1() {
@@ -34,6 +34,7 @@
                 document.getElementById('<%=backToForm.ClientID%>').click(); 
             }
         }
+        
     </script>
 
     <asp:Panel ID="formPanel" runat="server">
@@ -54,7 +55,7 @@
                     </td>
                 </tr>
             </table> 
-            <asp:Panel ID="noJobsFound" Visible="false" runat="server"><h3> You currently have no accessible jobs.</h3> </asp:Panel>
+            <asp:Panel ID="noJobsFound" Visible="false" runat="server"><h3> You currently have no assigned jobs.</h3> </asp:Panel>
         </asp:Panel>
         
         <asp:Panel ID="indexCreationSection" Visible="false" runat="server" style="width:auto; margin-top:20px;">  
@@ -91,9 +92,9 @@
             </asp:Panel>
             <asp:Label ID ="errorUpload"  Visible="false" runat="server"></asp:Label>
 
-            <asp:table style="margin-top:10px;" id="fileEntryMsg" runat="server"></asp:table>
+            <div style="margin-top:10px;height:30px;"><asp:table id="fileEntryMsg" runat="server"></asp:table></div>
                   
-            <h3 style="margin-top:40px;color:#666666;">Index Creation</h3>
+            <h3 style="margin-top:20px;color:#666666;">Index Creation</h3>
 
             <table id="jobControls" class = table runat="server">
                 <tr> <th colspan="3" style="font-family:Arial;">Index Data Information: </th></tr>
@@ -154,8 +155,10 @@
                 <asp:ListItem Value="3">Thick</asp:ListItem>    
             </asp:DropDownList>
         </p>
-           
-     --%>   <asp:Panel ID="generateIndexSection" CssClass="card" style="background-color:#e6f3ff;margin-top:25px;" Visible="false" runat="server">
+             <%-- Msgs showing up when successful save or saveAndPrint operations happens.--%>
+            <div style="margin-top:25px;height:30px;"><asp:table id="manualEntryMsg" runat="server"></asp:table></div>
+
+            <asp:Panel ID="generateIndexSection" CssClass="card" style="background-color:#e6f3ff;" Visible="false" runat="server">
                 <table class = tableFull style=" width:470px;">
                     <tr >
                         <td style="text-align:left;">
@@ -167,7 +170,7 @@
             </asp:Panel>
         </asp:panel>
 
-        <div style="margin-top:50px;"></div>
+        <div style="margin-top:40px;"></div>
         <%--Link to Print Indexes page --%>  
         <span style="font-size:medium;">View your unprinted indexes</span>   
         <asp:HyperLink ID="HyperLink1" Font-Underline="false" runat="server" NavigateUrl="~/Indexes">
@@ -184,6 +187,4 @@
         <asp:Button ID="backToForm" runat="server" Text="ShowPanel" onclick="backToForm_Click"/>
     </div>
   
-    <%-- Msgs showing up when successful save or saveAndPrint operations happens.--%>
-    <div style="margin-top:10px;"><asp:table id="manualEntryMsg" runat="server"></asp:table></div>
 </asp:Content>

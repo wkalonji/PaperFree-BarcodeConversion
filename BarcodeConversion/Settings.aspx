@@ -29,21 +29,23 @@
         <table>
             <tr>
                 <td style="width:480px;">
-                     <%-- JOB SECTION --%>
-                    <div style="width:284px;border:solid 2px #808080;border-radius:3px;">
-                        <asp:Button ID="newJobBtn" Visible="true" Width="330px" runat="server" Text="Job Section" OnClick="newJobShow_Click" />
+                     <%-- JOB SETUP SECTION --%>
+                    <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;">
+                        <asp:linkButton ID="newJobBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="newJobShow_Click">
+                        <i class="fa fa-folder-open" aria-hidden="true" style="margin-right:9px;"></i> Job Setup Section&nbsp;</asp:linkButton>
                     </div>
                 </td>
                 <td style="width:324px;">
                      <%--USER & PERMISSION SECTION --%>
-                    <div style="width:284px;border: solid 2px #808080; border-radius:3px;">
-                        <asp:Button ID="newUserBtn" Visible="true" runat="server" Text="User & Permission Section" Width="310px" OnClick="permissionsShow_Click" />
+                    <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;">
+                        <asp:linkButton ID="newUserBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="permissionsShow_Click">
+                        <i class="fa fa-user" aria-hidden="true" style="margin-right:10px;"></i> User & Permission Section</asp:linkButton>
                     </div>
                 </td>
             </tr>   
             <tr>
                 <td style="width: 315px; vertical-align:top;">
-                    <%-- JOB SECTION BODY --%>
+                    <%-- JOB SETUP SECTION BODY --%>
                     <div style="display:block;" class="auto-style5">
                         <asp:Panel ID="jobSection" Visible="false" runat="server" Width="408px" >
                             <asp:Panel CssClass="card" style="margin-top:25px;background-color:aliceblue;width:76%;padding: 0px 10px 0px 10px;" runat="server">
@@ -71,7 +73,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="auto-style2" style="height: 35px; width: 286px;"><asp:Label runat="server">Job Abbreviation: </asp:Label></td>
+                                    <td class="auto-style2" style="height: 35px; width: 290px;"><asp:Label runat="server">Job Abbreviation: </asp:Label></td>
                                     <td style="height: 35px">
                                         <asp:TextBox ID="jobAbb" placeholder=" Required" runat="server"></asp:TextBox>
                                         <asp:DropDownList ID="selectJobList" runat="server">
@@ -159,7 +161,7 @@
                                 </tr>
                             </table>
                             <div style="text-align:right; margin-top:15px;" class="auto-style4" id="abc">
-                                <asp:Button ID="createBtn2" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" Font-Size="10" runat="server" Text="Submit" OnClick="setPermissions_Click" />
+                                <asp:Button ID="submitOp" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" Font-Size="10" runat="server" Text="Submit" OnClick="setPermissions_Click" />
                             </div>
                         </asp:Panel>
                     </div>
@@ -173,14 +175,16 @@
             <tr>
                 <td style="width: 480px">
                     <%--JOB ACCESS SECTION --%>
-                    <div style="width:284px; border: solid 2px #808080; border-radius:3px; margin-top:30px;">
-                        <asp:Button ID="assignBtn" Visible="true" runat="server" Text="Job Access Section" Width="310px" OnClick="assignShow_Click" />
+                    <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;margin-top:30px;">
+                        <asp:linkButton ID="assignBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="assignShow_Click">
+                        <i class="fa fa-unlock-alt" aria-hidden="true" style="margin-right:10px;"></i> Job Access Section</asp:linkButton>
                     </div>
                 </td>
                 <td style="width: 324px">
                     <%--JOB INDEX CONFIG SECTION --%>
-                    <div style="width:284px; border: solid 2px #808080; border-radius:3px; margin-top:30px;">
-                        <asp:Button ID="jobIndexEditingBtn" Visible="true" runat="server" Text="Job Index Configuration Section" Width="310px" OnClick="jobIndexEditingShow_Click" />
+                    <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;margin-top:30px;">
+                        <asp:linkButton ID="jobIndexEditingBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="jobIndexEditingShow_Click">
+                        <i class="fa fa-cogs" aria-hidden="true" style="margin-right:10px;"></i> Index Configuration Section</asp:linkButton>
                     </div>
                 </td>
             </tr>
@@ -251,7 +255,7 @@
                             <table style="margin-top:11px; width:316px;">
                                 <tr>
                                     <td style="text-align:right;width: 320px;">
-                                        <asp:Button ID="deleteAssignedBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
+                                        <asp:Button ID="deleteAssignedBtn" CssClass="btn btn-danger" style="padding:1px 10px 0px 10px;" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
                                         <asp:Button ID="jobAccessBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" />
                                     </td>                 
                                 </tr>                  
@@ -268,7 +272,7 @@
                                     <th style="color:#737373;font-family:Arial;font-size:15px">&nbsp;Create Index Data Controls for Jobs</th>
                                     <td style="text-align:right;padding-right:5px;">
                                         <asp:linkButton ID="LinkButton4" runat="server" ForeColor="#737373" 
-                                            OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  Regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\\S.*    Alert: Field can not be empty!\n*  Unspecified regex means textbox can be left blank when creating index.\n*  You can make use of \'regexr.com\' to test your regular expressions.')">
+                                            OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  Regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\\S.*    Alert: Field can not be empty!\n*  Unspecified regex means textbox can be left blank when creating index.\n*  One can make use of \'regexr.com\' to test regular expressions.')">
                                             <i class="fa fa-info-circle" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
                                         </asp:linkButton></td>
                                 </tr>
@@ -369,7 +373,7 @@
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width:75px;padding-top:3px;"><asp:Label ID="regex" Text="REGEX:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" style="margin-top:2px;" placeholder="Optional.     Remove delimiters //" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" style="margin-top:2px;" placeholder="Optional. Remove delimiters //" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width:75px;padding-top:3px;"><asp:Label ID="alert" Text="ALERT:" runat="server"></asp:Label></td>

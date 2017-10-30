@@ -2,6 +2,7 @@
 using System.Web.UI;
 using System.Data.SqlClient;
 using BarcodeConversion.App_Code;
+using System.Web.UI.WebControls;
 
 namespace BarcodeConversion
 {
@@ -21,7 +22,7 @@ namespace BarcodeConversion
                         using (SqlCommand cmd = con.CreateCommand())
                         {
                             // If user exists, get Admin status
-                            cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE NAME = @user";
+                            cmd.CommandText = "SELECT ADMIN FROM OPERATOR WHERE NAME=@user";
                             cmd.Parameters.AddWithValue("@user", user);
                             con.Open();
                             object result = cmd.ExecuteScalar();
@@ -67,8 +68,9 @@ namespace BarcodeConversion
             }
             if (isAdmin) settings.Visible = true;
 
-            // Hide Footer before printing
+
             Control c = Helper.GetPostBackControl(this.Page);
+            // Show/Hile footer before printing
             if (c != null)
             {
                 if (c.ID == "printIndexesBtn" || c.ID == "saveAndPrint" || c.ID == "printBarcodeBtn")

@@ -1,70 +1,309 @@
 ﻿
-*************** 10/26/2017 5:37:55 PM ***************
+*************** 10/29/2017 8:16:01 PM ***************
 
-Summary: From c-wkalonji at    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously): Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Operator: Glory
 
 
-Inner Exception Message: Object reference not set to an instance of an object.
-Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-Inner Source: BarcodeConversion
-Function: Void backToForm_Click(System.Object, System.EventArgs)
-Inner Exception Type: System.NullReferenceException
-Inner Stack Trace: 
-   at BarcodeConversion._Default.backToForm_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Bootstrap_BarcodeIndexing\BarcodeConversion\Default.aspx.cs:line 1277
-   at System.Web.UI.WebControls.Button.OnClick(EventArgs e)
-   at System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
-   at System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
-   at System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
-   at System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
-   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
-Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
-Source: System.Web
-Function: Boolean HandleError(System.Exception)
-Exception Type: System.Web.HttpUnhandledException
+Exception Message: Incorrect syntax near '*'.
+Location: Settings.aspx.cs:line 459
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
 Stack Trace: 
-   at System.Web.UI.Page.HandleError(Exception e)
-   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-   at System.Web.UI.Page.ProcessRequest()
-   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
-   at System.Web.UI.Page.ProcessRequest(HttpContext context)
-   at ASP.default_aspx.ProcessRequest(HttpContext context)
-   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
-   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 459
 
 
-*************** 10/26/2017 5:39:53 PM ***************
+*************** 10/29/2017 8:17:32 PM ***************
 
-Summary: From c-wkalonji at    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously): Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Operator: Glory
 
 
-Inner Exception Message: Object reference not set to an instance of an object.
-Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-Inner Source: BarcodeConversion
-Function: Void backToForm_Click(System.Object, System.EventArgs)
-Inner Exception Type: System.NullReferenceException
-Inner Stack Trace: 
-   at BarcodeConversion._Default.backToForm_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Bootstrap_BarcodeIndexing\BarcodeConversion\Default.aspx.cs:line 1277
-   at System.Web.UI.WebControls.Button.OnClick(EventArgs e)
-   at System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
-   at System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
-   at System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
-   at System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
-   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
-Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
-Source: System.Web
-Function: Boolean HandleError(System.Exception)
-Exception Type: System.Web.HttpUnhandledException
+Exception Message: Incorrect syntax near '*'.
+Location: Settings.aspx.cs:line 459
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
 Stack Trace: 
-   at System.Web.UI.Page.HandleError(Exception e)
-   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
-   at System.Web.UI.Page.ProcessRequest()
-   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
-   at System.Web.UI.Page.ProcessRequest(HttpContext context)
-   at ASP.default_aspx.ProcessRequest(HttpContext context)
-   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
-   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 459
+
+
+*************** 10/29/2017 8:18:39 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Incorrect syntax near '*'.
+Location: Settings.aspx.cs:line 459
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 459
+
+
+*************** 10/29/2017 9:07:58 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 10/29/2017 9:14:09 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 10/29/2017 9:17:06 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 467
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 467
+
+
+*************** 10/29/2017 9:22:47 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 467
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 467
+
+
+*************** 10/29/2017 9:23:57 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 467
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 467
+
+
+*************** 10/29/2017 9:46:48 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 10/29/2017 9:47:16 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 471
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 471
+
+
+*************** 10/29/2017 9:49:33 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 471
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 471
+
+
+*************** 10/29/2017 9:55:36 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 471
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.setPermissions_Click(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 471
+
+
+*************** 10/29/2017 9:58:46 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 10/29/2017 10:00:51 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 10/29/2017 10:03:38 PM ***************
+
+Operator: Glory
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\Glory\Source\Repos\PaperFree-BarcodeConversion4\BarcodeConversion\Settings.aspx.cs:line 34
 

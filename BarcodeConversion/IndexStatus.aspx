@@ -41,56 +41,54 @@
 			</table>
 		</div>  
 		<div style="display:inline-block;"> 
-            <asp:Panel CssClass="card" style="background-color:#e6f3ff;margin-top:20px;" runat="server">
-                <table class = "table" style="width:99%;">
-				    <tr >
-					    <td><asp:Label ID="filterLabel" Width="55" runat="server"><h5>Filter :</h5></asp:Label></td>
-					    <td style="padding-top:14px;"> 
-						    <asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" runat="server">
-							    <asp:ListItem Value="allJobs">Your Jobs</asp:ListItem>
-						    </asp:DropDownList>
-					    </td>
-					    <td style="padding-top:14px;"> 
-						    <asp:DropDownList ID="whoFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
-							    <asp:ListItem Value="meOnly">Your Indexes Only</asp:ListItem>
-							    <asp:ListItem Value="everyone">Indexes for all Operators</asp:ListItem>
-						    </asp:DropDownList>
-					    </td>
-					    <td style="padding-top:14px;"> 
-						    <asp:DropDownList ID="whenFilter" OnSelectedIndexChanged="onSelectWhen" runat="server" AutoPostBack="true">
-							    <asp:ListItem Value="allTime">For All Time</asp:ListItem>
-							    <asp:ListItem Value="pickRange">Pick Date/Time Range</asp:ListItem>
-						    </asp:DropDownList>
-					    </td>
-					    <td style="padding-top:14px;"> 
-						    <asp:DropDownList ID="whatFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
-							    <asp:ListItem Value="allSheets">All Sheets</asp:ListItem>
-							    <asp:ListItem Value="printed">Printed Only</asp:ListItem>
-							    <asp:ListItem Value="notPrinted">Not Printed</asp:ListItem>
-						    </asp:DropDownList>
-					    </td>
-					    <td style="text-align:right;"> 
-						    <div style="display:block;padding:10px 5px 1px 4px;" >
-							    <asp:linkButton runat="server" ForeColor="#737373" OnClick="reset_Click" >
-								    <i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
-							    </asp:linkButton>
-						    </div>
-					    </td>
-				    </tr>
-			    </table> 
-            </asp:Panel>          
+			<asp:Panel CssClass="card" style="background-color:#e6f3ff;margin-top:20px;" runat="server">
+				<table class = "table" style="width:99%;">
+					<tr >
+						<td><asp:Label ID="filterLabel" Width="55" runat="server"><h5>Filter :</h5></asp:Label></td>
+						<td style="padding-top:14px;"> 
+							<asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" runat="server">
+								<asp:ListItem Value="allJobs">Your Jobs</asp:ListItem>
+							</asp:DropDownList>
+						</td>
+						<td style="padding-top:14px;"> 
+							<asp:DropDownList ID="whoFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
+								<asp:ListItem Value="meOnly">Your Indexes Only</asp:ListItem>
+								<asp:ListItem Value="everyone">Indexes for all Operators</asp:ListItem>
+							</asp:DropDownList>
+						</td>
+						<td style="padding-top:14px;"> 
+							<asp:DropDownList ID="whenFilter" OnSelectedIndexChanged="onSelectWhen" runat="server" AutoPostBack="true">
+								<asp:ListItem Value="allTime">For All Time</asp:ListItem>
+								<asp:ListItem Value="pickRange">Pick Date Range</asp:ListItem>
+							</asp:DropDownList>
+						</td>
+						<td style="padding-top:14px;"> 
+							<asp:DropDownList ID="whatFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
+								<asp:ListItem Value="allSheets">All Sheets</asp:ListItem>
+								<asp:ListItem Value="printed">Printed Only</asp:ListItem>
+								<asp:ListItem Value="notPrinted">Not Printed</asp:ListItem>
+							</asp:DropDownList>
+						</td>
+						<td style="text-align:right;"> 
+							<div style="display:block;padding:10px 5px 1px 4px;" >
+								<asp:linkButton runat="server" ForeColor="#737373" OnClick="reset_Click" >
+									<i class="fa fa-refresh" Visible="true" Width="26" Height="26" BackColor="#e6f3ff" runat="server" ></i>
+								</asp:linkButton>
+							</div>
+						</td>
+					</tr>
+				</table> 
+			</asp:Panel>          
 			
 			<asp:Panel ID="timePanel" Visible="false" runat="server">
 				<table class = "table" style="width:auto;margin-top:15px;margin-left:17px;">
 					<tr>
 						<td><asp:label runat="server">From:&nbsp;&nbsp;</asp:label>
-							<asp:TextBox ID="from" style="display:inline;" runat="server" ></asp:TextBox>
-						</td>
-                        <td><img src="Content/calender.png" /> </td>
+							<asp:TextBox ID="from" style="display:inline;" ReadOnly="True" runat="server"></asp:TextBox>
+						    <asp:Image ImageUrl="Content/calender.png" Visible="true" runat="server"/></td>
 						<td style="padding-left:25px;"><asp:label runat="server">To:&nbsp;&nbsp;</asp:label>
-							<asp:TextBox ID="to" style="display:inline;" runat="server" ></asp:TextBox>
-						</td>
-                        <td><img src="Content/calender.png" /></td>
+							<asp:TextBox ID="to" style="display:inline;" ReadOnly="True" runat="server"></asp:TextBox>
+						    <asp:Image ImageUrl="Content/calender.png" Visible="true" runat="server"/></td>
 						<td>
 							<asp:Button ID="dates" CssClass="btn btn-primary" style="padding:1px 10px 1px 10px;margin:1px 0px 0px 25px;" Font-Size="9" Text="Submit" runat="server" onclick="submit_Click" />
 						</td>
@@ -98,7 +96,7 @@
 				</table>
 			</asp:Panel>
 
-            <h5 style="color:#4d4dff;margin-top:30px;margin-left:20px;"><asp:Label ID="description" Visible="false" runat="server"></asp:Label></h5>
+			<h5 style="color:#4d4dff;margin-top:30px;margin-left:20px;"><asp:Label ID="description" Visible="false" runat="server"></asp:Label></h5>
 
 			<asp:Panel ID="gridContainer" CssClass="card" style="display:inline-block; width:99.9%" runat="server">
 				<table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;" runat="server">

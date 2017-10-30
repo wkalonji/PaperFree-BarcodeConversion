@@ -46,7 +46,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button newJobBtn;
+        protected global::System.Web.UI.WebControls.LinkButton newJobBtn;
         
         /// <summary>
         /// newUserBtn control.
@@ -55,7 +55,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button newUserBtn;
+        protected global::System.Web.UI.WebControls.LinkButton newUserBtn;
         
         /// <summary>
         /// jobSection control.
@@ -229,13 +229,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.DropDownList permissions;
         
         /// <summary>
-        /// createBtn2 control.
+        /// submitOp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button createBtn2;
+        protected global::System.Web.UI.WebControls.Button submitOp;
         
         /// <summary>
         /// line control.
@@ -253,7 +253,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button assignBtn;
+        protected global::System.Web.UI.WebControls.LinkButton assignBtn;
         
         /// <summary>
         /// jobIndexEditingBtn control.
@@ -262,7 +262,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button jobIndexEditingBtn;
+        protected global::System.Web.UI.WebControls.LinkButton jobIndexEditingBtn;
         
         /// <summary>
         /// assignPanel control.

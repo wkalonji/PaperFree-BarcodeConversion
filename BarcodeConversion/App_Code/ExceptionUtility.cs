@@ -26,7 +26,7 @@ namespace BarcodeConversion.App_Code
                 // Open the log file for append and write the log
                 StreamWriter sw = new StreamWriter(logFile, true);
                 sw.WriteLine("\n*************** {0} ***************", DateTime.Now);
-                sw.WriteLine("\nSummary: From " + user + " at " +location + ": " + exc.Message + "\n\n");
+                sw.WriteLine("\nOperator: " + user);
 
                 if (exc.InnerException != null)
                 {
@@ -45,7 +45,7 @@ namespace BarcodeConversion.App_Code
                         sw.WriteLine(exc.InnerException.StackTrace);
                     }
                 }
-                
+                sw.WriteLine("\n"); 
                 sw.WriteLine("Exception Message: " + exc.Message);
                 sw.WriteLine("Location: " + location);
                 sw.WriteLine("Source: " + exc.Source);

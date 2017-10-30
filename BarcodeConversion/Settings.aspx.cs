@@ -154,9 +154,9 @@ namespace BarcodeConversion
             try
             {
                 if (!Page.IsValid) return;
-                if (this.jobAbb.Text == string.Empty)
+                if (this.jobAbb.Text == string.Empty || jobAbb.Text.Length > 6)
                 {
-                    string msg = "Job abbreviation is required!";
+                    string msg = "Job abbreviation is required (6 characters max)";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     jobAbb.Text = string.Empty;
                     jobAbb.Focus();
@@ -424,28 +424,53 @@ namespace BarcodeConversion
 
     
 
-        // SET OPERATOR ADMIN PERMISSIONS. FUNCTION
+        // 'SUBMIT' CLICKED: SET OPERATOR ADMIN PERMISSIONS. FUNCTION
         protected void setPermissions_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid) return;
             try
             {
-                if (user.Text != null)
+                if (user.Text != string.Empty)
                 {
                     string msg;
+                    // If user exists, get ID
+                    int opId = Helper.getUserId(user.Text);
+
                     // If user exists, set Admin status
                     using (SqlConnection con = Helper.ConnectionObj)
                     {
                         using (SqlCommand cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "UPDATE OPERATOR SET ADMIN = @admin WHERE NAME = @user";
+                            cmd.CommandText = "UPDATE OPERATOR SET ADMIN=@admin WHERE NAME=@user";
                             cmd.Parameters.AddWithValue("@admin", this.permissions.SelectedValue);
                             cmd.Parameters.AddWithValue("@user", this.user.Text);
                             con.Open();
                             if (cmd.ExecuteNonQuery() == 1)
                             {
-                                msg = "Operator permissions set!";
+                                msg = "Permissions set!";
                                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                getOperators(); // Get operators
+
+                                // If operator becomes Admin, remove assigned jobs in OPERATOR_ACCESS
+                                if (permissions.SelectedValue == "1")
+                                {
+                                    //cmd.Parameters.Clear();
+                                    //cmd.CommandText = "DELETE FROM OPERATOR_ACCESS WHERE OPERATOR_ID=@opID";
+                                    //cmd.Parameters.AddWithValue("@opID", opId);
+                                    //cmd.ExecuteNonQuery();
+                                }
+                                // If admin becomes Operator
+                                else
+                                {   
+                                    // If self demotion, hide Settings & redirect to Home page.
+                                    string op = Environment.UserName;
+                                    if (op == user.Text)
+                                    {
+                                        LinkButton l = this.Master.FindControl("settings") as LinkButton;
+                                        l.Visible = false;
+                                        Response.Redirect("~/");
+                                    }
+                                }
                                 permissionsFormClear();
                                 return;
                             }
@@ -454,7 +479,7 @@ namespace BarcodeConversion
                             cmd.CommandText = "INSERT INTO OPERATOR (NAME, ADMIN) VALUES(@user,@admin)";
                             if (cmd.ExecuteNonQuery() == 1)
                             {
-                                msg = "Operator permissions set!";
+                                msg = "New Operator added!";
                                 ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                 permissionsFormClear();
                             }
@@ -467,6 +492,7 @@ namespace BarcodeConversion
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "')", true);
                     permissionsFormClear();
                 }
+                getOperators(); // Get operators
             }
             catch (Exception ex)
             {   
@@ -552,6 +578,7 @@ namespace BarcodeConversion
                 {
                     jobSection.Visible = true;
                     line.Visible = true;
+                    jobFormClear();
                     jobSectionDefault();
                 }
                 else
@@ -1462,7 +1489,7 @@ namespace BarcodeConversion
                         if (last == "1") placeholder = " Required";
                         else placeholder = " Optional";
                         labelTextBox.Attributes["placeholder"] = placeholder;
-                        regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters //";
+                        regexTextBox.Attributes["placeholder"] = " Optional. Remove delimiters //";
                         msgTextBox.Attributes["placeholder"] = " Message of what a valid entry should be.";
                     }
                 }
@@ -2489,7 +2516,7 @@ namespace BarcodeConversion
                                         if (reader.GetValue(1).ToString() != string.Empty)
                                             regexTextBox.Text = " " + reader.GetValue(1).ToString();
                                         else
-                                            regexTextBox.Attributes["placeholder"] = " Optional.     Remove delimiters //";
+                                            regexTextBox.Attributes["placeholder"] = " Optional. Remove delimiters //";
                                         if (reader.GetValue(2).ToString() != string.Empty)
                                             msgTextBox.Text = " " + reader.GetValue(2).ToString();
                                         else

@@ -82,8 +82,8 @@
                     <ul class="nav navbar-nav">
                         <li><a id="homeBtn" runat="server" href="~/"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
                         <li><a id="printIndexesBtn" runat="server" href="~/Indexes"><i class="fa fa-print" style="font-size:12px;" aria-hidden="true"></i>  Print Indexes</a></li>
-                        <li><a id="indexStatusBtn" runat="server" href="~/IndexStatus"><i class="fa fa-bars" aria-hidden="true"></i>  Index Status</a></li>
-                        <li style="margin-left:400px;"><a id="settings" Visible="false" runat="server" href="~/Settings"><i class="fa fa-cog"></i> Settings</a></li>
+                        <li><a id="indexStatusBtn" runat="server" href="~/IndexStatus"><i class="fa fa-bars" style="font-size:11px;" aria-hidden="true"></i>  Index Status</a></li>
+                        <li style="margin-left:400px;"><asp:linkButton id="settings" Visible="false" runat="server" PostBackUrl="~/Settings"><i class="fa fa-cog"></i> Settings</asp:linkButton></li>
                     </ul>
                 </div>
             </div>

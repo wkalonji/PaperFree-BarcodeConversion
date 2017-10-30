@@ -184,7 +184,7 @@ namespace BarcodeConversion
                                 }
                                 else
                                 {
-                                    string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured by your system admin."
+                                    string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured."
                                                 + " Only jobs in red can be processed.";
                                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                                     selectJob.SelectedValue = "Select";
@@ -224,12 +224,9 @@ namespace BarcodeConversion
                 String extension = Path.GetExtension(File1.PostedFile.FileName);
                 if (extension.ToLower() != ".csv")
                 {
-                    var error = new TableCell();
-                    var errorRow = new TableRow();
-                    error.Text = "Only csv files are allowed!";
-                    error.Attributes["style"] = "color:#ff3333;";
-                    errorRow.Cells.Add(error);
-                    fileEntryMsg.Rows.Add(errorRow);
+                    string msg = "Only csv files are allowed!";
+                    string color = "#ff3333;";
+                    onScreenMsg(msg, color, "file");
                     return;
                 }
 
@@ -272,12 +269,9 @@ namespace BarcodeConversion
                             // If less row items than the min required
                             if (line.Count < regexCount)
                             {
-                                var errorMsg = new TableCell();
-                                var errorMsgRow = new TableRow();
-                                errorMsg.Text = "This job requires that every row in your csv file contains no less than " + regexCount + " items. That is not the case for row " + lineNumber + ".";
-                                errorMsg.Attributes["style"] = "color:#ff3333;";
-                                errorMsgRow.Cells.Add(errorMsg);
-                                fileEntryMsg.Rows.Add(errorMsgRow);
+                                string msg = "This job requires that every row in your csv file contains no less than " + regexCount + " items. That is not the case for row " + lineNumber + ".";
+                                string color = "#ff3333;";
+                                onScreenMsg(msg, color, "file");
 
                                 // Clear list of file contents if errors found
                                 fileContent.Clear();
@@ -287,19 +281,13 @@ namespace BarcodeConversion
                             // If more row items than the max required
                             if (line.Count > labelsCount)
                             {
-                                var errorMsg = new TableCell();
-                                var errorMsgRow = new TableRow();
-                                errorMsg.Text = "This job requires that every row in your csv file contains no more than " + labelsCount + " items.";
-                                errorMsg.Attributes["style"] = "color:#ff3333;";
-                                errorMsgRow.Cells.Add(errorMsg);
-                                fileEntryMsg.Rows.Add(errorMsgRow);
-
-                                var error = new TableCell();
-                                var errorRow = new TableRow();
-                                error.Text = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + labelsCount + ".";
-                                error.Attributes["style"] = "color:#ff3333;";
-                                errorRow.Cells.Add(error);
-                                fileEntryMsg.Rows.Add(errorRow);
+                                string msg = "This job requires that every row in your csv file contains no more than " + labelsCount + " items.";
+                                string color = "#ff3333;";
+                                onScreenMsg(msg, color, "file");
+                                
+                                msg = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + labelsCount + ".";
+                                color = "#ff3333;";
+                                onScreenMsg(msg, color, "file");
                                 isFileValid = false;
 
                                 // Clear list of file contents if errors found
@@ -347,17 +335,15 @@ namespace BarcodeConversion
                                                     if (found == false) // if line entry not among tableid values
                                                     {
                                                         uploadSuccess.Visible = false;
-                                                        var error = new TableCell();
-                                                        var errorRow = new TableRow();
+                                                        string msg;
                                                         if (line[i] != string.Empty)
-                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") =  '" + line[i] + 
+                                                            msg = "Value at (Row,Col):(" + lineNumber + ", " + i + ") =  '" + line[i] + 
                                                             "'  is invalid. Valid entry must be one of following: " + validEntries.Remove(validEntries.Length - 2, 2) + ", or blank."; 
                                                         else
-                                                            error.Text = "Value at (Row, Col) : (" + lineNumber + ", " + i + ") does not exist. Valid entry must be one of following: " 
+                                                            msg = "Value at (Row,Col):(" + lineNumber + ", " + i + ") does not exist. Valid entry must be one of following: " 
                                                             + validEntries.Remove(validEntries.Length - 2, 2) + ", or blank.";
-                                                        error.Attributes["style"] = "color:#ff3333;";
-                                                        errorRow.Cells.Add(error);
-                                                        fileEntryMsg.Rows.Add(errorRow);
+                                                        string color = "#ff3333;";
+                                                        onScreenMsg(msg, color, "file");
                                                         return;
                                                     }
                                                 }
@@ -378,13 +364,10 @@ namespace BarcodeConversion
                                     
                                     if ((i - 1) > fields.Length)
                                     {
-                                        string msg = label + ": " + regexList[i - 1].Item3;
-                                        var error = new TableCell();
-                                        error.Text = "Line " + lineNumber + "is missing required item " + i;
-                                        error.Attributes["style"] = "color:#ff3333;";
-                                        var errorRow = new TableRow();
-                                        errorRow.Cells.Add(error);
-                                        fileEntryMsg.Rows.Add(errorRow);
+                                        string msg1 = label + ": " + regexList[i - 1].Item3;
+                                        string msg = "Line " + lineNumber + "is missing required item " + i;
+                                        string color = "#ff3333;";
+                                        onScreenMsg(msg, color, "file");
                                         isFileValid = false;
 
                                         return;
@@ -392,13 +375,10 @@ namespace BarcodeConversion
 
                                     if (!r.IsMatch(fields[i - 1]))
                                     {
-                                        string msg = label + ": " + regexList[i - 1].Item3;
-                                        var error = new TableCell();
-                                        error.Text = "Value '"+ (fields[i - 1]) + "' for index data '" + label+ "' at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:    " + regexList[i - 1].Item3;
-                                        error.Attributes["style"] = "color:#ff3333;";
-                                        var errorRow = new TableRow();
-                                        errorRow.Cells.Add(error);
-                                        fileEntryMsg.Rows.Add(errorRow);
+                                        string msg1 = label + ": " + regexList[i - 1].Item3;
+                                        string msg = "Value '"+ (fields[i - 1]) + "' for index data '" + label+ "' at location (row, col) = (" + lineNumber + ", " + i + ") is not valid:    " + regexList[i - 1].Item3;
+                                        string color = "#ff3333;";
+                                        onScreenMsg(msg, color, "file");
                                         isFileValid = false;
                                     }
                                 }
@@ -410,12 +390,9 @@ namespace BarcodeConversion
                                     {
                                         if (i == 1 && fields[0] == string.Empty)
                                         {
-                                            var error = new TableCell();
-                                            error.Text = "1st item of row " + lineNumber + " can not be blank.";
-                                            error.Attributes["style"] = "color:#ff3333;";
-                                            var errorRow = new TableRow();
-                                            errorRow.Cells.Add(error);
-                                            fileEntryMsg.Rows.Add(errorRow);
+                                            string msg = "1st item of row " + lineNumber + " can not be blank.";
+                                            string color = "#ff3333;";
+                                            onScreenMsg(msg, color, "file");
                                             isFileValid = false;
                                         }
                                     }
@@ -449,9 +426,9 @@ namespace BarcodeConversion
                 }
                 catch (Exception ex)
                 {
-                    errorUpload.Text = "Error 4:  Could not upload file. Make sure it is a csv file and that it corresponds to the currently selected Job. ";
-                    errorUpload.Attributes["style"] = "color:#ff3333;display:block;margin-top:5px;";
-                    errorUpload.Visible = true;
+                    string msg = "Error 4: Could not upload file. Make sure it is a csv file and that it corresponds to the currently selected Job.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+
                     // Log the exception and notify system operators
                     ExceptionUtility.LogException(ex);
                     ExceptionUtility.NotifySystemOps(ex);
@@ -460,8 +437,9 @@ namespace BarcodeConversion
             }
             else
             {
-                uploadSuccess.Text = "Please select a csv file to upload.";
-                uploadSuccess.Visible = true;
+                string msg = "Please select a csv file to upload.";
+                string color = "#ff3333;display:block;";
+                onScreenMsg(msg, color, "file");
             }
         }
 
@@ -473,14 +451,14 @@ namespace BarcodeConversion
             try
             {
                 ViewState["manualEntries"] = null; // Clearing any cached manual entries
+                ViewState["manualPrintCancelled"] = null; 
 
                 // Get file name & Set save location
                 var fileName = uploadHidden.Text;
                 if (fileName == string.Empty)
                 {
-                    uploadSuccess.Text = "Error 4a:  Couldn't retrieve file name. Contact system admin. ";
-                    uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                    uploadSuccess.Visible = true;
+                    string msg = "Error 4a:  Could not retrieve file name. Contact system admin. ";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
                 string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
@@ -545,18 +523,17 @@ namespace BarcodeConversion
                         string barcodeIndex = generateBarcode();
                         if (barcodeIndex.Contains("Error"))
                         {
-                            uploadSuccess.Text = "Error 4c:  Error occurred while generating barcode! Contact system admin.";
-                            uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                            uploadSuccess.Visible = true;
+                            string msg = "Error 4c:  Error occurred while generating barcode! Contact system admin.";
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                             return;
                         }
                         // Save barcode and entries
                         string result = saveIndexAndEntries(barcodeIndex, lineEntries);
                         if (result.Contains("Error"))
                         {
-                            uploadSuccess.Text = "Error 4e:  Error occurred while saving. Only " + countSavedRecords + " records saved! Contact system admin.";
-                            uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                            uploadSuccess.Visible = true;
+                            string msg = "Only " + countSavedRecords + " records were saved! Contact system admin.";
+                            string color = "#ff3333;";
+                            onScreenMsg(msg, color, "file");
                             return;
                         }
                         // Stick barcode to the end of entries
@@ -569,12 +546,9 @@ namespace BarcodeConversion
                 if (countFileRecords == countSavedRecords)
                 {
                     uploadSuccess.Visible = false;
-                    var error = new TableCell();
-                    var errorRow = new TableRow();
-                    error.Text = countSavedRecords + " index strings successfully saved.";
-                    error.Attributes["style"] = "color:green;";
-                    errorRow.Cells.Add(error);
-                    fileEntryMsg.Rows.Add(errorRow);
+                    string msg = countSavedRecords + " index string(s) saved.";
+                    string color = "green;";
+                    onScreenMsg(msg, color, "file");
 
                     uploadedFileMenu.Visible = false;
                     viewContentBtn.Visible = false;
@@ -585,13 +559,13 @@ namespace BarcodeConversion
                     ViewState["fileContent"] = fileContent;
                     ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
-                ViewState["printCancelled"] = countSavedRecords;
+                ViewState["filePrintCancelled"] = countSavedRecords;
             }
             catch(Exception ex)
             {
-                uploadSuccess.Text = "Error 4d:  Couldn't process file. Contact system admin." + ex.Message;
-                uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                uploadSuccess.Visible = true;
+                string msg = "Error 4d:  Couldn't process file. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -667,9 +641,10 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                uploadSuccess.Text = "Error 4f:  Couldn't process file. Contact system admin." + ex.Message;
-                uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                uploadSuccess.Visible = true;
+                Button b = (Button)sender;
+                string msg = "Error 4f:  Couldn't process file. Contact system admin.";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -696,9 +671,8 @@ namespace BarcodeConversion
             var fileName = uploadHidden.Text;
             if (fileName == string.Empty)
             {
-                uploadSuccess.Text = "Error 4g:  Couldn't retrieve file name. Contact system admin. ";
-                uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                uploadSuccess.Visible = true;
+                string msg = "Error 4g:  Couldn't retrieve file name. Contact system admin. ";
+                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 return;
             }
             string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
@@ -881,9 +855,6 @@ namespace BarcodeConversion
             string result = saveIndexAndEntries(barcodeIndex, entries);
             if (result.Contains("Error"))
             {
-                uploadSuccess.Text = "Error 4cc:  Error occurred while saving. Contact system admin.";
-                uploadSuccess.Attributes["style"] = "color:#ff3333;";
-                uploadSuccess.Visible = true;
                 return;
             }
             for (int i = 1; i <= 5; i++)
@@ -900,7 +871,11 @@ namespace BarcodeConversion
             entries.Add(barcodeIndex);
             ViewState["manualEntries"] = entries;
 
-            if(result.Contains("pass")) ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+            if(result.Contains("pass"))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                ViewState["manualPrintCancelled"] = 1;
+            }
         }
 
 
@@ -915,7 +890,7 @@ namespace BarcodeConversion
                 int opID = Helper.getUserId(user);
                 if (opID == 0)
                 {
-                    string msg = "Error 05: Couldn't identify active user. Contact system admin.";
+                    string msg = "Error 05: Could not identify active user. Contact system admin.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     return msg;
                 }
@@ -924,7 +899,7 @@ namespace BarcodeConversion
                 int jobID = getJobId(this.selectJob.SelectedValue);
                 if (jobID == 0)
                 {
-                    string msg = "Error 06: Couldn't identify the selected job. Contact system admin.";
+                    string msg = "Error 06: Could not identify the selected job. Contact system admin.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     selectJob.SelectedValue = "Select";
                     return msg;
@@ -957,12 +932,9 @@ namespace BarcodeConversion
                             Control c = Helper.GetPostBackControl(this.Page);
                             if (c != null && c.ID == "saveIndex")
                             {
-                                var error = new TableCell();
-                                var errorRow = new TableRow();
-                                error.Text = "Index string successfully saved.";
-                                error.Attributes["style"] = "color:green;";
-                                errorRow.Cells.Add(error);
-                                manualEntryMsg.Rows.Add(errorRow);
+                                string msg = "Index string saved.";
+                                string color = "green;";
+                                onScreenMsg(msg, color, "manual");
                             }
                             clearFields();
                             return "pass";
@@ -1217,16 +1189,13 @@ namespace BarcodeConversion
                     string result = setIndexAsPrinted(manualEntries.Last());
                     if (result.Contains("Error"))
                     {
-                        string msg = result;
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        string msg1 = result;
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg1 + "');", true);
                         return;
                     }
-                    var error = new TableCell();
-                    var errorRow = new TableRow();
-                    error.Text = "Index string successfully saved and set as PRINTED.";
-                    error.Attributes["style"] = "color:green;";
-                    errorRow.Cells.Add(error);
-                    manualEntryMsg.Rows.Add(errorRow);
+                    string msg = "Index string saved and set as PRINTED.";
+                    string color = "green;";
+                    onScreenMsg(msg, color, "manual");
                     clearFields();
                     ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
                 }
@@ -1241,18 +1210,15 @@ namespace BarcodeConversion
                         string result = setIndexAsPrinted(entries.Last());
                         if (result.Contains("Error"))
                         {
-                            string msg = result;
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg1 = result;
+                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg1 + "');", true);
                             return;
                         }
                         else if (result == "pass") countPass++;
                     }
-                    var error = new TableCell();
-                    var errorRow = new TableRow();
-                    error.Text = countPass + " index strings successfully saved and set as PRINTED.";
-                    error.Attributes["style"] = "color:green;";
-                    errorRow.Cells.Add(error);
-                    fileEntryMsg.Rows.Add(errorRow);
+                    string msg = countPass + " index string(s) saved and set as PRINTED.";
+                    string color = "green;";
+                    onScreenMsg(msg, color, "file");
                     ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
             }
@@ -1277,17 +1243,22 @@ namespace BarcodeConversion
             TextBox c = this.Master.FindControl("MainContent").FindControl("label1Box") as TextBox;
             if (c.Visible) c.Focus();
 
-            if(ViewState["printCancelled"] != null)
+            if(ViewState["filePrintCancelled"] != null)
             {
-                int countPass = (int)ViewState["printCancelled"];
-                var error = new TableCell();
-                var errorRow = new TableRow();
+                int countPass = (int)ViewState["filePrintCancelled"];
 
-                error.Text = countPass + " index strings saved but not set as PRINTED.";
-                error.Attributes["style"] = "color:green;";
-                errorRow.Cells.Add(error);
-                fileEntryMsg.Rows.Add(errorRow);
+                string msg = countPass + " index string(s) saved.";
+                string color = "green;";
+                onScreenMsg(msg, color, "file");
                 ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
+            }
+
+            if (ViewState["manualPrintCancelled"] != null)
+            {
+                string msg = "Index string saved.";
+                string color = "green;";
+                onScreenMsg(msg, color, "manual");
+                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
             }
         }
 
@@ -1487,6 +1458,19 @@ namespace BarcodeConversion
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
             }
+        }
+
+
+        // PRINT VARIOUS MSG ON SCREEN INSTEAD OF A POPUP
+        private void onScreenMsg(string msg, string color, string from)
+        {
+            var screenMsg = new TableCell();
+            var screenMsgRow = new TableRow();
+            screenMsg.Text = msg;
+            screenMsg.Attributes["style"] = "color:" + color;
+            screenMsgRow.Cells.Add(screenMsg);
+            if (from == "file")fileEntryMsg.Rows.Add(screenMsgRow);
+            else manualEntryMsg.Rows.Add(screenMsgRow);
         }
     }
 }
