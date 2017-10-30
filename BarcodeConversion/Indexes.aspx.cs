@@ -427,16 +427,17 @@ namespace BarcodeConversion
                                         "</table>"
                                 );
                             }
-                            else
+                            else // Chrome
                             {
+                                // Write Index sheet page conten
                                 Response.Write(
-                                    "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                                    "<div style='font-size:38px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
                                     "<div>" +
                                         "<div style='margin-top:70px;text-align:center;'>" +
                                             "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='400px'> " +
                                         "</div>" +
                                         "<div style='font-size:15px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
-                                        "<div style='width:400px; margin-top:200px;float:right;margin-right:-130px;' class='rotate'>" +
+                                        "<div style='width:400px; margin-top:200px;float:right;margin-right:-100px;' class='rotate'>" +
                                             "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='100%' > " +
                                             "<div style='font-size:15px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                                         "</div>" +
@@ -448,8 +449,8 @@ namespace BarcodeConversion
                                     Response.Write(
                                         "<table style='margin-top:430px; margin-left:170px;padding-top:10px;display:block;'>" +
                                             "<tr>" +
-                                                "<td style='font-size:20px;'> INDEX STRING: </td>" +
-                                                "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                                "<td style='font-size:18px;'> INDEX STRING: </td>" +
+                                                "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                                             "</tr>"
                                     );
                                 }
@@ -458,8 +459,8 @@ namespace BarcodeConversion
                                     Response.Write(
                                        "<table style='margin-top:430px;margin-bottom:570px; margin-left:170px;padding-top:10px;display:block;'>" +
                                            "<tr>" +
-                                               "<td style='font-size:20px;'> INDEX STRING: </td>" +
-                                               "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                               "<td style='font-size:18px;'> INDEX STRING: </td>" +
+                                               "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                                            "</tr>"
                                     );
                                 }
@@ -472,16 +473,16 @@ namespace BarcodeConversion
                                         string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
                                         Response.Write(
                                             "<tr>" +
-                                                "<td style='font-size:20px;'>" + label.ToUpper() + ":" + "</td>" +
-                                                "<td style='font-size:20px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                                "<td style='font-size:18px;'>" + label.ToUpper() + ":" + "</td>" +
+                                                "<td style='font-size:18px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
                                             "</tr>"
                                         );
                                     }
                                 }
                                 Response.Write(
                                             "<tr>" +
-                                                "<td style='font-size:20px;'>DATE PRINTED: </td>" +
-                                                "<td style='font-size:20px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                                "<td style='font-size:18px;'>DATE PRINTED: </td>" +
+                                                "<td style='font-size:18px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                             "</tr>" +
                                         "</table>"
                                 );

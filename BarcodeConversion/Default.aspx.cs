@@ -239,6 +239,7 @@ namespace BarcodeConversion
                     if (File.Exists(SaveLocation)) File.Delete(SaveLocation);
                     File1.PostedFile.SaveAs(SaveLocation);
                     bool isFileValid = true;
+                    bool isFileBlank = true;
                     var fileContent = new List<List<string>>();
 
                     // Process file for error
@@ -248,10 +249,25 @@ namespace BarcodeConversion
                         parser.SetDelimiters(",");
                         while (!parser.EndOfData)
                         {
-                            //Process row
+                            isFileBlank = false;
+
+                            // Process row
                             var lineNumber = parser.LineNumber;
                             string[] fields = parser.ReadFields();
                             List<string> line = new List<string>(fields);
+
+                            // Check if row is made of blank entries
+                            bool noEntry = true;
+                            foreach (var item in line)
+                                if (item != string.Empty) noEntry = false;
+                            if (noEntry == true)
+                            {
+                                string msg = "Row " +lineNumber+ ": All row entries can not be blank. At least one index data must be present.";
+                                string color = "#ff3333;";
+                                onScreenMsg(msg, color, "file");
+                                return;
+                            }
+                            
                             fileContent.Add(line);
 
                             var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
@@ -401,6 +417,15 @@ namespace BarcodeConversion
                         }
                     }
 
+                    // Check if File is blank
+                    if (isFileBlank == true)
+                    {
+                        string msg = "File seems to be blank.";
+                        string color = "#ff3333;";
+                        onScreenMsg(msg, color, "file");
+                        return;
+                    }
+
                     // Process file for Barcode indexing if no error found
                     if (isFileValid)
                     {
@@ -500,7 +525,6 @@ namespace BarcodeConversion
                             lineEntries = newLineEntries;
                         }
 
-
                         // add blanks to make 5 items per row
                         if (lineEntries.Count < 5)
                         {
@@ -542,8 +566,9 @@ namespace BarcodeConversion
                         countSavedRecords++;
                     }
                 }
+
                 // Make sure all file records have been saved
-                if (countFileRecords == countSavedRecords)
+                if (countFileRecords >= countSavedRecords)
                 {
                     uploadSuccess.Visible = false;
                     string msg = countSavedRecords + " index string(s) saved.";
@@ -793,6 +818,7 @@ namespace BarcodeConversion
             // Get operator's entries & Check regex rules
             var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
             var entries = new List<string>();
+
             for (int i = 1; i <= 5; i++)
             {
                 TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
@@ -840,6 +866,24 @@ namespace BarcodeConversion
                 }
                 else
                     entries.Add(string.Empty);
+            }
+
+            // Check if anything was entered at all
+            bool noEntry = true;
+            for (int i = 1; i <= 5; i++)
+            {
+                TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+
+                if ((c != null && c.Visible == true && c.Text != string.Empty) || (d != null && d.Visible == true && d.SelectedValue != string.Empty))
+                    noEntry = false;
+            }
+            if (noEntry == true)
+            {
+                string msg = "All entries can not be blank. At least one index data must be entered.";
+                string color = "#ff3333;";
+                onScreenMsg(msg, color, "manual");
+                return;
             }
 
             // Get barcode
@@ -1043,20 +1087,20 @@ namespace BarcodeConversion
                     );
                     return "pass";
                 }
-                else
+                else // Chrome
                 {
                     // Write Index sheet page content
                     Response.Write(
-                        "<div style='font-size:50px; font-family:Arial; font-weight:bold; text-align:center;padding-top:80px;'>" + jobName + " - Index Header" + "</div>" +
+                        "<div style='font-size:38px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
                         "<div style='position:relative;'>" +
-                            "<div style='margin-top:100px;text-align:center;'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='60px' width='600px' style='margin-top:0px; '> " +
+                            "<div style='margin-top:70px;text-align:center;'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='400px'> " +
                             "</div>" +
-                            "<div style='font-size:22px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                            "<div style='font-size:15px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
 
-                            "<div style='width:600px; margin-top:310px;float:right;margin-right:-150px;' class='rotate'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='60px' width='100%' > " +
-                                "<div style='font-size:22px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                            "<div style='width:400px; margin-top:200px;float:right;margin-right:-100px;' class='rotate'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='100%' > " +
+                                "<div style='font-size:15px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                             "</div>" +
                         "</div>"
                     );
@@ -1065,20 +1109,20 @@ namespace BarcodeConversion
                     if (currentCount == totalCount)
                     {
                         Response.Write(
-                            "<table style='margin-top:670px; margin-left:255px;padding-top:10px;'>" +
+                            "<table style='margin-top:430px; margin-left:170px;padding-top:10px;display:block;'>" +
                                 "<tr>" +
-                                    "<td style='font-size:27px;'> INDEX STRING: </td>" +
-                                    "<td style='font-size:27px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                    "<td style='font-size:18px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                                 "</tr>"
                         );
                     }
                     else
                     {
                         Response.Write(
-                           "<table style='margin-top:670px; margin-bottom:570px; margin-left:255px;padding-top:10px;'>" +
+                           "<table style='margin-top:430px; margin-bottom:570px; margin-left:170px;padding-top:10px;display:block;'>" +
                                "<tr>" +
-                                   "<td style='font-size:27px;'> INDEX STRING: </td>" +
-                                   "<td style='font-size:27px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                   "<td style='font-size:18px;'> INDEX STRING: </td>" +
+                                   "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
                                "</tr>"
                         );
                     }
@@ -1092,16 +1136,16 @@ namespace BarcodeConversion
                             string label = regexList[i].Item1;
                             Response.Write(
                                 "<tr>" +
-                                    "<td style='font-size:27px;'>" + label.ToUpper() + ":" + "</td>" +
-                                    "<td style='font-size:27px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
+                                    "<td style='font-size:18px;'>" + label.ToUpper() + ":" + "</td>" +
+                                    "<td style='font-size:18px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
                                 "</tr>"
                             );
                         }
                     }
                     Response.Write(
                                 "<tr>" +
-                                    "<td style='font-size:27px;'>DATE PRINTED: </td>" +
-                                    "<td style='font-size:27px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                    "<td style='font-size:18px;'>DATE PRINTED: </td>" +
+                                    "<td style='font-size:18px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                 "</tr>" +
                             "</table>"
                     );
