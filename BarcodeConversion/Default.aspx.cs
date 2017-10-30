@@ -1162,6 +1162,7 @@ namespace BarcodeConversion
         }
 
 
+
         // SET INDEX AS PRINTED IN DB. 
         protected string setIndexAsPrinted(string index)
         {
