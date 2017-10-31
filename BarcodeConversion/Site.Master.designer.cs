@@ -49,6 +49,42 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.LinkButton settings;
         
         /// <summary>
+        /// satisfied control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel satisfied;
+        
+        /// <summary>
+        /// sortOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label sortOrder;
+        
+        /// <summary>
+        /// yesBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton yesBtn;
+        
+        /// <summary>
+        /// noBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton noBtn;
+        
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>

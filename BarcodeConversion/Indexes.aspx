@@ -2,13 +2,9 @@
 <%@ Page Title="Print Indexes" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Indexes.aspx.cs" Inherits="BarcodeConversion.About" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-	 <style type="text/css">
-		.print+.print{
-			page-break-before: always;
-		}
-	 </style>
 
 	 <script>
+
         function FadeOut() {
             $("table[id$='onScreenMsg']").delay(2000).fadeOut(2000);
          }
@@ -30,7 +26,7 @@
 		}
 
 		function function1() {
-			window.print();
+		    window.print();
 		}
 
 		function function2() {
@@ -54,7 +50,7 @@
 
 
 	<asp:Panel ID="unprintedIndexesPanel" runat="server">
-		 <div style="margin-top:45px; margin-bottom:5px; height:50px; border-bottom:solid 1px green;width:899px;">
+		<div style="margin-top:45px; margin-bottom:5px; height:50px; border-bottom:solid 1px green;width:899px;">
 			<table style="width:899px;">
 				<tr>
 					<td><h3 style="display:inline; padding-top:25px;color:#595959">Print Index Sheets</h3></td>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Web.UI;
 
 namespace BarcodeConversion.App_Code
@@ -106,5 +107,6 @@ namespace BarcodeConversion.App_Code
             }
             return control;
         }
+        
     }
 }

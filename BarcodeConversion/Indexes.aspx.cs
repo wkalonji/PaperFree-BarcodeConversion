@@ -512,10 +512,9 @@ namespace BarcodeConversion
            
 
             try
-            {   
+            {
                 // Print generated Index sheets wepages, clear & get unprinted indexes again.
                 Control c = (Control)sender;
-                //Task.Delay(2000).Wait();
                 if (c.ID == "reprintBtn") ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "reprint();", true);
                 else ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
             }
@@ -633,7 +632,7 @@ namespace BarcodeConversion
 
 
         // SET INDEX AS PRINTED IN DB. FUNCTION
-        protected void setIndexAsPrinted_Click(object sender, EventArgs e)
+        public void setIndexAsPrinted_Click(object sender, EventArgs e)
         {
             try
             {

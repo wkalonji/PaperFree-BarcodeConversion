@@ -9,7 +9,7 @@ namespace BarcodeConversion
     public partial class SiteMaster : MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {   
             // SHOW 'SETTINGS' BUTTON IF ADMIN. IF NEW, SAVE USER.
             bool isAdmin = false;
             try
@@ -58,7 +58,6 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {
-                string msg = "Issue occured while attempting to identify active user. Please contact your system admin. " + Environment.NewLine + ex.Message;
                 Response.Redirect("~/ErrorPage.aspx");
 
                 // Log the exception and notify system operators
@@ -80,6 +79,42 @@ namespace BarcodeConversion
             }
             else
                 footerSection.Visible = true;
+        }
+
+        // 'YES' OR 'NO' CLICKED.
+        protected void satisfied_Click(object sender, EventArgs e)
+        {   
+            try 
+            {
+                Control c = sender as LinkButton;
+                if (c != null)
+                {
+                    if (c.ID == "yesBtn")
+                    {
+                        Control b = this.Page.Master.FindControl("MainContent").FindControl("setAsPrinted");
+                        if (b != null) { }
+                        
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Response.Redirect("~/ErrorPage.aspx");
+
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+            }
+        }
+
+        protected override void OnShown(object sender, EventArgs e)
+        {
+            base.OnShown(e);
+            this.BtnClick(null, null);
         }
     }
 }

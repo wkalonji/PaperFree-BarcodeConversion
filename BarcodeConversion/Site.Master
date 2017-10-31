@@ -8,7 +8,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=9;IE=10;IE=11;IE=edge,chrome=1">
     <title><%: Page.Title %> - Barcode Indexing</title>
 
     <asp:PlaceHolder runat="server">
@@ -88,6 +88,21 @@
                 </div>
             </div>
         </div>
+        <asp:Panel ID="satisfied" runat="server" BackColor="AliceBlue" Height="120"> 
+            <asp:Panel style="margin:0px auto;padding:20px;width:600px;" runat="server">
+                <table style="font-size:12px;margin:10px 0 0 -100px;">
+					<tr >
+						<td style="text-align:left;">
+                            <h5 style="display:inline;"><asp:Label ID="sortOrder" style="padding-top:25px;" Text="Satisfied with the Index Sheet(s)?" runat="server"></asp:Label></h5>
+							<asp:LinkButton ID="yesBtn" CssClass="btn btn-primary" style="margin-left:10px;" runat="server" OnClick="satisfied_Click">Yes</asp:LinkButton>
+                            <asp:LinkButton ID="noBtn" CssClass="btn btn-danger" style="margin-left:10px;" runat="server" OnClick="satisfied_Click">No</asp:LinkButton>
+						</td>
+					</tr> 
+                    <tr><td style="text-align:left;"><h6><asp:Label runat="server">Click YES if you did print and are satisfied with the Index Sheets. <br /> 
+                    Click NO if you did not print or are not satisfied with the Index Sheets.</asp:Label></h6> </td></tr>                
+				</table>
+            </asp:Panel>
+        </asp:Panel>
         <div class="container body-content">
 
             <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
