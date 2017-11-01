@@ -1523,6 +1523,35 @@ namespace BarcodeConversion
             if (from == "file")fileEntryMsg.Rows.Add(screenMsgRow);
             else manualEntryMsg.Rows.Add(screenMsgRow);
         }
+
+        // 'YES' OR 'NO' CLICKED.
+        protected void satisfied_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control c = sender as LinkButton;
+                if (c != null)
+                {
+                    if (c.ID == "yesBtn")
+                    {
+                        setAsPrinted_Click(new object(), new EventArgs());
+                    }
+                    else
+                    {
+                        backToForm_Click(new object(), new EventArgs());
+                    }
+                    satisfied.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("~/ErrorPage.aspx");
+
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+            }
+        }
     }
 }
 
