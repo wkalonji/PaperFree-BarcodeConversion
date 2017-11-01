@@ -1,1 +1,240 @@
 ﻿
+*************** 11/1/2017 1:44:36 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:48:45 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:48:51 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 225
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 225
+
+
+*************** 11/1/2017 1:49:22 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:49:48 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:51:42 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:51:50 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:51:59 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:52:16 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:55:05 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:57:10 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:58:10 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 1:59:01 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 2:02:54 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 224
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 224
+
+
+*************** 11/1/2017 2:03:24 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: String was not recognized as a valid DateTime.
+Location: IndexStatus.aspx.cs:line 225
+Source: mscorlib
+Function: System.DateTime Parse(System.String, System.Globalization.DateTimeFormatInfo, System.Globalization.DateTimeStyles)
+Exception Type: System.FormatException
+Stack Trace: 
+   at System.DateTimeParse.Parse(String s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at System.DateTime.Parse(String s)
+   at BarcodeConversion.IndexStatus.submit_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\PaperFree-BarcodeConversion5\BarcodeConversion\IndexStatus.aspx.cs:line 225
+

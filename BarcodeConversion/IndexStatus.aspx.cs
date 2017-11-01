@@ -231,8 +231,21 @@ namespace BarcodeConversion
             }
             catch (Exception ex)
             {   
-                string msg  = "Error 42: Issue occured while attempting to process filter entries. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                if (ex.Message.Contains("String was not recognized as a valid DateTime"))
+                {
+                    ViewState["from"] = null;
+                    ViewState["to"] = null;
+                    string msg = "All Date fields required.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    from.Text = string.Empty;
+                    to.Text = string.Empty;
+                }
+                else
+                {
+                    string msg = "Error 42: Issue occured while attempting to process filter entries. Contact system admin.";
+                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                }
+                
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
