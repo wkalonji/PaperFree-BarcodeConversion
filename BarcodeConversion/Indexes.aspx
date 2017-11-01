@@ -21,7 +21,7 @@
 			$.when($.ajax(function1())).then(function () {
 				setTimeout(function () {
 					function2();
-				}, 2500);
+				}, 1500);
 			});
 		}
 
@@ -30,16 +30,9 @@
 		}
 
 		function function2() {
-			var answer = confirm("Are you satisfied?\n\n" +
-				"Click OK If you did print and are satisfied with the Index Sheets.\n" +
-				"Click CANCEL if you did not print or are not satisfied with the Index Sheets.");
-			if (answer == true) {
-				document.getElementById("pageToPrint").style.display = "none";
-				document.getElementById('<%=setAsPrinted.ClientID%>').click();                                    
-			} else {
-				document.getElementById("pageToPrint").style.display = "none";
-				document.getElementById('<%=getUnprinted.ClientID%>').click(); 
-			}
+            // Are you satisfied?
+		    document.getElementById("pageToPrint").style.display = "none";
+            document.getElementById('<%=goToQuestion.ClientID%>').click();
 		}
 
 		function function3() {
@@ -50,7 +43,23 @@
 
 
 	<asp:Panel ID="unprintedIndexesPanel" runat="server">
-		<div style="margin-top:45px; margin-bottom:5px; height:50px; border-bottom:solid 1px green;width:899px;">
+        <asp:Panel ID="satisfied" Visible="false" style="margin-top:150px;margin-bottom:200px;" runat="server" Height="120"> 
+			<asp:Panel style="margin:0px auto;padding:20px;width:600px;" runat="server">
+				<table style="font-size:12px;margin:10px 0 0 -100px;">
+					<tr >
+						<td style="text-align:left;">
+							<h5 style="display:inline;"><asp:Label ID="Label1" style="padding-top:25px;" Text="Satisfied with the Index Sheet(s)?" runat="server"></asp:Label></h5>
+							<asp:LinkButton ID="yesBtn" CssClass="btn btn-primary" style="margin-left:10px;" runat="server" OnClick="satisfied_Click">Yes</asp:LinkButton>
+							<asp:LinkButton ID="noBtn" CssClass="btn btn-danger" style="margin-left:10px;" runat="server" OnClick="satisfied_Click">No</asp:LinkButton>
+						</td>
+					</tr> 
+					<tr><td style="text-align:left;"><h6><asp:Label runat="server">Click YES if you did print and are satisfied with the Index Sheets. <br /> 
+					Click NO if you did not print or are not satisfied with the Index Sheets.</asp:Label></h6> </td></tr>                
+				</table>
+			</asp:Panel>
+		</asp:Panel>
+
+		<div id="pageTitle" style="margin-top:45px; margin-bottom:5px; height:50px; border-bottom:solid 1px green;width:899px;" runat="server">
 			<table style="width:899px;">
 				<tr>
 					<td><h3 style="display:inline; padding-top:25px;color:#595959">Print Index Sheets</h3></td>
@@ -58,7 +67,7 @@
 			</table>
 		</div>
 		<div style="height:25px;"><asp:Table ID="onScreenMsg" runat="server"></asp:Table></div>
-		<div style="display:inline-block;">
+		<div id="mainContent" style="display:inline-block;" runat="server">
 			<asp:Panel CssClass="card" style="background-color:#e6f3ff;height:70px;" runat="server">          
 				<table id="unprintedIndexTable" style="width:100%;min-width:650px;" runat="server">
 					<tr style="height:40px;padding-top:5px;">
@@ -130,12 +139,12 @@
 			<h5 style="color:#4d4dff;margin-top:25px;"><asp:Label ID="description" runat="server"></asp:Label></h5>
 			
 		</div>
-		 
 	</asp:Panel>
+
 	<div style="display:none; margin-top:15px;">
-		<asp:Button ID="setAsPrinted" runat="server" Text="ShowPanel" onclick="setAsPrinted_Click"/>
+		<asp:Button ID="goToQuestion" runat="server" Text="ShowPanel" onclick="goToQuestion_Click"/>
 	</div>
-	 <div style="display:none; margin-top:15px;">
+    <div style="display:none; margin-top:15px;">
 		<asp:Button ID="getUnprinted" runat="server" Text="ShowPanel" onclick="getUnprinted_Click"/>
 	</div>
   

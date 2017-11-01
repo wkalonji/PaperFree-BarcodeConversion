@@ -22,6 +22,51 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel unprintedIndexesPanel;
         
         /// <summary>
+        /// satisfied control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel satisfied;
+        
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+        
+        /// <summary>
+        /// yesBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton yesBtn;
+        
+        /// <summary>
+        /// noBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton noBtn;
+        
+        /// <summary>
+        /// pageTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl pageTitle;
+        
+        /// <summary>
         /// onScreenMsg control.
         /// </summary>
         /// <remarks>
@@ -29,6 +74,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Table onScreenMsg;
+        
+        /// <summary>
+        /// mainContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mainContent;
         
         /// <summary>
         /// unprintedIndexTable control.
@@ -157,13 +211,13 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Label description;
         
         /// <summary>
-        /// setAsPrinted control.
+        /// goToQuestion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button setAsPrinted;
+        protected global::System.Web.UI.WebControls.Button goToQuestion;
         
         /// <summary>
         /// getUnprinted control.

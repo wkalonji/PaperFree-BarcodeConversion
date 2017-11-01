@@ -1221,11 +1221,14 @@ namespace BarcodeConversion
 
 
         // SET INDEX AS PRINTED AFTER INDEX SHEET PRINTOUT 
-        protected void setAsPrinted_Click(object sender, EventArgs e)
+        protected void setAsPrinted()
         {
             try
             {
                 formPanel.Visible = true;
+                satisfied.Visible = false;
+                formPanelJobSelection.Visible = true;
+                indexCreationSection.Visible = true;
 
                 // For manual entries
                 if (ViewState["manualEntries"] != null)
@@ -1281,15 +1284,31 @@ namespace BarcodeConversion
         }
 
 
-
-        // BACK TO BLANK FORM
-        protected void backToForm_Click(object sender, EventArgs e)
+        // GO TO QUESTION
+        protected void goToQuestion_Click(object sender, EventArgs e)
         {
             formPanel.Visible = true;
+            satisfied.Visible = true;
+            formPanelJobSelection.Visible = false;
+            indexCreationSection.Visible = false;
+            Panel p = Master.FindControl("footerSection") as Panel;
+            p.Visible = true;
+        }
+
+
+
+        // BACK TO BLANK FORM
+        protected void backToForm()
+        {
+            formPanel.Visible = true;
+            satisfied.Visible = false;
+            formPanelJobSelection.Visible = true;
+            indexCreationSection.Visible = true;
+            
             ViewState["manualEntries"] = null;
             ViewState["fileContent"] = null;
-            TextBox c = this.Master.FindControl("MainContent").FindControl("label1Box") as TextBox;
-            if (c.Visible) c.Focus();
+            TextBox t = this.Master.FindControl("MainContent").FindControl("label1Box") as TextBox;
+            if (t.Visible) t.Focus();
 
             if(ViewState["filePrintCancelled"] != null)
             {
@@ -1533,13 +1552,9 @@ namespace BarcodeConversion
                 if (c != null)
                 {
                     if (c.ID == "yesBtn")
-                    {
-                        setAsPrinted_Click(new object(), new EventArgs());
-                    }
-                    else
-                    {
-                        backToForm_Click(new object(), new EventArgs());
-                    }
+                        setAsPrinted();
+                    else 
+                        backToForm();
                     satisfied.Visible = false;
                 }
             }

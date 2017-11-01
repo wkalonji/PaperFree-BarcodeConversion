@@ -22,18 +22,16 @@
 			window.print();
 		}
 		function function2() {
-            // Are you satisfied?
-            document.getElementById("formPanel").style.display = "block";
-            document.getElementById("satisfied").style.display = "block";
-            document.getElementById("formPanelJobSelection").style.display = "none";
-            document.getElementById("indexCreationSection").style.display = "none";
+		    // Are you satisfied?
+		    document.getElementById("pageToPrint").style.display = "none";
+            document.getElementById('<%=goToQuestion.ClientID%>').click();
 		}
 		
 	</script>
 
 
 	<asp:Panel ID="formPanel" runat="server">
-		<asp:Panel ID="satisfied" Visible="false" style="margin-top:250px;" runat="server" Height="120"> 
+		<asp:Panel ID="satisfied" Visible="false" style="margin-top:150px;margin-bottom:200px;" runat="server" Height="120"> 
 			<asp:Panel style="margin:0px auto;padding:20px;width:600px;" runat="server">
 				<table style="font-size:12px;margin:10px 0 0 -100px;">
 					<tr >
@@ -182,6 +180,7 @@
 		</asp:panel>
 
 		<div style="margin-top:40px;"></div>
+
 		<%--Link to Print Indexes page --%>  
 		<span style="font-size:medium;">View your unprinted indexes</span>   
 		<asp:HyperLink ID="HyperLink1" Font-Underline="false" runat="server" NavigateUrl="~/Indexes">
@@ -190,12 +189,9 @@
 		<input id="indexString" type="hidden"  runat="server"  value=""/>
 	</asp:Panel>
 
-	<%-- Helper hidden buttons to help set as PRINTED the just-printed index And help get back to blank form--%>
+	<%-- Question --%>
 	<div style="display:none;">
-		<asp:Button ID="setAsPrinted" runat="server" Text="ShowPanel" onclick="setAsPrinted_Click"/>
-	</div>
-	<div style="display:none;">
-		<asp:Button ID="backToForm" runat="server" Text="ShowPanel" onclick="backToForm_Click"/>
+		<asp:Button ID="goToQuestion" runat="server" onclick="goToQuestion_Click"/>
 	</div>
   
 </asp:Content>

@@ -22,7 +22,7 @@ namespace BarcodeConversion
             // Get unprinted indexes whenever page loads.
             if (!IsPostBack)
             {
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                getUnprintedIndexes();
             }
             Control c = Helper.GetPostBackControl(this.Page);
             if (c != null && (c.ID == "resetBtn" || c.ID == "recordsPerPage")) indexesGridView.PageIndex = 0;
@@ -37,7 +37,7 @@ namespace BarcodeConversion
                 indexesGridView.AllowPaging = true;
                 indexesGridView.PageSize = 10;
                 recordsPerPage.SelectedValue = "10";
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                getUnprintedIndexes();
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
                 printTitle.Text = "Unprinted Indexes";
                 printBarcodeBtn.Visible = true;
@@ -58,12 +58,18 @@ namespace BarcodeConversion
 
 
         // GET UNPRINTED INDEXES. HELPER
-        protected void getUnprintedIndexes_Click(object sender, EventArgs e)
+        public void getUnprintedIndexes()
         {
             try
             {
                 Page.Validate();
                 if (!Page.IsValid) return;
+
+                unprintedIndexesPanel.Visible = true;
+                satisfied.Visible = false;
+                pageTitle.Visible = true;
+                mainContent.Visible = true;
+
                 string user = Environment.UserName;
                 int opID = 0;
 
@@ -245,7 +251,7 @@ namespace BarcodeConversion
                 showMsg(jobDone, color);
                 ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
                 con.Close();
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                getUnprintedIndexes();
             }         
         }
 
@@ -632,7 +638,7 @@ namespace BarcodeConversion
 
 
         // SET INDEX AS PRINTED IN DB. FUNCTION
-        public void setIndexAsPrinted_Click(object sender, EventArgs e)
+        public void setIndexAsPrinted()
         {
             try
             {
@@ -707,7 +713,7 @@ namespace BarcodeConversion
                     indexesGridView.PageSize = Int32.Parse(recordsPerPage.SelectedValue);
                 }
                 else indexesGridView.AllowPaging = false;
-                if (showPrinted.Visible == true) getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Visible == true) getUnprintedIndexes();
                 else showPrinted_Click(new object(), new EventArgs());
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
@@ -724,12 +730,15 @@ namespace BarcodeConversion
 
 
         // SET PRINTED INDEXES AS PRINTED IN DB. HERLPER FUNCTION
-        protected void setAsPrinted_Click(object sender, EventArgs e)
+        public void setAsPrinted()
         {
             try
             {
                 unprintedIndexesPanel.Visible = true;
-                setIndexAsPrinted_Click(new object(), new EventArgs());
+                satisfied.Visible = false;
+                pageTitle.Visible = true;
+                mainContent.Visible = true;
+                setIndexAsPrinted();
                 Panel p = Master.FindControl("footerSection") as Panel;
                 p.Visible = true;
             }
@@ -755,7 +764,7 @@ namespace BarcodeConversion
                 goBackBtn.Visible = false;
                 indexesGridView.PageIndex = 0;
                 unprintedIndexesPanel.Visible = true;
-                getUnprintedIndexes_Click(new object(), new EventArgs());
+                getUnprintedIndexes();
                 Panel p = Master.FindControl("footerSection") as Panel;
                 p.Visible = true;
             }
@@ -777,7 +786,7 @@ namespace BarcodeConversion
             try
             {
                 indexesGridView.PageIndex = e.NewPageIndex;
-                if (showPrinted.Visible == true) getUnprintedIndexes_Click(new object(), new EventArgs());
+                if (showPrinted.Visible == true) getUnprintedIndexes();
                 else showPrinted_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
@@ -919,5 +928,43 @@ namespace BarcodeConversion
             screenMsgRow.Cells.Add(screenMsg);
             onScreenMsg.Rows.Add(screenMsgRow);
         }
+
+        // GO TO QUESTION
+        protected void goToQuestion_Click(object sender, EventArgs e)
+        {
+            unprintedIndexesPanel.Visible = true;
+            satisfied.Visible = true;
+            pageTitle.Visible = false;
+            mainContent.Visible = false;
+            Panel p = Master.FindControl("footerSection") as Panel;
+            p.Visible = true;
+        }
+
+
+        // 'YES' OR 'NO' CLICKED.
+        protected void satisfied_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Control c = sender as LinkButton;
+                if (c != null)
+                {
+                    if (c.ID == "yesBtn")
+                        setAsPrinted();
+                    else
+                        getUnprintedIndexes();
+                    satisfied.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Redirect("~/ErrorPage.aspx");
+
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+            }
+        }
+
     }
 }
