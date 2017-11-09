@@ -235,7 +235,7 @@ namespace BarcodeConversion
                 {
                     ViewState["from"] = null;
                     ViewState["to"] = null;
-                    string msg = "All Date fields required.";
+                    string msg = "All date fields required.";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                     from.Text = string.Empty;
                     to.Text = string.Empty;
@@ -570,7 +570,7 @@ namespace BarcodeConversion
                 string msg;   
                 if (ex.Message.Contains("valid DateTime"))
                 {
-                    msg = "Date fields required!";
+                    msg = "All date fields required!";
                     ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
                 else

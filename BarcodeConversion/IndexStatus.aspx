@@ -46,24 +46,24 @@
 					<tr >
 						<td><asp:Label ID="filterLabel" Width="55" runat="server"><h5>Filter :</h5></asp:Label></td>
 						<td style="padding-top:14px;"> 
-							<asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" runat="server">
+							<asp:DropDownList ID="jobsFilter" OnSelectedIndexChanged="onSelectedChange" onmousedown="this.focus()" runat="server">
 								<asp:ListItem Value="allJobs">Your Jobs</asp:ListItem>
 							</asp:DropDownList>
 						</td>
 						<td style="padding-top:14px;"> 
-							<asp:DropDownList ID="whoFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
+							<asp:DropDownList ID="whoFilter" OnSelectedIndexChanged="onSelectedChange" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="meOnly">Your Indexes Only</asp:ListItem>
 								<asp:ListItem Value="everyone">Indexes for all Operators</asp:ListItem>
 							</asp:DropDownList>
 						</td>
 						<td style="padding-top:14px;"> 
-							<asp:DropDownList ID="whenFilter" OnSelectedIndexChanged="onSelectWhen" runat="server" AutoPostBack="true">
+							<asp:DropDownList ID="whenFilter" OnSelectedIndexChanged="onSelectWhen" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="allTime">For All Time</asp:ListItem>
 								<asp:ListItem Value="pickRange">Pick Date Range</asp:ListItem>
 							</asp:DropDownList>
 						</td>
 						<td style="padding-top:14px;"> 
-							<asp:DropDownList ID="whatFilter" OnSelectedIndexChanged="onSelectedChange" runat="server" AutoPostBack="true">
+							<asp:DropDownList ID="whatFilter" OnSelectedIndexChanged="onSelectedChange" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="allSheets">All Sheets</asp:ListItem>
 								<asp:ListItem Value="printed">Printed Only</asp:ListItem>
 								<asp:ListItem Value="notPrinted">Not Printed</asp:ListItem>
@@ -90,7 +90,7 @@
 							<asp:TextBox ID="to" style="display:inline;" ReadOnly="True" runat="server"></asp:TextBox>
 						    <asp:Image ImageUrl="Content/calender.png" Visible="true" runat="server"/></td>
 						<td>
-							<asp:Button ID="dates" CssClass="btn btn-primary" style="padding:1px 10px 1px 10px;margin:1px 0px 0px 25px;" Font-Size="9" Text="Submit" runat="server" onclick="submit_Click" />
+							<asp:Button ID="dates" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;margin:1px 0px 0px 25px;" Font-Size="9" Text="Submit" runat="server" onclick="submit_Click" />
 						</td>
 					</tr>
 				</table>
@@ -104,7 +104,7 @@
 						<td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label><asp:Label id="sortDirection" Font-Size="8" runat="server"></asp:Label></td>
 						<td style="text-align:right;">
 							<asp:Label ID="recordsPerPageLabel" Text="Records per page " style="padding-right:5px;" runat="server"></asp:Label>
-							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">
+							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="10" Selected="true">10</asp:ListItem>
 								<asp:ListItem Value="15">15</asp:ListItem>
 								<asp:ListItem Value="20">20</asp:ListItem>

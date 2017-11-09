@@ -19,7 +19,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel formPanel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl formPanel;
         
         /// <summary>
         /// satisfied control.
@@ -64,7 +64,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel formPanelJobSelection;
+        protected global::System.Web.UI.UpdatePanel formPanelJobSelection;
         
         /// <summary>
         /// selectJobBtn control.
@@ -103,6 +103,24 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Panel noJobsFound;
         
         /// <summary>
+        /// indexCreationUpdatePanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel indexCreationUpdatePanel;
+        
+        /// <summary>
+        /// notConfigScreenMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table notConfigScreenMsg;
+        
+        /// <summary>
         /// indexCreationSection control.
         /// </summary>
         /// <remarks>
@@ -118,7 +136,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputFile File1;
+        protected global::System.Web.UI.WebControls.FileUpload File1;
         
         /// <summary>
         /// upload control.

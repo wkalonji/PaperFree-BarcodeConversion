@@ -100,7 +100,7 @@
 						</td>
 						<td style="text-align:right;">
 							<asp:Label ID="recordsPerPageLabel" Text="Records per page " style="padding-right:5px;" runat="server"></asp:Label>
-							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" runat="server" AutoPostBack="true">
+							<asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								<asp:ListItem Value="10" Selected="true">10</asp:ListItem>
 								<asp:ListItem Value="15">15</asp:ListItem>
 								<asp:ListItem Value="20">20</asp:ListItem>

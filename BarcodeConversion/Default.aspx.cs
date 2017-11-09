@@ -19,6 +19,7 @@ namespace BarcodeConversion
         public void Page_Init(object o, EventArgs e)
         {
             Page.MaintainScrollPositionOnPostBack = true;
+            
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -26,7 +27,7 @@ namespace BarcodeConversion
             if (!Page.IsPostBack)
             {
                 label1Box.Focus();
-
+                Page.Form.Attributes.Add("enctype", "multipart/form-data");
                 // 'JOB ABBREVIATION' DROPDOWN FILL: POPULATE DROPDOWN
                 selectJob_Click(new object(), new EventArgs());
             }
@@ -185,8 +186,13 @@ namespace BarcodeConversion
                                 else
                                 {
                                     string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured."
-                                                + " Only jobs in red can be processed.";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                                + " Only jobs listed in red can be processed.";
+                                    var screenMsg = new TableCell();
+                                    var screenMsgRow = new TableRow();
+                                    screenMsg.Text = msg;
+                                    screenMsg.Attributes["style"] = "color:#ff3333;";
+                                    screenMsgRow.Cells.Add(screenMsg);
+                                    notConfigScreenMsg.Rows.Add(screenMsgRow);
                                     selectJob.SelectedValue = "Select";
                                     return;
                                 }
@@ -582,7 +588,7 @@ namespace BarcodeConversion
                     GridView1.Visible = false;
 
                     ViewState["fileContent"] = fileContent;
-                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
+                    ScriptManager.RegisterStartupScript(indexCreationUpdatePanel, indexCreationUpdatePanel.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
                 ViewState["filePrintCancelled"] = countSavedRecords;
             }
@@ -611,14 +617,14 @@ namespace BarcodeConversion
                 // First, save index(es) if File Entries
                 var fileContent = new List<List<string>>();
                 var manualEntries = new List<string>();
-                if (b.ID == "printIndexesBtn")
+                if (b.ID == "printIndexesBtn") // File
                 {
-                    saveIndexes_Click(new object(), new EventArgs());
+                    //saveIndexes_Click(new object(), new EventArgs());
                     fileContent = (List<List<string>>)ViewState["fileContent"];
                     if (fileContent == null) return;
                 }
                 // Or save index(es) if Manual Entries
-                else if (b.ID == "saveAndPrint")
+                else if (b.ID == "saveAndPrint") // Manual 
                 {
                     saveIndex_Click(new object(), new EventArgs());
                     manualEntries = (List<string>)ViewState["manualEntries"];
@@ -626,26 +632,32 @@ namespace BarcodeConversion
                 }
 
                 // Clear page
-                formPanel.Visible = false;
+                //formPanel.Visible = false;
+                //Panel p = Master.FindControl("MainContent").FindControl("formPanel") as Panel;
+                //p.Visible = false;
+                //p.Attributes["style"] = "display:none;";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "hideform", "hideForm();", true);
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openWindow", "window.open('IndexPage.html','_newtab');", true);
+
 
                 // Start writing index sheet pages
-                Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
+                //Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
 
                 // Write index sheet pages if File Entries
                 if (b.ID == "printIndexesBtn")
                 {
                     int currentCount = 0;
-                    foreach (List<string> entries in fileContent)
-                    {
-                        currentCount++;
-                        string result = writeIndexPage(entries, currentCount, fileContent.Count);
-                        if (result.Contains("Error"))
-                        {
-                            string msg = result;
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            return;
-                        }
-                    }
+                    //foreach (List<string> entries in fileContent)
+                    //{
+                    //    currentCount++;
+                    //    string result = writeIndexPage(entries, currentCount, fileContent.Count);
+                    //    if (result.Contains("Error"))
+                    //    {
+                    //        string msg = result;
+                    //        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    //        return;
+                    //    }
+                    //}
                 }
                 // Or Write index sheet pages if Manual Entries
                 else if (b.ID == "saveAndPrint")
@@ -660,9 +672,10 @@ namespace BarcodeConversion
                 }
                
                 // Close div tag
-                Response.Write("</div>");
+                //Response.Write("</div>");
                 // Finally, Print Index sheet.
-                ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "printing();", true);
+                //ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
             }
             catch (Exception ex)
             {
@@ -979,6 +992,7 @@ namespace BarcodeConversion
                                 string msg = "Index string saved.";
                                 string color = "green;";
                                 onScreenMsg(msg, color, "manual");
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                             }
                             clearFields();
                             return "pass";
@@ -1338,7 +1352,7 @@ namespace BarcodeConversion
         protected void selectJob_Click(Object sender, EventArgs e)
         {
             try
-            {
+            {   
                 // First, get current user id via name.
                 string user = Environment.UserName;
                 List<int> jobIdList = new List<int>();

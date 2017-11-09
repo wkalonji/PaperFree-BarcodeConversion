@@ -65,7 +65,7 @@
                                 <tr>
                                     <td style="padding-bottom:15px;"><asp:Label Text="Choose Action: " runat="server"></asp:Label></td>
                                     <td style="padding-bottom:15px;">
-                                        <asp:DropDownList ID="selectAction" AutoPostBack="True" runat="server" OnSelectedIndexChanged="actionChange">
+                                        <asp:DropDownList ID="selectAction" AutoPostBack="True" onmousedown="this.focus()" runat="server" OnSelectedIndexChanged="actionChange">
                                             <asp:ListItem Selected="true" Value="create">Create New Job</asp:ListItem>
                                             <asp:ListItem Value="edit">Edit Existing Job</asp:ListItem>
                                             <%--<asp:ListItem Value="delete">Delete Existing Job</asp:ListItem>--%>
@@ -76,7 +76,7 @@
                                     <td class="auto-style2" style="height: 35px; width: 290px;"><asp:Label runat="server">Job Abbreviation: </asp:Label></td>
                                     <td style="height: 35px">
                                         <asp:TextBox ID="jobAbb" placeholder=" Required" runat="server"></asp:TextBox>
-                                        <asp:DropDownList ID="selectJobList" runat="server">
+                                        <asp:DropDownList ID="selectJobList" onmousedown="this.focus()" runat="server">
                                             <asp:ListItem Value="Select">Select</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
@@ -88,7 +88,7 @@
                                 <tr>
                                     <td class="auto-style2" style="padding-top:5px; width: 286px;"><asp:Label ID="jobActiveLabel" runat="server">Active: </asp:Label></td>
                                     <td>
-                                        <asp:DropDownList ID="jobActiveBtn" style="margin-top:5px;" AutoPostBack="True" OnSelectedIndexChanged="onActiveSelect" runat="server">
+                                        <asp:DropDownList ID="jobActiveBtn" style="margin-top:5px;" AutoPostBack="True" onmousedown="this.focus()" OnSelectedIndexChanged="onActiveSelect" runat="server">
                                             <asp:ListItem Selected="True" Value="1">True</asp:ListItem>
                                             <asp:ListItem Value="0">False</asp:ListItem>
                                         </asp:DropDownList>
@@ -97,7 +97,7 @@
                                  <tr>
                                     <td class="auto-style2" style="padding-top:22px; width: 286px;"><asp:Label ID="jobAssignedToLabel" runat="server">Grant Access To: </asp:Label></td>
                                     <td>
-                                        <asp:DropDownList ID="jobAssignedTo" style="margin-top:22px;" runat="server">
+                                        <asp:DropDownList ID="jobAssignedTo" style="margin-top:22px;" onmousedown="this.focus()" runat="server">
                                             <asp:ListItem Selected="true" Value="Select">Select</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
@@ -153,7 +153,7 @@
                                 <tr>
                                     <td class="auto-style2"><asp:Label runat="server">Permissions: </asp:Label></td>
                                     <td>
-                                        <asp:DropDownList ID="permissions" runat="server">
+                                        <asp:DropDownList ID="permissions" onmousedown="this.focus()" runat="server">
                                             <asp:ListItem Selected="true" Value="0">Operator</asp:ListItem>
                                             <asp:ListItem Value="1">Admin</asp:ListItem>
                                         </asp:DropDownList>
@@ -209,7 +209,7 @@
                             <tr>
                                 <td class="auto-style2" style="height:31px;width:125px;"><asp:Label runat="server">Operator: </asp:Label></td>
                                 <td style="height:25px;text-align:left;">
-                                    <asp:DropDownList ID="assignee" runat="server">
+                                    <asp:DropDownList ID="assignee" onmousedown="this.focus()" runat="server">
                                         <asp:ListItem Selected="true" Value="Select">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
@@ -283,7 +283,7 @@
                             <tr>
                                 <td style="width:150px;white-space:nowrap;"><asp:Label ID="selectJobLabel" Text ="Job Abbreviation: " runat="server"></asp:Label></td>
                                 <td style="text-align:left;padding-left:20px;"> 
-                                    <asp:DropDownList ID="selectJob" runat="server" AutoPostBack="true" OnSelectedIndexChanged="JobAbbSelect">
+                                    <asp:DropDownList ID="selectJob" runat="server" AutoPostBack="true" onmousedown="this.focus()" OnSelectedIndexChanged="JobAbbSelect">
                                         <asp:ListItem Value="Select">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
