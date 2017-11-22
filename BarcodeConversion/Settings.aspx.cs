@@ -1186,8 +1186,8 @@ namespace BarcodeConversion
                     // Make sure that regex & message fields are both either filled or blank
                     if ((regexTextBox.Text == string.Empty && msgTextBox.Text != string.Empty) || (regexTextBox.Text != string.Empty && msgTextBox.Text == string.Empty))
                     {
-                        string msg = "Both regex and message fields must be either blank or filled.";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        string msg = "Both regex and alert must be set or left blank.";
+                        onScreenMsg(msg, "#ff3333;", "configSection");
                         labelTextBox.Attributes["placeholder"] = " required for set";
                         if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
                         else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
@@ -1200,8 +1200,8 @@ namespace BarcodeConversion
                         bool isValid = IsValidRegex(regexTextBox.Text.Trim());
                         if (isValid == false)
                         {
-                            string msg = "The Regex pattern entered is not valid. You can test your Regex pattern at regexr.com";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg = "Invalid regex! You can test it at regexr.com";
+                            onScreenMsg(msg, "#ff3333;", "configSection");
                             regexTextBox.Focus();
                             return;
                         }
@@ -1240,7 +1240,7 @@ namespace BarcodeConversion
                     if (labelTextBox.Text == string.Empty)
                     {
                         string msg = "NAME field is required!";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        onScreenMsg(msg, "#ff3333;", "configSection");
                         labelTextBox.Focus();
                         return;
                     }
@@ -1531,142 +1531,6 @@ namespace BarcodeConversion
                 regex.Visible = true;
                 alert.Visible = true;
             }
-        }
-
-        // 'SET' CLICKED: SET INDEX FORM CONTROLS. FUNCTION
-        protected void setRules_Click(object sender, EventArgs e)
-        {
-            string selectedJob = "";
-            try
-            {
-                int jobID = 0;
-                // Make sure a job is selected & LABEL1 is filled.
-                if (this.selectJob.SelectedValue == "Select")
-                {
-                    string msg = "Please select a specific job to configure!";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
-                    jobAbb.Text = string.Empty;
-                    jobAbb.Focus();
-                    return;
-                }
-                else if (this.label1.Text == string.Empty)
-                {
-                    string msg = "LABEL1 is required!";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
-                    if (labelControlsTable.Visible)
-                    {
-                        labelTextBox.Text = string.Empty;
-                        labelTextBox.Focus();
-                    }
-                    return;
-                }
-
-                // Check whether any label was set.
-                bool noLabelSet = true;
-                for (int i=1; i<=5; i++)
-                {
-                    if (ViewState["labelValuesedit" + i] != null)
-                    {
-                        noLabelSet = false;
-                    }
-                }
-                if (noLabelSet)
-                {
-                    string msg = "At least one label needs to be set!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    return;
-                }
-                selectedJob = selectJob.SelectedValue;
-                using (SqlConnection con = Helper.ConnectionObj)
-                {
-                    using (SqlCommand cmd = con.CreateCommand()) 
-                    {
-                        // First, get job ID of selected job
-                        cmd.CommandText = "SELECT ID FROM JOB WHERE ABBREVIATION = @jobAbb";
-                        cmd.Parameters.AddWithValue("@jobAbb", selectJob.SelectedValue);
-                        con.Open();
-                        object result = cmd.ExecuteScalar();
-                        if (result != null) jobID = (int)result;
-                        else
-                        {
-                            string msg = "Job selected could not be found.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            selectJob.SelectedValue = "Select";
-                            return;
-                        }
-
-                        // Then, use that job ID to set job rules into JOB_CONFIG_INDEX
-                        cmd.Parameters.Clear();
-                        cmd.CommandText =   "INSERT INTO JOB_CONFIG_INDEX" +
-                                            "(JOB_ID, LABEL1, REGEX1, ALERT1, LABEL2, REGEX2, ALERT2, LABEL3, REGEX3, ALERT3, LABEL4, REGEX4, ALERT4, LABEL5, REGEX5, ALERT5) " +
-                                            "VALUES(@jobID, @label1, @regex1, @alert1, @label2, @regex2, @alert2, @label3, @regex3, @alert3, @label4, @regex4, @alert4, @label5, @regex5, @alert5)";
-                        cmd.Parameters.AddWithValue("@jobID", jobID);
-                        
-                        for (int i=1; i<=5; i++)
-                        {
-                            var labelValues = new List<string> {string.Empty, string.Empty, string.Empty};
-                            if (ViewState["labelValuesedit" + i] != null)
-                                labelValues = (List<string>)ViewState["labelValuesedit" + i];
-                            if (labelValues[0] == string.Empty)
-                            {
-                                cmd.Parameters.AddWithValue("@label" + i, DBNull.Value);
-                                cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
-                                cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
-                            }
-                            else
-                            {
-                                cmd.Parameters.AddWithValue("@label" + i, labelValues[0]);
-                                if (labelValues[1] == string.Empty)
-                                {
-                                    cmd.Parameters.AddWithValue("@regex" + i, DBNull.Value);
-                                    cmd.Parameters.AddWithValue("@alert" + i, DBNull.Value);
-                                }
-                                else
-                                {
-                                    cmd.Parameters.AddWithValue("@regex" + i, labelValues[1]);
-                                    cmd.Parameters.AddWithValue("@alert" + i, labelValues[2]);
-                                }
-                            }
-                        }
-
-                        if (cmd.ExecuteNonQuery() == 1)
-                        {
-                            string msg = selectJob.SelectedValue + " Job config successfully set.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            setDropdownColor();
-                            clearRules();
-                            return;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                clearRules();
-                string msg;
-                if (ex.Message.Contains("Violation of PRIMARY KEY"))
-                {
-                    msg = "\"" + selectedJob + "\"" + " job has already been configured.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                }  
-                else
-                {
-                    msg = "Error 75: Issue occured while attempting to configure selected job";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                }
-                // Log the exception and notify system operators
-                ExceptionUtility.LogException(ex);
-                ExceptionUtility.NotifySystemOps(ex);
-
-            }
-        }
-
-
-
-        // 'UNSET' CLICKED: UNSET INPUT-CONTROLS RULES. FUNCTION.
-        protected void unsetRules_Click(object sender, EventArgs e)
-        {
-           
         }
 
 

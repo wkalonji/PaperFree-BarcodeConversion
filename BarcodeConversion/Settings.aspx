@@ -385,18 +385,7 @@
                                     <asp:Button ID="labelContents" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Text="Save" Font-Size="Small" runat="server" OnClick="labelContents_Click" /></td>
                             </tr>
                         </table>
-
-
-                        <table style="margin-top:20px; margin-bottom:20px; width: 315px;" visible="false" runat="server">
-                            <tr style="background-color:aliceblue; height:40px;">
-                                <td style="height: 10px; text-align:left;padding-left:5px;">
-                                    <asp:Button ID="unsetRules" style="padding:1px 6px 1px 6px;" Visible="true" runat="server" Text="Unset" Font-Size="10"
-                                        OnClientClick="return confirm('ATTENTION!\n\nRemoving or changing configuration will affect the Index Data section of still unprinted indexes related to this job. We suggest that you make sure that there are no more unprinted indexes related to this job accross all operators prior unsetting config.\nDo you still want to procede with unsetting job configuration?');"
-                                        OnClick="unsetRules_Click" /></td>
-                                <td style="height: 10px; text-align:right;padding-right:5px;">
-                                    <asp:Button ID="setRules" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;margin-left:25px;" Visible="true" Font-Size="10" runat="server" Text="Set " OnClick="setRules_Click" /></td>
-                            </tr> 
-                        </table>     
+                            
                     </asp:Panel>
                 </td>
             </tr>
