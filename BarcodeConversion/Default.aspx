@@ -6,7 +6,7 @@
         // Hide all
 	    function hideForm() {
 	        //$("#formPanel").hide();
-	        document.getElementById("MainContent_formPanel").style.display = "none";
+	        document.getElementById("formPanel").style.display = "none";
 	    }
 		// FADEOUT INDEX-SAVED MSG. FUNCTION
 		function FadeOut() {

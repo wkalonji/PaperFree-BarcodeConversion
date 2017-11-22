@@ -19,7 +19,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel SettingsPanel;
+        protected global::System.Web.UI.UpdatePanel SettingsPanel;
         
         /// <summary>
         /// upArrow control.
@@ -533,6 +533,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton edit5;
+        
+        /// <summary>
+        /// configMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table configMsg;
         
         /// <summary>
         /// setupTitle control.

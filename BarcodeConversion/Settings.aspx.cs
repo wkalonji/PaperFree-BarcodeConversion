@@ -1384,8 +1384,8 @@ namespace BarcodeConversion
                         // Make sure current edit is done before starting another one
                         if (labelControlsTable.Visible == true)
                         {
-                            string msg = "Current label setup must be submitted prior starting another one";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg = "Current control must be set first or closed.";
+                            onScreenMsg(msg, "#ff3333;", "configSection");
                             return;
                         }
                         ViewState["senderID"] = b.ID;
@@ -1412,7 +1412,7 @@ namespace BarcodeConversion
                 if (last != "1" && label1.Text == " Required")
                 {
                     string msg = "LABEL1 must be set first.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    onScreenMsg(msg, "#ff3333;", "configSection");
                     b.Visible = true;
                     return;
                 }
@@ -1423,7 +1423,7 @@ namespace BarcodeConversion
                 if (jobId <= 0)
                 {
                     string msg = "Job selected could not be found. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page,Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     selectJob.SelectedValue = "Select";
                     return;
                 }
@@ -1480,7 +1480,7 @@ namespace BarcodeConversion
                        if (success == -1)
                        {
                             string msg = "Error 74a: Issue occured while retrieving saved index data. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                        }
                     }
                     else
@@ -1500,7 +1500,7 @@ namespace BarcodeConversion
             catch(Exception ex)
             {
                 string msg = "Error 74b: Issue occured while retrieveing saved index data. Contact sytem admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + ex.Message + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + ex.Message + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1544,7 +1544,7 @@ namespace BarcodeConversion
                 if (this.selectJob.SelectedValue == "Select")
                 {
                     string msg = "Please select a specific job to configure!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     jobAbb.Text = string.Empty;
                     jobAbb.Focus();
                     return;
@@ -1552,7 +1552,7 @@ namespace BarcodeConversion
                 else if (this.label1.Text == string.Empty)
                 {
                     string msg = "LABEL1 is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     if (labelControlsTable.Visible)
                     {
                         labelTextBox.Text = string.Empty;
@@ -2537,6 +2537,19 @@ namespace BarcodeConversion
                 return -1;
             }
         }
-                            
+
+
+        // PRINT VARIOUS MSG ON SCREEN INSTEAD OF A POPUP
+        private void onScreenMsg(string msg, string color, string from)
+        {
+            var screenMsg = new TableCell();
+            var screenMsgRow = new TableRow();
+            screenMsg.Text = msg;
+            screenMsg.Attributes["style"] = "color:" + color;
+            screenMsgRow.Cells.Add(screenMsg);
+            if (from == "configSection") configMsg.Rows.Add(screenMsgRow);
+            //else manualEntryMsg.Rows.Add(screenMsgRow);
+        }
+
     }
 }

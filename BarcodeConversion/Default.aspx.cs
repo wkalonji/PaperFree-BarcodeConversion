@@ -619,7 +619,7 @@ namespace BarcodeConversion
                 var manualEntries = new List<string>();
                 if (b.ID == "printIndexesBtn") // File
                 {
-                    //saveIndexes_Click(new object(), new EventArgs());
+                    saveIndexes_Click(new object(), new EventArgs());
                     fileContent = (List<List<string>>)ViewState["fileContent"];
                     if (fileContent == null) return;
                 }
@@ -637,6 +637,7 @@ namespace BarcodeConversion
                 //p.Visible = false;
                 //p.Attributes["style"] = "display:none;";
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "hideform", "hideForm();", true);
+                Response.Write("<h2>IT'S WORKS !!!</h2>");
                 //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openWindow", "window.open('IndexPage.html','_newtab');", true);
 
 

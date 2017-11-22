@@ -6,7 +6,8 @@
             $("span[id$='success']").fadeOut(4000);
         } 
     </script>
-    <asp:Panel ID="SettingsPanel" Visible="false" runat="server">
+    <asp:UpdatePanel ID="SettingsPanel" Visible="false" runat="server">
+        <ContentTemplate>
         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:860px;">
             <table style="width:860px;">
                 <tr>
@@ -337,7 +338,7 @@
                                 </td>
                             </tr>
                         </table>
-                        
+                        <div style="margin-top:10px;height:10px;"><asp:table id="configMsg" runat="server"></asp:table></div>
                         <asp:Panel ID="setupTitle" CssClass="card" style="height:30px;background-color:aliceblue; padding: 0px 5px 0px 10px;width:312px;margin-top:20px;" runat="server">
                             <table style="width:100%;" runat="server">
                                 <tr style="height:30px;background-color:aliceblue">
@@ -400,7 +401,8 @@
                 </td>
             </tr>
         </table>
-    </asp:Panel>
+        </ContentTemplate>
+    </asp:UpdatePanel>
         
 
 </asp:Content>
