@@ -67,9 +67,8 @@ namespace BarcodeConversion
             }
             if (isAdmin) settings.Visible = true;
 
-
             Control c = Helper.GetPostBackControl(this.Page);
-            // Show/Hile footer before printing
+            // Hide/Show footer before/after printing
             if (c != null)
             {
                 if (c.ID == "printIndexesBtn" || c.ID == "saveAndPrint" || c.ID == "printBarcodeBtn" || c.ID == "reprintBtn")

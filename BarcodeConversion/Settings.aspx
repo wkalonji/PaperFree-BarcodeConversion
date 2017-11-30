@@ -2,12 +2,30 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <script>
-        function FadeOut3() {
-            $("span[id$='success']").fadeOut(4000);
-        } 
+        function FadeOut() {
+            $("table[id$='jobAccessMsg2']").delay(2000).fadeOut(1000);    
+        }
+        function FadeOut2() {
+            $("table[id$='UserSectionMsg']").delay(2000).fadeOut(1000);
+        }
+        function FadeOut4() {
+            $("table[id$='jobSetupMsg']").delay(2000).fadeOut(1000);
+        }
+
+        function scrollToBottom() {
+            $({ myScrollTop: window.pageYOffset }).animate({ myScrollTop: 600 }, {
+                duration: 600,
+                easing: 'swing',
+                step: function (val) {
+                    window.scrollTo(0, val);
+                }
+            });
+        }
     </script>
-    <asp:UpdatePanel ID="SettingsPanel" Visible="false" runat="server">
+
+     <asp:UpdatePanel ID="SettingsPanel" Visible="false" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
+        <div id="scroll">
         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:860px;">
             <table style="width:860px;">
                 <tr>
@@ -29,7 +47,7 @@
 
         <table>
             <tr>
-                <td style="width:480px;">
+                <td style="width:511px;">
                      <%-- JOB SETUP SECTION --%>
                     <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;">
                         <asp:linkButton ID="newJobBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="newJobShow_Click">
@@ -45,7 +63,7 @@
                 </td>
             </tr>   
             <tr>
-                <td style="width: 315px; vertical-align:top;">
+                <td style="vertical-align:top;">
                     <%-- JOB SETUP SECTION BODY --%>
                     <div style="display:block;" class="auto-style5">
                         <asp:Panel ID="jobSection" Visible="false" runat="server" Width="408px" >
@@ -112,23 +130,18 @@
                                             OnClientClick="return confirm('ATTENTION!\n\nDeleting this job will also delete its configuration, all indexes associated to it, and any other related records in other entities. Unless it is a must, we advise to Deactivate job instead.\n\nDo you still want to procede with Delete?');" OnClick="deleteJob_Click"/> </td>
                                 </tr>
                                 <tr>
-                                     <td style="height: 15px; text-align:right;">
-                                        <asp:Button ID="editJobBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="false" Font-Size="10" runat="server" Text="Edit " OnClick="editJob_Click" /></td>
-                                </tr>
-                                <tr>
-                                     <td style="height: 10px;text-align:right;">
-                                        <asp:Button ID="createJobBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" Font-Size="10" runat="server" Text="Create" OnClick="createJob_Click"/></td>
-                                </tr>
-                                <tr>
-                                     <td style="height: 10px;text-align:left;">
-                                        <asp:Label ID="success"  Visible="false" runat="server" Text="" OnClick="createJob_Click"/></td>
+                                    <td><asp:Table id="jobSetupMsg" style="float:left;" runat="server"></asp:Table> </td>
+                                    <td style="height: 15px; text-align:right;">
+                                        <asp:Button ID="editJobBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="false" Font-Size="10" runat="server" Text="Edit " OnClick="editJob_Click" />
+                                        <asp:Button ID="createJobBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" Font-Size="10" runat="server" Text="Create" OnClick="createJob_Click"/>
+                                    </td>
                                 </tr>
                             </table>
            
                         </asp:Panel>
                     </div>
                 </td>
-                <td style="width: 324px; vertical-align:top;">
+                <td style="vertical-align:top;">
                     <%--USER & PERMISSION SECTION BODY--%>
                     <div style="display:inline-block; width: 26%;" class="auto-style5">
                         <asp:Panel ID="newUserSection" Visible="false" runat="server" Width="322px" Height="250px" style="margin-top: 0px" >
@@ -145,11 +158,10 @@
                                 </table>
                             </asp:Panel>
                             
-                            <table  style="margin-top:25px; height: 72px;"  class=auto-style3 >
+                            <table  style="margin-top:25px; height:72px;"  class=auto-style3 >
                                 <tr>
                                     <td class="auto-style2" style="height: 31px; margin-left: 200px;"><asp:Label runat="server">Operator: </asp:Label></td>
-                                    <td style="height: 31px"><asp:TextBox ID="user" placeholder=" Required" runat="server"></asp:TextBox>
-                                    </td>
+                                    <td style="height: 31px"><asp:TextBox ID="user" placeholder=" Required" runat="server"></asp:TextBox></td>
                                 </tr> 
                                 <tr>
                                     <td class="auto-style2"><asp:Label runat="server">Permissions: </asp:Label></td>
@@ -161,9 +173,12 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div style="text-align:right; margin-top:15px;" class="auto-style4" id="abc">
-                                <asp:Button ID="submitOp" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" Font-Size="10" runat="server" Text="Submit" OnClick="setPermissions_Click" />
-                            </div>
+                            <table style="width:315px;">
+                                <tr>
+                                    <td><asp:Table id="UserSectionMsg" style="float:left;" runat="server"></asp:Table></td>
+                                    <td><asp:Button ID="submitOp" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;float:right;" Visible="true" Font-Size="10" runat="server" Text="Submit" OnClick="setPermissions_Click"/></td>
+                                </tr>
+                            </table>
                         </asp:Panel>
                     </div>
                 </td>
@@ -174,14 +189,14 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 480px">
+                <td>
                     <%--JOB ACCESS SECTION --%>
                     <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;margin-top:30px;">
                         <asp:linkButton ID="assignBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="assignShow_Click">
                         <i class="fa fa-unlock-alt" aria-hidden="true" style="margin-right:10px;"></i> Job Access Section</asp:linkButton>
                     </div>
                 </td>
-                <td style="width: 324px">
+                <td>
                     <%--JOB INDEX CONFIG SECTION --%>
                     <div style="width:284px;border:solid 3px #808080;border-radius:3px;text-align:center;margin-top:30px;">
                         <asp:linkButton ID="jobIndexEditingBtn" style="background-color:#e6e6e6;color:#666666;padding-top:2px;" Font-Underline="false" Visible="true" Width="278px" Height="29" runat="server" OnClick="jobIndexEditingShow_Click">
@@ -190,7 +205,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="width: 315px; vertical-align:top;">
+                <td style="vertical-align:top;">
                     <%--JOB ACCESS SECTION BODY --%>
                     <asp:Panel ID="assignPanel" Visible="false" runat="server">
                         <asp:Panel CssClass="card" style="margin-top:25px;background-color:aliceblue;width:315px;padding: 0px 10px 0px 10px;" runat="server">
@@ -210,26 +225,32 @@
                             <tr>
                                 <td class="auto-style2" style="height:31px;width:125px;"><asp:Label runat="server">Operator: </asp:Label></td>
                                 <td style="height:25px;text-align:left;">
-                                    <asp:DropDownList ID="assignee" onmousedown="this.focus()" runat="server">
+                                    <asp:DropDownList ID="assignee" onmousedown="this.focus()" AutoPostBack="true" OnSelectedIndexChanged="getInaccessibleJobs" runat="server">
                                         <asp:ListItem Selected="true" Value="Select">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
+                                <td><asp:Table id="jobAccessMsg1" style="float:left;" runat="server"></asp:Table></td>
                             </tr> 
                         </table>
                         <asp:Panel CssClass="card" style="margin-bottom:10px;background-color:aliceblue;width:315px;padding: 0 5px 0px 12px;" runat="server">
                             <table >
                                 <tr style="height:40px;">
                                     <td style="height:10px; text-align:left;padding-right:10px;">
-                                        <asp:Button ID="assignedBtn" CssClass="btn btn-primary" style="padding:2px 10px 2px 10px;"  Visible="true" Font-Size="9" runat="server" Text="Accessible" OnClick="assignedJob_Click" /></td>
+                                        <asp:Button ID="assignedBtn" CssClass="btn btn-primary" style="padding:2px 10px 1px 10px;"  Visible="true" Font-Size="9" runat="server" Text="Accessible" OnClick="assignedJob_Click" /></td>
                                     <td style="height:10px; text-align:center;padding-right:10px;">
-                                        <asp:Button ID="inaccessibleBtn" CssClass="btn btn-primary" style="padding:2px 10px 2px 10px;" Font-Size="9" Visible="true" runat="server" Text="Inaccessible" OnClick="unassignedJob_Click" /></td>
+                                        <asp:Button ID="inaccessibleBtn" CssClass="btn btn-primary" style="padding:2px 10px 1px 10px;" Font-Size="9" Visible="true" runat="server" Text="Inaccessible" OnClick="unassignedJob_Click" /></td>
                                     <td style="height:10px; text-align:right;">
-                                        <asp:Button ID="unassignedBtn" CssClass="btn btn-primary" style="padding:2px 10px 2px 10px;" Visible="true" runat="server" Font-Size="9" Text="Active " OnClick="unassignedJob_Click"/></td>
+                                        <asp:Button ID="unassignedBtn" CssClass="btn btn-primary" style="padding:2px 10px 1px 10px;" Visible="true" runat="server" Font-Size="9" Text="Active " OnClick="unassignedJob_Click"/></td>
                                 </tr> 
                             </table>
                         </asp:Panel>
                         
-                        <asp:Label ID="jobsLabel" style="display:block;" Font-Size="14" Text="Active Jobs" runat="server"></asp:Label>
+                        <table style="width:315px;" runat="server">
+                            <tr>
+                                <td><asp:Label ID="jobsLabel" Font-Size="14" Text="Active Jobs" runat="server"></asp:Label></td>
+                                <td><asp:Table id="jobAccessMsg2" style="float:right;" runat="server"></asp:Table></td>
+                            </tr>
+                        </table>
                         
                         <asp:GridView ID="jobAccessGridView" runat="server" style="margin-top:4px;" CssClass="settingsGridview" PagerStyle-CssClass="pager"
                                     PageSize="10" HeaderStyle-CssClass="header" RowStyle-CssClass="rows" AllowPaging="true" OnPageIndexChanging="pageChange_Click"
@@ -252,19 +273,19 @@
                             </columns>       
                         </asp:GridView>   
                         
-                        <div style="display:block; width: 480px;" >
-                            <table style="margin-top:11px; width:316px;">
+                        <div style="display:block; width:315px;" >
+                            <table style="margin-top:11px; width:315px;">
                                 <tr>
-                                    <td style="text-align:right;width: 320px;">
-                                        <asp:Button ID="deleteAssignedBtn" CssClass="btn btn-danger" style="padding:1px 10px 0px 10px;" Visible="true" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
-                                        <asp:Button ID="jobAccessBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="true" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" />
+                                    <td style="text-align:right;width: 315px;">
+                                        <asp:Button ID="deleteAssignedBtn" CssClass="btn btn-danger" style="padding:1px 10px 0px 10px;" Visible="false" runat="server" Font-Size="10" Text="Deny" OnClick="deleteAssigned_Click"/>
+                                        <asp:Button ID="jobAccessBtn" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Visible="false" runat="server" Font-Size="10" Text="Grant" OnClick="jobAccess_Click" />
                                     </td>                 
                                 </tr>                  
                             </table>
                         </div>   
                     </asp:Panel>
                 </td>
-                <td style="width: 324px; vertical-align:top;">
+                <td style="vertical-align:top;">
                     <%--JOB INDEX CONFIG BODY --%>
                     <asp:Panel ID="jobIndexEditingPanel" Visible="false" runat="server">
                         <asp:Panel CssClass="card" style="margin-top:25px;background-color:aliceblue;width:315px;padding: 0px 5px 0px 10px;" runat="server">
@@ -280,9 +301,9 @@
                             </table>
                         </asp:Panel>
                         
-                        <table class = table style="width:297px;margin-top:15px;">
+                        <table class=table style="width:297px;margin-top:15px;">
                             <tr>
-                                <td style="width:150px;white-space:nowrap;"><asp:Label ID="selectJobLabel" Text ="Job Abbreviation: " runat="server"></asp:Label></td>
+                                <td style="width:150px;white-space:nowrap;"><asp:Label ID="selectJobLabel" runat="server">Job Abbreviation:</asp:Label></td>
                                 <td style="text-align:left;padding-left:20px;"> 
                                     <asp:DropDownList ID="selectJob" runat="server" AutoPostBack="true" onmousedown="this.focus()" OnSelectedIndexChanged="JobAbbSelect">
                                         <asp:ListItem Value="Select">Select</asp:ListItem>
@@ -291,7 +312,7 @@
                             </tr>
                         </table>
 
-                        <table id="labelsTable" visible="false" style="margin-top:20px; width:315px;"  class=auto-style3 runat="server">
+                        <table id="labelsTable" visible="false" style="margin-top:15px;margin-bottom:5px;width:315px;"  class=auto-style3 runat="server">
                             <tr style="height:35px;">
                                 <td style="width: 80px;"><asp:Label ID="lab1" Visible="true" Height="30" Text="LABEL1:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="label1" Visible="true" ReadOnly="true" placeholder=" Required only for Set" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
@@ -338,8 +359,8 @@
                                 </td>
                             </tr>
                         </table>
-                        <div style="margin-top:10px;height:10px;"><asp:table id="configMsg" runat="server"></asp:table></div>
-                        <asp:Panel ID="setupTitle" CssClass="card" style="height:30px;background-color:aliceblue; padding: 0px 5px 0px 10px;width:312px;margin-top:20px;" runat="server">
+                        <div style="height:10px;"><asp:table id="configMsg" runat="server"></asp:table></div>
+                        <asp:Panel ID="setupTitle" CssClass="card" style="height:30px;background-color:aliceblue; padding: 0px 5px 0px 10px;width:312px;margin-top:13px;" runat="server">
                             <table style="width:100%;" runat="server">
                                 <tr style="height:30px;background-color:aliceblue">
                                     <td style="font-family:Arial;width:190px;white-space:nowrap;font-weight:bold;">Control Setup </td>
@@ -385,13 +406,12 @@
                                     <asp:Button ID="labelContents" CssClass="btn btn-primary" style="padding:1px 10px 0px 10px;" Text="Save" Font-Size="Small" runat="server" OnClick="labelContents_Click" /></td>
                             </tr>
                         </table>
-                            
                     </asp:Panel>
                 </td>
             </tr>
         </table>
+        </div> 
         </ContentTemplate>
     </asp:UpdatePanel>
-        
 
 </asp:Content>

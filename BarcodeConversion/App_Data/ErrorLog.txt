@@ -728,3 +728,1072 @@ Exception Type: System.NullReferenceException
 Stack Trace: 
    at BarcodeConversion._Default.printIndexes_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Default.aspx.cs:line 649
 
+
+*************** 11/27/2017 9:09:37 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 11/27/2017 9:20:21 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 11/27/2017 9:21:18 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Thread was being aborted.
+Location: Settings.aspx.cs:line 34
+Source: mscorlib
+Function: Void AbortInternal()
+Exception Type: System.Threading.ThreadAbortException
+Stack Trace: 
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 34
+
+
+*************** 11/27/2017 12:24:01 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/27/2017 12:24:14 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/27/2017 12:24:15 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/27/2017 12:24:23 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/27/2017 12:24:24 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/27/2017 12:24:24 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Incorrect syntax near ')'.
+Location: Settings.aspx.cs:line 1704
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataSet dataSet)
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1704
+
+
+*************** 11/28/2017 9:23:01 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Violation of PRIMARY KEY constraint 'PK_OPERATOR_ACCESS'. Cannot insert duplicate key in object 'dbo.OPERATOR_ACCESS'. The duplicate key value is (4, 4).
+The statement has been terminated.
+Location: Settings.aspx.cs:line 1902
+Source: .Net SqlClient Data Provider
+Function: Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+Exception Type: System.Data.SqlClient.SqlException
+Stack Trace: 
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at BarcodeConversion.Contact.AssignJob(String assignee, String abbr) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1902
+
+
+*************** 11/28/2017 10:45:15 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1660
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1660
+
+
+*************** 11/28/2017 10:47:19 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1660
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1660
+
+
+*************** 11/28/2017 10:47:56 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1660
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1660
+
+
+*************** 11/28/2017 11:43:48 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:45:49 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:26 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:31 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:34 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:40 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:42 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 11:46:45 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Unable to cast object of type 'System.Web.UI.WebControls.DropDownList' to type 'System.Web.UI.WebControls.Button'.
+Location: Settings.aspx.cs:line 1664
+Source: BarcodeConversion
+Function: Void getUnassignedJobs(System.Object)
+Exception Type: System.InvalidCastException
+Stack Trace: 
+   at BarcodeConversion.Contact.getUnassignedJobs(Object sender) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1664
+
+
+*************** 11/28/2017 12:30:35 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: System.Web.UI.WebControls.TableRowCollection must have items of type 'System.Web.UI.WebControls.TableRow'. 'tr' is of type 'System.Web.UI.HtmlControls.HtmlTableRow'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: System.Web.UI.WebControls.TableRowCollection must have items of type 'System.Web.UI.WebControls.TableRow'. 'tr' is of type 'System.Web.UI.HtmlControls.HtmlTableRow'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ParseString(System.String, System.Web.VirtualPath, System.Text.Encoding)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/28/2017 12:30:49 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: System.Web.UI.WebControls.TableRowCollection must have items of type 'System.Web.UI.WebControls.TableRow'. 'tr' is of type 'System.Web.UI.HtmlControls.HtmlTableRow'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: System.Web.UI.WebControls.TableRowCollection must have items of type 'System.Web.UI.WebControls.TableRow'. 'tr' is of type 'System.Web.UI.HtmlControls.HtmlTableRow'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ParseString(System.String, System.Web.VirtualPath, System.Text.Encoding)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.Abstractions.BuildManagerWrapper.GetObjectFactory(String virtualPath, Boolean throwIfNotFound)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetWebObjectFactory(HttpContextBase httpContext, String modifiedVirtualPath)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.Microsoft.AspNet.FriendlyUrls.Abstractions.IFriendlyUrlRouteSupportFunctions.Resolve(HttpContextBase httpContext, IList`1 extensions, String virtualPathOverride)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext, String pathOverride, IFriendlyUrlRouteSupportFunctions supportFunctions)
+   at Microsoft.AspNet.FriendlyUrls.FriendlyUrlRoute.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.RouteCollection.GetRouteData(HttpContextBase httpContext)
+   at System.Web.Routing.UrlRoutingModule.PostResolveRequestCache(HttpContextBase context)
+   at System.Web.Routing.UrlRoutingModule.OnApplicationPostResolveRequestCache(Object sender, EventArgs e)
+   at System.Web.HttpApplication.SyncEventExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/28/2017 3:01:17 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx(165): error CS1503: Argument 1: cannot convert from 'System.Web.UI.WebControls.Table' to 'System.Web.UI.HtmlControls.HtmlTableRow'
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: System.Web.Compilation.BuildResult CompileWebFile(System.Web.VirtualPath)
+Exception Type: System.Web.HttpCompileException
+Stack Trace: 
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/28/2017 3:02:55 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx(165): error CS1503: Argument 1: cannot convert from 'System.Web.UI.WebControls.Table' to 'System.Web.UI.HtmlControls.HtmlTableRow'
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: System.Web.Compilation.BuildResult CompileWebFile(System.Web.VirtualPath)
+Exception Type: System.Web.HttpCompileException
+Stack Trace: 
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/28/2017 4:31:03 PM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: Object reference not set to an instance of an object.
+Location: Settings.aspx.cs:line 49
+Source: BarcodeConversion
+Function: Void Page_Load(System.Object, System.EventArgs)
+Exception Type: System.NullReferenceException
+Stack Trace: 
+   at BarcodeConversion.Contact.Page_Load(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 49
+
+
+*************** 11/29/2017 1:13:49 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ProcessLiteral()
+   at System.Web.UI.TemplateParser.MaybeTerminateControl(String tagName, Match match)
+   at System.Web.UI.TemplateParser.ProcessEndTag(Match match)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:13:53 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ProcessLiteral()
+   at System.Web.UI.TemplateParser.MaybeTerminateControl(String tagName, Match match)
+   at System.Web.UI.TemplateParser.ProcessEndTag(Match match)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:13:55 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ProcessLiteral()
+   at System.Web.UI.TemplateParser.MaybeTerminateControl(String tagName, Match match)
+   at System.Web.UI.TemplateParser.ProcessEndTag(Match match)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Literal content ('var prm = Sys.WebForms.PageRequestManager.getInstance();
+                prm.add_beginRequest(beginRequest);
+                function beginRequest()
+                {
+                    prm._scrollPosition = null;
+                }') is not allowed within a 'System.Web.UI.ScriptReferenceCollection'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:15:03 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: System.Web.UI.ScriptReferenceCollection must have items of type 'System.Web.UI.ScriptReference'. 'script' is of type 'System.Web.UI.HtmlControls.HtmlGenericControl'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: System.Web.UI.ScriptReferenceCollection must have items of type 'System.Web.UI.ScriptReference'. 'script' is of type 'System.Web.UI.HtmlControls.HtmlGenericControl'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:15:56 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'script'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'script'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:20:03 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: 'ScrollPosition' is not a valid script name.  The name must end in '.js'.
+Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Inner Source: System.Web.Extensions
+Function: System.String GetDebugName(System.String)
+Inner Exception Type: System.InvalidOperationException
+Inner Stack Trace: 
+   at System.Web.UI.ScriptReference.GetDebugName(String releaseName)
+   at System.Web.UI.ScriptReference.ShouldUseDebugScript(String releaseName, Assembly assembly, Boolean isDebuggingEnabled, Assembly currentAjaxAssembly)
+   at System.Web.UI.ScriptReference.DetermineResourceNameAndAssembly(ScriptManager scriptManager, Boolean isDebuggingEnabled, String& resourceName, Assembly& assembly)
+   at System.Web.UI.ScriptReference.GetPath(ScriptManager scriptManager, String releasePath, String predeterminedDebugPath, Boolean isDebuggingEnabled)
+   at System.Web.UI.ScriptReference.GetUrlFromPath(ScriptManager scriptManager, String releasePath, String predeterminedDebugPath)
+   at System.Web.UI.ScriptReference.GetUrlInternal(ScriptManager scriptManager, Boolean zip, Boolean useCdnPath)
+   at System.Web.UI.ScriptReference.GetUrl(ScriptManager scriptManager, Boolean zip)
+   at System.Web.UI.ScriptManager.RegisterUniqueScripts(List`1 uniqueScripts)
+   at System.Web.UI.ScriptManager.RegisterScripts()
+   at System.Web.UI.ScriptManager.OnPagePreRenderComplete(Object sender, EventArgs e)
+   at System.Web.UI.Page.OnPreRenderComplete(EventArgs e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+
+
+Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Boolean HandleError(System.Exception)
+Exception Type: System.Web.HttpUnhandledException
+Stack Trace: 
+   at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.default_aspx.ProcessRequest(HttpContext context)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 1:20:48 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Assembly 'System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' does not contain a Web resource with name 'ScrollPosition.js'.
+Location:    at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+Inner Source: System.Web.Extensions
+Function: Void VerifyAssemblyContainsReleaseWebResource(System.Reflection.Assembly, System.String, System.Reflection.Assembly)
+Inner Exception Type: System.InvalidOperationException
+Inner Stack Trace: 
+   at System.Web.UI.WebResourceUtil.VerifyAssemblyContainsReleaseWebResource(Assembly assembly, String releaseResourceName, Assembly currentAjaxAssembly)
+   at System.Web.UI.ScriptReference.ShouldUseDebugScript(String releaseName, Assembly assembly, Boolean isDebuggingEnabled, Assembly currentAjaxAssembly)
+   at System.Web.UI.ScriptReference.DetermineResourceNameAndAssembly(ScriptManager scriptManager, Boolean isDebuggingEnabled, String& resourceName, Assembly& assembly)
+   at System.Web.UI.ScriptReference.GetPath(ScriptManager scriptManager, String releasePath, String predeterminedDebugPath, Boolean isDebuggingEnabled)
+   at System.Web.UI.ScriptReference.GetUrlFromPath(ScriptManager scriptManager, String releasePath, String predeterminedDebugPath)
+   at System.Web.UI.ScriptReference.GetUrlInternal(ScriptManager scriptManager, Boolean zip, Boolean useCdnPath)
+   at System.Web.UI.ScriptReference.GetUrl(ScriptManager scriptManager, Boolean zip)
+   at System.Web.UI.ScriptManager.RegisterUniqueScripts(List`1 uniqueScripts)
+   at System.Web.UI.ScriptManager.RegisterScripts()
+   at System.Web.UI.ScriptManager.OnPagePreRenderComplete(Object sender, EventArgs e)
+   at System.Web.UI.Page.OnPreRenderComplete(EventArgs e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+
+
+Exception Message: Exception of type 'System.Web.HttpUnhandledException' was thrown.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Boolean HandleError(System.Exception)
+Exception Type: System.Web.HttpUnhandledException
+Stack Trace: 
+   at System.Web.UI.Page.HandleError(Exception e)
+   at System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+   at System.Web.UI.Page.ProcessRequest()
+   at System.Web.UI.Page.ProcessRequestWithNoAssert(HttpContext context)
+   at System.Web.UI.Page.ProcessRequest(HttpContext context)
+   at ASP.default_aspx.ProcessRequest(HttpContext context)
+   at System.Web.HttpApplication.CallHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/29/2017 3:36:24 PM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Site.Master(78): error CS0103: The name 'Panel1' does not exist in the current context
+Location:    at System.Web.UI.TemplateParser.ProcessMainDirective(IDictionary mainDirective)
+Inner Source: System.Web
+Function: System.Web.Compilation.BuildResult PostProcessFoundBuildResult(System.Web.Compilation.BuildResult, Boolean, System.Web.VirtualPath)
+Inner Exception Type: System.Web.HttpCompileException
+Inner Stack Trace: 
+   at System.Web.Compilation.BuildManager.PostProcessFoundBuildResult(BuildResult result, Boolean keyFromVPP, VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetBuildResultFromCacheInternal(String cacheKey, Boolean keyFromVPP, VirtualPath virtualPath, Int64 hashCode, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultFromCacheInternal(VirtualPath virtualPath, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResult(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean ensureIsUpToDate)
+   at System.Web.UI.BaseTemplateParser.GetReferencedType(VirtualPath virtualPath, Boolean allowNoCompile)
+   at System.Web.UI.PageParser.ProcessMainDirectiveAttribute(String deviceName, String name, String value, IDictionary parseData)
+   at System.Web.UI.TemplateParser.ProcessMainDirective(IDictionary mainDirective)
+
+
+Exception Message: C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Site.Master(78): error CS0103: The name 'Panel1' does not exist in the current context
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/30/2017 8:55:55 AM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'script'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'script'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/30/2017 8:56:32 AM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'Script'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Type 'System.Web.UI.ScriptManager' does not have a public property named 'Script'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/30/2017 8:58:40 AM ***************
+
+Operator: c-wkalonji
+Inner Exception Message: Property 'Scripts' does not have a property named 'type'.
+Location:    at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+Inner Source: System.Web
+Function: Void ProcessException(System.Exception)
+Inner Exception Type: System.Web.HttpParseException
+Inner Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+
+
+Exception Message: Property 'Scripts' does not have a property named 'type'.
+Location:    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+Source: System.Web
+Function: Void ProcessException(System.Exception)
+Exception Type: System.Web.HttpParseException
+Stack Trace: 
+   at System.Web.UI.TemplateParser.ProcessException(Exception ex)
+   at System.Web.UI.TemplateParser.ParseStringInternal(String text, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseString(String text, VirtualPath virtualPath, Encoding fileEncoding)
+   at System.Web.UI.TemplateParser.ParseFile(String physicalPath, VirtualPath virtualPath)
+   at System.Web.UI.TemplateParser.ParseInternal()
+   at System.Web.UI.TemplateParser.Parse()
+   at System.Web.Compilation.BaseTemplateBuildProvider.get_CodeCompilerType()
+   at System.Web.Compilation.BuildProvider.GetCompilerTypeFromBuildProvider(BuildProvider buildProvider)
+   at System.Web.Compilation.BuildProvidersCompiler.ProcessBuildProviders()
+   at System.Web.Compilation.BuildProvidersCompiler.PerformBuild()
+   at System.Web.Compilation.BuildManager.CompileWebFile(VirtualPath virtualPath)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultInternal(VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVPathBuildResultWithNoAssert(HttpContext context, VirtualPath virtualPath, Boolean noBuild, Boolean allowCrossApp, Boolean allowBuildInPrecompile, Boolean throwIfNotFound, Boolean ensureIsUpToDate)
+   at System.Web.Compilation.BuildManager.GetVirtualPathObjectFactory(VirtualPath virtualPath, HttpContext context, Boolean allowCrossApp, Boolean throwIfNotFound)
+   at System.Web.Compilation.BuildManager.CreateInstanceFromVirtualPath(VirtualPath virtualPath, Type requiredBaseType, HttpContext context, Boolean allowCrossApp)
+   at System.Web.UI.PageHandlerFactory.GetHandlerHelper(HttpContext context, String requestType, VirtualPath virtualPath, String physicalPath)
+   at System.Web.UI.PageHandlerFactory.GetHandler(HttpContext context, String requestType, String virtualPath, String path)
+   at System.Web.HttpApplication.MaterializeHandlerExecutionStep.System.Web.HttpApplication.IExecutionStep.Execute()
+   at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
+
+
+*************** 11/30/2017 10:33:58 AM ***************
+
+Operator: c-wkalonji
+
+
+Exception Message: The Update method can only be called on UpdatePanel with ID 'SettingsPanel' when UpdateMode is set to Conditional.
+Location: Settings.aspx.cs:line 1207
+Source: System.Web.Extensions
+Function: Void Update()
+Exception Type: System.InvalidOperationException
+Stack Trace: 
+   at System.Web.UI.UpdatePanel.Update()
+   at BarcodeConversion.Contact.labelContents_Click(Object sender, EventArgs e) in C:\Users\c-wkalonji\Source\Repos\Ajax-BarcodeIndexing\BarcodeConversion\Settings.aspx.cs:line 1207
+

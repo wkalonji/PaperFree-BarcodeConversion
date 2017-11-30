@@ -14,7 +14,7 @@ namespace BarcodeConversion
     {
         public void Page_Init(object o, EventArgs e)
         {
-            Page.MaintainScrollPositionOnPostBack = true;
+            //Page.MaintainScrollPositionOnPostBack = true;
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -24,20 +24,14 @@ namespace BarcodeConversion
                 // Make sure only admins can see Settings page
                 if (!Page.IsPostBack) jobAbb.Focus();
 
-                if (userStatus() == "True")
-                {
-                    SettingsPanel.Visible = true;
-                }
+                if (userStatus() == "True") SettingsPanel.Visible = true;
                 else if (userStatus() == "False")
                 {
                     SettingsPanel.Visible = false;
                     Response.Redirect("~/");
                     return;
                 }
-                else if (userStatus() == "Failed")
-                {
-                    return;
-                }
+                else if (userStatus() == "Failed") return;
                 else if (userStatus() == "Not Found")
                 {
                     string msg = "Operator not Found.";
@@ -46,7 +40,7 @@ namespace BarcodeConversion
                 }
                 jobSectionDropdownColor(); // Job section
                 setDropdownColor(); // Index Config section
-                success.Visible = false; 
+                Page.MaintainScrollPositionOnPostBack = true;
             }
             catch (Exception ex)
             {
@@ -154,18 +148,26 @@ namespace BarcodeConversion
             try
             {
                 if (!Page.IsValid) return;
-                if (this.jobAbb.Text == string.Empty || jobAbb.Text.Length > 6)
+                if (this.jobAbb.Text == string.Empty)
                 {
-                    string msg = "Job abbreviation is required (6 characters max)";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    string msg = "Job Abbreviation required.";
+                    onScreenMsg(msg, "#ff3333;", "jobSetupSection");
+                    jobAbb.Text = string.Empty;
+                    jobAbb.Focus();
+                    return;
+                }
+                else if (jobAbb.Text.Length > 6)
+                {
+                    string msg = "6 characters max Job Abbreviation.";
+                    onScreenMsg(msg, "#ff3333;", "jobSetupSection");
                     jobAbb.Text = string.Empty;
                     jobAbb.Focus();
                     return;
                 }
                 else if (this.jobName.Text == string.Empty)
                 {
-                    string warning2 = "Job name is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + warning2 + "');", true);
+                    string msg = "Job Name required.";
+                    onScreenMsg(msg, "#ff3333;", "jobSetupSection");
                     jobName.Text = string.Empty;
                     jobName.Focus();
                     return;
@@ -194,8 +196,9 @@ namespace BarcodeConversion
                                         bool answer = AssignJob(assignee, abbr); // calling assignJob function
                                         if (answer == true)
                                         {
-                                            string msg = "New job successfully saved & assigned!";
-                                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                            string msg = "New job saved & assigned.";
+                                            onScreenMsg(msg, "green;", "jobSetupSection");
+                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut4();", true);
                                             jobFormClear();
                                             object b = this.Master.FindControl("MainContent").FindControl("unassignedBtn") as Button;
                                             getUnassignedJobs(b);
@@ -209,9 +212,9 @@ namespace BarcodeConversion
                                     }
                                     else
                                     {
-                                        success.Text = "New Job Created!";
-                                        success.Visible = true;
-                                        ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
+                                        string msg = "New job created.";
+                                        onScreenMsg(msg, "green;", "jobSetupSection");
+                                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut4();", true);
                                         jobFormClear();
                                         object b = this.Master.FindControl("MainContent").FindControl("unassignedBtn") as Button;
                                         getUnassignedJobs(b);
@@ -225,8 +228,8 @@ namespace BarcodeConversion
                         jobFormClear();
                         if (ex.Message.Contains("Violation of UNIQUE KEY"))
                         {
-                            string msg = "The Job Abbreviation entered already exists.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg = "Job Abbreviation already exists.";
+                            onScreenMsg(msg, "#ff3333;", "jobSetupSection");
                         }
                         else
                         {
@@ -263,8 +266,8 @@ namespace BarcodeConversion
                     {
                         if (this.selectJobList.SelectedValue == "Select")
                         {
-                            string msg = "Please select a Job.";
-                            Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg = "Please select a Job to edit.";
+                            onScreenMsg(msg, "#ff3333;", "jobSetupSection");
                             jobFormClear();
                             return;
                         }
@@ -288,9 +291,9 @@ namespace BarcodeConversion
                                 bool answer = AssignJob(assignee, abbr); // calling assignJob function
                                 if (answer == true)
                                 {
-                                    success.Text = "Job successfully updated & assigned!";
-                                    success.Visible = true;
-                                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
+                                    string msg = "Job updated & assigned.";
+                                    onScreenMsg(msg, "green;", "jobSetupSection");
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut4();", true);
                                     jobFormClear();
                                 }
                                 else
@@ -302,10 +305,9 @@ namespace BarcodeConversion
                             }
                             else
                             {
-                                success.Text = "Job updated successfully!";
-                                success.Attributes["style"] = "color:green;";
-                                success.Visible = true;
-                                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
+                                string msg = "Job updated successfully.";
+                                onScreenMsg(msg, "green;", "jobSetupSection");
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut4();", true);
                                 jobFormClear();
                             }
                             getDropdownJobItems();
@@ -328,99 +330,7 @@ namespace BarcodeConversion
 
 
         // 'DELETE' CLICKED: DELETE JOB. FUNCTION
-        protected void deleteJob_Click(object sender, EventArgs e)
-        {
-            if (selectJobList.SelectedValue != "Select")
-            {
-                // First, Get selected job id
-                int jobID = Helper.getJobId(selectJobList.SelectedValue);
-                if (jobID <= 0)
-                {
-                    string msg = "Job selected could not be found. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    selectJob.SelectedValue = "Select";
-                    return;
-                }
-
-                SqlConnection con = Helper.ConnectionObj;
-                con.Open();
-                if (jobID > 0)
-                {
-                    try 
-                    {
-                        // TBD: Got to delete the config 1st
-                        // Then, delete job record in OPERATOR_ACCESS
-                        SqlCommand cmd2 = new SqlCommand("DELETE FROM OPERATOR_ACCESS WHERE JOB_ID = @jobID", con);
-                        cmd2.Parameters.AddWithValue("@jobID", jobID);
-                        if (cmd2.ExecuteNonQuery() == 1)
-                        {
-                            // Finally, delete job record in JOB table
-                            SqlCommand cmd3 = new SqlCommand("DELETE FROM JOB WHERE ABBREVIATION = @abb", con);
-                            cmd3.Parameters.AddWithValue("@abb", this.selectJobList.SelectedValue);
-                            if (cmd3.ExecuteNonQuery() == 1)
-                            {
-                                success.Text = "Job successfully deleted!";
-                                success.Visible = true;
-                                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
-                                jobFormClear();
-                                jobAssignedToLabel.Visible = false;
-                                jobAssignedTo.Visible = false;
-                                con.Close();
-                                return;
-                            }
-                            else
-                            {
-                                string msg = "Error: There was an error in deleting this job in JOB.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                jobFormClear();
-                                jobAssignedToLabel.Visible = false;
-                                jobAssignedTo.Visible = false;
-                                con.Close();
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            // If no record in OPERATOR_ACCESS, just delete it in JOB
-                            SqlCommand cmd3 = new SqlCommand("DELETE FROM JOB WHERE ABBREVIATION = @abb", con);
-                            cmd3.Parameters.AddWithValue("@abb", this.selectJobList.SelectedValue);
-                            if (cmd3.ExecuteNonQuery() == 1)
-                            {
-                                success.Text = "Job successfully deleted!";
-                                success.Visible = true;
-                                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut3();", true);
-                                jobFormClear();
-                                jobAssignedToLabel.Visible = false;
-                                jobAssignedTo.Visible = false;
-                                con.Close();
-                                return;
-                            }
-                            else
-                            {
-                                string msg = "Error: There was an error in deleting this job in JOB.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                jobFormClear();
-                                jobAssignedToLabel.Visible = false;
-                                jobAssignedTo.Visible = false;
-                                con.Close();
-                                return;
-                            }
-                        }
-                    } catch (Exception ex) {
-                        string msg = "Error: Something went wrong while attempting to delete this job. Contact your system admin.";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                        // Log the exception and notify system operators
-                        ExceptionUtility.LogException(ex);
-                        ExceptionUtility.NotifySystemOps(ex);
-                    }
-                   
-                }
-                con.Close();
-            }
-            getDropdownJobItems();
-            jobAssignedToLabel.Visible = false;
-            jobAssignedTo.Visible = false;
-        }
+        protected void deleteJob_Click(object sender, EventArgs e) { }
 
     
 
@@ -447,8 +357,9 @@ namespace BarcodeConversion
                             con.Open();
                             if (cmd.ExecuteNonQuery() == 1)
                             {
-                                msg = "Permissions set!";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                msg = "Permissions set.";
+                                onScreenMsg(msg, "green;", "userSection");
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut2();", true);
                                 getOperators(); // Get operators
 
                                 // If operator becomes Admin, remove assigned jobs in OPERATOR_ACCESS
@@ -479,8 +390,9 @@ namespace BarcodeConversion
                             cmd.CommandText = "INSERT INTO OPERATOR (NAME, ADMIN) VALUES(@user,@admin)";
                             if (cmd.ExecuteNonQuery() == 1)
                             {
-                                msg = "New Operator added!";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                msg = "New operator added.";
+                                onScreenMsg(msg, "green;", "userSection");
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut2();", true);
                                 permissionsFormClear();
                             }
                         }
@@ -488,8 +400,8 @@ namespace BarcodeConversion
                 }
                 else
                 {
-                    string msg = "Operator field is required!";
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "')", true);
+                    string msg = "Operator field is required";
+                    onScreenMsg(msg, "#ff3333;", "userSection");
                     permissionsFormClear();
                 }
                 getOperators(); // Get operators
@@ -621,6 +533,8 @@ namespace BarcodeConversion
         {   
             try
             {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
+
                 if (assignPanel.Visible == false)
                 {
                     Page.Validate();
@@ -687,9 +601,37 @@ namespace BarcodeConversion
         }
 
 
+
+        // 'OPERATOR' SELECTED (JOB ACCESS SECTION)
+        protected void getInaccessibleJobs(object sender, EventArgs e)
+        {   
+            try
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
+
+                if (assignee.SelectedValue != "Select")
+                {
+                    jobAccessGridView.PageIndex = 0;
+                    object b = this.Master.FindControl("MainContent").FindControl("inaccessibleBtn") as Button;
+                    if (b != null) getUnassignedJobs(b);
+                }
+                else getUnassignedJobs(null);
+            }
+            catch(Exception ex)
+            {
+                string msg = "Error 63: Issue occured while retrieving inaccessible jobs. Contact system admin.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+            }
+        }
+
+
         // 'ACCESSIBLE' CLICKED: GET OP'S ACCESSIBLE JOBS. FUNCTION
         protected void assignedJob_Click(object sender, EventArgs e)
         {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
             jobAccessGridView.PageIndex = 0;
             getAssignedJobs();
         }
@@ -703,12 +645,10 @@ namespace BarcodeConversion
             {
                 if (assignee.SelectedValue == "Select")
                 {
-                    string msg = "Operator field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    assignee.Focus();
+                    onScreenMsg("Required", "#ff3333;", "jobAccessSection1");
                     return;
                 }
-
+                
                 // If operator field not empty, get operator ID, then jobs
                 int opID = 0;
                 using (SqlConnection con = Helper.ConnectionObj)
@@ -747,7 +687,6 @@ namespace BarcodeConversion
                                 jobAccessGridView.DataSource = ds.Tables[0];
                                 jobAccessGridView.DataBind();
                                 jobAccessGridView.Visible = true;
-                                assignee.Focus();
                             }
 
                             // Handling of whether any JOB was returned from DB
@@ -756,14 +695,12 @@ namespace BarcodeConversion
                                 jobAccessGridView.Visible = false;
                                 jobAccessBtn.Visible = false;
                                 deleteAssignedBtn.Visible = false;
-                                jobsLabel.Text = "Operator's Accessible Jobs Not Found";
-                                assignee.Focus();
+                                jobsLabel.Text = "No Accessible Jobs";
                             }
                             else
                             {
                                 jobAccessBtn.Visible = false;
                                 deleteAssignedBtn.Visible = true;
-                                assignee.Focus();
                             }
                         }
                     }
@@ -786,6 +723,7 @@ namespace BarcodeConversion
         {   
             try
             {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
                 jobAccessGridView.PageIndex = 0;
                 getUnassignedJobs(sender);
             }
@@ -873,15 +811,14 @@ namespace BarcodeConversion
                         // Handling whether or not any job access was denied
                         if (count == 0)
                         {
-                            string msg = "Please select at least one job.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            onScreenMsg("Select at least 1 job","#ff3333;","jobAccessSection2");
                             assignedJob_Click(new object(), new EventArgs());
                         }
                         else
                         {
-                            string msg = count + " Job(s) access denied!";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                            assignee.Focus();
+                            string msg = count + " Job(s) denied";
+                            onScreenMsg(msg, "green;", "jobAccessSection2");
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                             assignedJob_Click(new object(), new EventArgs());
                         }
                     }
@@ -908,12 +845,11 @@ namespace BarcodeConversion
                 int countGranted = 0, countChecked = 0, countError = 0;
                 if (assigneeName == "Select")
                 {
-                    string msg = "Operator field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    onScreenMsg("Required", "#ff3333;", "jobAccessSection1");
                     assignee.Focus();
                     return;
                 }
-
+                
                 if (jobAccessGridView.Rows.Count > 0)
                 {
                     // For each checked job, assign job to assignee
@@ -937,8 +873,7 @@ namespace BarcodeConversion
                     // Handling whether any job access was granted.
                     if (countChecked == 0)
                     {
-                        string msg = "Please make sure that at least 1 job is selected.";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        onScreenMsg("Select at least 1 job", "#ff3333;", "jobAccessSection2");
                         return;
                     }
                     else
@@ -946,13 +881,13 @@ namespace BarcodeConversion
                         jobAccessGridView.PageIndex = 0;
                         if (countGranted > 0 && countGranted == countChecked)
                         {
-                            string msg = countGranted + " job(s) granted.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            string msg = countGranted + " job(s) granted";
+                            onScreenMsg(msg, "green;", "jobAccessSection2");
+                            ScriptManager.RegisterStartupScript(Page,Page.GetType(), "fadeoutOp", "FadeOut();", true);
                             getUnassignedJobs(sender);
-                            assignee.Focus();
                             return;
                         }
-                        else 
+                        else // No longer in effect...
                         {
                             string msg = countGranted + " Job(s) granted. Operator already has access to " +countError+ " Job(s)";
                             ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
@@ -965,7 +900,7 @@ namespace BarcodeConversion
                 else
                 {
                     string msg = "There are no jobs to be granted access to.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
             }
@@ -1019,9 +954,9 @@ namespace BarcodeConversion
         {   
             try
             {
-
                 if (selectJob.SelectedValue != "Select")
-                {   
+                {
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down 
                     labelsTable.Visible = true;
                     edit1.Visible = false;
                     edit2.Visible = true;
@@ -1176,11 +1111,13 @@ namespace BarcodeConversion
         }
 
 
-        // 'SAVE' ICON CLICKED: ADD LABEL CONTROLS
+        // 'SAVE' CLICKED: ADD LABEL CONTROLS
         protected void labelContents_Click(object sender, EventArgs e)
         {
             try
-            {   
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
+
                 if (labelTextBox.Text != string.Empty)
                 {
                     // Make sure that regex & message fields are both either filled or blank
@@ -1239,7 +1176,7 @@ namespace BarcodeConversion
                 {
                     if (labelTextBox.Text == string.Empty)
                     {
-                        string msg = "NAME field is required!";
+                        string msg = "NAME field required.";
                         onScreenMsg(msg, "#ff3333;", "configSection");
                         labelTextBox.Focus();
                         return;
@@ -1371,7 +1308,9 @@ namespace BarcodeConversion
         protected void processRequest(object sender, EventArgs e)
         {  
             try
-            {   
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
+
                 // Get id of edit icon button then hide it
                 string last = string.Empty;
                 LinkButton b = new LinkButton();
@@ -1384,7 +1323,7 @@ namespace BarcodeConversion
                         // Make sure current edit is done before starting another one
                         if (labelControlsTable.Visible == true)
                         {
-                            string msg = "Current control must be set first or closed.";
+                            string msg = "Current Control Setup must be done first or closed.";
                             onScreenMsg(msg, "#ff3333;", "configSection");
                             return;
                         }
@@ -1539,13 +1478,23 @@ namespace BarcodeConversion
         {
             try
             {
+                Control c = new Control();
+                c = (Control)sender;
+                string id = c.ID;
+                //if (b.ID.Contains("edit"))
+
                 // GIVE CUSTOM COLUMN NAMES
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
                     e.Row.Cells[2].Text = "JOB";
-                    if (e.Row.Cells.Count == 4)
-                        e.Row.Cells[3].Text = "IDX COUNT";
-                    //e.Row.Cells[3].Text = "INDEX";
+                    if (e.Row.Cells.Count == 6)
+                    {
+                        e.Row.Cells[0].Visible = false; // Hide 1st col header if only listing active jobs
+                        e.Row.Cells[3].Text = "INDX";
+                        e.Row.Cells[4].Text = "PRNT";
+                        e.Row.Cells[5].Text = "UNPRNT";
+                    } 
+
                     string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
@@ -1556,6 +1505,8 @@ namespace BarcodeConversion
                     string colBorder = "border-width:1px 1px 1px 1px; border-style:solid; border-color:#cccccc; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
+
+                    if (e.Row.Cells.Count == 6) e.Row.Cells[0].Visible = false; // Hide 1st col cell if only listing active jobs
                 }
 
                 if (e.Row.RowType == DataControlRowType.Pager)
@@ -1563,6 +1514,8 @@ namespace BarcodeConversion
                     string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
+
+                    if (e.Row.Cells.Count == 6) e.Row.Cells[0].Visible = false; // Hide 1st col pager if only listing active jobs
                 }
             }
             catch (Exception ex)
@@ -1641,16 +1594,16 @@ namespace BarcodeConversion
                         // If 'INACCESSIBLE' clicked
                         if (button != null && (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn"))
                         {
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
+
                             // Make sure Operator is entered
                             if (assignee.SelectedValue != "Select") assigneeName = assignee.SelectedValue;
                             else
                             {
-                                string msg = "Operator field required.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                                assignee.Focus();
+                                onScreenMsg("Required", "#ff3333;", "jobAccessSection1");
                                 return;
                             }
-
+                            
                             // Then check if specified operator exists. If so, get ID.
                             cmd.CommandText = "SELECT ID FROM OPERATOR WHERE NAME = @assignedTo";
                             cmd.Parameters.AddWithValue("@assignedTo", assigneeName);
@@ -1676,7 +1629,7 @@ namespace BarcodeConversion
                         {
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
-                            cmd.CommandText =  "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID) " +
+                            cmd.CommandText = "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID), COUNT(CASE WHEN INDEX_DATA.PRINTED=1 THEN 1 END), COUNT(CASE WHEN INDEX_DATA.PRINTED=0 THEN 1 END) " +
                                                "FROM JOB " +
                                                "LEFT JOIN INDEX_DATA ON JOB.ID=INDEX_DATA.JOB_ID " +
                                                "WHERE ACTIVE=1 " +
@@ -1703,16 +1656,24 @@ namespace BarcodeConversion
                                 jobAccessGridView.Visible = false;
                                 jobAccessBtn.Visible = false;
                                 deleteAssignedBtn.Visible = false;
-                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn") jobsLabel.Text = "Operator's Inaccessible Jobs Not Found";
+                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn") jobsLabel.Text = "No Inaccessible Jobs";
                                 else jobsLabel.Text = "No Active Jobs Found";
                                 jobsLabel.Visible = true;
                             }
                             else
                             {
-                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn") jobsLabel.Text = "Inaccessible Jobs";
-                                else jobsLabel.Text = "Active Jobs";
+                                if (buttonId == "inaccessibleBtn" || buttonId == "jobAccessBtn")
+                                {
+                                    jobsLabel.Text = "Inaccessible Jobs";
+                                    jobAccessBtn.Visible = true;
+                                }
+                                else
+                                {
+                                    jobsLabel.Text = "Active Jobs";
+                                    jobAccessBtn.Visible = false;
+                                }
+                                
                                 jobsLabel.Visible = true;
-                                jobAccessBtn.Visible = true;
                                 deleteAssignedBtn.Visible = false;
                             }
                         }
@@ -2412,7 +2373,10 @@ namespace BarcodeConversion
             screenMsg.Attributes["style"] = "color:" + color;
             screenMsgRow.Cells.Add(screenMsg);
             if (from == "configSection") configMsg.Rows.Add(screenMsgRow);
-            //else manualEntryMsg.Rows.Add(screenMsgRow);
+            if (from == "jobAccessSection1") jobAccessMsg1.Rows.Add(screenMsgRow);
+            if (from == "jobAccessSection2") jobAccessMsg2.Rows.Add(screenMsgRow);
+            if (from == "userSection") UserSectionMsg.Rows.Add(screenMsgRow);
+            if (from == "jobSetupSection") jobSetupMsg.Rows.Add(screenMsgRow);
         }
 
     }
