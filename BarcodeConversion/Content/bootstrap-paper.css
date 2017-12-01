@@ -2521,9 +2521,9 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 4px 0 0;
   margin-top: 1px \9;
   line-height: normal;
+  margin-left: -1px;
 }
 input[type="file"] {
   display: block;
@@ -7444,7 +7444,7 @@ input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
   position: relative;
   border: none;
-  margin-bottom: -4px;
+  margin-bottom: -2px;
   -webkit-appearance: none;
   appearance: none;
   cursor: pointer;
@@ -7847,7 +7847,7 @@ input[type="checkbox"]:disabled:checked:after,
 }
 
 .pager {
-    background-color: #646464;
+    background-color: #737373;
     font-family: Arial;
     color: White;
     height: 25px;

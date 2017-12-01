@@ -35,7 +35,7 @@ namespace BarcodeConversion
                 else if (userStatus() == "Not Found")
                 {
                     string msg = "Operator not Found.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
                 jobSectionDropdownColor(); // Job section
@@ -45,7 +45,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 50: Issue occured while attempting to load page. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -76,7 +76,7 @@ namespace BarcodeConversion
                     catch (Exception ex)
                     {
                         string msg = "Error 51: Issue occured while attempting to identify operator status. Contact system admin." ;
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                         // Log the exception and notify system operators
                         ExceptionUtility.LogException(ex);
                         ExceptionUtility.NotifySystemOps(ex);
@@ -133,7 +133,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 52: Issue occured while attempting to choose action. Contact system admin. " ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -206,7 +206,7 @@ namespace BarcodeConversion
                                         else
                                         {
                                             string msg = "Error 53: New job successfully saved, but not assigned! Contact system admin.";
-                                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                             jobFormClear();
                                         }
                                     }
@@ -234,7 +234,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Error 54: Issue occured while attempting to save the created job. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             // Log the exception and notify system operators
                             ExceptionUtility.LogException(ex);
                             ExceptionUtility.NotifySystemOps(ex);
@@ -245,7 +245,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 55: Issue occured while attempting to save the created job. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -299,7 +299,7 @@ namespace BarcodeConversion
                                 else
                                 {
                                     string msg = "Error 55a: Job updated successfully, but not assigned! Contact System Admin.";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                     jobFormClear();
                                 }
                             }
@@ -320,7 +320,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 56: Issue occured while attempting to update the job ACTIVE status. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -409,7 +409,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 58: Issue occured while attempting to set permissions. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -435,7 +435,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 59: Issue occured while processing master CheckBox. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -462,7 +462,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 60: Issue occured while attempting to clear fields. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -502,7 +502,7 @@ namespace BarcodeConversion
            catch (Exception ex)
            {
                 string msg  = "Error 61: Issue occured while attempting to hide or collapse panel. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -552,7 +552,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 62: Issue occured while attempting to hide or show panel. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -593,7 +593,7 @@ namespace BarcodeConversion
             catch(Exception ex)
             {
                 string msg = "Error 62a: Issue occured while retrieving operators. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -663,7 +663,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Specified Operator could not be found!";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             assignee.Focus();
                             return;
                         }
@@ -709,7 +709,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 65: Issue occured while attempting to get operator's accessible jobs. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -730,7 +730,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 66: Issue occured while attempting to retrieve active jobs. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -748,7 +748,7 @@ namespace BarcodeConversion
                 if (assignee.SelectedValue == "Select")
                 {
                     string msg = "Operator field is required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     assignee.Focus();
                     return;
                 }
@@ -765,7 +765,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Specified Operator could not be found!";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             assignee.Focus();
                             assignedJob_Click(new object(), new EventArgs());
                             return;
@@ -786,7 +786,7 @@ namespace BarcodeConversion
                                 else
                                 {
                                     string msg = "Error 68: Selected job " + row.Cells[2].Text + " could not be found. Contact system admin.";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                     assignee.Focus();
                                     assignedJob_Click(new object(), new EventArgs());
                                     return;
@@ -801,7 +801,7 @@ namespace BarcodeConversion
                                 else
                                 {
                                     string msg = "Error 70: Something went wrong while removing job: " + row.Cells[2].Text + ". Contact system admin.";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                     assignedJob_Click(new object(), new EventArgs());
                                     assignee.Focus();
                                 }
@@ -827,7 +827,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 71: Issue occured while attempting to deny operator's job accesses. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -890,7 +890,7 @@ namespace BarcodeConversion
                         else // No longer in effect...
                         {
                             string msg = countGranted + " Job(s) granted. Operator already has access to " +countError+ " Job(s)";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             getUnassignedJobs(sender);
                             assignee.Focus();
                             return;
@@ -907,7 +907,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 72: Issue occured while attempting to grant jobs accesses to operator. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -940,7 +940,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 73: Issue occured while attempting to show or hide section. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1059,7 +1059,7 @@ namespace BarcodeConversion
             catch(Exception ex)
             {
                 string msg = "Error 73a: Issue occured while retrieving saved index data. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1150,7 +1150,7 @@ namespace BarcodeConversion
                 if (jobId <= 0)
                 {
                     string msg = "Job selected could not be found.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     selectJob.SelectedValue = "Select";
                     return;
                 }
@@ -1206,7 +1206,7 @@ namespace BarcodeConversion
                                 if (result2 <= 0)
                                 {
                                     string msg = "Error 73C. Could not save dropdown values";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                     selectJob.SelectedValue = "Select";
                                     return;
                                 }
@@ -1248,7 +1248,7 @@ namespace BarcodeConversion
                             if (result2 <= 0)
                             {
                                 string msg = "Error 73G. Could not save dropdown values";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                 selectJob.SelectedValue = "Select";
                                 return;
                             }
@@ -1278,7 +1278,7 @@ namespace BarcodeConversion
                     setupTitle.Visible = false;
                     edit1.Visible = true;
                 }
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1521,7 +1521,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 47: Issue occured while attempting to prevent line breaks within gridview. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1566,7 +1566,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 79: Issue occured while attempting to hile or collapse all sections. Contacy system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1613,7 +1613,7 @@ namespace BarcodeConversion
                             else
                             {
                                 string msg = "Operator entered could not be found.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                 return;
                             }
 
@@ -1683,7 +1683,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 81: Issue occured while attempting to retrieve jobs. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1731,7 +1731,7 @@ namespace BarcodeConversion
                             else
                             {
                                 string msg = "No Jobs could be found.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                 return;
                             }
                         }
@@ -1741,7 +1741,7 @@ namespace BarcodeConversion
             catch(Exception ex) 
             {
                 string msg = "Error 84: Issue occured while attempting to retrieve jobs. Contact system admin. " ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1777,7 +1777,7 @@ namespace BarcodeConversion
                             else
                             {
                                 string msg = "No Active jobs could be found";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                 return;
                             }
                         }
@@ -1788,7 +1788,7 @@ namespace BarcodeConversion
             catch(Exception ex) 
             {
                 string msg = "Error 86: Issue occured while attempting to retrieve active jobs. Contact system admin. ";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1816,7 +1816,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Specified operator could not be found!";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             return false;
                         }
 
@@ -1830,7 +1830,7 @@ namespace BarcodeConversion
                         }
                         catch (SqlException ex) {
                             string msg = "Error 88: Issue occured while attempting to retrieve job ID. Contact system admin. ";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             // Log the exception and notify system operators
                             ExceptionUtility.LogException(ex);
                             ExceptionUtility.NotifySystemOps(ex);
@@ -1863,7 +1863,7 @@ namespace BarcodeConversion
                 else
                 {
                     string msg = "Error 88: Issue occured while attempting to assign " + abbr + " to operator. Contact system admin. ";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
                 return false;
             }
@@ -1908,7 +1908,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 90: Issue occured while attempting to color appropriate jobs. Contact system admin. ";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1954,7 +1954,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 90a: Issue occured while attempting to color appropriate jobs. Contact system admin. ";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1981,7 +1981,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 91: Issue occured while attempting to operator's ID. Contact system admin. " ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -2302,7 +2302,7 @@ namespace BarcodeConversion
             if (result != 1)
             {
                 string msg = "Error 73" + e + ". Could not save job config. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 selectJob.SelectedValue = "Select";
                 return;
             }

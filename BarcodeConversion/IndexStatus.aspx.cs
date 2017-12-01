@@ -46,7 +46,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 37: Issue occured while loading this page. Contact your system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -66,12 +66,13 @@ namespace BarcodeConversion
                 whatFilter.SelectedValue = "allSheets";
                 getIndexes("Your Jobs", "meOnly", "allTime", "allSheets");
                 indexeStatusGridView.Visible = true;
+                indexeStatusGridView.PageIndex = 0;
                 sortOrder.Text = "Sorted By : CREATION_TIME ASC";
             }
             catch (Exception ex)
             {
                 string msg  = "Error 38: Issue occured while attempting reset. Contact your system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -152,7 +153,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 39: Issue occured while attempting to populate jobs dropdown. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -173,7 +174,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 40: Issue occured while attempting to process filter entries. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -207,7 +208,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 41: Issue occured while attempting to process filter entries. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -235,15 +236,16 @@ namespace BarcodeConversion
                 {
                     ViewState["from"] = null;
                     ViewState["to"] = null;
+                    
                     string msg = "All date fields required.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    onScreenMsg(msg, "#ff3333;", "dateRange");
                     from.Text = string.Empty;
                     to.Text = string.Empty;
                 }
                 else
                 {
                     string msg = "Error 42: Issue occured while attempting to process filter entries. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 }
                 
                 // Log the exception and notify system operators
@@ -265,7 +267,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 43:   Issue occured while attempting to change page & process filter entries. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -380,13 +382,13 @@ namespace BarcodeConversion
                             if (start == default(DateTime))
                             {
                                 string msg = "Please pick a start date.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                onScreenMsg(msg, "#ff3333;", "dateRange");
                                 return;
                             }
                             if (end == default(DateTime))
                             {
                                 string msg = "Please pick an end date.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                onScreenMsg(msg, "#ff3333;", "dateRange");
                                 return;
                             }
 
@@ -478,13 +480,13 @@ namespace BarcodeConversion
                             if (start == default(DateTime))
                             {
                                 string msg = "Please pick a start date.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                onScreenMsg(msg, "#ff3333;", "dateRange");
                                 return;
                             }
                             if (end == default(DateTime))
                             {
                                 string msg = "Please pick an end date.";
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                onScreenMsg(msg, "#ff3333;", "dateRange");
                                 return;
                             }
 
@@ -570,13 +572,13 @@ namespace BarcodeConversion
                 string msg;   
                 if (ex.Message.Contains("valid DateTime"))
                 {
-                    msg = "All date fields required!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    msg = "All date fields required.";
+                    onScreenMsg(msg, "#ff3333;", "dateRange");
                 }
                 else
                 {
                     msg = "Error 45: Issue occured while attempting to process filter entries." ;
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     // Log the exception and notify system operators
                     ExceptionUtility.LogException(ex);
                     ExceptionUtility.NotifySystemOps(ex);
@@ -603,7 +605,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 46: Issue occured while attempting to display requested number of records. Contact your system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -701,7 +703,7 @@ namespace BarcodeConversion
 
                 if (e.Row.RowType == DataControlRowType.Pager)
                 {
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
@@ -709,7 +711,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {   
                 string msg  = "Error 47: Issue occured while attempting to prevent line breaks within gridview. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -758,7 +760,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 48: Issue occured while attempting to sort table. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -799,12 +801,26 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 49: Issue occured while attempting to sort table. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
                 return "ASC";
             }
         }
+        
+
+
+        // PRINT VARIOUS MSG ON SCREEN INSTEAD OF A POPUP
+        private void onScreenMsg(string msg, string color, string from)
+        {
+            var screenMsg = new TableCell();
+            var screenMsgRow = new TableRow();
+            screenMsg.Text = msg;
+            screenMsg.Attributes["style"] = "color:" + color;
+            screenMsgRow.Cells.Add(screenMsg);
+            if (from == "dateRange") dateAlertMsg.Rows.Add(screenMsgRow);
+        }
+
     }
 }

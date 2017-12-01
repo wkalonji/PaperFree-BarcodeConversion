@@ -64,7 +64,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel formPanelJobSelection;
+        protected global::System.Web.UI.WebControls.Panel formPanelJobSelection;
         
         /// <summary>
         /// selectJobBtn control.
@@ -109,7 +109,7 @@ namespace BarcodeConversion {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel indexCreationUpdatePanel;
+        protected global::System.Web.UI.WebControls.Panel indexCreationUpdatePanel;
         
         /// <summary>
         /// notConfigScreenMsg control.
@@ -209,15 +209,6 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
-        
-        /// <summary>
-        /// errorUpload control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label errorUpload;
         
         /// <summary>
         /// fileEntryMsg control.
@@ -373,6 +364,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.DropDownList label5Dropdown;
         
         /// <summary>
+        /// lastValuesEntered control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox lastValuesEntered;
+        
+        /// <summary>
         /// manualEntryMsg control.
         /// </summary>
         /// <remarks>
@@ -409,6 +409,15 @@ namespace BarcodeConversion {
         protected global::System.Web.UI.WebControls.Button saveAndPrint;
         
         /// <summary>
+        /// linkToUnprinted control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl linkToUnprinted;
+        
+        /// <summary>
         /// HyperLink1 control.
         /// </summary>
         /// <remarks>
@@ -425,6 +434,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden indexString;
+        
+        /// <summary>
+        /// sameEntries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl sameEntries;
         
         /// <summary>
         /// goToQuestion control.

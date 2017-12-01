@@ -32,7 +32,6 @@ namespace BarcodeConversion
                 selectJob_Click(new object(), new EventArgs());
             }
             setDropdownColor();
-            errorUpload.Visible = false;
         }
 
 
@@ -74,7 +73,7 @@ namespace BarcodeConversion
                     if (jobID <= 0)
                     {
                         string msg = "Error 02:     Selected job not found. Contact system admin.";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                         selectJob.SelectedValue = "Select";
                         return;
                     }
@@ -182,6 +181,7 @@ namespace BarcodeConversion
                                         Session["regexList"] = regexList; // Contains (label,regex,alert) for each label set at Index Config Section
                                     }
                                     generateIndexSection.Visible = true;
+                                    lastValuesEntered.Checked = false;
                                 }
                                 else
                                 {
@@ -204,7 +204,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Issue occured while attempting to retrieve selected job index data controls. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('Error 03: " + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('Error 03: " + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -291,7 +291,7 @@ namespace BarcodeConversion
                             // If less row items than the min required
                             if (line.Count < regexCount)
                             {
-                                string msg = "This job requires that every row in your csv file contains no less than " + regexCount + " items. That is not the case for row " + lineNumber + ".";
+                                string msg = "This job requires that every row in your csv file contains no less than " + regexCount + " item(s). That is not the case for row " + lineNumber + ".";
                                 string color = "#ff3333;";
                                 onScreenMsg(msg, color, "file");
 
@@ -303,11 +303,11 @@ namespace BarcodeConversion
                             // If more row items than the max required
                             if (line.Count > labelsCount)
                             {
-                                string msg = "This job requires that every row in your csv file contains no more than " + labelsCount + " items.";
+                                string msg = "This job requires that every row in your csv file contains no more than " + labelsCount + " item(s).";
                                 string color = "#ff3333;";
                                 onScreenMsg(msg, color, "file");
                                 
-                                msg = "For instance: row number  " + lineNumber + " has " + line.Count + " items instead of " + labelsCount + ".";
+                                msg = "For instance: row number  " + lineNumber + " has " + line.Count + " item(s) instead of " + labelsCount + ".";
                                 color = "#ff3333;";
                                 onScreenMsg(msg, color, "file");
                                 isFileValid = false;
@@ -458,7 +458,7 @@ namespace BarcodeConversion
                 catch (Exception ex)
                 {
                     string msg = "Error 4: Could not upload file. Make sure it is a csv file and that it corresponds to the currently selected Job.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
 
                     // Log the exception and notify system operators
                     ExceptionUtility.LogException(ex);
@@ -489,7 +489,7 @@ namespace BarcodeConversion
                 if (fileName == string.Empty)
                 {
                     string msg = "Error 4a:  Could not retrieve file name. Contact system admin. ";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
                 string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
@@ -544,7 +544,7 @@ namespace BarcodeConversion
                         if (jobID <= 0)
                         {
                             string msg = "Error 4b: Selected job not found. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             selectJob.SelectedValue = "Select";
                             return;
                         }
@@ -554,7 +554,7 @@ namespace BarcodeConversion
                         if (barcodeIndex.Contains("Error"))
                         {
                             string msg = "Error 4c:  Error occurred while generating barcode! Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             return;
                         }
                         // Save barcode and entries
@@ -595,7 +595,7 @@ namespace BarcodeConversion
             catch(Exception ex)
             {
                 string msg = "Error 4d:  Couldn't process file. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
 
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
@@ -617,48 +617,46 @@ namespace BarcodeConversion
                 // First, save index(es) if File Entries
                 var fileContent = new List<List<string>>();
                 var manualEntries = new List<string>();
-                if (b.ID == "printIndexesBtn") // File
+                if (b.ID == "printIndexesBtn")
                 {
                     saveIndexes_Click(new object(), new EventArgs());
                     fileContent = (List<List<string>>)ViewState["fileContent"];
                     if (fileContent == null) return;
                 }
                 // Or save index(es) if Manual Entries
-                else if (b.ID == "saveAndPrint") // Manual 
+                else if (b.ID == "saveAndPrint")
                 {
+                    // Check if anything was entered at all. If nothing entered, break out.
+                    bool nothing = isNothingEntered();
+                    if (nothing) return;
+
+                    // Then save
                     saveIndex_Click(new object(), new EventArgs());
                     manualEntries = (List<string>)ViewState["manualEntries"];
                     if (manualEntries == null) return;
                 }
 
                 // Clear page
-                //formPanel.Visible = false;
-                //Panel p = Master.FindControl("MainContent").FindControl("formPanel") as Panel;
-                //p.Visible = false;
-                //p.Attributes["style"] = "display:none;";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "hideform", "hideForm();", true);
-                Response.Write("<h2>IT'S WORKS !!!</h2>");
-                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openWindow", "window.open('IndexPage.html','_newtab');", true);
-
+                formPanel.Visible = false;
 
                 // Start writing index sheet pages
-                //Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
+                Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
 
                 // Write index sheet pages if File Entries
                 if (b.ID == "printIndexesBtn")
                 {
                     int currentCount = 0;
-                    //foreach (List<string> entries in fileContent)
-                    //{
-                    //    currentCount++;
-                    //    string result = writeIndexPage(entries, currentCount, fileContent.Count);
-                    //    if (result.Contains("Error"))
-                    //    {
-                    //        string msg = result;
-                    //        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
-                    //        return;
-                    //    }
-                    //}
+                    foreach (List<string> entries in fileContent)
+                    {
+                        currentCount++;
+                        string result = writeIndexPage(entries, currentCount, fileContent.Count);
+                        if (result.Contains("Error"))
+                        {
+                            string msg = result;
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
+                            return;
+                        }
+                    }
                 }
                 // Or Write index sheet pages if Manual Entries
                 else if (b.ID == "saveAndPrint")
@@ -667,22 +665,21 @@ namespace BarcodeConversion
                     if (result.Contains("Error"))
                     {
                         string msg = result;
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                         return;
                     }
                 }
-               
+
                 // Close div tag
-                //Response.Write("</div>");
+                Response.Write("</div>");
                 // Finally, Print Index sheet.
-                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "printing();", true);
-                //ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "printing();", true);
             }
             catch (Exception ex)
             {
                 Button b = (Button)sender;
                 string msg = "Error 4f:  Couldn't process file. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
 
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
@@ -711,7 +708,7 @@ namespace BarcodeConversion
             if (fileName == string.Empty)
             {
                 string msg = "Error 4g:  Couldn't retrieve file name. Contact system admin. ";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 return;
             }
             string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
@@ -782,7 +779,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 34: Issue occured while attempting to prevent line breaks in table. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -844,8 +841,9 @@ namespace BarcodeConversion
                     if (i == 1 && c.Text == string.Empty)
                     {
                         string label = regexList[0].Item1;
-                        string msg = label + " field is required!";
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                        string msg = label + " field is required.";
+                        string color = "#ff3333;";
+                        onScreenMsg(msg, color, "manual");
                         c.Focus();
                         return;
                     }
@@ -859,7 +857,7 @@ namespace BarcodeConversion
                         if (!r.IsMatch(c.Text))
                         {
                             string msg = label + ": " + regexList[i - 1].Item3;
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             c.Focus();
                             return;
                         }
@@ -872,7 +870,7 @@ namespace BarcodeConversion
                     //{
                     //    string label = regexList[0].Item1;
                     //    string msg = label + " field is required!";
-                    //    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     //    c.Focus();
                     //    return;
                     //}
@@ -882,56 +880,55 @@ namespace BarcodeConversion
                     entries.Add(string.Empty);
             }
 
-            // Check if anything was entered at all
-            bool noEntry = true;
-            for (int i = 1; i <= 5; i++)
-            {
-                TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
-                DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
-
-                if ((c != null && c.Visible == true && c.Text != string.Empty) || (d != null && d.Visible == true && d.SelectedValue != string.Empty))
-                    noEntry = false;
-            }
-            if (noEntry == true)
-            {
-                string msg = "All entries can not be blank. At least one index data must be entered.";
-                string color = "#ff3333;";
-                onScreenMsg(msg, color, "manual");
-                return;
-            }
+            // Check if anything was entered at all. If nothing entered, break out.
+            bool nothing = isNothingEntered();
+            if (nothing) return;
 
             // Get barcode
             string barcodeIndex = generateBarcode();
             if (barcodeIndex.Contains("Error"))
             {
                 string msg = barcodeIndex;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 return;
             }
 
+            // Check if about to save the same entries as last save.
+            bool same = true;
+            if (ViewState["manualEntries"] != null)
+            {
+                var previousEntries = (List<string>)ViewState["manualEntries"];
+                for (int i=0; i<5; i++)
+                {
+                    if (previousEntries[i] != entries[i]) same = false;
+                }
+
+                //if (same)
+                //{
+                //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "SameEntriesAlert();", true);
+                //    if (sameEntries != null && sameEntries.Visible == true) 
+                //    {
+                //        if (sameEntries.InnerText == "no") 
+                //        {
+                //            string msg = "Entries not processed.";
+                //            onScreenMsg(msg, "#ff3333;", "manual");
+                //        } 
+                //    }
+                //}
+            }
+            
+
             // Save barcode and entries
             string result = saveIndexAndEntries(barcodeIndex, entries);
-            if (result.Contains("Error"))
-            {
-                return;
-            }
-            for (int i = 1; i <= 5; i++)
-            {
-                DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
-                if (d != null && d.Visible == true)
-                {
-                    if (d.Items.Contains(d.Items.FindByValue("Select")))
-                        d.SelectedValue = "Select";
-                    else d.SelectedValue = string.Empty;
-                }
-            }
+            if (result.Contains("Error")) return;
+
             // Stick barcode to the end of entries
             entries.Add(barcodeIndex);
             ViewState["manualEntries"] = entries;
 
             if(result.Contains("pass"))
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                 ViewState["manualPrintCancelled"] = 1;
             }
         }
@@ -949,7 +946,7 @@ namespace BarcodeConversion
                 if (opID == 0)
                 {
                     string msg = "Error 05: Could not identify active user. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return msg;
                 }
 
@@ -958,7 +955,7 @@ namespace BarcodeConversion
                 if (jobID == 0)
                 {
                     string msg = "Error 06: Could not identify the selected job. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     selectJob.SelectedValue = "Select";
                     return msg;
                 }
@@ -995,13 +992,17 @@ namespace BarcodeConversion
                                 onScreenMsg(msg, color, "manual");
                                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                             }
-                            clearFields();
+
+                            // Remember last values entered
+                            if (!lastValuesEntered.Checked) 
+                                clearFields();
+
                             return "pass";
                         }
                         else
                         {
                             string msg = "Error 07: Issue occured while attempting to save. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             return msg;
                         }
                     }
@@ -1015,13 +1016,13 @@ namespace BarcodeConversion
                 if (ex.Message.Contains("Violation of UNIQUE KEY"))
                 {
                     string msg = "Error 08: The Index you are trying to save already exists!";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return msg;
                 }
                 else
                 {
                     string msg = "Error 09: Issue occured while attempting to save index. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('"+ msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('"+ msg + "');", true);
                     return msg;
                 }
             }
@@ -1202,7 +1203,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Error 11: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             clearFields();
                             return msg;
                         }
@@ -1215,7 +1216,7 @@ namespace BarcodeConversion
                         else
                         {
                             string msg = "Error 12: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             clearFields();
                             return msg;
                         }
@@ -1225,7 +1226,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 13: Index saved, but issue occured while attempting to set it to PRINTED. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1242,6 +1243,7 @@ namespace BarcodeConversion
             {
                 formPanel.Visible = true;
                 satisfied.Visible = false;
+                linkToUnprinted.Visible = true;
                 formPanelJobSelection.Visible = true;
                 indexCreationSection.Visible = true;
 
@@ -1253,14 +1255,14 @@ namespace BarcodeConversion
                     if (result.Contains("Error"))
                     {
                         string msg1 = result;
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg1 + "');", true);
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg1 + "');", true);
                         return;
                     }
                     string msg = "Index string saved and set as PRINTED.";
                     string color = "green;";
                     onScreenMsg(msg, color, "manual");
                     clearFields();
-                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                 }
 
                 // For uploaded file
@@ -1274,7 +1276,7 @@ namespace BarcodeConversion
                         if (result.Contains("Error"))
                         {
                             string msg1 = result;
-                            ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg1 + "');", true);
+                            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg1 + "');", true);
                             return;
                         }
                         else if (result == "pass") countPass++;
@@ -1282,7 +1284,7 @@ namespace BarcodeConversion
                     string msg = countPass + " index string(s) saved and set as PRINTED.";
                     string color = "green;";
                     onScreenMsg(msg, color, "file");
-                    ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut2();", true);
                 }
 
                 Panel p = Master.FindControl("footerSection") as Panel;
@@ -1291,7 +1293,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 14: Issue occured while attempting to set job as PRINTED. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1304,6 +1306,7 @@ namespace BarcodeConversion
         {
             formPanel.Visible = true;
             satisfied.Visible = true;
+            linkToUnprinted.Visible = false;
             formPanelJobSelection.Visible = false;
             indexCreationSection.Visible = false;
             Panel p = Master.FindControl("footerSection") as Panel;
@@ -1317,6 +1320,7 @@ namespace BarcodeConversion
         {
             formPanel.Visible = true;
             satisfied.Visible = false;
+            linkToUnprinted.Visible = true;
             formPanelJobSelection.Visible = true;
             indexCreationSection.Visible = true;
             
@@ -1332,7 +1336,7 @@ namespace BarcodeConversion
                 string msg = countPass + " index string(s) saved.";
                 string color = "green;";
                 onScreenMsg(msg, color, "file");
-                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut2();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut2();", true);
             }
 
             if (ViewState["manualPrintCancelled"] != null)
@@ -1340,7 +1344,7 @@ namespace BarcodeConversion
                 string msg = "Index string saved.";
                 string color = "green;";
                 onScreenMsg(msg, color, "manual");
-                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
             }
 
             Panel p = Master.FindControl("footerSection") as Panel;
@@ -1422,7 +1426,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 17: Issue occured while attempting to retrieve jobs accessible to you. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1466,7 +1470,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 18: Issue occured while attempting to color configured jobs in dropdown. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1500,7 +1504,7 @@ namespace BarcodeConversion
             catch(Exception ex) 
             {
                 string msg = "Error 01: Issue occured while attempting to identify the selected Job. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1516,29 +1520,23 @@ namespace BarcodeConversion
             try
             {
                 List<TextBox> textBoxList = new List<TextBox>();
-                textBoxList.Add(label1Box);
-                textBoxList.Add(label2Box);
-                textBoxList.Add(label3Box);
-                textBoxList.Add(label4Box);
-                textBoxList.Add(label5Box);
+                textBoxList.AddRange(new TextBox[] { label1Box, label2Box, label3Box, label4Box, label5Box });
+                List<DropDownList> dropdownsList = new List<DropDownList>();
+                dropdownsList.AddRange(new DropDownList[] { label1Dropdown, label2Dropdown, label3Dropdown, label4Dropdown, label5Dropdown });
 
                 foreach (var textBox in textBoxList)
                 {
                     if (textBox.Visible == true) textBox.Text = string.Empty;
                 }
-                foreach (var textBox in textBoxList)
+                foreach (var dropdown in dropdownsList)
                 {
-                    if (textBox.Visible == true)
-                    {
-                        textBox.Focus();
-                        return;
-                    }
+                    if (dropdown.Visible == true) dropdown.SelectedValue = "";
                 }
             }
             catch (Exception ex)
             {
                 string msg = "Error 19: Issue occured while attempting to clear text fields. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -1580,6 +1578,39 @@ namespace BarcodeConversion
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
+            }
+        }
+
+
+        // CHECK IF NOTHING WAS ENTERED IN MANUAL ENTRIES.
+        private bool isNothingEntered()
+        {
+            try
+            {
+                bool noEntry = true;
+                for (int i = 1; i <= 5; i++)
+                {
+                    TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
+                    DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
+
+                    if ((c != null && c.Visible == true && c.Text != string.Empty) || (d != null && d.Visible == true && d.SelectedValue != string.Empty))
+                        noEntry = false;
+                }
+                if (noEntry == true)
+                {
+                    string msg = "All entries can not be blank. At least one index data must be entered.";
+                    string color = "#ff3333;";
+                    onScreenMsg(msg, color, "manual");
+                    return true;
+                }
+                else return false;
+            }
+            catch(Exception ex)
+            {
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+                return true;
             }
         }
     }
