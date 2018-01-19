@@ -29,7 +29,7 @@
         <div style="margin-top:45px; margin-bottom:30px; height:50px; border-bottom:solid 1px green;width:860px;">
             <table style="width:860px;">
                 <tr>
-                    <td><h2 style="display:inline; padding-top:25px; color:#595959;">Settings</h2></td>
+                    <td><h2 style="display:inline;padding-top:25px; color:#595959;">Settings</h2></td>
                     <td style="text-align:right;"> 
                         <%-- COLLAPSE ALL--%>
                         <div style="display:block;margin-left:710px;padding-top:15px;">
@@ -73,7 +73,7 @@
                                         <th style="color:#737373;font-family:Arial;font-size:15px">&nbsp;Create / Edit Jobs</th>
                                         <td style="text-align:right;padding-right:5px;">
                                             <asp:linkButton ID="LinkButton1" runat="server" ForeColor="#737373" 
-                                                OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away.\n*    Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in red.')">
+                                                OnClientClick="return alert('Notes:\n*   You can make a new job accessible to an operator right away.\n*    Jobs made accessible in this section will be visible to the specified operator but can not be processed until configured in the Index Config section below.\n*   When selecting a job to edit, Active jobs are in green.')">
                                                 <i class="fa fa-info-circle" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
                                             </asp:linkButton></td>
                                     </tr>
@@ -294,7 +294,7 @@
                                     <th style="color:#737373;font-family:Arial;font-size:15px">&nbsp;Create Index Data Controls for Jobs</th>
                                     <td style="text-align:right;padding-right:5px;">
                                         <asp:linkButton ID="LinkButton4" runat="server" ForeColor="#737373" 
-                                            OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in red.\n*  Regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\\S.*    Alert: Field can not be empty!\n*  Unspecified regex means textbox can be left blank when creating index.\n*  One can make use of \'regexr.com\' to test regular expressions.')">
+                                            OnClientClick="return alert('Notes:\n*  Only jobs configured in this section can be processed by operators.\n*  Already configured jobs are in green.\n*  Regex is optional. But if specified, an alert message must also be specified to let operator know what a valid entry should be.\n*  Example: Regex:  .*\\S.*    Alert: Field can not be empty!\n*  Unspecified regex means textbox can be left blank when creating index.\n*  One can make use of \'regexr.com\' to test regular expressions.')">
                                             <i class="fa fa-info-circle" style="font-size:20px;" BackColor="#e6f3ff" runat="server" ></i>
                                         </asp:linkButton></td>
                                 </tr>
@@ -312,25 +312,34 @@
                             </tr>
                         </table>
 
-                        <table id="labelsTable" visible="false" style="margin-top:15px;margin-bottom:5px;width:315px;"  class=auto-style3 runat="server">
+                        <%--<table>
+                          <% for (int i = 0; i < 10; i++){ %>
+                            <tr><td><%= i %></td></tr>
+                          <% } %>
+                        </table>--%>
+
+                        <table id="labelsTable" visible="false" style="margin-top:15px;margin-bottom:5px;width:315px;" class=auto-style3 runat="server">
+                             
                             <tr style="height:35px;">
                                 <td style="width: 80px;"><asp:Label ID="lab1" Visible="true" Height="30" Text="LABEL1:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="label1" Visible="true" ReadOnly="true" placeholder=" Required only for Set" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label1" Visible="true" ReadOnly="true" placeholder="  Required only for Set" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
                                 <td style="padding-left:5px;padding-top:4px;">
                                     <asp:linkButton ID="edit1" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
                                         <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
                                     </asp:linkButton>
                                 </td>
                             </tr>
+
                             <tr style="height:35px;">
                                 <td style="width: 80px;"><asp:Label ID="lab2" Visible="true" Height="30" Text="LABEL2:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="label2" Visible="true" ReadOnly="true" placeholder="Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
                                 <td style="padding-left:5px;padding-top:4px;">
-                                     <asp:linkButton ID="edit2" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                    <asp:linkButton ID="edit2" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
                                         <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
                                     </asp:linkButton>
                                 </td>
                             </tr>
+
                             <tr style="height:35px;">
                                 <td style="width: 80px;"><asp:Label ID="lab3" Visible="true"  Height="30" Text="LABEL3:" runat="server"></asp:Label></td>
                                 <td style="text-align:right;"><asp:TextBox ID="label3" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
@@ -354,6 +363,51 @@
                                 <td style="text-align:right;"><asp:TextBox ID="label5" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
                                 <td style="padding-left:5px;padding-top:4px;">
                                      <asp:linkButton ID="edit5" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                        <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                </td>
+                            </tr>
+                            <tr style="height:35px;">
+                                <td style="width:80px;"><asp:Label ID="lab6" Visible="true"  Height="30" Text="LABEL6:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label6" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="padding-left:5px;padding-top:4px;">
+                                     <asp:linkButton ID="edit6" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                        <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                </td>
+                            </tr>
+                            <tr style="height:35px;">
+                                <td style="width:80px;"><asp:Label ID="lab7" Visible="true"  Height="30" Text="LABEL7:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label7" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="padding-left:5px;padding-top:4px;">
+                                     <asp:linkButton ID="edit7" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                        <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                </td>
+                            </tr>
+                            <tr style="height:35px;">
+                                <td style="width:80px;"><asp:Label ID="lab8" Visible="true"  Height="30" Text="LABEL8:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label8" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="padding-left:5px;padding-top:4px;">
+                                     <asp:linkButton ID="edit8" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                        <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                </td>
+                            </tr>
+                            <tr style="height:35px;">
+                                <td style="width:80px;"><asp:Label ID="lab9" Visible="true"  Height="30" Text="LABEL9:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label9" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="padding-left:5px;padding-top:4px;">
+                                     <asp:linkButton ID="edit9" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
+                                        <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
+                                    </asp:linkButton>
+                                </td>
+                            </tr>
+                            <tr style="height:35px;">
+                                <td style="width:80px;"><asp:Label ID="lab10" Visible="true"  Height="30" Text="LABEL10:" runat="server"></asp:Label></td>
+                                <td style="text-align:right;"><asp:TextBox ID="label10" Visible="true" ReadOnly="true" placeholder=" Optional" onfocus="this.select()" runat="server" Width="200px"></asp:TextBox></td>
+                                <td style="padding-left:5px;padding-top:4px;">
+                                     <asp:linkButton ID="edit10" Visible="true" runat="server" ForeColor="#737373" OnClick="processRequest" >
                                         <i class="fa fa-pencil-square-o" style="font-size:22px;" BackColor="#e6f3ff" runat="server" ></i>
                                     </asp:linkButton>
                                 </td>
@@ -391,11 +445,11 @@
                             </tr>
                              <tr style="vertical-align:top;">
                                 <td style="width:75px;padding-top:4px;"><asp:Label ID="valuesLabel" Visible="false" Text="VALUES:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="dropdownValues" style="margin-top:7px;" Visible="false" placeholder=" Optional.   e.g.: 10, 20, 30, Yes, No" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="dropdownValues" style="margin-top:7px;" Visible="false" placeholder="Optional.   e.g.: 10, 20, 30, Yes, No" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width:75px;padding-top:3px;"><asp:Label ID="regex" Text="REGEX:" runat="server"></asp:Label></td>
-                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" style="margin-top:2px;" placeholder="Optional. Remove delimiters //" onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
+                                <td style="text-align:right;"><asp:TextBox ID="regexTextBox" style="margin-top:2px;" placeholder="Optional." onfocus="this.select()" TextMode="MultiLine" runat="server" Width="216px" Height="70px"></asp:TextBox></td>
                             </tr>
                             <tr style="vertical-align:top;">
                                 <td style="width:75px;padding-top:3px;"><asp:Label ID="alert" Text="ALERT:" runat="server"></asp:Label></td>

@@ -107,10 +107,10 @@
                     <asp:Table id="dateAlertMsg" style="margin-left:22px;" runat="server"></asp:Table>
 			        <h5 style="color:#4d4dff;margin-top:30px;"><asp:Label ID="description" Visible="false" runat="server"></asp:Label></h5>
                     <asp:Panel ID="gridContainer" style="display:inline-block;" runat="server"> <%--CssClass="card"--%>
-				        <table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;" runat="server">
+				        <table id="gridHeader" style="width:100%;margin-top:15px;margin-bottom:-10px;font-size:12px;" runat="server">
 					        <tr>
 						        <td><asp:Label ID="sortOrder" Text="Sorted By : CREATION_TIME ASC" runat="server"></asp:Label><asp:Label id="sortDirection" Font-Size="8" runat="server"></asp:Label></td>
-						        <td style="text-align:right;">
+						        <td style="text-align:right;padding-right:25px;">
 							        <asp:Label ID="recordsPerPageLabel" Text="Records per page " style="padding-right:5px;" runat="server"></asp:Label>
 							        <asp:DropDownList ID="recordsPerPage" OnSelectedIndexChanged="onSelectedRecordsPerPage" style="padding:0px 10px 0px 5px;" onmousedown="this.focus()" runat="server" AutoPostBack="true">
 								        <asp:ListItem Value="10" Selected="true">10</asp:ListItem>

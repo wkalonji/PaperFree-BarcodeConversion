@@ -7,6 +7,8 @@ using System.Data;
 using BarcodeConversion.App_Code;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Web;
+using System.Linq;
 
 namespace BarcodeConversion
 {
@@ -49,7 +51,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 30: Issue occured while attempting to reset. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -65,12 +67,13 @@ namespace BarcodeConversion
                 Page.Validate();
                 if (!Page.IsValid) return;
 
+                indexPage.Visible = false;
                 unprintedIndexesPanel.Visible = true;
                 satisfied.Visible = false;
                 pageTitle.Visible = true;
                 mainContent.Visible = true;
 
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 int opID = 0;
 
                 // Retrieve operator ID
@@ -78,7 +81,7 @@ namespace BarcodeConversion
                 if (opID == 0)
                 {
                     string msg = " Error 20: Could not identify active user. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
 
@@ -97,7 +100,7 @@ namespace BarcodeConversion
                             isAdmin = (bool)cmd.ExecuteScalar();
                         cmd.Parameters.Clear();
 
-                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
+                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME " +
                                            "FROM INDEX_DATA " +
                                            "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
                                            "WHERE PRINTED=0";
@@ -150,7 +153,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 21: Issue occured while attempting to reset page. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -192,12 +195,12 @@ namespace BarcodeConversion
                 con.Open();
 
                 // First, get current user ID
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 int opID = Helper.getUserId(user);
                 if (opID == 0)
                 {
                     string msg = "Error 22: Issue occured while attempting to identify operator. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
 
@@ -223,13 +226,13 @@ namespace BarcodeConversion
                                 {
                                     counter += 1;
                                     string msg = "Error 23: Issue occured while attempting to delete selected Index Number " + counter + ".";
-                                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                 }
                             }
                             catch(Exception ex) {
                                 counter += 1;
                                 string msg = "Error 24: Issue occured while attempting to delete selected Index Number " + counter;
-                                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
 
                                 // Log the exception and notify system operators
                                 ExceptionUtility.LogException(ex);
@@ -249,7 +252,7 @@ namespace BarcodeConversion
                 }
                 string color = "green;";
                 showMsg(jobDone, color);
-                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                 con.Close();
                 getUnprintedIndexes();
             }         
@@ -279,7 +282,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 25: Issue occured while attempting to handle checkboxes. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -319,7 +322,11 @@ namespace BarcodeConversion
 
                 // Creating index barcode webpage
                 int currentCount = 0;
-                Response.Write("<div id = 'pageToPrint' style = 'margin-top:-50px;'>");
+
+                indexPage.Visible = true;
+                string indexPageString = "";
+
+                indexPageString += "<div id = 'pageToPrint' style = 'margin-top:-50px;'>";
                 foreach (GridViewRow row in indexesGridView.Rows)
                 {
                     var indexString = row.Cells[3].Text;
@@ -334,7 +341,7 @@ namespace BarcodeConversion
                         {
                             // Get barcode Image
                             string urlString = @"ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=40";
-                            imgBarcode.ImageUrl = string.Format(urlString, indexString.PadLeft(8, '0'));
+                            imgBarcode.ImageUrl = string.Format(urlString, indexString);
 
                             // Get operator's entries
                             using (SqlConnection con = Helper.ConnectionObj)
@@ -342,7 +349,9 @@ namespace BarcodeConversion
                                 using (SqlCommand cmd = con.CreateCommand())
                                 {
                                     cmd.CommandText =   "SELECT LABEL1, VALUE1, LABEL2, VALUE2, LABEL3, VALUE3, " +
-                                                        "LABEL4, VALUE4, LABEL5, VALUE5 FROM JOB_CONFIG_INDEX " +
+                                                        "LABEL4, VALUE4, LABEL5, VALUE5, LABEL6, VALUE6, LABEL7, VALUE7, " +
+                                                        "LABEL8, VALUE8, LABEL9, VALUE9, LABEL10, VALUE10 " +
+                                                        "FROM JOB_CONFIG_INDEX " +
                                                         "JOIN INDEX_DATA ON JOB_CONFIG_INDEX.JOB_ID = INDEX_DATA.JOB_ID " +
                                                         "WHERE INDEX_DATA.BARCODE=@indexString";
                                     cmd.Parameters.AddWithValue("@indexString", indexString);
@@ -377,39 +386,37 @@ namespace BarcodeConversion
                             if (browser.Browser == "InternetExplorer" || browser.Browser == "IE")
                             {
                                 // Write to index page
-                                Response.Write(
+                                indexPageString += 
                                     "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
                                     "<div>" +
                                         "<div style='margin-top:70px;text-align:center;'>" +
-                                            "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='450px' style='border:none;outline:none;'> " +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='45px' width='480px' style='border:none;outline:none;'> " +
                                         "</div>" +
-                                        "<div style='font-size:17px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
-                                        "<div style='width:450px; margin-top:210px;float:right;margin-right:-120px;' class='rotate'>" +
-                                            "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='100%' style='border:none;outline:none;' > " +
-                                            "<div style='font-size:17px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                                        "<div style='font-size:19px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                                        "<div style='width:480px; margin-top:210px;float:right;margin-right:-170px;' class='rotate'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='45px' width='100%' style='border:none;outline:none;' > " +
+                                            "<div style='font-size:19px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                                         "</div>" +
-                                    "</div>"
-                                );
+                                    "</div>";
+
                                 // Remove extra space if it's the last page to print
                                 if (totalCount == currentCount)
                                 {
-                                    Response.Write(
-                                        "<table style='margin-top:500px; margin-left:178px;padding-top:10px;display:block;'>" +
+                                    indexPageString +=
+                                        "<table class='dataSection' style='margin-top:500px; margin-left:130px;padding-top:10px;display:block;'>" +
                                             "<tr>" +
-                                                "<td style='font-size:21px;'> INDEX STRING: </td>" +
-                                                "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                            "</tr>"
-                                    );
+                                                "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                            "</tr>";
                                 }
                                 else
                                 {
-                                    Response.Write(
-                                       "<table style='margin-top:500px;margin-bottom:570px; margin-left:178px;padding-top:10px;display:block;'>" +
+                                    indexPageString +=
+                                       "<table class='dataSection' style='margin-top:500px;margin-bottom:570px; margin-left:130px;padding-top:10px;display:block;'>" +
                                            "<tr>" +
-                                               "<td style='font-size:21px;'> INDEX STRING: </td>" +
-                                               "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                           "</tr>"
-                                    );
+                                               "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                               "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                           "</tr>";
                                 }
 
                                 foreach (var entry in allEntriesList)
@@ -417,59 +424,55 @@ namespace BarcodeConversion
                                     if (entry.text != string.Empty)
                                     {
                                         string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
-                                        Response.Write(
+                                        indexPageString += 
                                             "<tr>" +
-                                                "<td style='font-size:21px;'>" + label.ToUpper() + ":" + "</td>" +
-                                                "<td style='font-size:21px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
-                                            "</tr>"
-                                        );
+                                                "<td style='font-size:20px;'>" + label.ToUpper() + ":" + "</td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                            "</tr>";
                                     }
                                 }
                                 
-                                Response.Write(
+                                indexPageString += 
                                             "<tr>" +
-                                                "<td style='font-size:21px;'>DATE PRINTED: </td>" +
-                                                "<td style='font-size:21px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                                "<td style='font-size:20px;'>DATE PRINTED: </td>" +
+                                                "<td style='font-size:20px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                             "</tr>" +
-                                        "</table>"
-                                );
+                                        "</table>";
                             }
                             else // Chrome
                             {
-                                // Write Index sheet page conten
-                                Response.Write(
-                                    "<div style='font-size:38px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                                // Write Index sheet page content
+                                indexPageString +=
+                                    "<div style='font-size:50px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
                                     "<div>" +
-                                        "<div style='margin-top:70px;text-align:center;'>" +
-                                            "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='400px'> " +
+                                        "<div style='margin-top:85px;text-align:center;'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='50px' width='600px'> " +
                                         "</div>" +
-                                        "<div style='font-size:15px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
-                                        "<div style='width:400px; margin-top:200px;float:right;margin-right:-100px;' class='rotate'>" +
-                                            "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='100%' > " +
-                                            "<div style='font-size:15px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                                        "<div style='font-size:24px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                                        "<div style='width:600px; margin-top:250px;float:right;margin-right:-130px;' class='rotate'>" +
+                                            "<img src='" + imgBarcode.ImageUrl + "' height='50px' width='100%' > " +
+                                            "<div style='font-size:25px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                                         "</div>" +
-                                    "</div>"
-                                );
+                                    "</div>";
+
                                 // Remove extra space if it's the last page to print
                                 if (totalCount == currentCount)
                                 {
-                                    Response.Write(
-                                        "<table style='margin-top:430px; margin-left:170px;padding-top:10px;display:block;'>" +
+                                    indexPageString +=
+                                        "<table class='dataSection' style='margin-top:630px; margin-left:250px;padding-top:10px;display:block;'>" +
                                             "<tr>" +
-                                                "<td style='font-size:18px;'> INDEX STRING: </td>" +
-                                                "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                            "</tr>"
-                                    );
+                                                "<td style='font-size:25px;'> INDEX STRING: </td>" +
+                                                "<td style='font-size:25px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                            "</tr>";
                                 }
                                 else
                                 {
-                                    Response.Write(
-                                       "<table style='margin-top:430px;margin-bottom:570px; margin-left:170px;padding-top:10px;display:block;'>" +
+                                    indexPageString +=
+                                       "<table class='dataSection' style='margin-top:630px;margin-bottom:570px; margin-left:250px;padding-top:10px;display:block;'>" +
                                            "<tr>" +
-                                               "<td style='font-size:18px;'> INDEX STRING: </td>" +
-                                               "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                           "</tr>"
-                                    );
+                                               "<td style='font-size:25px;'> INDEX STRING: </td>" +
+                                               "<td style='font-size:25px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                           "</tr>";
                                 }
 
 
@@ -478,21 +481,19 @@ namespace BarcodeConversion
                                     if (entry.text != string.Empty)
                                     {
                                         string label = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(entry.labelText.ToLower());
-                                        Response.Write(
+                                        indexPageString +=
                                             "<tr>" +
-                                                "<td style='font-size:18px;'>" + label.ToUpper() + ":" + "</td>" +
-                                                "<td style='font-size:18px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
-                                            "</tr>"
-                                        );
+                                                "<td style='font-size:25px;'>" + label.ToUpper() + ":" + "</td>" +
+                                                "<td style='font-size:25px; padding-left:15px;'>" + entry.text.ToUpper() + "</td>" +
+                                            "</tr>";
                                     }
                                 }
-                                Response.Write(
+                                indexPageString +=
                                             "<tr>" +
-                                                "<td style='font-size:18px;'>DATE PRINTED: </td>" +
-                                                "<td style='font-size:18px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                                "<td style='font-size:25px;'>DATE PRINTED: </td>" +
+                                                "<td style='font-size:25px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                             "</tr>" +
-                                        "</table>"
-                                );
+                                        "</table>";
                             }
                         }
                         else
@@ -505,12 +506,14 @@ namespace BarcodeConversion
                         }
                     }
                 }
-                Response.Write("</div>");
+                indexPageString += "</div>";
+
+                indexPage.InnerHtml = indexPageString;
             }
             catch (Exception ex)
             {
                 string msg = "Error 26: Issue occured while attempting to setup for printing. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -521,13 +524,13 @@ namespace BarcodeConversion
             {
                 // Print generated Index sheets wepages, clear & get unprinted indexes again.
                 Control c = (Control)sender;
-                if (c.ID == "reprintBtn") ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "reprint();", true);
-                else ClientScript.RegisterStartupScript(this.GetType(), "PrintOperation", "printing();", true);
+                if (c.ID == "reprintBtn") ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "reprint();", true);
+                else ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "printing();", true);
             }
             catch (Exception ex)
             {
                 string msg = "Error 27: Issue occured while attempting to print. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -536,7 +539,7 @@ namespace BarcodeConversion
 
 
 
-        // 'SHOW PRINTED' CLICKED
+        // 'PRINTED' CLICKED
         protected void showPrinted_Click(object sender, EventArgs e)
         {
             try
@@ -550,7 +553,7 @@ namespace BarcodeConversion
 
                 Page.Validate();
                 if (!Page.IsValid) return;
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 int opID = 0;
 
                 // Retrieve operator ID
@@ -558,7 +561,7 @@ namespace BarcodeConversion
                 if (opID == 0)
                 {
                     string msg = " Error 20: Could not identify active user. Contact system admin.";
-                    ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return;
                 }
 
@@ -578,7 +581,7 @@ namespace BarcodeConversion
                         cmd.Parameters.Clear();
 
 
-                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME " +
+                        string cmdString = "SELECT ABBREVIATION, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME " +
                                            "FROM INDEX_DATA " +
                                            "INNER JOIN JOB ON INDEX_DATA.JOB_ID = JOB.ID " +
                                            "WHERE PRINTED=1";
@@ -629,7 +632,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 21: Issue occured while attempting to reset page. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -667,7 +670,7 @@ namespace BarcodeConversion
                                     else
                                     {
                                         string msg = "Error 28: Couldn't update Index to PRINTED. Contact system admin.";
-                                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                                     }
                                 }
                             }
@@ -687,13 +690,13 @@ namespace BarcodeConversion
                 }
                 string color = "green;";
                 showMsg(jobDone, color);
-                ClientScript.RegisterStartupScript(this.GetType(), "fadeoutOp", "FadeOut();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
                 reset_Click(new object(), new EventArgs());
             }
             catch (Exception ex)
             {
                 string msg = "Error 29: Issue occured while attempting to set Index to PRINTED. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -720,7 +723,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 30: Issue occured while attempting to process request of change in records per page. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -745,7 +748,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 31: Issue occured while attempting to set Index to PRINTED. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -771,7 +774,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 32: Issue occured while attempting to get unprinted indexes. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -792,7 +795,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 33: Issue occured while attempting to change table page" ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -809,7 +812,7 @@ namespace BarcodeConversion
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
                     e.Row.Cells[3].Visible = false;
-                    ((LinkButton)e.Row.Cells[9].Controls[0]).Text = "CREATION TIME";
+                    ((LinkButton)e.Row.Cells[14].Controls[0]).Text = "CREATION TIME";
                     ((LinkButton)e.Row.Cells[2].Controls[0]).Text = "JOB";
                     string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
@@ -827,7 +830,7 @@ namespace BarcodeConversion
 
                 if (e.Row.RowType == DataControlRowType.Pager)
                 {
-                    string colBorder = "border-left:1px solid #646464; border-right:1px solid #646464; white-space: nowrap;";
+                    string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
                 }
@@ -835,7 +838,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Issue occured while attempting to prevent line breaks in table. Contact system admin.";
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -869,7 +872,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg = "Error 35: Issue occured while attempting to sort column. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -909,7 +912,7 @@ namespace BarcodeConversion
             catch (Exception ex)
             {
                 string msg  = "Error 36: Issue occured while attempting to sort column. Contact system admin." ;
-                ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msg + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
@@ -932,6 +935,7 @@ namespace BarcodeConversion
         // GO TO QUESTION
         protected void goToQuestion_Click(object sender, EventArgs e)
         {
+            indexPage.Visible = false;
             unprintedIndexesPanel.Visible = true;
             satisfied.Visible = true;
             pageTitle.Visible = false;

@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -90,7 +92,7 @@ namespace BarcodeConversion
                 jobsFilter.Items.Add("Your Jobs");
                 
                 // First, get current user id via name.
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 List<int> jobIdList = new List<int>();
                 Dictionary<int, string> jobsDict = new Dictionary<int, string>();
                 int opID = Helper.getUserId(user);
@@ -287,7 +289,7 @@ namespace BarcodeConversion
                 // First, populate 'Your Jobs' filter
                 Dictionary<int, string> jobsDict = (Dictionary<int, string>)Session["jobsList"];
 
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 int opID = Helper.getUserId(user);
                 if (opID == 0 || jobsDict.Count == 0)
                 {
@@ -331,11 +333,11 @@ namespace BarcodeConversion
                     if (who == "meOnly")
                     {   
                         if (isAdmin)
-                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME, PRINTED " +
                                         "FROM INDEX_DATA " +
                                         "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID WHERE INDEX_DATA.OPERATOR_ID=@opId ";
                         else
-                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME, PRINTED " +
                                         "FROM INDEX_DATA " +
                                         "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
                                         "INNER JOIN OPERATOR_ACCESS ON OPERATOR_ACCESS.JOB_ID=INDEX_DATA.JOB_ID " +
@@ -430,11 +432,11 @@ namespace BarcodeConversion
                     else if (who == "everyone")
                     {
                         if (isAdmin)
-                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME, PRINTED " +
                                         "FROM INDEX_DATA " +
                                         "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID ";
                         else
-                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, CREATION_TIME, PRINTED " +
+                            cmdString = "SELECT NAME, BARCODE, VALUE1, VALUE2, VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, CREATION_TIME, PRINTED " +
                                         "FROM INDEX_DATA " +
                                         "INNER JOIN OPERATOR ON INDEX_DATA.OPERATOR_ID=OPERATOR.ID " +
                                         "WHERE INDEX_DATA.JOB_ID IN (SELECT JOB_ID FROM OPERATOR_ACCESS WHERE OPERATOR_ACCESS.OPERATOR_ID=@opId) ";
@@ -638,9 +640,9 @@ namespace BarcodeConversion
                         {
                             using (SqlCommand cmd = con.CreateCommand())
                             {
-                                cmd.CommandText = "SELECT LABEL1, LABEL2, LABEL3, LABEL4, LABEL5 " +
+                                cmd.CommandText = "SELECT LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, LABEL7, LABEL8, LABEL9, LABEL10 " +
                                                   "FROM JOB_CONFIG_INDEX " +
-                                                  "WHERE JOB_ID = @jobID";
+                                                  "WHERE JOB_ID=@jobID";
                                 cmd.Parameters.AddWithValue("@jobID", jobID);
                                 con.Open();
                                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -649,7 +651,7 @@ namespace BarcodeConversion
                                     {
                                         while (reader.Read())
                                         {
-                                            for (int i = 1; i <= 5; i++)
+                                            for (int i = 1; i <= 10; i++)
                                             {
                                                 if (reader.GetValue(i - 1) != DBNull.Value)
                                                     jobLabels["label" + i] = (string)reader.GetValue(i - 1);
@@ -664,7 +666,7 @@ namespace BarcodeConversion
                         ViewState["jobLabels"] = jobLabels;
 
                         // Rename columns headers & remove empty columns
-                        for (int i = 3; i <= 7; i++)
+                        for (int i = 3; i <= 12; i++)
                         {
                             if (jobLabels["label" + (i - 2)] == string.Empty)
                                 e.Row.Cells[i].Visible = false;
@@ -675,6 +677,7 @@ namespace BarcodeConversion
                     ((LinkButton)e.Row.Cells[1].Controls[0]).Text = "OPERATOR";
                     ((LinkButton)e.Row.Cells[2].Controls[0]).Text = "INDEX";
                     ((LinkButton)e.Row.Cells[e.Row.Cells.Count - 2].Controls[0]).Text = "CREATION TIME";
+
                     // Set column borders & Prevent headers' line breaks
                     string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
                     for (int i = 0; i < e.Row.Cells.Count; i++)
@@ -688,7 +691,7 @@ namespace BarcodeConversion
                     var jobLabels = (Dictionary<string, string>)ViewState["jobLabels"];
                     if (jobsFilter.SelectedValue != "Your Jobs")
                     {
-                        for (int i = 3; i <= 7; i++)
+                        for (int i = 3; i <= 12; i++)
                         {
                             if (jobLabels["label" + (i - 2)] == string.Empty)
                                 e.Row.Cells[i].Visible = false;

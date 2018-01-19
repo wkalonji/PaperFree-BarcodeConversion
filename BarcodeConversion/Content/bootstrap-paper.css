@@ -7765,7 +7765,7 @@ input[type="checkbox"]:disabled:checked:after,
     max-width: 40%;
     border-right-width: 0px !important;
     border-left-width: 0px !important;
-
+    margin-right: 25px;
 }
 
 .header {
@@ -7953,5 +7953,9 @@ input[type="checkbox"]:disabled:checked:after,
 
 .print:last-child {
      page-break-after: auto !important;
+}
+
+.dataSection td {
+    line-height:1.3;
 }
 

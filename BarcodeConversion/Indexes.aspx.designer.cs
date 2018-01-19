@@ -13,6 +13,15 @@ namespace BarcodeConversion {
     public partial class About {
         
         /// <summary>
+        /// indexPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl indexPage;
+        
+        /// <summary>
         /// unprintedIndexesPanel control.
         /// </summary>
         /// <remarks>
@@ -65,15 +74,6 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl pageTitle;
-        
-        /// <summary>
-        /// onScreenMsg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Table onScreenMsg;
         
         /// <summary>
         /// mainContent control.
@@ -155,6 +155,15 @@ namespace BarcodeConversion {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton goBackBtn;
+        
+        /// <summary>
+        /// onScreenMsg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table onScreenMsg;
         
         /// <summary>
         /// gridContainer control.

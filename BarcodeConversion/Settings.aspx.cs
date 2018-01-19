@@ -7,6 +7,8 @@ using BarcodeConversion.App_Code;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using System.Web;
+using System.Linq;
 
 namespace BarcodeConversion
 {
@@ -58,7 +60,7 @@ namespace BarcodeConversion
         // CHECK WHETHER USER IS ADMIN
         private string userStatus() 
         {
-            string user = Environment.UserName;
+            string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
             using (SqlConnection con = Helper.ConnectionObj) 
             {
                 using (SqlCommand cmd = con.CreateCommand()) 
@@ -374,7 +376,7 @@ namespace BarcodeConversion
                                 else
                                 {   
                                     // If self demotion, hide Settings & redirect to Home page.
-                                    string op = Environment.UserName;
+                                    string op = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                                     if (op == user.Text)
                                     {
                                         LinkButton l = this.Master.FindControl("settings") as LinkButton;
@@ -959,10 +961,11 @@ namespace BarcodeConversion
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down 
                     labelsTable.Visible = true;
                     edit1.Visible = false;
-                    edit2.Visible = true;
-                    edit3.Visible = true;
-                    edit4.Visible = true;
-                    edit5.Visible = true;
+                    for (int i=2; i<=10; i++)
+                    {
+                        LinkButton l = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
+                        l.Visible = true;
+                    }
                     labelControlsTable.Visible = true;
                     setupTitle.Visible = true;
 
@@ -1006,7 +1009,7 @@ namespace BarcodeConversion
                     }
 
                     // Retrieve & fill controls textboxes
-                    for (int i = 1; i <= 5; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
                         using (SqlConnection con = Helper.ConnectionObj)
                         {
@@ -1099,7 +1102,7 @@ namespace BarcodeConversion
             setDropdownColor();
             labelControlsTable.Visible = false;
             setupTitle.Visible = false;
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i) as TextBox;
@@ -1125,7 +1128,7 @@ namespace BarcodeConversion
                     {
                         string msg = "Both regex and alert must be set or left blank.";
                         onScreenMsg(msg, "#ff3333;", "configSection");
-                        labelTextBox.Attributes["placeholder"] = " required for set";
+                        labelTextBox.Attributes["placeholder"] = " Required";
                         if (regexTextBox.Text == string.Empty) regexTextBox.Focus();
                         else if (msgTextBox.Text == string.Empty) msgTextBox.Focus();
                         return;
@@ -1162,7 +1165,7 @@ namespace BarcodeConversion
 
                 // Get current control
                 int controlBeingSet = 0;
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 10; i++)
                 {
                     LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                     if (btn.Visible == false)
@@ -1323,17 +1326,18 @@ namespace BarcodeConversion
                         // Make sure current edit is done before starting another one
                         if (labelControlsTable.Visible == true)
                         {
-                            string msg = "Current Control Setup must be done first or closed.";
+                            string msg = "Finish or close current Control Setup first.";
                             onScreenMsg(msg, "#ff3333;", "configSection");
                             return;
                         }
                         ViewState["senderID"] = b.ID;
                         last = b.ID.Substring(b.ID.Length - 1, 1);
+                        if (last.Equals("0")) last = "10";
                     }
                 }
                 else
                 {
-                    for (int i = 1; i <= 5; i++)
+                    for (int i = 1; i <= 10; i++)
                     {
                         LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                         if (btn != null)
@@ -1425,11 +1429,11 @@ namespace BarcodeConversion
                     else
                     {
                         string placeholder = string.Empty;
-                        if (last == "1") placeholder = " Required";
-                        else placeholder = " Optional";
+                        if (last == "1") placeholder = "Required";
+                        else placeholder = "Optional";
                         labelTextBox.Attributes["placeholder"] = placeholder;
-                        regexTextBox.Attributes["placeholder"] = " Optional. Remove delimiters //";
-                        msgTextBox.Attributes["placeholder"] = " Message of what a valid entry should be.";
+                        regexTextBox.Attributes["placeholder"] = "Optional.";
+                        msgTextBox.Attributes["placeholder"] = "Message of what a valid entry should be.";
                     }
                 }
                 labelControlsTable.Visible = true;
@@ -1450,6 +1454,7 @@ namespace BarcodeConversion
         // 'TYPE' RADIO GROUP CHECKED.
         protected void radioBtnChanged_Click(object sender, EventArgs e)
         {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "scroll", "scrollToBottom();", true);     // Scroll page all the way down
             if (dropdownType.Checked)
             {
                 dropdownValues.Visible = true;
@@ -1487,12 +1492,12 @@ namespace BarcodeConversion
                 if (e.Row.RowType == DataControlRowType.Header)
                 {
                     e.Row.Cells[2].Text = "JOB";
-                    if (e.Row.Cells.Count == 6)
+                    if (e.Row.Cells.Count == 5)
                     {
                         e.Row.Cells[0].Visible = false; // Hide 1st col header if only listing active jobs
-                        e.Row.Cells[3].Text = "INDX";
-                        e.Row.Cells[4].Text = "PRNT";
-                        e.Row.Cells[5].Text = "UNPRNT";
+                        e.Row.Cells[3].Text = "INDEX";
+                        e.Row.Cells[4].Text = "PRINTED";
+                        //e.Row.Cells[5].Text = "UNPRNT";
                     } 
 
                     string colBorder = "border-left:1px solid #737373; border-right:1px solid #737373; white-space: nowrap;";
@@ -1506,7 +1511,7 @@ namespace BarcodeConversion
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
 
-                    if (e.Row.Cells.Count == 6) e.Row.Cells[0].Visible = false; // Hide 1st col cell if only listing active jobs
+                    if (e.Row.Cells.Count == 5) e.Row.Cells[0].Visible = false; // Hide 1st col cell if only listing active jobs
                 }
 
                 if (e.Row.RowType == DataControlRowType.Pager)
@@ -1515,7 +1520,7 @@ namespace BarcodeConversion
                     for (int i = 0; i < e.Row.Cells.Count; i++)
                         e.Row.Cells[i].Attributes.Add("style", colBorder);
 
-                    if (e.Row.Cells.Count == 6) e.Row.Cells[0].Visible = false; // Hide 1st col pager if only listing active jobs
+                    if (e.Row.Cells.Count == 5) e.Row.Cells[0].Visible = false; // Hide 1st col pager if only listing active jobs
                 }
             }
             catch (Exception ex)
@@ -1629,7 +1634,7 @@ namespace BarcodeConversion
                         {
                             // If 'INACCESSIBLE' not clicked, set cmd to retrieve all Active jobs.
                             cmd.Parameters.Clear();
-                            cmd.CommandText = "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID), COUNT(CASE WHEN INDEX_DATA.PRINTED=1 THEN 1 END), COUNT(CASE WHEN INDEX_DATA.PRINTED=0 THEN 1 END) " +
+                            cmd.CommandText = "SELECT ABBREVIATION, COUNT(INDEX_DATA.ID), COUNT(CASE WHEN INDEX_DATA.PRINTED=1 THEN 1 END) " +
                                                "FROM JOB " +
                                                "LEFT JOIN INDEX_DATA ON JOB.ID=INDEX_DATA.JOB_ID " +
                                                "WHERE ACTIVE=1 " +
@@ -1722,7 +1727,7 @@ namespace BarcodeConversion
                                         {
                                             if (item.Value == jobAbb)
                                             {
-                                                item.Attributes.Add("style", "color:Red;");
+                                                item.Attributes.Add("style", "color:#009900;font-weight:bold;");
                                             }
                                         }
                                     }
@@ -1896,7 +1901,7 @@ namespace BarcodeConversion
                                     {
                                         if (item.Value == (string)reader.GetValue(0))
                                         {
-                                            item.Attributes.Add("style", "color:Red;");
+                                            item.Attributes.Add("style", "color:#009900;font-weight:bold;");
                                         }
                                     }
                                 }
@@ -1942,7 +1947,7 @@ namespace BarcodeConversion
                                     {
                                         if (item.Value == (string)reader.GetValue(0))
                                         {
-                                            item.Attributes.Add("style", "color:Red;");
+                                            item.Attributes.Add("style", "color:#009900;font-weight:bold;");
                                         }
                                     }
                                 }
@@ -1995,17 +2000,17 @@ namespace BarcodeConversion
         {
             selectJob.SelectedValue = "Select";
             label1.Text = string.Empty;
-            label1.Attributes["placeholder"] = " Required only for Set";
+            label1.Attributes["placeholder"] = "Required";
             label1.Focus();
             label2.Text = string.Empty;
-            label2.Attributes["placeholder"] = " Optional";
+            label2.Attributes["placeholder"] = "Optional";
             label3.Text = string.Empty;
-            label3.Attributes["placeholder"] = " Optional";
+            label3.Attributes["placeholder"] = "Optional";
             label4.Text = string.Empty;
-            label4.Attributes["placeholder"] = " Optional";
+            label4.Attributes["placeholder"] = "Optional";
             label5.Text = string.Empty;
-            label5.Attributes["placeholder"] = " Optional";
-            for (int i = 1; i <= 5; i++) ViewState["labelValuesedit" + i] = null;
+            label5.Attributes["placeholder"] = "Optional";
+            for (int i = 1; i <= 10; i++) ViewState["labelValuesedit" + i] = null;
         }
 
 
@@ -2165,12 +2170,16 @@ namespace BarcodeConversion
                         {
                             cmd.CommandText =   "INSERT INTO JOB_CONFIG_INDEX" +
                                                 "(JOB_ID, LABEL1, REGEX1, ALERT1, TABLEID1, LABEL2, REGEX2, ALERT2, TABLEID2, LABEL3, REGEX3, ALERT3, TABLEID3, " +
-                                                "LABEL4, REGEX4, ALERT4, TABLEID4, LABEL5, REGEX5, ALERT5, TABLEID5) " +
+                                                "LABEL4, REGEX4, ALERT4, TABLEID4, LABEL5, REGEX5, ALERT5, TABLEID5, LABEL6, REGEX6, ALERT6, TABLEID6, " +
+                                                "LABEL7, REGEX7, ALERT7, TABLEID7, LABEL8, REGEX8, ALERT8, TABLEID8, LABEL9, REGEX9, ALERT9, TABLEID9, " +
+                                                "LABEL10, REGEX10, ALERT10, TABLEID10) " +
                                                 "VALUES(@jobID, @label1, @regex1, @alert1, @tableid1, @label2, @regex2, @alert2, @tableid2, " +
-                                                "@label3, @regex3, @alert3, @tableid3, @label4, @regex4, @alert4, @tableid4, @label5, @regex5, @alert5, @tableid5)";
+                                                "@label3, @regex3, @alert3, @tableid3, @label4, @regex4, @alert4, @tableid4, @label5, @regex5, @alert5, @tableid5, "+
+                                                "@label6, @regex6, @alert6, @tableid6, @label7, @regex7, @alert7, @tableid7, @label8, @regex8, @alert8, @tableid8, "+
+                                                "@label9, @regex9, @alert9, @tableid9, @label10, @regex10, @alert10, @tableid10)";
                             if (controlType == "dropdown")
                             {
-                                for (int i = 1; i <= 5; i++)
+                                for (int i = 1; i <= 10; i++)
                                 {
                                     if (i == 1)
                                     {
@@ -2191,7 +2200,7 @@ namespace BarcodeConversion
                             }
                             else // If control = textbox
                             {
-                                for (int i = 1; i <= 5; i++)
+                                for (int i = 1; i <= 10; i++)
                                 {
                                     if (i == 1)
                                     {
@@ -2281,7 +2290,7 @@ namespace BarcodeConversion
             setDropdownColor();
             labelControlsTable.Visible = false;
             setupTitle.Visible = false;
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 LinkButton btn = this.Master.FindControl("MainContent").FindControl("edit" + i) as LinkButton;
                 TextBox t = this.Master.FindControl("MainContent").FindControl("label" + i) as TextBox;
@@ -2337,15 +2346,15 @@ namespace BarcodeConversion
                                 {
                                     if (reader.GetValue(0).ToString() != DBNull.Value.ToString())
                                     {
-                                        labelTextBox.Text = " " + (string)reader.GetValue(0);
+                                        labelTextBox.Text = (string)reader.GetValue(0);
                                         if (reader.GetValue(1).ToString() != string.Empty)
-                                            regexTextBox.Text = " " + reader.GetValue(1).ToString();
+                                            regexTextBox.Text = reader.GetValue(1).ToString();
                                         else
-                                            regexTextBox.Attributes["placeholder"] = " Optional. Remove delimiters //";
+                                            regexTextBox.Attributes["placeholder"] = "Optional. Remove delimiters //";
                                         if (reader.GetValue(2).ToString() != string.Empty)
-                                            msgTextBox.Text = " " + reader.GetValue(2).ToString();
+                                            msgTextBox.Text = reader.GetValue(2).ToString();
                                         else
-                                            msgTextBox.Attributes["placeholder"] = " Message of what a valid entry should be.";
+                                            msgTextBox.Attributes["placeholder"] = "Message of what a valid entry should be.";
                                     }
                                 }
                             }

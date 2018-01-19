@@ -10,6 +10,7 @@ using Microsoft.VisualBasic.FileIO;
 using System.IO;
 using System.Linq;
 using System.Data;
+using System.Web;
 
 namespace BarcodeConversion
 {
@@ -53,7 +54,7 @@ namespace BarcodeConversion
                 GridView1.Visible = false;
                 uploadedFileMenu.Visible = false;
 
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 10; i++)
                 {
                     Label l = this.Master.FindControl("MainContent").FindControl("LABEL" + i) as Label;
                     l.Visible = false;
@@ -83,10 +84,10 @@ namespace BarcodeConversion
                     {
                         using (SqlCommand cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "SELECT JOB_ID, LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, " +
-                                                    "REGEX1, REGEX2, REGEX3, REGEX4, REGEX5, " + 
-                                                    "ALERT1, ALERT2, ALERT3, ALERT4, ALERT5, " + 
-                                                    "TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
+                            cmd.CommandText = "SELECT JOB_ID, LABEL1, LABEL2, LABEL3, LABEL4, LABEL5, LABEL6, LABEL7, LABEL8, LABEL9, LABEL10, " +
+                                                             "REGEX1, REGEX2, REGEX3, REGEX4, REGEX5, REGEX6, REGEX7, REGEX8, REGEX9, REGEX10, " +
+                                                             "ALERT1, ALERT2, ALERT3, ALERT4, ALERT5, ALERT6, ALERT7, ALERT8, ALERT9, ALERT10, " +
+                                                             "TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5, TABLEID6, TABLEID7, TABLEID8, TABLEID9, TABLEID10 " +
                                               "FROM JOB_CONFIG_INDEX " + 
                                               "WHERE JOB_ID=@jobID";
                             cmd.Parameters.AddWithValue("@jobID", jobID);
@@ -103,20 +104,20 @@ namespace BarcodeConversion
                                     // Set & display controls
                                     if (reader.Read())
                                     {
-                                        while (i <= 5)
+                                        while (i <= 10)
                                         {
                                             if (reader.GetValue(i) != DBNull.Value) // If label i is set
                                             {
-                                                if (reader.GetValue(i + 15) == DBNull.Value) // If control is a Textbox
+                                                if (reader.GetValue(i + 30) == DBNull.Value) // If control is a Textbox
                                                 {
                                                     var tuple = Tuple.Create("", "", "");
                                                     string label = (string)reader.GetValue(i);
                                                     string regex = string.Empty;
                                                     string alert = string.Empty;
-                                                    if (reader.GetValue(i + 5) != DBNull.Value) // if regex i is set
+                                                    if (reader.GetValue(i + 10) != DBNull.Value) // if regex i is set
                                                     {
-                                                        regex = (string)reader.GetValue(i + 5);
-                                                        alert = (string)reader.GetValue(i + 10);
+                                                        regex = (string)reader.GetValue(i + 10);
+                                                        alert = (string)reader.GetValue(i + 20);
                                                     }
                                                     tuple = Tuple.Create(label, regex, alert);
 
@@ -131,13 +132,13 @@ namespace BarcodeConversion
 
                                                     if (i == 1)
                                                     {
-                                                        t.Attributes["placeholder"] = " Required";
+                                                        t.Attributes["placeholder"] = "Required";
                                                         t.Focus();
                                                     }
                                                     else
                                                     {
-                                                        if (regex == string.Empty) t.Attributes["placeholder"] = " Optional";
-                                                        else t.Attributes["placeholder"] = " Required";
+                                                        if (regex == string.Empty) t.Attributes["placeholder"] = "Optional";
+                                                        else t.Attributes["placeholder"] = "Required";
                                                     }
                                                     //j += 1;
                                                 }
@@ -159,7 +160,7 @@ namespace BarcodeConversion
                                                     using (SqlCommand cmd2 = con.CreateCommand())
                                                     {
                                                         cmd2.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id ORDER BY ORD";
-                                                        cmd2.Parameters.AddWithValue("@id", reader.GetValue(i + 15).ToString());
+                                                        cmd2.Parameters.AddWithValue("@id", reader.GetValue(i + 30).ToString());
                                                         using (SqlDataReader reader2 = cmd2.ExecuteReader())
                                                         {
                                                             while (reader2.Read())
@@ -186,7 +187,7 @@ namespace BarcodeConversion
                                 else
                                 {
                                     string msg = "The \"" + selectJob.SelectedValue + "\" job that you selected has not yet been configured."
-                                                + " Only jobs listed in red can be processed.";
+                                                + " Only jobs listed in green can be processed.";
                                     var screenMsg = new TableCell();
                                     var screenMsgRow = new TableRow();
                                     screenMsg.Text = msg;
@@ -323,7 +324,7 @@ namespace BarcodeConversion
                             {
                                 using (SqlCommand cmd = con.CreateCommand()) // Retrieve all the tableids
                                 {
-                                    cmd.CommandText = "SELECT TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5 " +
+                                    cmd.CommandText = "SELECT TABLEID1, TABLEID2, TABLEID3, TABLEID4, TABLEID5, TABLEID6, TABLEID7, TABLEID8, TABLEID9, TABLEID10 " +
                                                       "FROM JOB_CONFIG_INDEX " +
                                                       "WHERE JOB_ID=@jobID";
                                     cmd.Parameters.AddWithValue("@jobID", jobID);
@@ -332,13 +333,13 @@ namespace BarcodeConversion
                                     {
                                         if (reader.HasRows && reader.Read())
                                         {
-                                            for (int i = 0; i <= 4; i++) // For each tableid
+                                            for (int i = 0; i <= 9; i++) // For each tableid
                                             {
                                                 bool found = false;
                                                 string validEntries = string.Empty;
                                                 if (reader.GetValue(i).ToString() != DBNull.Value.ToString()) // If tableid[i] exists
                                                 {
-                                                    using (SqlCommand cmd2 = con.CreateCommand()) // Retrieve all the table ids
+                                                    using (SqlCommand cmd2 = con.CreateCommand()) // Retrieve all values related to the tableid
                                                     {
                                                         cmd2.CommandText = "SELECT VALUE FROM INDEX_TABLE_FIELD WHERE ID=@id ORDER BY ORD";
                                                         cmd2.Parameters.AddWithValue("@id", reader.GetValue(i).ToString());
@@ -457,7 +458,7 @@ namespace BarcodeConversion
                 }
                 catch (Exception ex)
                 {
-                    string msg = "Error 4: Could not upload file. Make sure it is a csv file and that it corresponds to the currently selected Job.";
+                    string msg = "Error 4: Could not upload file. Check that it is a csv file and that its structure & contents belong to the currently selected Job.";
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
 
                     // Log the exception and notify system operators
@@ -531,10 +532,10 @@ namespace BarcodeConversion
                             lineEntries = newLineEntries;
                         }
 
-                        // add blanks to make 5 items per row
-                        if (lineEntries.Count < 5)
+                        // add blanks to make 10 items per row
+                        if (lineEntries.Count < 10)
                         {
-                            int diff = 5 - lineEntries.Count;
+                            int diff = 10 - lineEntries.Count;
                             for (int i = 1; i <= diff; i++) lineEntries.Add(string.Empty);
                         }
                         // Check to make sure that file's line entries are within dropdown range if it applies
@@ -640,7 +641,9 @@ namespace BarcodeConversion
                 formPanel.Visible = false;
 
                 // Start writing index sheet pages
-                Response.Write("<div id = 'pageToPrint' style='margin-top:-50px;'>");
+                indexPage.Visible = true;
+                string indexPageString = "";
+                indexPageString += "<div id = 'pageToPrint' style='margin-top:-50px;'>";
 
                 // Write index sheet pages if File Entries
                 if (b.ID == "printIndexesBtn")
@@ -649,29 +652,34 @@ namespace BarcodeConversion
                     foreach (List<string> entries in fileContent)
                     {
                         currentCount++;
-                        string result = writeIndexPage(entries, currentCount, fileContent.Count);
-                        if (result.Contains("Error"))
+                        var result = writeIndexPage(entries, currentCount, fileContent.Count);
+                        if (result.Item1.Contains("Error"))
                         {
-                            string msg = result;
+                            string msg = result.Item1;
                             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                             return;
                         }
+                        else indexPageString += result.Item2;
                     }
                 }
                 // Or Write index sheet pages if Manual Entries
                 else if (b.ID == "saveAndPrint")
                 {
-                    string result = writeIndexPage(manualEntries, 1, 1);
-                    if (result.Contains("Error"))
+                    var result = writeIndexPage(manualEntries, 1, 1);
+                    if (result.Item1.Contains("Error"))
                     {
-                        string msg = result;
+                        string msg = result.Item1;
                         ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                         return;
                     }
+                    else indexPageString += result.Item2;
                 }
 
-                // Close div tag
-                Response.Write("</div>");
+                // Close pageToPrint & wrapper div tags
+                indexPageString += "</div>";
+
+                indexPage.InnerHtml = indexPageString;
+
                 // Finally, Print Index sheet.
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "PrintOperation", "printing();", true);
             }
@@ -691,67 +699,78 @@ namespace BarcodeConversion
 
         // 'VIEW CONTENT' CLICKED: VIEW CVS INDEX DATA FILE.
         protected void viewContent_Click(object sender, EventArgs e)
-        {
-            if (viewContentBtn.Text == "Hide")
+        {   
+            try 
             {
-                GridView1.Visible = false;
-                viewContentBtn.Text = "View";
-            }
-            else
-            {
-                GridView1.Visible = true;
-                viewContentBtn.Text = "Hide";
-            }
-
-            // Get file path
-            var fileName = uploadHidden.Text;
-            if (fileName == string.Empty)
-            {
-                string msg = "Error 4g:  Couldn't retrieve file name. Contact system admin. ";
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
-                return;
-            }
-            string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
-           
-            // Get column count
-            int colCount = 0;
-            var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
-            foreach (Tuple<string, string, string> controlSettings in regexList)
-            {
-                if (controlSettings.Item1 != string.Empty)
-                    colCount++;
-            }
-
-            //Create a DataTable.
-            DataTable dt = new DataTable();
-            for (int i=0; i<colCount; i++)
-            {
-                dt.Columns.Add(regexList[i].Item1, typeof(string));
-            }
-
-            //Read the contents of CSV file.
-            string csvData = File.ReadAllText(SaveLocation);
-
-            //Execute a loop over the rows.
-            foreach (string row in csvData.Split('\n'))
-            {
-                if (!string.IsNullOrEmpty(row))
+                if (viewContentBtn.Text == "Hide")
                 {
-                    dt.Rows.Add();
-                    int i = 0;
+                    GridView1.Visible = false;
+                    viewContentBtn.Text = "View";
+                }
+                else
+                {
+                    GridView1.Visible = true;
+                    viewContentBtn.Text = "Hide";
+                }
 
-                    //Execute a loop over the columns.
-                    foreach (string cell in row.Split(','))
+                // Get file path
+                var fileName = uploadHidden.Text;
+                if (fileName == string.Empty)
+                {
+                    string msg = "Error 4g:  Could not retrieve file name. Contact system admin. ";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
+                    return;
+                }
+                string SaveLocation = Server.MapPath("App_Data") + "\\" + fileName;
+
+                // Get column count
+                int colCount = 0;
+                var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
+                foreach (Tuple<string, string, string> controlSettings in regexList)
+                {
+                    if (controlSettings.Item1 != string.Empty)
+                        colCount++;
+                }
+
+                //Create a DataTable.
+                DataTable dt = new DataTable();
+                for (int i = 0; i < colCount; i++)
+                {
+                    dt.Columns.Add(regexList[i].Item1, typeof(string));
+                }
+
+                //Read the contents of CSV file.
+                string csvData = File.ReadAllText(SaveLocation);
+
+                //Execute a loop over the rows.
+                foreach (string row in csvData.Split('\n'))
+                {
+                    if (!string.IsNullOrEmpty(row))
                     {
-                        dt.Rows[dt.Rows.Count - 1][i] = cell;
-                        i++;
+                        dt.Rows.Add();
+                        int i = 0;
+
+                        //Execute a loop over the columns.
+                        foreach (string cell in row.Split(','))
+                        {
+                            dt.Rows[dt.Rows.Count - 1][i] = cell;
+                            i++;
+                        }
                     }
                 }
-            }
 
-            //Bind the DataTable.
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
+                //Bind the DataTable.
+                GridView1.DataSource = dt;
+                GridView1.DataBind();
+            }
+            catch(Exception ex)
+            {
+                string msg = "Error 33a: Issue occured while attempting to display contents. Contact system admin.";
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
+                // Log the exception and notify system operators
+                ExceptionUtility.LogException(ex);
+                ExceptionUtility.NotifySystemOps(ex);
+            }
         }
 
 
@@ -794,11 +813,11 @@ namespace BarcodeConversion
 
                 // Making the Index string
                 string year = DateTime.Now.ToString("yy");
-                JulianCalendar jc = new JulianCalendar();
                 string julianDay = DateTime.Today.DayOfYear.ToString();
+                string ThreeDigitsJulian = julianDay.ToString().PadLeft(3, '0');
                 string time = DateTime.Now.ToString("HHmmssfff");
                 generateIndexSection.Visible = true;
-                return selectJob.SelectedValue.ToUpper() + year + julianDay + time;
+                return selectJob.SelectedValue.ToUpper() + year + ThreeDigitsJulian + time;
 
                 // Convert index to barcode
                 // imgBarcode.ImageUrl = string.Format("ShowCode39Barcode.ashx?code={0}&ShowText={1}&Thickness={2}",indexString,showTextValue, 1);
@@ -813,12 +832,6 @@ namespace BarcodeConversion
             }
         }
 
-        private object GetDayOfYear(DateTime today)
-        {
-            throw new NotImplementedException();
-        }
-
-
 
         // MANUAL 'SAVE INDEX' CLICKED: SAVING INDEX INTO DB.
         protected void saveIndex_Click(object sender, EventArgs e)
@@ -830,7 +843,7 @@ namespace BarcodeConversion
             var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
             var entries = new List<string>();
 
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
                 DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;
@@ -865,17 +878,7 @@ namespace BarcodeConversion
                     entries.Add(c.Text);
                 }
                 else if (d != null && d.Visible == true)    // If control is a dropdown
-                {
-                    //if (i == 1 && d.SelectedValue == "Select")
-                    //{
-                    //    string label = regexList[0].Item1;
-                    //    string msg = label + " field is required!";
-                    //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
-                    //    c.Focus();
-                    //    return;
-                    //}
                     entries.Add(d.SelectedValue);
-                }
                 else
                     entries.Add(string.Empty);
             }
@@ -893,30 +896,10 @@ namespace BarcodeConversion
                 return;
             }
 
-            // Check if about to save the same entries as last save.
-            bool same = true;
-            if (ViewState["manualEntries"] != null)
-            {
-                var previousEntries = (List<string>)ViewState["manualEntries"];
-                for (int i=0; i<5; i++)
-                {
-                    if (previousEntries[i] != entries[i]) same = false;
-                }
-
-                //if (same)
-                //{
-                //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "SameEntriesAlert();", true);
-                //    if (sameEntries != null && sameEntries.Visible == true) 
-                //    {
-                //        if (sameEntries.InnerText == "no") 
-                //        {
-                //            string msg = "Entries not processed.";
-                //            onScreenMsg(msg, "#ff3333;", "manual");
-                //        } 
-                //    }
-                //}
-            }
-            
+            // Temporarely disable Save Index button to prevent quick multiple saves.
+            Control manualSave = Helper.GetPostBackControl(this.Page);
+            if (manualSave != null && manualSave.ID == "saveIndex" && lastValuesEntered.Checked)
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "pauseSave", "saveBtnPause();", true);
 
             // Save barcode and entries
             string result = saveIndexAndEntries(barcodeIndex, entries);
@@ -941,7 +924,7 @@ namespace BarcodeConversion
             try
             {
                 // First, get current user id via name.
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 int opID = Helper.getUserId(user);
                 if (opID == 0)
                 {
@@ -967,11 +950,12 @@ namespace BarcodeConversion
                     using (SqlCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = "INSERT INTO INDEX_DATA (JOB_ID, BARCODE, VALUE1, VALUE2, " +
-                                          "VALUE3, VALUE4, VALUE5, OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex, " +
-                                          "@val1, @val2, @val3, @val4, @val5, @opId, @time, @printed)";
+                                          "VALUE3, VALUE4, VALUE5, VALUE6, VALUE7, VALUE8, VALUE9, VALUE10, " + 
+                                          "OPERATOR_ID, CREATION_TIME, PRINTED) VALUES(@jobId, @barcodeIndex, " +
+                                          "@val1, @val2, @val3, @val4, @val5, @val6, @val7, @val8, @val9, @val10, @opId, @time, @printed)";
                         cmd.Parameters.AddWithValue("@jobID", jobID);
                         cmd.Parameters.AddWithValue("@barcodeIndex", barcodeIndex);
-                        for (int i = 1; i <= 5; i++)
+                        for (int i = 1; i <= 10; i++)
                         {   
                             if (entries[i - 1] != string.Empty) cmd.Parameters.AddWithValue("@val" + i, entries[i - 1]);
                             else cmd.Parameters.AddWithValue("@val" + i, DBNull.Value);
@@ -983,9 +967,15 @@ namespace BarcodeConversion
                         con.Open();
                         if (cmd.ExecuteNonQuery() == 1)
                         {
-                            //Button c = this.Master.FindControl("MainContent").FindControl("label1Box") as Button;
                             Control c = Helper.GetPostBackControl(this.Page);
-                            if (c != null && c.ID == "saveIndex")
+                            if (c != null && c.ID == "saveIndex" && lastValuesEntered.Checked)
+                            {
+                                string msg = "Index string saved.";
+                                string color = "green;";
+                                onScreenMsg(msg, color, "manual");
+                                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOper", "FadeOut3();", true);
+                            }
+                            else if (c != null && c.ID == "saveIndex")
                             {
                                 string msg = "Index string saved.";
                                 string color = "green;";
@@ -1019,6 +1009,12 @@ namespace BarcodeConversion
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
                     return msg;
                 }
+                else if (ex.Message.Contains("String or binary data would be truncated"))
+                {
+                    string msg = "Error 8a: Entry too long! 30 characters maximum, including blank spaces.";
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myalert", "alert('" + msg + "');", true);
+                    return msg;
+                }
                 else
                 {
                     string msg = "Error 09: Issue occured while attempting to save index. Contact system admin.";
@@ -1030,54 +1026,54 @@ namespace BarcodeConversion
         
 
         // WRITE INDEX SHEET PAGE CONTENT. HELPER
-        private string writeIndexPage(List<string> indexRecord, int currentCount, int totalCount)
+        private Tuple<string,string> writeIndexPage(List<string> indexRecord, int currentCount, int totalCount)
         {
             try
             {
+                string indexPageString = "";
+
                 //Get index string
                 string indexString = indexRecord.Last();
                 string jobName = indexString.Substring(0, indexString.Length - 14);
                 Image imgBarcode = new Image();
-                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=65", indexString.PadLeft(8, '0'));
+                imgBarcode.ImageUrl = string.Format("ShowCode39BarCode.ashx?code={0}&ShowText=0&Height=65", indexString);
 
                 // Write Index sheet page content if IE browser
                 System.Web.HttpBrowserCapabilities browser = Request.Browser;
                 if (browser.Browser == "InternetExplorer" || browser.Browser == "IE")
                 {
                     // Write to index page
-                    Response.Write(
+                    indexPageString +=
                         "<div style='font-size:40px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
                         "<div>" +
                             "<div style='margin-top:70px;text-align:center;'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='450px' style='border:none;outline:none;'> " +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='45px' width='480px' style='border:none;outline:none;'> " +
                             "</div>" +
-                            "<div style='font-size:17px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
-                            "<div style='width:450px; margin-top:210px;float:right;margin-right:-120px;' class='rotate'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='47px' width='100%' style='border:none;outline:none;' > " +
-                                "<div style='font-size:17px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                            "<div style='font-size:19px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                            "<div style='width:480px; margin-top:210px;float:right;margin-right:-170px;' class='rotate'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='45px' width='100%' style='border:none;outline:none;' > " +
+                                "<div style='font-size:19px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                             "</div>" +
-                        "</div>"
-                    );
+                        "</div>";
+
                     // Remove extra space if it's the last page to print
                     if (totalCount == currentCount)
                     {
-                        Response.Write(
-                            "<table style='margin-top:500px; margin-left:178px;padding-top:10px;display:block;'>" +
+                        indexPageString +=
+                            "<table class='dataSection' style='margin-top:500px; margin-left:130px;padding-top:10px;display:block;'>" +
                                 "<tr>" +
-                                    "<td style='font-size:21px;'> INDEX STRING: </td>" +
-                                    "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                "</tr>"
-                        );
+                                    "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>";
                     }
                     else
                     {
-                        Response.Write(
-                           "<table style='margin-top:500px;margin-bottom:570px; margin-left:178px;padding-top:10px;display:block;'>" +
-                               "<tr>" +
-                                   "<td style='font-size:21px;'> INDEX STRING: </td>" +
-                                   "<td style='font-size:21px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                               "</tr>"
-                        );
+                        indexPageString +=
+                           "<table class='dataSection' style='margin-top:500px;margin-bottom:570px; margin-left:130px;padding-top:10px;display:block;'>" +
+                                "<tr>" +
+                                    "<td style='font-size:20px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:20px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>";
                     }
                     var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
 
@@ -1086,61 +1082,55 @@ namespace BarcodeConversion
                         if (indexRecord[i] != string.Empty)
                         {
                             string label = regexList[i].Item1;
-                            Response.Write(
+                            indexPageString += 
                                 "<tr>" +
-                                    "<td style='font-size:21px;'>" + label.ToUpper() + ":" + "</td>" +
-                                    "<td style='font-size:21px; padding-left:15px;;'>" + indexRecord[i].ToUpper() + "</td>" +
-                                "</tr>"
-                            );
+                                    "<td style='font-size:20px;'>" + label.ToUpper() + ":" + "</td>" +
+                                    "<td style='font-size:20px; padding-left:15px;;'>" + indexRecord[i].ToUpper() + "</td>" +
+                                "</tr>";
                         }
                     }
-                    Response.Write(
+                    indexPageString += 
                                 "<tr>" +
-                                    "<td style='font-size:21px;'>DATE PRINTED: </td>" +
-                                    "<td style='font-size:21px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                    "<td style='font-size:20px;'>DATE PRINTED: </td>" +
+                                    "<td style='font-size:20px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                 "</tr>" +
-                            "</table>"
-                    );
-                    return "pass";
+                            "</table>";
+                    return Tuple.Create("pass",indexPageString);
                 }
                 else // Chrome
                 {
                     // Write Index sheet page content
-                    Response.Write(
-                        "<div style='font-size:38px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
-                        "<div style='position:relative;'>" +
-                            "<div style='margin-top:70px;text-align:center;'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='400px'> " +
+                    indexPageString +=
+                        "<div style='font-size:50px; font-family:Arial; font-weight:bold; text-align:center;padding-top:50px;'>" + jobName + " - Index Header" + "</div>" +
+                        "<div>" +
+                            "<div style='margin-top:85px;text-align:center;'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='50px' width='600px'> " +
                             "</div>" +
-                            "<div style='font-size:15px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
-
-                            "<div style='width:400px; margin-top:200px;float:right;margin-right:-100px;' class='rotate'>" +
-                                "<img src='" + imgBarcode.ImageUrl + "' height='40px' width='100%' > " +
-                                "<div style='font-size:15px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
+                            "<div style='font-size:24px;padding-top:1px;font-family:arial;text-align:center;'>" + indexString + "</div>" +
+                            "<div style='width:600px; margin-top:250px;float:right;margin-right:-130px;' class='rotate'>" +
+                                "<img src='" + imgBarcode.ImageUrl + "' height='50px' width='100%' > " +
+                                "<div style='font-size:25px;font-family:arial;text-align:center;width:100%;' >" + indexString + "</div>" +
                             "</div>" +
-                        "</div>"
-                    );
+                        "</div>";
 
                     // Remove extra space if it's the last page to print
                     if (currentCount == totalCount)
                     {
-                        Response.Write(
-                            "<table style='margin-top:430px; margin-left:170px;padding-top:10px;display:block;'>" +
-                                "<tr>" +
-                                    "<td style='font-size:18px;'> INDEX STRING: </td>" +
-                                    "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                                "</tr>"
-                        );
+                        indexPageString +=
+                            "<table class='dataSection' style='margin-top:630px; margin-left:250px;padding-top:10px;display:block;'>" +
+                                "<tr style='padding:0px 0px 0px 0px;'>" +
+                                    "<td style='font-size:25px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:25px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>";
                     }
                     else
                     {
-                        Response.Write(
-                           "<table style='margin-top:430px; margin-bottom:570px; margin-left:170px;padding-top:10px;display:block;'>" +
-                               "<tr>" +
-                                   "<td style='font-size:18px;'> INDEX STRING: </td>" +
-                                   "<td style='font-size:18px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
-                               "</tr>"
-                        );
+                        indexPageString +=
+                           "<table class='dataSection' style='margin-top:630px;margin-bottom:570px; margin-left:250px;padding-top:10px;display:block;'>" +
+                                "<tr>" +
+                                    "<td style='font-size:25px;'> INDEX STRING: </td>" +
+                                    "<td style='font-size:25px; padding-left:15px;'>" + indexString.ToUpper() + "</td>" +
+                                "</tr>";
                     }
 
                     var regexList = (List<Tuple<string, string, string>>)Session["regexList"];
@@ -1150,22 +1140,20 @@ namespace BarcodeConversion
                         if (indexRecord[i] != string.Empty)
                         {
                             string label = regexList[i].Item1;
-                            Response.Write(
+                            indexPageString += 
                                 "<tr>" +
-                                    "<td style='font-size:18px;'>" + label.ToUpper() + ":" + "</td>" +
-                                    "<td style='font-size:18px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
-                                "</tr>"
-                            );
+                                    "<td style='font-size:25px;'>" + label.ToUpper() + ":" + "</td>" +
+                                    "<td style='font-size:25px; padding-left:15px;'>" + indexRecord[i].ToUpper() + "</td>" +
+                                "</tr>";
                         }
                     }
-                    Response.Write(
+                    indexPageString += 
                                 "<tr>" +
-                                    "<td style='font-size:18px;'>DATE PRINTED: </td>" +
-                                    "<td style='font-size:18px; padding-left:15px;'>" + DateTime.Now + "</td>" +
+                                    "<td style='font-size:25px;'>DATE PRINTED: </td>" +
+                                    "<td style='font-size:25px; padding-left:15px;'>" + DateTime.Now + "</td>" +
                                 "</tr>" +
-                            "</table>"
-                    );
-                    return "pass";
+                            "</table>";
+                    return Tuple.Create("pass", indexPageString);
                 }
             }
             catch(Exception ex)
@@ -1173,7 +1161,8 @@ namespace BarcodeConversion
                 // Log the exception and notify system operators
                 ExceptionUtility.LogException(ex);
                 ExceptionUtility.NotifySystemOps(ex);
-                return "Error: " + ex.Message;
+                string msg = "Error: " + ex.Message;
+                return Tuple.Create(msg, "");
             }
         }
 
@@ -1304,6 +1293,7 @@ namespace BarcodeConversion
         // GO TO QUESTION
         protected void goToQuestion_Click(object sender, EventArgs e)
         {
+            indexPage.Visible = false;
             formPanel.Visible = true;
             satisfied.Visible = true;
             linkToUnprinted.Visible = false;
@@ -1333,7 +1323,7 @@ namespace BarcodeConversion
             {
                 int countPass = (int)ViewState["filePrintCancelled"];
 
-                string msg = countPass + " index string(s) saved.";
+                string msg = countPass + " index string(s) saved but not set as PRINTED";
                 string color = "green;";
                 onScreenMsg(msg, color, "file");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut2();", true);
@@ -1341,7 +1331,7 @@ namespace BarcodeConversion
 
             if (ViewState["manualPrintCancelled"] != null)
             {
-                string msg = "Index string saved.";
+                string msg = "Index string saved but not set as PRINTED";
                 string color = "green;";
                 onScreenMsg(msg, color, "manual");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "fadeoutOp", "FadeOut();", true);
@@ -1359,7 +1349,7 @@ namespace BarcodeConversion
             try
             {   
                 // First, get current user id via name.
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 List<int> jobIdList = new List<int>();
                 noJobsFound.Visible = false;
                 int opID = Helper.getUserId(user);
@@ -1457,9 +1447,7 @@ namespace BarcodeConversion
                                     foreach (ListItem item in selectJob.Items)
                                     {
                                         if (item.Value == (string)reader.GetValue(0))
-                                        {
-                                            item.Attributes.Add("style", "color:#ff3333;");
-                                        }
+                                            item.Attributes.Add("style", "color:#009900;font-weight:bold;");
                                     }
                                 }
                             }
@@ -1520,9 +1508,10 @@ namespace BarcodeConversion
             try
             {
                 List<TextBox> textBoxList = new List<TextBox>();
-                textBoxList.AddRange(new TextBox[] { label1Box, label2Box, label3Box, label4Box, label5Box });
+                textBoxList.AddRange(new TextBox[] { label1Box, label2Box, label3Box, label4Box, label5Box, label6Box, label7Box, label8Box, label9Box, label10Box, });
                 List<DropDownList> dropdownsList = new List<DropDownList>();
-                dropdownsList.AddRange(new DropDownList[] { label1Dropdown, label2Dropdown, label3Dropdown, label4Dropdown, label5Dropdown });
+                dropdownsList.AddRange(new DropDownList[] { label1Dropdown, label2Dropdown, label3Dropdown, label4Dropdown, label5Dropdown, 
+                                                            label6Dropdown, label7Dropdown, label8Dropdown, label9Dropdown, label10Dropdown, });
 
                 foreach (var textBox in textBoxList)
                 {
@@ -1550,10 +1539,10 @@ namespace BarcodeConversion
             var screenMsg = new TableCell();
             var screenMsgRow = new TableRow();
             screenMsg.Text = msg;
-            screenMsg.Attributes["style"] = "color:" + color;
+            screenMsg.Attributes["style"] = "font-size:14px; color:" + color;
             screenMsgRow.Cells.Add(screenMsg);
             if (from == "file")fileEntryMsg.Rows.Add(screenMsgRow);
-            else manualEntryMsg.Rows.Add(screenMsgRow);
+            else if (from == "manual") manualEntryMsg.Rows.Add(screenMsgRow);
         }
 
         // 'YES' OR 'NO' CLICKED.
@@ -1561,6 +1550,7 @@ namespace BarcodeConversion
         {
             try
             {
+                uploadedFileMenu.Visible = false;
                 Control c = sender as LinkButton;
                 if (c != null)
                 {
@@ -1588,7 +1578,7 @@ namespace BarcodeConversion
             try
             {
                 bool noEntry = true;
-                for (int i = 1; i <= 5; i++)
+                for (int i = 1; i <= 10; i++)
                 {
                     TextBox c = this.Master.FindControl("MainContent").FindControl("label" + i + "Box") as TextBox;
                     DropDownList d = this.Master.FindControl("MainContent").FindControl("label" + i + "Dropdown") as DropDownList;

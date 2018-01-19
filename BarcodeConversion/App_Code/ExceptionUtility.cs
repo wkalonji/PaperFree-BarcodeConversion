@@ -16,7 +16,7 @@ namespace BarcodeConversion.App_Code
         {
             try
             {
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 var location = exc.StackTrace.Split('\n').Last().Split('\\').Last();
                 // Include enterprise logic for logging exceptions 
                 // Get the absolute path to the log file 
@@ -72,7 +72,7 @@ namespace BarcodeConversion.App_Code
             try
             {
                 string innerSummary = string.Empty;
-                string user = Environment.UserName;
+                string user = HttpContext.Current.User.Identity.Name.Split('\\').Last();
                 var location = exc.StackTrace.Split('\n').Last().Split('\\').Last();
                 if (exc.InnerException != null)
                 {
